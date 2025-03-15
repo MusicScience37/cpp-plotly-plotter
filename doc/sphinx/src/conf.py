@@ -15,12 +15,19 @@ author = "Kenta Kabashima"
 
 extensions = [
     "sphinx.ext.todo",
-    "myst_parser",
 ]
 
 templates_path = ["_templates"]
 
 exclude_patterns = []
+
+# -- Options for Myst-Parser -------------------------------------------------
+
+extensions += ["myst_parser"]
+
+myst_enable_extensions = [
+    "tasklist",
+]
 
 # -- Options for PlantUML ----------------------------------------------------
 

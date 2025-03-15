@@ -26,3 +26,4 @@ API reference can be viewed `here <api/index.html>`_.
     :caption: Development
 
     how_to_build_in_repository
+    design/index

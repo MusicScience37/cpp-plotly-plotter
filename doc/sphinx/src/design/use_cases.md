@@ -1,0 +1,29 @@
+# Use Cases
+
+- Create various types of plots.
+  - [ ] 2D Scatter plots.
+    - [ ] SVG format.
+    - [ ] WebGL format.
+    - [ ] Scatter of points.
+    - [ ] Line plots.
+  - [ ] Box plots.
+  - [ ] Violin plots.
+  - [ ] Histograms.
+- Configurations.
+  - [ ] Plots with log scales.
+  - [ ] Plots with error bars.
+  - [ ] Labels and titles.
+    - [ ] Titles of the plot.
+    - [ ] Titles of the x-axis.
+    - [ ] Titles of the y-axis.
+    - [ ] Legends.
+    - [ ] Mathematical expressions.
+    - [ ] Use of characters which require escaping.
+    - [ ] Use of non-ASCII characters.
+  - [ ] Configuration of hover texts.
+  - [ ] Subplots.
+- Outputs.
+  - [ ] HTML.
+  - [ ] PNG.
+  - [ ] PDF.
+  - [ ] SVG.
