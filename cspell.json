@@ -64,6 +64,7 @@
     "NOLINTNEXTLINE",
     "openmetrics",
     "plantuml",
+    "plotly",
     "profdata",
     "profraw",
     "puml",

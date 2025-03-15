@@ -12,6 +12,7 @@ API reference can be viewed `here <api/index.html>`_.
     :maxdepth: 1
     :caption: About
 
+    about
     license
 
 .. toctree::
@@ -25,4 +26,3 @@ API reference can be viewed `here <api/index.html>`_.
     :caption: Development
 
     how_to_build_in_repository
-    convention
