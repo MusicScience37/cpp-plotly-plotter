@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg-configuration.schema.json",
   "default-registry": {
     "kind": "builtin",
-    "baseline": "0b4805abfa6ad4c5a4f7fe7d067fdab8449fb915"
+    "baseline": "782ccc18d8b819cdef6794a6c03eb3d9f7cd04aa"
   },
   "registries": [],
   "overlay-triplets": ["./vcpkg_conf/triplets"]
