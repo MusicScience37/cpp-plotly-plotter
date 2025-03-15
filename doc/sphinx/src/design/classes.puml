@@ -1,0 +1,28 @@
+@startuml classes
+
+title Basic Class Structure
+
+class json_value
+
+class json_document
+json_document ..> json_value : create
+
+enum trace_type
+
+class trace
+trace "1" o-- "1" trace_type
+trace "1" o-- "1" json_value
+
+class layout
+layout "1" o-- "1" json_value
+
+class figure
+figure "1" o-- "1" json_document
+figure "1" o-- "1.." trace
+figure "1" o-- "1" layout
+
+class html_plot_writer
+html_plot_writer ..> figure : use
+html_plot_writer ..> json_document : use
+
+@enduml
