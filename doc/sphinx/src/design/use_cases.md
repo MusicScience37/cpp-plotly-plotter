@@ -9,6 +9,12 @@
   - [ ] Box plots.
   - [ ] Violin plots.
   - [ ] Histograms.
+- Plot with various data types.
+  - [ ] Floating-point numbers.
+  - [ ] Integers.
+  - [ ] Strings. (For grouping.)
+  - [ ] Dates and times.
+  - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
   - [ ] Plots with log scales.
   - [ ] Plots with error bars.

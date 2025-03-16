@@ -35,6 +35,7 @@
     "Doxyfile",
     "doxygen",
     "DVCPKG",
+    "Eigen",
     "endfunction",
     "endmacro",
     "enduml",
