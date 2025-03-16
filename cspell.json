@@ -81,6 +81,7 @@
     "sphinxcontrib",
     "startuml",
     "stdlib",
+    "strn",
     "struct",
     "swappable",
     "tasklist",

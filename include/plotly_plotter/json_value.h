@@ -87,7 +87,7 @@ public:
     template <typename T,
         typename = std::enable_if_t<!std::is_same_v<T, json_value>>>
     json_value& operator=(const T& value) {
-        json_converter<T>::to_json(value, *this);
+        json_converter<std::decay_t<T>>::to_json(value, *this);
         return *this;
     }
 
