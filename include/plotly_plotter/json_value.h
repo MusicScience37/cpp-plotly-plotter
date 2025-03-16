@@ -96,6 +96,28 @@ public:
     }
 
     /*!
+     * \brief Append a value to the array.
+     *
+     * \tparam T Type of the value.
+     * \param[in] value Value.
+     *
+     * \note If this object is not set, this function sets this object to an
+     * array.
+     */
+    template <typename T>
+    void push_back(const T& value) {
+        if (yyjson_mut_is_null(value_)) {
+            yyjson_mut_set_arr(value_);
+        }
+        if (!yyjson_mut_is_arr(value_)) {
+            throw std::runtime_error("Value is not an array");
+        }
+        json_value new_value(yyjson_mut_null(document_), document_);
+        new_value = value;
+        yyjson_mut_arr_append(value_, new_value.internal_value());
+    }
+
+    /*!
      * \brief Get the internal value.
      *
      * \return Internal value.

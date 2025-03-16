@@ -151,4 +151,30 @@ public:
     }
 };
 
+namespace details {
+
+/*!
+ * \brief Implementation of json_converter class for array types.
+ *
+ * \tparam T Type to convert to JSON values.
+ */
+template <typename T>
+class array_json_converter {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(const T& from, json_value& to) {
+        yyjson_mut_set_arr(to.internal_value());
+        for (const auto& value : from) {
+            to.push_back(value);
+        }
+    }
+};
+
+}  // namespace details
+
 }  // namespace plotly_plotter

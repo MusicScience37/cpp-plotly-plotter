@@ -19,4 +19,9 @@
  */
 
 //! Namespace of cpp-plotly-plotter project.
-namespace plotly_plotter {}
+namespace plotly_plotter {
+
+    //! Namespace of internal implementation details.
+    namespace details {}
+
+}  // namespace plotly_plotter
