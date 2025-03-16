@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <stdexcept>
 #include <type_traits>
 
 #include <yyjson.h>
@@ -87,6 +88,9 @@ public:
     template <typename T,
         typename = std::enable_if_t<!std::is_same_v<T, json_value>>>
     json_value& operator=(const T& value) {
+        if (!yyjson_mut_is_null(value_)) {
+            throw std::runtime_error("Value is already set");
+        }
         json_converter<std::decay_t<T>>::to_json(value, *this);
         return *this;
     }
