@@ -15,5 +15,8 @@
  */
 /*!
  * \file
- * \brief Documentation of namespaces
+ * \brief Documentation of namespaces.
  */
+
+//! Namespace of cpp-plotly-plotter project.
+namespace plotly_plotter {}

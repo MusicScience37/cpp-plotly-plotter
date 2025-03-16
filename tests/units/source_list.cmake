@@ -1,3 +1,3 @@
 set(SOURCE_FILES
-    dummy_test.cpp
+    json_converter_test.cpp
 )

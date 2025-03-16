@@ -46,6 +46,7 @@
     "Graphviz",
     "gruvbox",
     "hicpp",
+    "INCLUDEDIR",
     "INTEG",
     "interruptible",
     "isort",

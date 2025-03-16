@@ -19,6 +19,7 @@ Checks: >
     -readability-suspicious-call-argument,
   modernize-*,
     -modernize-return-braced-init-list,
+    -modernize-use-trailing-return-type,
   hicpp-*,
   cert-*,
     -cert-err58-cpp,
@@ -41,6 +42,7 @@ Checks: >
 # - cppcoreguidelines-avoid-non-const-global-variables produces warnings in all tests due to Catch2 library.
 # - readability-identifier-length prevent traditional codes.
 # - bugprone-unchecked-optional-access has a bug as in https://github.com/clangd/clangd/issues/1700.
+# - modernize-use-trailing-return-type decrease readability.
 
 CheckOptions:
   # Naming Conventions
