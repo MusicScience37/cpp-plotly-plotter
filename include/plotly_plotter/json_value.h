@@ -20,6 +20,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <string_view>
 #include <type_traits>
 
 #include <yyjson.h>
@@ -115,6 +116,52 @@ public:
         json_value new_value(yyjson_mut_null(document_), document_);
         new_value = value;
         yyjson_mut_arr_append(value_, new_value.internal_value());
+    }
+
+    /*!
+     * \brief Append a null value to the array and return the new value.
+     *
+     * \return New value.
+     *
+     * \note If this object is not set, this function sets this object to an
+     * array.
+     */
+    json_value emplace_back() {
+        if (yyjson_mut_is_null(value_)) {
+            yyjson_mut_set_arr(value_);
+        }
+        if (!yyjson_mut_is_arr(value_)) {
+            throw std::runtime_error("Value is not an array");
+        }
+        json_value new_value(yyjson_mut_null(document_), document_);
+        yyjson_mut_arr_append(value_, new_value.internal_value());
+        return new_value;
+    }
+
+    /*!
+     * \brief Append a key-value pair to the object or return the existing one
+     * if exists.
+     *
+     * \param[in] key Key.
+     * \return Value.
+     */
+    json_value operator[](std::string_view key) {
+        if (yyjson_mut_is_null(value_)) {
+            yyjson_mut_set_obj(value_);
+        }
+        if (!yyjson_mut_is_obj(value_)) {
+            throw std::runtime_error("Value is not an object");
+        }
+        yyjson_mut_val* existing_value =
+            yyjson_mut_obj_getn(value_, key.data(), key.size());
+        if (existing_value != nullptr) {
+            return json_value(existing_value, document_);
+        }
+        json_value new_value(yyjson_mut_null(document_), document_);
+        yyjson_mut_obj_add(value_,
+            yyjson_mut_strncpy(document_, key.data(), key.size()),
+            new_value.internal_value());
+        return new_value;
     }
 
     /*!
