@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <cstdio>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -106,6 +107,17 @@ public:
         // NOLINTNEXTLINE(*-no-malloc): Required by an external library.
         std::free(str);
         return result;
+    }
+
+    /*!
+     * \brief Serialize this document to a file.
+     *
+     * \param[in,out] file File to write.
+     */
+    void serialize_to(std::FILE* file) const {
+        if (!yyjson_mut_write_fp(file, document_, 0, nullptr, nullptr)) {
+            throw std::runtime_error("Failed to serialize JSON document.");
+        }
     }
 
 private:
