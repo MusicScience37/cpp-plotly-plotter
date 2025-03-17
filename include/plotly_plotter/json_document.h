@@ -20,6 +20,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <string>
 #include <utility>
 
 #include <yyjson.h>
@@ -48,6 +49,7 @@ public:
             yyjson_mut_doc_free(document_);
             throw std::runtime_error("Failed to create a JSON value.");
         }
+        yyjson_mut_doc_set_root(document_, root_);
     }
 
     json_document(const json_document&) = delete;
@@ -88,6 +90,22 @@ public:
      */
     [[nodiscard]] json_value root() const noexcept {
         return json_value(root_, document_);
+    }
+
+    /*!
+     * \brief Serialize this document to a JSON string.
+     *
+     * \return JSON string.
+     */
+    [[nodiscard]] std::string serialize_to_string() const {
+        char* str = yyjson_mut_write(document_, 0, nullptr);
+        if (str == nullptr) {
+            throw std::runtime_error("Failed to serialize JSON document.");
+        }
+        std::string result(str);
+        // NOLINTNEXTLINE(*-no-malloc): Required by an external library.
+        std::free(str);
+        return result;
     }
 
 private:

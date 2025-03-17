@@ -32,6 +32,14 @@ option(${UPPER_PROJECT_NAME}_TESTING "enable tests of ${FULL_PROJECT_NAME}" OFF)
 find_package(yyjson REQUIRED)
 if(${UPPER_PROJECT_NAME}_TESTING)
     find_package(Catch2 REQUIRED)
+    find_package(fmt REQUIRED)
+
+    # ApprovalTests.
+    find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
+    add_library(ApprovalTests_ApprovalTests INTERFACE)
+    target_include_directories(ApprovalTests_ApprovalTests
+                               INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+    add_library(ApprovalTests::ApprovalTests ALIAS ApprovalTests_ApprovalTests)
 endif()
 
 include(GNUInstallDirs)

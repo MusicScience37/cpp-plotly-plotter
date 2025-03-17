@@ -3,4 +3,5 @@ set(SOURCE_FILES
     json_converter_test.cpp
     json_document_test.cpp
     json_value_test.cpp
+    test_main.cpp
 )

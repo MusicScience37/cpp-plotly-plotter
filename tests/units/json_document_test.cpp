@@ -19,10 +19,27 @@
  */
 #include "plotly_plotter/json_document.h"
 
+#include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
+
+#include "plotly_plotter/json_converter.h"  // IWYU pragma: keep
+#include "plotly_plotter/json_value.h"
 
 TEST_CASE("plotly_plotter::json_document") {
     using plotly_plotter::json_document;
+    using plotly_plotter::json_value;
 
     // TODO test of copy and move
+
+    SECTION("serialize to JSON string") {
+        json_document document;
+        document.root()["key1"] = 123;  // NOLINT(*-magic-numbers)
+        json_value array = document.root()["key2"];
+        array.push_back("abc");
+        array.emplace_back()["key3"] = 1.25;  // NOLINT(*-magic-numbers)
+
+        const std::string result = document.serialize_to_string();
+
+        ApprovalTests::Approvals::verify(result);
+    }
 }
