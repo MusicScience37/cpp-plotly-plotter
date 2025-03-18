@@ -49,6 +49,9 @@
       "source.organizeImports": "explicit"
     }
   },
+  "[jinja-html]": {
+    "editor.defaultFormatter": "monosans.djlint"
+  },
   "isort.args": ["--profile", "black"],
   "restructuredtext.pythonRecommendation.disabled": true
 }

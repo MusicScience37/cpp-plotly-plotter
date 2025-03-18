@@ -30,6 +30,7 @@
     "DCMAKE",
     "dealloc",
     "devcontainer",
+    "djlint",
     "DMSGPACKPP",
     "doxdocgen",
     "Doxyfile",
