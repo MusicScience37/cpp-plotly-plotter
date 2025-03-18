@@ -165,6 +165,26 @@ public:
     }
 
     /*!
+     * \brief Set this value to an array.
+     */
+    void set_to_array() {
+        if (!yyjson_mut_is_null(value_)) {
+            throw std::runtime_error("Value is already set");
+        }
+        yyjson_mut_set_arr(value_);
+    }
+
+    /*!
+     * \brief Set this value to an object.
+     */
+    void set_to_object() {
+        if (!yyjson_mut_is_null(value_)) {
+            throw std::runtime_error("Value is already set");
+        }
+        yyjson_mut_set_obj(value_);
+    }
+
+    /*!
      * \brief Get the internal value.
      *
      * \return Internal value.
