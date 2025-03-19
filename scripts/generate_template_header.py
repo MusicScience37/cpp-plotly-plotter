@@ -47,14 +47,14 @@ def generate_template_header() -> None:
 
 #include <string_view>
 
-namespace plotly_plotter {{
+namespace plotly_plotter::details::templates {{
 
 /*!
  * \brief HTML template for Plotly plot.
  */
 static constexpr std::string_view {variable_name} = R"({html_contents})";
 
-}}  // namespace plotly_plotter
+}}  // namespace plotly_plotter::details::templates
 """
         )
 

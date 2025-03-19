@@ -19,6 +19,7 @@ Checks: >
     -readability-identifier-length,
     -readability-function-cognitive-complexity,
     -readability-suspicious-call-argument,
+    -readability-math-missing-parentheses,
   modernize-*,
     -modernize-return-braced-init-list,
     -modernize-use-trailing-return-type,

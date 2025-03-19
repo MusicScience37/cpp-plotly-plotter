@@ -22,6 +22,11 @@
 namespace plotly_plotter {
 
     //! Namespace of internal implementation details.
-    namespace details {}
+    namespace details {
+
+        //! Namespace of HTML templates.
+        namespace templates {}
+
+    }  // namespace details
 
 }  // namespace plotly_plotter

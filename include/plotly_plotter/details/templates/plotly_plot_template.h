@@ -24,7 +24,7 @@
 
 #include <string_view>
 
-namespace plotly_plotter {
+namespace plotly_plotter::details::templates {
 
 /*!
  * \brief HTML template for Plotly plot.
@@ -57,4 +57,4 @@ static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
 </html>
 )";
 
-}  // namespace plotly_plotter
+}  // namespace plotly_plotter::details::templates
