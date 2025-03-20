@@ -25,6 +25,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/traces/scatter.h"
 
 TEST_CASE("plotly_plotter::write_html") {
     using plotly_plotter::write_html;

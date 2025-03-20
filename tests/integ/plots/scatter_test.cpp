@@ -17,6 +17,12 @@
  * \file
  * \brief Test of scatter plots.
  */
+#include "plotly_plotter/traces/scatter.h"
+
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
 
