@@ -25,7 +25,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
-#include "plotly_plotter/trace.h"
 
 TEST_CASE("plotly_plotter::write_html") {
     using plotly_plotter::write_html;
@@ -33,11 +32,10 @@ TEST_CASE("plotly_plotter::write_html") {
     plotly_plotter::figure figure;
 
     SECTION("write a figure") {
-        auto trace = figure.add_trace();
-        trace.type("scatter");
-        trace.name("trace1");
-        trace.x(std::vector{1, 2, 3});
-        trace.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        auto scatter = figure.add_scatter();
+        scatter.name("trace1");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
 
         const std::string file_path = "write_html_test.html";
         write_html(file_path, figure);

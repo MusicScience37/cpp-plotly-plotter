@@ -29,4 +29,7 @@ namespace plotly_plotter {
 
     }  // namespace details
 
+    //! Namespace of traces.
+    namespace traces {}
+
 }  // namespace plotly_plotter

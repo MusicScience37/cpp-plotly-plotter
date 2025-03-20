@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Test of trace class.
+ * \brief Test of scatter class.
  */
-#include "plotly_plotter/trace.h"
+#include "plotly_plotter/traces/scatter.h"
 
 #include <string>
 #include <vector>
@@ -28,16 +28,16 @@
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/json_document.h"
 
-TEST_CASE("plotly_plotter::trace") {
+TEST_CASE("plotly_plotter::traces::scatter") {
     plotly_plotter::figure figure;
 
     SECTION("set parameters") {
-        auto trace = figure.add_trace();
+        auto scatter = figure.add_scatter();
 
-        CHECK_NOTHROW(trace.type("scatter"));
-        CHECK_NOTHROW(trace.name("trace1"));
-        CHECK_NOTHROW(trace.x(std::vector{1, 2, 3}));
-        CHECK_NOTHROW(trace.y(std::vector{4, 5, 6}));
+        CHECK_NOTHROW(scatter.name("scatter1"));
+        CHECK_NOTHROW(scatter.x(std::vector{1, 2, 3}));
+        CHECK_NOTHROW(scatter.y(std::vector{4, 5, 6}));
+        CHECK_NOTHROW(scatter.mode("lines"));
 
         const std::string json_string = figure.document().serialize_to_string();
         ApprovalTests::Approvals::verify(json_string,
