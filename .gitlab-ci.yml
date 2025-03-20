@@ -283,15 +283,15 @@ doc:
     - cmake --build . --target ${LOWER_PROJECT_NAME}_doc
   artifacts:
     paths:
-      - build_doc/doc
+      - build_doc/doc/html
     when: always
     expire_in: "1 mos"
   interruptible: true
 
 pages:
   stage: deploy
-  only:
-    - develop
+  # only:
+  #   - main
   needs:
     - doc
     - clang coverage
