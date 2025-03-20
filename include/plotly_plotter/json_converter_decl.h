@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Kenta Kabashima.
+ * Copyright 2025 MusicScience37 (Kenta Kabashima)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,19 @@
  */
 /*!
  * \file
- * \brief Dummy test.
+ * \brief Declaration of json_converter class.
  */
-#include <catch2/catch_test_macros.hpp>
+#pragma once
 
-TEST_CASE("dummy test") {
-    //
-}
+namespace plotly_plotter {
+
+/*!
+ * \brief Class to convert various types to JSON values.
+ *
+ * \tparam T Type to convert to JSON values.
+ * \tparam Enabler Argument used for SFINAE.
+ */
+template <typename T, typename Enabler = void>
+class json_converter;
+
+}  // namespace plotly_plotter

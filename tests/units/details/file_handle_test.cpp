@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Kenta Kabashima.
+ * Copyright 2025 MusicScience37 (Kenta Kabashima)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,14 @@
  */
 /*!
  * \file
- * \brief Documentation of namespaces.
+ * \brief Test of file_handle class.
  */
+#include "plotly_plotter/details/file_handle.h"
 
-//! Namespace of cpp-plotly-plotter project.
-namespace plotly_plotter {
+#include <catch2/catch_test_macros.hpp>
 
-    //! Namespace of internal implementation details.
-    namespace details {
+TEST_CASE("plotly_plotter::details::file_handle") {
+    using plotly_plotter::details::file_handle;
 
-        //! Namespace of HTML templates.
-        namespace templates {}
-
-    }  // namespace details
-
-}  // namespace plotly_plotter
+    // TODO Test of move.
+}

@@ -29,18 +29,27 @@ option(${UPPER_PROJECT_NAME}_BUILD_DOC
        "build documentation of ${FULL_PROJECT_NAME}" OFF)
 option(${UPPER_PROJECT_NAME}_TESTING "enable tests of ${FULL_PROJECT_NAME}" OFF)
 
-set(CMAKE_CXX_STANDARD
-    "17"
-    CACHE STRING "C++ standard")
+find_package(yyjson REQUIRED)
+if(${UPPER_PROJECT_NAME}_TESTING)
+    find_package(Catch2 REQUIRED)
+    find_package(fmt REQUIRED)
+
+    # ApprovalTests.
+    find_path(APPROVAL_TESTS_CPP_INCLUDE_DIRS "ApprovalTests.hpp")
+    add_library(ApprovalTests_ApprovalTests INTERFACE)
+    target_include_directories(ApprovalTests_ApprovalTests
+                               INTERFACE ${APPROVAL_TESTS_CPP_INCLUDE_DIRS})
+    add_library(ApprovalTests::ApprovalTests ALIAS ApprovalTests_ApprovalTests)
+endif()
 
 include(GNUInstallDirs)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/bin>)
 
-if(${UPPER_PROJECT_NAME}_TESTING)
-    find_package(Catch2 REQUIRED)
-endif()
+set(CMAKE_CXX_STANDARD
+    "17"
+    CACHE STRING "C++ standard")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
@@ -55,8 +64,13 @@ set(${UPPER_PROJECT_NAME}_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(
-    ${PROJECT_NAME} INTERFACE ${${UPPER_PROJECT_NAME}_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} INTERFACE ${PROJECT_NAME}_cpp_warnings)
+    ${PROJECT_NAME}
+    INTERFACE $<BUILD_INTERFACE:${${UPPER_PROJECT_NAME}_SOURCE_DIR}/include>
+              $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_link_libraries(
+    ${PROJECT_NAME} INTERFACE yyjson::yyjson
+                              $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
 if(${UPPER_PROJECT_NAME}_BUILD_DOC)
     add_subdirectory(doc)

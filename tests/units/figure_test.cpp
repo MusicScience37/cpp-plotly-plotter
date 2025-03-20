@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Kenta Kabashima.
+ * Copyright 2025 MusicScience37 (Kenta Kabashima)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,21 @@
  */
 /*!
  * \file
- * \brief Documentation of namespaces.
+ * \brief Test of figure class.
  */
+#include "plotly_plotter/figure.h"
 
-//! Namespace of cpp-plotly-plotter project.
-namespace plotly_plotter {
+#include <catch2/catch_test_macros.hpp>
 
-    //! Namespace of internal implementation details.
-    namespace details {
+TEST_CASE("plotly_plotter::figure") {
+    plotly_plotter::figure figure;
 
-        //! Namespace of HTML templates.
-        namespace templates {}
+    SECTION("set title") {
+        figure.title("Test Title");
 
-    }  // namespace details
-
-}  // namespace plotly_plotter
+        const std::string json_string = figure.document().serialize_to_string();
+        CHECK(json_string ==
+            R"({"data":[],"layout":{"title":{"text":"Test Title"}}})");
+        CHECK(figure.html_title() == "Test Title");
+    }
+}

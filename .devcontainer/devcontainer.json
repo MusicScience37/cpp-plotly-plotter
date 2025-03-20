@@ -43,6 +43,7 @@
         "ms-python.isort",
         "ms-python.flake8",
         "ms-python.pylint",
+        "monosans.djlint",
         "executablebookproject.myst-highlight"
       ],
       "settings": {
