@@ -52,6 +52,7 @@
     "INTEG",
     "interruptible",
     "isort",
+    "isystem",
     "IWYU",
     "Kabashima",
     "Kenta",
@@ -95,6 +96,7 @@
     "virtualenv",
     "virtualenvs",
     "Wextra",
+    "Xiwyu",
     "yyjson"
   ],
   // flagWords - list of words to be always considered incorrect
