@@ -139,6 +139,7 @@ test release:
       - $BUILD_DIR/bench
       - $BUILD_DIR/junit
       - $BUILD_DIR/temp_test
+      - "*.html"
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
