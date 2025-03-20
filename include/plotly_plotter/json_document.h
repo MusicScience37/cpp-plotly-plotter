@@ -19,7 +19,10 @@
  */
 #pragma once
 
+// IWYU pragma: no_include <cwchar>
+
 #include <cstdio>
+#include <cstdlib>
 #include <stdexcept>
 #include <string>
 #include <utility>

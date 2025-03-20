@@ -19,7 +19,9 @@
  */
 #pragma once
 
+#include <cstddef>
 #include <string>
+#include <string_view>
 
 namespace plotly_plotter::details {
 

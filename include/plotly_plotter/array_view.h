@@ -21,9 +21,10 @@
 
 #include <iterator>
 #include <type_traits>
+#include <vector>
 
 #include "plotly_plotter/json_converter.h"
-#include "plotly_plotter/json_value.h"
+#include "plotly_plotter/json_converter_decl.h"
 
 namespace plotly_plotter {
 

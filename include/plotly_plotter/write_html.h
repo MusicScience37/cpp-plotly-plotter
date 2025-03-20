@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <cstddef>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -27,6 +28,7 @@
 #include "plotly_plotter/details/file_handle.h"
 #include "plotly_plotter/details/templates/plotly_plot_template.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter {
 

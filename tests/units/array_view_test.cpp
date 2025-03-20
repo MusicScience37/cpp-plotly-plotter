@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <catch2/catch_test_macros.hpp>
+#include <yyjson.h>
 
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"

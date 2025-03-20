@@ -19,6 +19,8 @@
  */
 #include "plotly_plotter/json_value.h"
 
+#include <string>
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: keep

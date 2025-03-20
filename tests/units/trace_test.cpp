@@ -19,12 +19,14 @@
  */
 #include "plotly_plotter/trace.h"
 
+#include <string>
 #include <vector>
 
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/json_document.h"
 
 TEST_CASE("plotly_plotter::trace") {
     plotly_plotter::figure figure;

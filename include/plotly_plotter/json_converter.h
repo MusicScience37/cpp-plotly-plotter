@@ -25,6 +25,8 @@
 #include <string_view>
 #include <type_traits>
 
+#include <yyjson.h>
+
 #include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
 

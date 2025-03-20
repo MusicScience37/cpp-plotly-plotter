@@ -20,6 +20,7 @@
 #include "plotly_plotter/json_document.h"
 
 #include <cstdio>
+#include <string_view>
 
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>

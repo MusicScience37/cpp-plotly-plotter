@@ -19,9 +19,11 @@
  */
 #pragma once
 
+#include <string>
 #include <string_view>
 
 #include "plotly_plotter/json_document.h"
+#include "plotly_plotter/json_value.h"
 #include "plotly_plotter/trace.h"
 
 namespace plotly_plotter {
