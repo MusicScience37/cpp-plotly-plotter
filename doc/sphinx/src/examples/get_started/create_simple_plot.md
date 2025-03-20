@@ -4,7 +4,7 @@ This section shows how to create a simple plot using cpp-plotly-plotter library.
 
 ## Prerequisites
 
-TODO
+- [Install cpp-plotly-plotter Library](../../install.md)
 
 ## Sample Code
 

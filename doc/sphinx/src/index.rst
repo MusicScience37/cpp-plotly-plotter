@@ -19,7 +19,7 @@ API reference can be viewed `here <api/index.html>`_.
     :maxdepth: 1
     :caption: Usage
 
-    how_to_use
+    install
     examples/index
 
 .. toctree::
