@@ -22,3 +22,8 @@
  * \example simple_plot.cpp
  * Example to create a simple plot.
  */
+
+/*!
+ * \example add_titles.cpp
+ * Example to add titles to a plot.
+ */

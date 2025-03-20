@@ -10,3 +10,4 @@ function(add_example TARGET)
 endfunction()
 
 add_example(simple_plot simple_plot.cpp)
+add_example(add_titles add_titles.cpp)

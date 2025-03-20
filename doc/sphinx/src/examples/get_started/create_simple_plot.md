@@ -16,4 +16,4 @@ This section shows how to create a simple plot using cpp-plotly-plotter library.
 
 ## Further Reading
 
-TODO
+- [Add Titles to a Plot](add_titles.md)

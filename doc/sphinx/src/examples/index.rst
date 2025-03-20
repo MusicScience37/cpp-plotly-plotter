@@ -6,3 +6,4 @@ Examples
     :caption: Get Started
 
     get_started/create_simple_plot
+    get_started/add_titles
