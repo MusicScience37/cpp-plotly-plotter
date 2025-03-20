@@ -3,6 +3,10 @@
 # pylint: disable=invalid-name
 # pylint: disable=redefined-builtin
 
+import os
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # -- Project information -----------------------------------------------------
 
 project = "cpp-plotly-plotter"
@@ -21,13 +25,23 @@ templates_path = ["_templates"]
 
 exclude_patterns = []
 
-# -- Options for Myst-Parser -------------------------------------------------
+# -- Options for Myst-NB -----------------------------------------------------
 
-extensions += ["myst_parser"]
+extensions += ["myst_nb"]  # This will automatically include myst_parser
 
 myst_enable_extensions = [
     "tasklist",
 ]
+
+nb_execution_mode = "cache"
+nb_execution_cache_path = os.path.join(
+    os.path.dirname(THIS_DIR), "build", "jupyter_cache"
+)
+
+# setting of MathJax
+# Extension for MathJax is already enabled by myst_nb.
+# MathJax URL working with Plotly was written in https://www.npmjs.com/package/plotly.js/v/3.0.1.
+mathjax_path = "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"
 
 # -- Options for PlantUML ----------------------------------------------------
 
