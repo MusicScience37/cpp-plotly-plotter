@@ -22,10 +22,18 @@ IS_SUCCESS = True
 
 
 class IwyuProcessError(RuntimeError):
-    pass
+    """Exception of errors in IWYU process."""
 
 
 def remove_correct_lines(target: str) -> str:
+    """Remove lines that indicate correct results.
+
+    Args:
+        target (str): Target string.
+
+    Returns:
+        str: Result string.
+    """
     result = ""
     prev_line_removed = False
     for line in target.splitlines():
@@ -51,7 +59,16 @@ async def apply_iwyu_to_file(
     limiter: asyncio.Semaphore,
     stop_on_error: bool,
 ):
-    global IS_SUCCESS
+    """Apply IWYU to a file.
+
+    Args:
+        filepath (str): File path.
+        build_dir (str): Path of the build directory.
+        tqdm_obj (tqdm.tqdm): Object of tqdm.
+        limiter (asyncio.Semaphore): Limiter of the number of concurrent jobs.
+        stop_on_error (bool): Whether to stop on error.
+    """
+    global IS_SUCCESS  # pylint: disable=global-statement
 
     async with limiter:
         command = (
@@ -70,7 +87,7 @@ async def apply_iwyu_to_file(
         )
         try:
             stdout, stderr = await process.communicate()
-        except:
+        except:  # noqa: E722
             process.kill()
             await process.communicate()
             raise
@@ -88,20 +105,21 @@ async def apply_iwyu_to_file(
             tqdm_obj.update()
 
 
-def filter_iwyu_process_error(exc):
-    if isinstance(exc, IwyuProcessError):
-        return None
-    else:
-        return exc
-
-
 async def apply_iwyu_to_files(
     filepaths: list[str],
     build_dir: str,
     num_jobs: int,
     stop_on_error: bool,
 ):
-    global IS_SUCCESS
+    """Apply IWYU to files.
+
+    Args:
+        filepaths (list[str]): File paths.
+        build_dir (str): Path of the build directory.
+        num_jobs (int): Number of concurrent jobs.
+        stop_on_error (bool): Whether to stop on error.
+    """
+    global IS_SUCCESS  # pylint: disable=global-statement
 
     tqdm_obj = tqdm.tqdm(total=len(filepaths), unit="file")
     limiter = asyncio.Semaphore(num_jobs)
@@ -129,6 +147,14 @@ async def apply_iwyu_to_files(
 
 
 def get_files_in(path: pathlib.Path) -> list[str]:
+    """Get files in a directory.
+
+    Args:
+        path (pathlib.Path): Path of the directory.
+
+    Returns:
+        list[str]: File paths.
+    """
     filepaths: list[str] = []
     for child in path.iterdir():
         if child.is_file():
@@ -145,8 +171,7 @@ def get_files_in(path: pathlib.Path) -> list[str]:
 @click.argument("file_or_directory_paths", nargs=-1)
 def check_iwyu(file_or_directory_paths: list[str], build_dir: str, num_jobs: int):
     """Check source codes with include-what-you-use."""
-
-    global IS_SUCCESS
+    global IS_SUCCESS  # pylint: disable=global-variable-not-assigned
 
     filepaths: list[str] = []
     for file_or_directory_path in file_or_directory_paths:
@@ -179,4 +204,4 @@ def check_iwyu(file_or_directory_paths: list[str], build_dir: str, num_jobs: int
 
 
 if __name__ == "__main__":
-    check_iwyu()
+    check_iwyu()  # pylint: disable=no-value-for-parameter

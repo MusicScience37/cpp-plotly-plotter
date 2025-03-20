@@ -6,6 +6,9 @@ import xml.etree.ElementTree as ET
 
 import click
 
+# Pylint generate false positives in this script.
+# pylint: disable=invalid-name
+
 
 def get_htmL_figure_data(html_file_path: str) -> dict:
     """Get JSON data of an HTML figure.

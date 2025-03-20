@@ -99,6 +99,7 @@
     "tasklist",
     "toctree",
     "TOUPPER",
+    "tqdm",
     "ubsan",
     "vcpkg",
     "venv",
