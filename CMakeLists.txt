@@ -91,6 +91,6 @@ if(${UPPER_PROJECT_NAME}_TESTING)
     add_subdirectory(tests)
 endif()
 
-if(${UPPER_PROJECT_NAME}_BUILD_EXAMPLES)
+if(${UPPER_PROJECT_NAME}_BUILD_DOC OR ${UPPER_PROJECT_NAME}_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
