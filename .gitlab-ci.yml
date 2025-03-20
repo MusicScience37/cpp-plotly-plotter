@@ -290,8 +290,8 @@ doc:
 
 pages:
   stage: deploy
-  # only:
-  #   - main
+  only:
+    - main
   needs:
     - doc
     - clang coverage
