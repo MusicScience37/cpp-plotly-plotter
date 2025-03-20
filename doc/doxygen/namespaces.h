@@ -18,16 +18,36 @@
  * \brief Documentation of namespaces.
  */
 
+/*!
+ * \dir include/plotly_plotter
+ * \brief Header files of cpp-plotly-plotter project.
+ */
+
 //! Namespace of cpp-plotly-plotter project.
 namespace plotly_plotter {
 
+    /*!
+     * \dir include/plotly_plotter/details
+     * \brief Header files of internal implementation details.
+     */
+
     //! Namespace of internal implementation details.
     namespace details {
+
+        /*!
+         * \dir include/plotly_plotter/details/templates
+         * \brief Header files of HTML templates.
+         */
 
         //! Namespace of HTML templates.
         namespace templates {}
 
     }  // namespace details
+
+    /*!
+     * \dir include/plotly_plotter/traces
+     * \brief Header files of traces.
+     */
 
     //! Namespace of traces.
     namespace traces {}

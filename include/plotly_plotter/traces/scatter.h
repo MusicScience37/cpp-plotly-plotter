@@ -30,7 +30,7 @@ namespace plotly_plotter::traces {
 /*!
  * \brief Class of scatter traces in Plotly.
  *
- * \note Objects of this class should be created from figure objects.
+ * \note Objects of this class should be created from \ref figure objects.
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
@@ -42,7 +42,7 @@ public:
      * \param[in] data JSON data.
      *
      * \warning This function should not be used in ordinary user code,
-     * create objects of this class from figure objects.
+     * create objects of this class from \ref figure objects.
      */
     explicit scatter(json_value data) : data_(data) {
         data_["type"] = "scatter";
