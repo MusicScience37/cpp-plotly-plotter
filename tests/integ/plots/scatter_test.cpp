@@ -15,31 +15,52 @@
  */
 /*!
  * \file
- * \brief Test of write_html function.
+ * \brief Test of scatter plots.
  */
-#include "plotly_plotter/write_html.h"
+#include "plotly_plotter/traces/scatter.h"
 
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
-#include "plotly_plotter/traces/scatter.h"
+#include "plotly_plotter/write_html.h"
 
-TEST_CASE("plotly_plotter::write_html") {
-    using plotly_plotter::write_html;
-
+TEST_CASE("scatter") {
     plotly_plotter::figure figure;
 
-    SECTION("write a figure") {
+    SECTION("modes") {
         auto scatter = figure.add_scatter();
-        scatter.name("trace1");
+        scatter.name("lines");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.mode("lines");
 
-        const std::string file_path = "write_html_test.html";
-        write_html(file_path, figure);
+        scatter = figure.add_scatter();
+        scatter.name("markers");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
+        scatter.mode("markers");
+
+        scatter = figure.add_scatter();
+        scatter.name("lines+markers");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{6, 7, 8});  // NOLINT(*-magic-numbers)
+        scatter.mode("lines+markers");
+
+        scatter = figure.add_scatter();
+        scatter.name("lines+markers+text");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{7, 8, 9});  // NOLINT(*-magic-numbers)
+        scatter.mode("lines+markers+text");
+
+        figure.title("Scatter Modes");
+
+        const std::string file_path = "scatter_modes.html";
+        plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),

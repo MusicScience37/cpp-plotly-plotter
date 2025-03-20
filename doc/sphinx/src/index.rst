@@ -6,7 +6,7 @@ A library to create plots using plotly.
 Developed at
 `https://gitlab.com/MusicScience37Projects/utility-libraries/cpp-plotly-plotter <https://gitlab.com/MusicScience37Projects/utility-libraries/cpp-plotly-plotter>`_.
 
-API reference can be viewed `here <api/index.html>`_.
+Full API reference can be viewed `here <api/index.html>`_.
 
 .. toctree::
     :maxdepth: 1
@@ -19,7 +19,9 @@ API reference can be viewed `here <api/index.html>`_.
     :maxdepth: 1
     :caption: Usage
 
-    how_to_use
+    install
+    examples/index
+    Full API Reference <https://cpp-plotly-plotter-332fca.gitlab.io/api/index.html>
 
 .. toctree::
     :maxdepth: 1

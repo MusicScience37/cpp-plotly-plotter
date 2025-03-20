@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of trace class.
+ * \brief Definition of scatter class.
  */
 #pragma once
 
@@ -25,32 +25,28 @@
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_value.h"
 
-namespace plotly_plotter {
+namespace plotly_plotter::traces {
 
 /*!
- * \brief Class of traces in Plotly.
+ * \brief Class of scatter traces in Plotly.
  *
- * \note Objects of this class should be created from figure objects.
+ * \note Objects of this class should be created from \ref figure objects.
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
-class trace {
+class scatter {
 public:
     /*!
      * \brief Constructor.
      *
      * \param[in] data JSON data.
      *
-     * \warning This function should not be used in ordinary user code.
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref figure objects.
      */
-    explicit trace(json_value data) : data_(data) {}
-
-    /*!
-     * \brief Set the type of this trace.
-     *
-     * \param[in] value Value.
-     */
-    void type(std::string_view value) { data_["type"] = value; }
+    explicit scatter(json_value data) : data_(data) {
+        data_["type"] = "scatter";
+    }
 
     /*!
      * \brief Set the trace name used in legends.
@@ -82,6 +78,21 @@ public:
     }
 
     /*!
+     * \brief Set the mode of the trace.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     *
+     * - `lines`
+     * - `markers`
+     * - `text`
+     * - Combinations of the above joined with `+`, for example `lines+markers`.
+     * - `none`
+     */
+    void mode(std::string_view value) { data_["mode"] = value; }
+
+    /*!
      * \brief Get the JSON data for this trace.
      *
      * \return JSON data.
@@ -96,4 +107,4 @@ private:
     json_value data_;
 };
 
-}  // namespace plotly_plotter
+}  // namespace plotly_plotter::traces

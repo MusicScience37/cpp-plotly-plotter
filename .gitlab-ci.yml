@@ -139,6 +139,7 @@ test release:
       - $BUILD_DIR/bench
       - $BUILD_DIR/junit
       - $BUILD_DIR/temp_test
+      - "*.html"
     reports:
       junit:
         - $BUILD_DIR/junit/*.xml
@@ -282,7 +283,7 @@ doc:
     - cmake --build . --target ${LOWER_PROJECT_NAME}_doc
   artifacts:
     paths:
-      - build_doc/doc
+      - build_doc/doc/html
     when: always
     expire_in: "1 mos"
   interruptible: true
@@ -290,7 +291,7 @@ doc:
 pages:
   stage: deploy
   only:
-    - develop
+    - main
   needs:
     - doc
     - clang coverage

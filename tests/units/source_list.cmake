@@ -7,6 +7,6 @@ set(SOURCE_FILES
     json_document_test.cpp
     json_value_test.cpp
     test_main.cpp
-    trace_test.cpp
+    traces/scatter_test.cpp
     write_html_test.cpp
 )

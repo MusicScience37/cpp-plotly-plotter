@@ -24,7 +24,7 @@
 
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"
-#include "plotly_plotter/trace.h"
+#include "plotly_plotter/traces/scatter.h"
 
 namespace plotly_plotter {
 
@@ -42,11 +42,13 @@ public:
     }
 
     /*!
-     * \brief Add a trace to this figure.
+     * \brief Add a scatter trace to this figure.
      *
-     * \return Added trace.
+     * \return Added scatter trace.
      */
-    [[nodiscard]] trace add_trace() { return trace(data_.emplace_back()); }
+    [[nodiscard]] traces::scatter add_scatter() {
+        return traces::scatter(data_.emplace_back());
+    }
 
     /*!
      * \brief Set the title of this figure.

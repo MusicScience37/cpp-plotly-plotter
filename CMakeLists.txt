@@ -25,10 +25,18 @@ set(BUILDNAME
 )
 include(CTest)
 
+# ##############################################################################
+# Options.
+# ##############################################################################
 option(${UPPER_PROJECT_NAME}_BUILD_DOC
        "build documentation of ${FULL_PROJECT_NAME}" OFF)
 option(${UPPER_PROJECT_NAME}_TESTING "enable tests of ${FULL_PROJECT_NAME}" OFF)
+option(${UPPER_PROJECT_NAME}_BUILD_EXAMPLES
+       "build examples of ${FULL_PROJECT_NAME}" OFF)
 
+# ##############################################################################
+# Libraries.
+# ##############################################################################
 find_package(yyjson REQUIRED)
 if(${UPPER_PROJECT_NAME}_TESTING)
     find_package(Catch2 REQUIRED)
@@ -42,6 +50,9 @@ if(${UPPER_PROJECT_NAME}_TESTING)
     add_library(ApprovalTests::ApprovalTests ALIAS ApprovalTests_ApprovalTests)
 endif()
 
+# ##############################################################################
+# Configurations.
+# ##############################################################################
 include(GNUInstallDirs)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/lib>)
@@ -78,4 +89,8 @@ endif()
 
 if(${UPPER_PROJECT_NAME}_TESTING)
     add_subdirectory(tests)
+endif()
+
+if(${UPPER_PROJECT_NAME}_BUILD_DOC OR ${UPPER_PROJECT_NAME}_BUILD_EXAMPLES)
+    add_subdirectory(examples)
 endif()

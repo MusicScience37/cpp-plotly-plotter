@@ -32,8 +32,8 @@ namespace plotly_plotter {
 /*!
  * \brief Class of JSON values.
  *
- * \note Objects of this class should be created from json_document objects
- * or other json_value objects.
+ * \note Objects of this class should be created from \ref json_document objects
+ * or other \ref json_value objects.
  * \note Objects of this class doesn't manage the memory of the value,
  * so the objects can be simply copied or moved.
  */
@@ -45,7 +45,9 @@ public:
      * \param[in] value Value.
      * \param[in] document Document.
      *
-     * \warning This function should not be used in ordinary user code.
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref json_document objects or other
+     * \ref json_value objects.
      */
     json_value(yyjson_mut_val* value, yyjson_mut_doc* document) noexcept
         : value_(value), document_(document) {}

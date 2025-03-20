@@ -638,3 +638,5 @@ FodyWeavers.xsd
 !.vscode/cmake-variants.yaml
 
 *.received.*
+
+/*.html
