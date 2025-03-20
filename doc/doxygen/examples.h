@@ -27,3 +27,8 @@
  * \example add_titles.cpp
  * Example to add titles to a plot.
  */
+
+/*!
+ * \example scatters/select_modes.cpp
+ * Example to select modes of scatter plots.
+ */

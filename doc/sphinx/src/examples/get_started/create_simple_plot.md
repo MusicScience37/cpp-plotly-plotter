@@ -2,7 +2,7 @@
 file_format: mystnb
 ---
 
-# Create a Simple Plot
+# Create a Simple Scatter Plot
 
 This section shows how to create a simple plot using cpp-plotly-plotter library.
 
