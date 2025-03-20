@@ -34,7 +34,12 @@ static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
     <head>
         <meta charset="utf-8" />
         <title>{{ title }}</title>
-        <style>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{{ escaped_data }}</div>
+    </body>
+    <style>
         html,
         body,
         .container {
@@ -42,15 +47,10 @@ static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
             width: 100%;
             margin: 0px;
         }
-        </style>
-    </head>
-    <body>
-        <div id="plot" class="container"></div>
-        <div id="dataset" style="display:none">{{ escaped_data }}</div>
-    </body>
+    </style>
     <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
     <script type="text/javascript">
-        var dataset_str = document.querySelector('#dataset').textContent
+        var dataset_str = document.querySelector('#dataset').textContent;
         var dataset = JSON.parse(dataset_str);
         Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
     </script>
