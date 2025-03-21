@@ -33,6 +33,8 @@ myst_enable_extensions = [
     "tasklist",
 ]
 
+myst_heading_anchors = 4
+
 nb_execution_mode = "cache"
 nb_execution_cache_path = os.path.join(
     os.path.dirname(THIS_DIR), "build", "jupyter_cache"
