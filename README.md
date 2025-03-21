@@ -8,6 +8,7 @@ A library to create plots using [plotly](https://plotly.com/).
 ## Documentation
 
 - [Documentation built on main branch](https://cpp-plotly-plotter-332fca.gitlab.io/)
+- [Build in the Repository](doc/sphinx/src/how_to_build_in_repository.md)
 
 ## License
 
