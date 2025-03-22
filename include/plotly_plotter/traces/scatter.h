@@ -110,6 +110,21 @@ public:
     void mode(std::string_view value) { data_["mode"] = value; }
 
     /*!
+     * \brief Set the template string used for hover texts.
+     *
+     * \param[in] value Value.
+     *
+     * \note x, y, and text values can be inserted using `%{x}`, `%{y}`, and
+     * `%{text}` respectively.
+     * For details, see
+     * [hovertemplate](https://plotly.com/javascript/hover-text-and-formatting/#hovertemplate)
+     * in Plotly.js document.
+     */
+    void hover_template(std::string_view value) {
+        data_["hovertemplate"] = value;
+    }
+
+    /*!
      * \brief Get the JSON data for this trace.
      *
      * \return JSON data.

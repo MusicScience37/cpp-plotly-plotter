@@ -30,7 +30,7 @@
     - [x] Mathematical expressions.
     - [x] Use of characters which require escaping.
     - [x] Use of non-ASCII characters.
-  - [ ] Configuration of hover texts.
+  - [x] Configuration of hover texts.
   - [ ] Subplots.
   - [ ] Animations.
 - Simple API as `plotly.express` in Python.

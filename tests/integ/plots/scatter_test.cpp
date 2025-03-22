@@ -114,4 +114,22 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("hover templates") {
+        auto scatter = figure.add_scatter();
+        scatter.name("hover template");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C<br>new line"});
+        scatter.hover_template("x: %{x}<br>y: %{y:.2f}<br>text: %{text}");
+
+        figure.title("Scatter Hover Templates");
+
+        const std::string file_path = "scatter_hover_templates.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }
