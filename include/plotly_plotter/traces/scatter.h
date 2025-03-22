@@ -24,6 +24,7 @@
 #include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_value.h"
+#include "plotly_plotter/traces/xy_trace_base.h"
 
 namespace plotly_plotter::traces {
 
@@ -105,48 +106,16 @@ private:
 /*!
  * \brief Base class of scatter traces.
  */
-class scatter_base {
+class scatter_base : public xy_trace_base {
 public:
-    /*!
-     * \brief Set the trace name used in legends.
-     *
-     * \param[in] value Value.
-     */
-    void name(std::string_view value) { data_["name"] = value; }
-
-    /*!
-     * \brief Set the x coordinates.
-     *
-     * \tparam Container Type of the container of values.
-     * \param[in] values Values.
-     *
-     * \note The container must support `std::begin` and `std::end` functions.
-     */
-    template <typename Container>
-    void x(const Container& values) {
-        data_["x"] = as_array(values);
-    }
-
-    /*!
-     * \brief Set the y coordinates.
-     *
-     * \tparam Container Type of the container of values.
-     * \param[in] values Values.
-     *
-     * \note The container must support `std::begin` and `std::end` functions.
-     */
-    template <typename Container>
-    void y(const Container& values) {
-        data_["y"] = as_array(values);
-    }
-
     /*!
      * \brief Access the configuration of error bars in x direction.
      *
      * \return Configuration.
      */
-    [[nodiscard]] scatter_error error_x() {
-        return scatter_error(data_["error_x"]);
+    [[nodiscard]] scatter_error error_x() {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        return scatter_error(this->data()["error_x"]);
     }
 
     /*!
@@ -154,21 +123,9 @@ public:
      *
      * \return Configuration.
      */
-    [[nodiscard]] scatter_error error_y() {
-        return scatter_error(data_["error_y"]);
-    }
-
-    /*!
-     * \brief Set the text for each point.
-     *
-     * \tparam Container Type of the container of texts.
-     * \param[in] values Values.
-     *
-     * \note The container must support `std::begin` and `std::end` functions.
-     */
-    template <typename Container>
-    void text(const Container& values) {
-        data_["text"] = as_array(values);
+    [[nodiscard]] scatter_error error_y() {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        return scatter_error(this->data()["error_y"]);
     }
 
     /*!
@@ -184,47 +141,18 @@ public:
      * - Combinations of the above joined with `+`, for example `lines+markers`.
      * - `none`
      */
-    void mode(std::string_view value) { data_["mode"] = value; }
-
-    /*!
-     * \brief Set the template string used for hover texts.
-     *
-     * \param[in] value Value.
-     *
-     * \note x, y, and text values can be inserted using `%{x}`, `%{y}`, and
-     * `%{text}` respectively.
-     * For details, see
-     * [hovertemplate](https://plotly.com/javascript/hover-text-and-formatting/#hovertemplate)
-     * in Plotly.js document.
-     */
-    void hover_template(std::string_view value) {
-        data_["hovertemplate"] = value;
+    void mode(std::string_view value) {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        this->data()["mode"] = value;
     }
-
-    /*!
-     * \brief Get the JSON data for this trace.
-     *
-     * \return JSON data.
-     *
-     * \warning This function is for advanced users who want to customize the
-     * trace data directly.
-     */
-    [[nodiscard]] json_value data() const noexcept { return data_; }
 
 protected:
     /*!
      * \brief Constructor.
      *
      * \param[in] data JSON data.
-     *
-     * \warning This function should not be used in ordinary user code,
-     * create objects of this class from \ref figure objects.
      */
-    explicit scatter_base(json_value data) : data_(data) {}
-
-private:
-    //! JSON data.
-    json_value data_;
+    explicit scatter_base(json_value data) : xy_trace_base(data) {}
 };
 
 /*!

@@ -34,4 +34,4 @@ show_html_figure("../outputs/configurations_customize_hover_texts.html", version
 
 - [Document of hovertemplate in Plotly.js](https://plotly.com/javascript/hover-text-and-formatting/#hovertemplate)
 - API Reference:
-  - {cpp:func}`plotly_plotter::traces::scatter_base::hover_template`
+  - {cpp:func}`plotly_plotter::traces::xy_trace_base::hover_template`
