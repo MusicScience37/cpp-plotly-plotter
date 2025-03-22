@@ -1,12 +1,15 @@
 # Use Cases
 
 - Create various types of plots.
-  - [ ] 2D Scatter plots.
+  - [x] 2D Scatter plots.
     - [x] SVG format.
     - [ ] WebGL format.
     - [x] Scatter of points.
     - [x] Line plots.
+    - [ ] Customization of markers.
+    - [ ] Customization of lines.
   - [ ] Box plots.
+  - [ ] Bar plots.
   - [ ] Violin plots.
   - [ ] Histograms.
   - [ ] Heatmaps.
@@ -19,16 +22,20 @@
 - Configurations.
   - [ ] Plots with log scales.
   - [ ] Plots with error bars.
-  - [ ] Labels and titles.
+  - Labels and titles.
     - [x] Titles of the plot.
     - [x] Titles of the x-axis.
     - [x] Titles of the y-axis.
     - [x] Legends.
     - [x] Mathematical expressions.
     - [x] Use of characters which require escaping.
-    - [ ] Use of non-ASCII characters.
+    - [x] Use of non-ASCII characters.
   - [ ] Configuration of hover texts.
   - [ ] Subplots.
+  - [ ] Animations.
+- Simple API as `plotly.express` in Python.
+  - [ ] `plotly.express.scatter`.
+  - [ ] `plotly.express.line`.
 - Outputs.
   - [x] HTML.
   - [ ] PNG.
