@@ -17,6 +17,7 @@
  * \file
  * \brief Test of data types.
  */
+#include <Eigen/Core>
 #include <string>
 #include <vector>
 
@@ -75,6 +76,33 @@ TEST_CASE("data types") {
         scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
 
         const std::string file_path = "data_types_vector_string.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXd") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(
+            Eigen::VectorXd{{4.5, 5.75, 7.0}});  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "data_types_eigen_vector_xd.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXi") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(Eigen::VectorXi{{4, 5, 6}});  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "data_types_eigen_vector_xi.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(

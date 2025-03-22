@@ -15,7 +15,7 @@
   - [x] Integers.
   - [x] Strings. (For grouping.)
   - [ ] Dates and times.
-  - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
+  - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
   - [ ] Plots with log scales.
   - [ ] Plots with error bars.
