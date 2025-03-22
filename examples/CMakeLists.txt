@@ -39,5 +39,10 @@ add_example(configurations_customize_hover_texts
 add_example_output(configurations_customize_hover_texts
                    configurations_customize_hover_texts.html)
 
+add_example(configurations_set_axes_to_log_scale
+            configurations/set_axes_to_log_scale.cpp)
+add_example_output(configurations_set_axes_to_log_scale
+                   configurations_set_axes_to_log_scale.html)
+
 add_example(scatter_select_modes scatters/select_modes.cpp)
 add_example_output(scatter_select_modes scatter_select_modes.html)

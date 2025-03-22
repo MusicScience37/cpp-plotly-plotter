@@ -20,7 +20,7 @@
   - [ ] Dates and times.
   - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
-  - [ ] Plots with log scales.
+  - [x] Plots with log scales.
   - [ ] Plots with error bars.
   - Labels and titles.
     - [x] Titles of the plot.
