@@ -7,3 +7,4 @@ Examples
     get_started/index
     configurations/index
     scatters/index
+    boxes/index

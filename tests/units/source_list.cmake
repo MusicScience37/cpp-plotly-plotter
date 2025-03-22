@@ -8,6 +8,7 @@ set(SOURCE_FILES
     json_value_test.cpp
     layout_test.cpp
     test_main.cpp
+    traces/box_test.cpp
     traces/scatter_test.cpp
     write_html_test.cpp
 )

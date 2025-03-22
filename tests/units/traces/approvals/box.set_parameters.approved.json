@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "type": "box",
+      "name": "box1",
+      "x": [
+        1,
+        2,
+        3
+      ],
+      "y": [
+        4,
+        5,
+        6
+      ],
+      "text": [
+        "a",
+        "b",
+        "c"
+      ],
+      "hovertemplate": "x: %{x}<br>y: %{y}",
+      "boxmean": true,
+      "boxpoints": "all"
+    }
+  ],
+  "layout": {}
+}

@@ -8,7 +8,7 @@
     - [x] Line plots.
     - [ ] Customization of markers.
     - [ ] Customization of lines.
-  - [ ] Box plots.
+  - [x] Box plots.
   - [ ] Bar plots.
   - [ ] Violin plots.
   - [ ] Histograms.

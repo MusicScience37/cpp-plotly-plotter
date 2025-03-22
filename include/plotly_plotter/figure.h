@@ -25,6 +25,7 @@
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
+#include "plotly_plotter/traces/box.h"
 #include "plotly_plotter/traces/scatter.h"
 
 namespace plotly_plotter {
@@ -58,6 +59,15 @@ public:
      */
     [[nodiscard]] traces::scatter_gl add_scatter_gl() {
         return traces::scatter_gl(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a box trace to this figure.
+     *
+     * \return Added box trace.
+     */
+    [[nodiscard]] traces::box add_box() {
+        return traces::box(data_.emplace_back());
     }
 
     /*!
