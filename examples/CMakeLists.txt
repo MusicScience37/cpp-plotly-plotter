@@ -50,3 +50,8 @@ add_example_output(configurations_set_axes_to_log_scale
 
 add_example(scatter_select_modes scatters/select_modes.cpp)
 add_example_output(scatter_select_modes scatter_select_modes.html)
+
+add_example(scatters_plot_many_points_using_web_gl
+            scatters/plot_many_points_using_web_gl.cpp)
+add_example_output(scatters_plot_many_points_using_web_gl
+                   scatters_plot_many_points_using_web_gl.html)
