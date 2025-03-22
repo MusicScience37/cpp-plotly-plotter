@@ -54,6 +54,7 @@ TEST_CASE("plotly_plotter::details::file_handle") {
     SECTION("move constructor") {
         file_handle file1("file_handle_test.txt", "w");
         file_handle file2(std::move(file1));
+        // NOLINTNEXTLINE
         CHECK(file1.get() == nullptr);
         CHECK(file2.get() != nullptr);
     }
@@ -62,6 +63,7 @@ TEST_CASE("plotly_plotter::details::file_handle") {
         file_handle file1("file_handle_test.txt", "w");
         file_handle file2("file_handle_test2.txt", "w");
         file2 = std::move(file1);
+        // NOLINTNEXTLINE
         CHECK(file1.get() == nullptr);
         CHECK(file2.get() != nullptr);
     }
