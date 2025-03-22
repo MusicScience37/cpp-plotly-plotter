@@ -1,35 +1,43 @@
 # Use Cases
 
 - Create various types of plots.
-  - [ ] 2D Scatter plots.
-    - [ ] SVG format.
+  - [x] 2D Scatter plots.
+    - [x] SVG format.
     - [ ] WebGL format.
-    - [ ] Scatter of points.
-    - [ ] Line plots.
+    - [x] Scatter of points.
+    - [x] Line plots.
+    - [ ] Customization of markers.
+    - [ ] Customization of lines.
   - [ ] Box plots.
+  - [ ] Bar plots.
   - [ ] Violin plots.
   - [ ] Histograms.
+  - [ ] Heatmaps.
 - Plot with various data types.
-  - [ ] Floating-point numbers.
-  - [ ] Integers.
-  - [ ] Strings. (For grouping.)
+  - [x] Floating-point numbers.
+  - [x] Integers.
+  - [x] Strings. (For grouping.)
   - [ ] Dates and times.
-  - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
+  - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
   - [ ] Plots with log scales.
   - [ ] Plots with error bars.
-  - [ ] Labels and titles.
-    - [ ] Titles of the plot.
-    - [ ] Titles of the x-axis.
-    - [ ] Titles of the y-axis.
-    - [ ] Legends.
-    - [ ] Mathematical expressions.
-    - [ ] Use of characters which require escaping.
-    - [ ] Use of non-ASCII characters.
+  - Labels and titles.
+    - [x] Titles of the plot.
+    - [x] Titles of the x-axis.
+    - [x] Titles of the y-axis.
+    - [x] Legends.
+    - [x] Mathematical expressions.
+    - [x] Use of characters which require escaping.
+    - [x] Use of non-ASCII characters.
   - [ ] Configuration of hover texts.
   - [ ] Subplots.
+  - [ ] Animations.
+- Simple API as `plotly.express` in Python.
+  - [ ] `plotly.express.scatter`.
+  - [ ] `plotly.express.line`.
 - Outputs.
-  - [ ] HTML.
+  - [x] HTML.
   - [ ] PNG.
   - [ ] PDF.
   - [ ] SVG.

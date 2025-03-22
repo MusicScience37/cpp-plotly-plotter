@@ -21,6 +21,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -45,6 +46,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(bool from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_bool(to.internal_value(), from);
     }
 };
@@ -65,6 +72,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_uint(
             to.internal_value(), static_cast<std::uint64_t>(from));
     }
@@ -86,6 +99,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_sint(
             to.internal_value(), static_cast<std::int64_t>(from));
     }
@@ -106,6 +125,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_real(to.internal_value(), static_cast<double>(from));
     }
 };
@@ -127,6 +152,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(const T& from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_strn(to.internal_value(),
             unsafe_yyjson_mut_strncpy(
                 to.internal_document(), from.data(), from.size()),
@@ -147,6 +178,12 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(const char* from, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         const std::size_t len = std::strlen(from);
         yyjson_mut_set_strn(to.internal_value(),
             unsafe_yyjson_mut_strncpy(to.internal_document(), from, len), len);
@@ -170,7 +207,13 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(const T& from, json_value& to) {
+        if (to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
         yyjson_mut_set_arr(to.internal_value());
+        yyjson_mut_arr_clear(to.internal_value());
         for (const auto& value : from) {
             to.push_back(value);
         }

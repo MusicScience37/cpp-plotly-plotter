@@ -15,12 +15,10 @@
  */
 /*!
  * \file
- * \brief Test of layouts.
+ * \brief Test of data types.
  */
-#include "plotly_plotter/layout.h"
-
+#include <Eigen/Core>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include <ApprovalTests.hpp>
@@ -30,20 +28,15 @@
 #include "plotly_plotter/traces/scatter.h"
 #include "plotly_plotter/write_html.h"
 
-TEST_CASE("layout") {
+TEST_CASE("data types") {
     plotly_plotter::figure figure;
 
-    SECTION("add titles") {
+    SECTION("vector<int>") {
         auto scatter = figure.add_scatter();
-        scatter.name("lines");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
 
-        figure.layout().title().text("Title");
-        figure.layout().xaxis().title().text("x-axis title");
-        figure.layout().yaxis().title().text("y-axis title");
-
-        const std::string file_path = "layout_add_titles.html";
+        const std::string file_path = "data_types_vector_int.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
@@ -51,20 +44,12 @@ TEST_CASE("layout") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("add titles with escaped characters") {
+    SECTION("vector<float>") {
         auto scatter = figure.add_scatter();
-        scatter.name("lines");
         scatter.x(std::vector{1, 2, 3});
-        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.y(std::vector{4.5F, 5.75F, 7.0F});  // NOLINT(*-magic-numbers)
 
-        figure.title("Title with escaped characters: & < > \" '");
-        figure.layout().xaxis().title().text(
-            "x-axis title with escaped characters: & < > \" '");
-        figure.layout().yaxis().title().text(
-            "y-axis title with escaped characters: & < > \" '");
-
-        const std::string file_path =
-            "layout_add_titles_with_escaped_characters.html";
+        const std::string file_path = "data_types_vector_float.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
@@ -72,19 +57,12 @@ TEST_CASE("layout") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("add titles with TeX") {
+    SECTION("vector<double>") {
         auto scatter = figure.add_scatter();
-        scatter.name("lines");
         scatter.x(std::vector{1, 2, 3});
-        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
 
-        figure.layout().title().text(R"($\text{Title with TeX: } \alpha$)");
-        figure.layout().xaxis().title().text(
-            R"($\text{x-axis title with TeX: } \beta^2$)");
-        figure.layout().yaxis().title().text(
-            R"($\text{y-axis title with TeX: } \gamma_3$)");
-
-        const std::string file_path = "layout_add_titles_with_tex.html";
+        const std::string file_path = "data_types_vector_double.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
@@ -92,17 +70,39 @@ TEST_CASE("layout") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("add titles with non-ASCII characters") {
+    SECTION("vector<string>") {
         auto scatter = figure.add_scatter();
-        scatter.name("lines");
+        scatter.x(std::vector<std::string>{"a", "b", "c"});
+        scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "data_types_vector_string.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXd") {
+        auto scatter = figure.add_scatter();
         scatter.x(std::vector{1, 2, 3});
-        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.y(
+            Eigen::VectorXd{{4.5, 5.75, 7.0}});  // NOLINT(*-magic-numbers)
 
-        figure.title("タイトル");
-        figure.layout().xaxis().title().text("x軸");
-        figure.layout().yaxis().title().text("y軸");
+        const std::string file_path = "data_types_eigen_vector_xd.html";
+        plotly_plotter::write_html(file_path, figure);
 
-        const std::string file_path = "layout_add_titles_with_non_ascii.html";
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXi") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(Eigen::VectorXi{{4, 5, 6}});  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "data_types_eigen_vector_xi.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(

@@ -20,16 +20,16 @@
 #include "plotly_plotter/json_value.h"
 
 #include <string>
+#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: keep
 #include "plotly_plotter/json_document.h"
 
 TEST_CASE("plotly_plotter::json_value") {
     using plotly_plotter::json_document;
-
-    // TODO test of copy and move
 
     SECTION("set a value") {
         json_document document;
@@ -83,6 +83,7 @@ TEST_CASE("plotly_plotter::json_value") {
 
         document.root()["key1"] = 123;  // NOLINT(*-magic-numbers)
         document.root()["key2"]["key3"] = "abc";
+        document.root()["key2"]["key4"] = 123;  // NOLINT(*-magic-numbers)
 
         REQUIRE(yyjson_mut_is_obj(document.root().internal_value()));
         REQUIRE(yyjson_mut_obj_size(document.root().internal_value()) == 2);
@@ -94,12 +95,117 @@ TEST_CASE("plotly_plotter::json_value") {
         REQUIRE(yyjson_mut_is_obj(
             yyjson_mut_obj_get(document.root().internal_value(), "key2")));
         REQUIRE(yyjson_mut_obj_size(yyjson_mut_obj_get(
-                    document.root().internal_value(), "key2")) == 1);
+                    document.root().internal_value(), "key2")) == 2);
         REQUIRE(yyjson_mut_is_str(yyjson_mut_obj_get(
             yyjson_mut_obj_get(document.root().internal_value(), "key2"),
             "key3")));
         CHECK(std::string(yyjson_mut_get_str(yyjson_mut_obj_get(
                   yyjson_mut_obj_get(document.root().internal_value(), "key2"),
                   "key3"))) == "abc");
+        REQUIRE(yyjson_mut_is_int(yyjson_mut_obj_get(
+            yyjson_mut_obj_get(document.root().internal_value(), "key2"),
+            "key4")));
+        CHECK(yyjson_mut_get_int(yyjson_mut_obj_get(
+                  yyjson_mut_obj_get(document.root().internal_value(), "key2"),
+                  "key4")) == 123);
+    }
+
+    SECTION("try to change the type of a value from an array") {
+        json_document document;
+
+        document.root().push_back(123);  // NOLINT(*-magic-numbers)
+
+        CHECK_THROWS_AS(document.root() = true, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123U, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123.0, std::runtime_error);
+        CHECK_THROWS_AS(
+            document.root() = std::string("abc"), std::runtime_error);
+        CHECK_THROWS_AS(document.root() = "abc", std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root()["key"] = 123, std::runtime_error);
+    }
+
+    SECTION("try to change the type of a value from an object") {
+        json_document document;
+
+        document.root()["key"] = 123;  // NOLINT(*-magic-numbers)
+
+        CHECK_THROWS_AS(document.root() = true, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123U, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123.0, std::runtime_error);
+        CHECK_THROWS_AS(
+            document.root() = std::string("abc"), std::runtime_error);
+        CHECK_THROWS_AS(document.root() = "abc", std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root().push_back(123), std::runtime_error);
+        CHECK_THROWS_AS(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            document.root() = plotly_plotter::as_array(std::vector{123}),
+            std::runtime_error);
+    }
+
+    SECTION("change the value") {
+        json_document document;
+
+        document.root() = "abc";
+        document.root() = "def";
+
+        REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
+        CHECK(std::string(yyjson_mut_get_str(
+                  document.root().internal_value())) == "def");
+    }
+
+    SECTION("get the types of values") {
+        using value_type = plotly_plotter::json_value::value_type;
+
+        json_document document;
+
+        SECTION("for null") {
+            CHECK(document.root().type() == value_type::null);
+        }
+
+        SECTION("for bool") {
+            document.root() = true;
+
+            CHECK(document.root().type() == value_type::boolean);
+        }
+
+        SECTION("for number") {
+            document.root() = 123;  // NOLINT(*-magic-numbers)
+
+            CHECK(document.root().type() == value_type::number);
+        }
+
+        SECTION("for string") {
+            document.root() = "abc";
+
+            CHECK(document.root().type() == value_type::string);
+        }
+
+        SECTION("for array") {
+            document.root().push_back(123);  // NOLINT(*-magic-numbers)
+
+            CHECK(document.root().type() == value_type::array);
+        }
+
+        SECTION("for object") {
+            document.root()["key"] = 123;  // NOLINT(*-magic-numbers)
+
+            CHECK(document.root().type() == value_type::object);
+        }
+
+        SECTION("for other") {
+            yyjson_mut_set_raw(document.root().internal_value(), "", 0);
+
+            CHECK(document.root().type() == value_type::other);
+        }
     }
 }

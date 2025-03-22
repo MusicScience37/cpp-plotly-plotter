@@ -32,6 +32,50 @@
 TEST_CASE("scatter") {
     plotly_plotter::figure figure;
 
+    SECTION("data types") {
+        SECTION("double to double") {
+            auto scatter = figure.add_scatter();
+            scatter.x(std::vector{1.25, 2.5, 3.75});  // NOLINT(*-magic-numbers)
+            scatter.y(std::vector{4.5, 5.75, 7.0});   // NOLINT(*-magic-numbers)
+
+            const std::string file_path = "scatter_double_to_double.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("int to double") {
+            auto scatter = figure.add_scatter();
+            scatter.x(std::vector{1, 2, 3});
+            scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
+
+            const std::string file_path = "scatter_int_to_double.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("string to double") {
+            auto scatter = figure.add_scatter();
+            scatter.x(std::vector<std::string_view>{"a", "b", "c"});
+            scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
+
+            const std::string file_path = "scatter_string_to_double.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+    }
+
     SECTION("modes") {
         auto scatter = figure.add_scatter();
         scatter.name("lines");
