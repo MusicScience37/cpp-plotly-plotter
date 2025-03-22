@@ -34,6 +34,9 @@ add_example_output(simple_plot simple_plot.html)
 add_example(add_titles add_titles.cpp)
 add_example_output(add_titles add_titles.html)
 
+add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
+add_example_output(boxes_create_simple_box boxes_create_simple_box.html)
+
 add_example(configurations_customize_hover_texts
             configurations/customize_hover_texts.cpp)
 add_example_output(configurations_customize_hover_texts

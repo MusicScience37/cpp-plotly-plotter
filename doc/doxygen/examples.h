@@ -29,6 +29,11 @@
  */
 
 /*!
+ * \example boxes/create_simple_box.cpp
+ * Example to create a simple box plot.
+ */
+
+/*!
  * \example configurations/customize_hover_texts.cpp
  * Example to customize hover texts in a plot.
  */
