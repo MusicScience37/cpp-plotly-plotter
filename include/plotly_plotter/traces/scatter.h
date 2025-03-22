@@ -102,8 +102,6 @@ private:
     json_value data_;
 };
 
-namespace details {
-
 /*!
  * \brief Base class of scatter traces.
  */
@@ -229,8 +227,6 @@ private:
     json_value data_;
 };
 
-}  // namespace details
-
 /*!
  * \brief Class of scatter traces in Plotly.
  *
@@ -238,7 +234,7 @@ private:
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
-class scatter : public details::scatter_base {
+class scatter : public scatter_base {
 public:
     /*!
      * \brief Constructor.
@@ -248,7 +244,7 @@ public:
      * \warning This function should not be used in ordinary user code,
      * create objects of this class from \ref figure objects.
      */
-    explicit scatter(json_value data) : details::scatter_base(data) {
+    explicit scatter(json_value data) : scatter_base(data) {
         this->data()["type"] = "scatter";
     }
 };
@@ -262,7 +258,7 @@ public:
  *
  * \warning Mode "text" doesn't work in WebGL.
  */
-class scatter_gl : public details::scatter_base {
+class scatter_gl : public scatter_base {
 public:
     /*!
      * \brief Constructor.
@@ -272,7 +268,7 @@ public:
      * \warning This function should not be used in ordinary user code,
      * create objects of this class from \ref figure objects.
      */
-    explicit scatter_gl(json_value data) : details::scatter_base(data) {
+    explicit scatter_gl(json_value data) : scatter_base(data) {
         this->data()["type"] = "scattergl";
     }
 };

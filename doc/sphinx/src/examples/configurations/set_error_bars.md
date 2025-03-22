@@ -33,6 +33,6 @@ show_html_figure("../outputs/configurations_set_error_bars.html", version=1)
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::traces::scatter::error_x`
-  - {cpp:func}`plotly_plotter::traces::scatter::error_y`
+  - {cpp:func}`plotly_plotter::traces::scatter_base::error_x`
+  - {cpp:func}`plotly_plotter::traces::scatter_base::error_y`
   - {cpp:class}`plotly_plotter::traces::scatter_error`
