@@ -32,4 +32,7 @@ show_html_figure("../outputs/add_titles.html", version=2)
 
 ## Further Reading
 
-TODO
+- API Reference:
+  - {cpp:class}`plotly_plotter::figure`
+  - {cpp:class}`plotly_plotter::traces::scatter`
+  - {cpp:func}`plotly_plotter::write_html`

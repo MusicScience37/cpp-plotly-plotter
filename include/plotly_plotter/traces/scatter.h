@@ -60,6 +60,8 @@ public:
      *
      * \tparam Container Type of the container of values.
      * \param[in] values Values.
+     *
+     * \note The container must support `std::begin` and `std::end` functions.
      */
     template <typename Container>
     void x(const Container& values) {
@@ -71,6 +73,8 @@ public:
      *
      * \tparam Container Type of the container of values.
      * \param[in] values Values.
+     *
+     * \note The container must support `std::begin` and `std::end` functions.
      */
     template <typename Container>
     void y(const Container& values) {

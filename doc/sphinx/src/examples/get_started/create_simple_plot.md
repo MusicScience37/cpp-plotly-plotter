@@ -33,3 +33,7 @@ show_html_figure("../outputs/simple_plot.html", version=1)
 ## Further Reading
 
 - [Add Titles to a Plot](add_titles.md)
+- API Reference:
+  - {cpp:class}`plotly_plotter::figure`
+  - {cpp:class}`plotly_plotter::traces::scatter`
+  - {cpp:func}`plotly_plotter::write_html`

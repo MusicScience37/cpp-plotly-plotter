@@ -52,6 +52,21 @@ extensions += ["sphinxcontrib.plantuml"]
 plantuml_output_format = "svg"
 plantuml_syntax_error_image = True
 
+# -- Options for breathe -----------------------------------------------------
+
+extensions += ["breathe", "sphinx.ext.graphviz"]
+
+# this variable must be set from command line
+breathe_projects = {"plotly_plotter": ""}
+
+breathe_default_project = "plotly_plotter"
+
+breathe_default_members = ("members",)
+
+breathe_domain_by_extension = {
+    "h": "cpp",
+}
+
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = "sphinx_orange_book_theme"
