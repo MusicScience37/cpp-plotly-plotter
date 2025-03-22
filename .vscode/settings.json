@@ -53,6 +53,9 @@
   "[jinja-html]": {
     "editor.defaultFormatter": "monosans.djlint"
   },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "isort.args": ["--profile", "black"],
   "restructuredtext.pythonRecommendation.disabled": true
 }
