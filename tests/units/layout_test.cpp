@@ -32,7 +32,9 @@ TEST_CASE("plotly_plotter::layout") {
 
     SECTION("set parameters") {
         figure.layout().xaxis().title().text("x-axis");
+        figure.layout().xaxis().type("linear");
         figure.layout().yaxis().title().text("y-axis");
+        figure.layout().yaxis().type("log");
         figure.layout().title().text("Test Title");
 
         const std::string json_string =

@@ -109,4 +109,38 @@ TEST_CASE("layout") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("set log scale") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 12, 123});     // NOLINT(*-magic-numbers)
+        scatter.y(std::vector{1, 234, 34567});  // NOLINT(*-magic-numbers)
+
+        figure.layout().xaxis().type("log");
+        figure.layout().yaxis().type("log");
+
+        const std::string file_path = "layout_set_log_scale.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set x-axis to category") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 12, 123});     // NOLINT(*-magic-numbers)
+        scatter.y(std::vector{1, 234, 34567});  // NOLINT(*-magic-numbers)
+
+        figure.layout().xaxis().type("category");
+        figure.layout().yaxis().type("log");
+
+        const std::string file_path = "layout_set_x_axis_to_category.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

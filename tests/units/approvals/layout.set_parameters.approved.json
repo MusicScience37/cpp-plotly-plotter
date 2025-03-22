@@ -4,12 +4,14 @@
     "xaxis": {
       "title": {
         "text": "x-axis"
-      }
+      },
+      "type": "linear"
     },
     "yaxis": {
       "title": {
         "text": "y-axis"
-      }
+      },
+      "type": "log"
     },
     "title": {
       "text": "Test Title"

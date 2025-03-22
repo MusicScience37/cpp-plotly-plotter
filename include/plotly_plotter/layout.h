@@ -115,6 +115,22 @@ public:
      */
     [[nodiscard]] axis_title title() { return axis_title(data_["title"]); }
 
+    /*!
+     * \brief Set the type of the axis.
+     *
+     * \param[in] value Value.
+     *
+     * Value can be one of the following:
+     *
+     * - `"-"` (auto)
+     * - `"linear"`
+     * - `"log"`
+     * - `"date"`
+     * - `"category"`
+     * - `"multicategory"`
+     */
+    void type(std::string_view value) { data_["type"] = value; }
+
 private:
     //! JSON data.
     json_value data_;
@@ -145,6 +161,22 @@ public:
      * \return Title of the y-axis.
      */
     [[nodiscard]] axis_title title() { return axis_title(data_["title"]); }
+
+    /*!
+     * \brief Set the type of the axis.
+     *
+     * \param[in] value Value.
+     *
+     * Value can be one of the following:
+     *
+     * - `"-"` (auto)
+     * - `"linear"`
+     * - `"log"`
+     * - `"date"`
+     * - `"category"`
+     * - `"multicategory"`
+     */
+    void type(std::string_view value) { data_["type"] = value; }
 
 private:
     //! JSON data.
