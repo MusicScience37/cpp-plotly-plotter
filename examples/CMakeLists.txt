@@ -34,5 +34,10 @@ add_example_output(simple_plot simple_plot.html)
 add_example(add_titles add_titles.cpp)
 add_example_output(add_titles add_titles.html)
 
+add_example(configurations_customize_hover_texts
+            configurations/customize_hover_texts.cpp)
+add_example_output(configurations_customize_hover_texts
+                   configurations_customize_hover_texts.html)
+
 add_example(scatter_select_modes scatters/select_modes.cpp)
 add_example_output(scatter_select_modes scatter_select_modes.html)

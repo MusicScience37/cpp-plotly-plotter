@@ -39,6 +39,8 @@ TEST_CASE("plotly_plotter::traces::scatter") {
         CHECK_NOTHROW(scatter.y(std::vector{4, 5, 6}));
         CHECK_NOTHROW(scatter.text(std::vector{"a", "b", "c"}));
         CHECK_NOTHROW(scatter.mode("lines"));
+        CHECK_NOTHROW(
+            scatter.hover_template("x: %{x}<br>y: %{y}<br>text: %{text}"));
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

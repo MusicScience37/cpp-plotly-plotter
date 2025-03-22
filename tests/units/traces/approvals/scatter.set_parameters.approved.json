@@ -18,7 +18,8 @@
         "b",
         "c"
       ],
-      "mode": "lines"
+      "mode": "lines",
+      "hovertemplate": "x: %{x}<br>y: %{y}<br>text: %{text}"
     }
   ],
   "layout": {}
