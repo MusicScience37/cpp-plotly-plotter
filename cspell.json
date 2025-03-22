@@ -95,6 +95,7 @@
     "pytest",
     "realpath",
     "SAST",
+    "scattergl",
     "setuptools",
     "sphinxcontrib",
     "startuml",

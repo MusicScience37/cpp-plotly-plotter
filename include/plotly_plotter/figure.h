@@ -52,6 +52,15 @@ public:
     }
 
     /*!
+     * \brief Add a scatter trace using WebGL to this figure.
+     *
+     * \return Added scatter trace.
+     */
+    [[nodiscard]] traces::scatter_gl add_scatter_gl() {
+        return traces::scatter_gl(data_.emplace_back());
+    }
+
+    /*!
      * \brief Access the layout of this figure.
      *
      * \return Layout of this figure.

@@ -50,6 +50,11 @@ namespace plotly_plotter {
      */
 
     //! Namespace of traces.
-    namespace traces {}
+    namespace traces {
+
+        //! Namespace of internal implementation details.
+        namespace details {}
+
+    }  // namespace traces
 
 }  // namespace plotly_plotter
