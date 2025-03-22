@@ -71,4 +71,24 @@ TEST_CASE("layout") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("add titles with TeX") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+
+        figure.layout().title().text(R"($\text{Title with TeX: } \alpha$)");
+        figure.layout().xaxis().title().text(
+            R"($\text{x-axis title with TeX: } \beta^2$)");
+        figure.layout().yaxis().title().text(
+            R"($\text{y-axis title with TeX: } \gamma_3$)");
+
+        const std::string file_path = "layout_add_titles_with_tex.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }
