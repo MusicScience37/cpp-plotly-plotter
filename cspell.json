@@ -101,6 +101,7 @@
     "setuptools",
     "sphinxcontrib",
     "startuml",
+    "stddev",
     "stdlib",
     "strn",
     "struct",

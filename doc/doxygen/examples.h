@@ -29,8 +29,18 @@
  */
 
 /*!
+ * \example boxes/create_multiple_boxes.cpp
+ * Example to create multiple box plots.
+ */
+
+/*!
  * \example boxes/create_simple_box.cpp
  * Example to create a simple box plot.
+ */
+
+/*!
+ * \example boxes/show_mean_and_stddev.cpp
+ * Example to show the mean and standard deviation in box plots.
  */
 
 /*!
