@@ -32,4 +32,5 @@ show_html_figure("../outputs/scatter_select_modes.html", version=1)
 
 ## Further Reading
 
-TODO
+- API Reference:
+  - {cpp:class}`plotly_plotter::traces::scatter`
