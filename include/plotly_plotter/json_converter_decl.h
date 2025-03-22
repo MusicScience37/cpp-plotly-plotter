@@ -26,6 +26,13 @@ namespace plotly_plotter {
  *
  * \tparam T Type to convert to JSON values.
  * \tparam Enabler Argument used for SFINAE.
+ *
+ * Implementations of this class should have the following members:
+ *
+ * ```cpp
+ * // Convert an object to a JSON value.
+ * static void to_json(const T& from, json_value& to);
+ * ```
  */
 template <typename T, typename Enabler = void>
 class json_converter;

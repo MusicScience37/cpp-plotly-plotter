@@ -21,6 +21,7 @@ Full API reference can be viewed `here <api/index.html>`_.
 
     install
     examples/index
+    basic_api/index
     Full API Reference <https://cpp-plotly-plotter-332fca.gitlab.io/api/index.html>
 
 .. toctree::

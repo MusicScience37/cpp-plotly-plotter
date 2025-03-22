@@ -36,6 +36,8 @@
     "doxdocgen",
     "Doxyfile",
     "doxygen",
+    "doxygenclass",
+    "doxygenfunction",
     "DPLOTLY",
     "DVCPKG",
     "Eigen",
