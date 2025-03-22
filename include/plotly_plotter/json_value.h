@@ -19,6 +19,8 @@
  */
 #pragma once
 
+// IWYU pragma: no_include <string>
+
 #include <cstdint>
 #include <stdexcept>
 #include <string_view>

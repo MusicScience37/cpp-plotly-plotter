@@ -46,4 +46,10 @@
   { symbol: [ "FILE", private, "<cstdio>", public ] },
   { symbol: [ "std::hash", private, "<functional>", public ] },
   { include: [ "<__ostream/basic_ostream.h>", public, "<ostream>", public ] },
+  # Custom (external)
+  { include: ["@<Eigen/src/Core/.*>", private, "<Eigen/Core>", public ] },
+  { include: ["@<Eigen/src/plugins/ArrayCwiseUnaryOps.h>", private, "<Eigen/Core>", public ] },
+  { include: ["\"src/Core/DenseBase.h\"", private, "<Eigen/Core>", public ] },
+  { include: ["\"src/Core/MatrixBase.h\"", private, "<Eigen/Core>", public ] },
+  { include: ["\"src/Core/ArrayBase.h\"", private, "<Eigen/Core>", public ] },
 ]
