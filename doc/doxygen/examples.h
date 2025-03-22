@@ -29,6 +29,26 @@
  */
 
 /*!
+ * \example configurations/customize_hover_texts.cpp
+ * Example to customize hover texts in a plot.
+ */
+
+/*!
+ * \example configurations/set_axes_to_log_scale.cpp
+ * Example to set axes to log scale.
+ */
+
+/*!
+ * \example configurations/set_error_bars.cpp
+ * Example to set error bars.
+ */
+
+/*!
+ * \example scatters/plot_many_points_using_web_gl.cpp
+ * Example to plot many points in scatter plots using WebGL.
+ */
+
+/*!
  * \example scatters/select_modes.cpp
  * Example to select modes of scatter plots.
  */

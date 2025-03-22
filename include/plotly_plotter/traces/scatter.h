@@ -103,26 +103,10 @@ private:
 };
 
 /*!
- * \brief Class of scatter traces in Plotly.
- *
- * \note Objects of this class should be created from \ref figure objects.
- * \note Objects of this class doesn't manage the memory of the data,
- * so the objects can be simply copied or moved.
+ * \brief Base class of scatter traces.
  */
-class scatter {
+class scatter_base {
 public:
-    /*!
-     * \brief Constructor.
-     *
-     * \param[in] data JSON data.
-     *
-     * \warning This function should not be used in ordinary user code,
-     * create objects of this class from \ref figure objects.
-     */
-    explicit scatter(json_value data) : data_(data) {
-        data_["type"] = "scatter";
-    }
-
     /*!
      * \brief Set the trace name used in legends.
      *
@@ -227,9 +211,66 @@ public:
      */
     [[nodiscard]] json_value data() const noexcept { return data_; }
 
+protected:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref figure objects.
+     */
+    explicit scatter_base(json_value data) : data_(data) {}
+
 private:
     //! JSON data.
     json_value data_;
+};
+
+/*!
+ * \brief Class of scatter traces in Plotly.
+ *
+ * \note Objects of this class should be created from \ref figure objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class scatter : public scatter_base {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref figure objects.
+     */
+    explicit scatter(json_value data) : scatter_base(data) {
+        this->data()["type"] = "scatter";
+    }
+};
+
+/*!
+ * \brief Class of scatter traces using WebGL in Plotly.
+ *
+ * \note Objects of this class should be created from \ref figure objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ *
+ * \warning Mode "text" doesn't work in WebGL.
+ */
+class scatter_gl : public scatter_base {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref figure objects.
+     */
+    explicit scatter_gl(json_value data) : scatter_base(data) {
+        this->data()["type"] = "scattergl";
+    }
 };
 
 }  // namespace plotly_plotter::traces

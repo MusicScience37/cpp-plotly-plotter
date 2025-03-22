@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "type": "scattergl",
+      "name": "scatter1",
+      "x": [
+        1,
+        2,
+        3
+      ],
+      "y": [
+        4,
+        5,
+        6
+      ],
+      "error_x": {
+        "type": "data",
+        "symmetric": false,
+        "visible": true,
+        "array": [
+          0.125,
+          0.25,
+          0.375
+        ],
+        "arrayminus": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "error_y": {
+        "type": "data",
+        "symmetric": false,
+        "visible": true,
+        "array": [
+          0.125,
+          0.25,
+          0.375
+        ],
+        "arrayminus": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "text": [
+        "a",
+        "b",
+        "c"
+      ],
+      "mode": "lines",
+      "hovertemplate": "x: %{x}<br>y: %{y}<br>text: %{text}"
+    }
+  ],
+  "layout": {}
+}

@@ -3,7 +3,7 @@
 - Create various types of plots.
   - [x] 2D Scatter plots.
     - [x] SVG format.
-    - [ ] WebGL format.
+    - [x] WebGL format.
     - [x] Scatter of points.
     - [x] Line plots.
     - [ ] Customization of markers.
