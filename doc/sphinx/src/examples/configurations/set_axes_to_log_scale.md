@@ -2,9 +2,9 @@
 file_format: mystnb
 ---
 
-# Select Modes of Scatter Plots
+# Set Axes to Log Scale
 
-This section shows how to select modes of scatter plots in cpp-plotly-plotter library.
+This section shows how to set axes to log scale in cpp-plotly-plotter library.
 
 ## Prerequisites
 
@@ -12,8 +12,8 @@ This section shows how to select modes of scatter plots in cpp-plotly-plotter li
 
 ## Sample Code
 
-```{literalinclude} /../../../examples/scatters/select_modes.cpp
-:caption: Example to select modes of scatter plots.
+```{literalinclude} /../../../examples/configurations/set_axes_to_log_scale.cpp
+:caption: Example to set axes to log scale.
 :language: cpp
 :start-at: "#include"
 ```
@@ -27,10 +27,11 @@ This above code will create an HTML file with a plot as shown below.
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/scatter_select_modes.html", version=2)
+show_html_figure("../outputs/configurations_set_axes_to_log_scale.html", version=1)
 ```
 
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::traces::scatter::mode`
+  - {cpp:func}`plotly_plotter::xaxis::type`
+  - {cpp:func}`plotly_plotter::yaxis::type`

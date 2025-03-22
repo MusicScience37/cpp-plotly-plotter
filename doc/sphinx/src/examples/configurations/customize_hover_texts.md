@@ -8,7 +8,7 @@ This section shows how to customize hover texts in a plot in cpp-plotly-plotter 
 
 ## Prerequisites
 
-- [Create a Simple Plot](../get_started/create_simple_plot.md)
+- [Create a Simple Scatter Plot](../get_started/create_simple_plot.md)
 
 ## Sample Code
 
