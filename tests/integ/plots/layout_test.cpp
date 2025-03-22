@@ -91,4 +91,22 @@ TEST_CASE("layout") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("add titles with non-ASCII characters") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+
+        figure.title("タイトル");
+        figure.layout().xaxis().title().text("x軸");
+        figure.layout().yaxis().title().text("y軸");
+
+        const std::string file_path = "layout_add_titles_with_non_ascii.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }
