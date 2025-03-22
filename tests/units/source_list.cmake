@@ -6,6 +6,7 @@ set(SOURCE_FILES
     json_converter_test.cpp
     json_document_test.cpp
     json_value_test.cpp
+    layout_test.cpp
     test_main.cpp
     traces/scatter_test.cpp
     write_html_test.cpp

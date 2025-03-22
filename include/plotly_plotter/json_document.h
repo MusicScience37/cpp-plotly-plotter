@@ -99,10 +99,15 @@ public:
     /*!
      * \brief Serialize this document to a JSON string.
      *
+     * \param[in] pretty_output Whether to output pretty JSON.
      * \return JSON string.
      */
-    [[nodiscard]] std::string serialize_to_string() const {
-        char* str = yyjson_mut_write(document_, 0, nullptr);
+    [[nodiscard]] std::string serialize_to_string(
+        bool pretty_output = false) const {
+        const yyjson_write_flag flags = pretty_output
+            ? static_cast<yyjson_write_flag>(YYJSON_WRITE_PRETTY)
+            : static_cast<yyjson_write_flag>(0);
+        char* str = yyjson_mut_write(document_, flags, nullptr);
         if (str == nullptr) {
             throw std::runtime_error("Failed to serialize JSON document.");
         }

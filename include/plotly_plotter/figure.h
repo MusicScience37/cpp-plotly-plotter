@@ -24,6 +24,7 @@
 
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"
+#include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/scatter.h"
 
 namespace plotly_plotter {
@@ -51,6 +52,15 @@ public:
     }
 
     /*!
+     * \brief Access the layout of this figure.
+     *
+     * \return Layout of this figure.
+     */
+    [[nodiscard]] plotly_plotter::layout layout() {
+        return plotly_plotter::layout(layout_);
+    }
+
+    /*!
      * \brief Set the title of this figure.
      *
      * \param[in] value Value.
@@ -60,7 +70,7 @@ public:
      */
     void title(std::string_view value) {
         html_title(value);
-        layout_["title"]["text"] = value;
+        layout().title().text(value);
     }
 
     /*!

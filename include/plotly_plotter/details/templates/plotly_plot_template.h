@@ -48,6 +48,7 @@ static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
             margin: 0px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
     <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
     <script type="text/javascript">
         var dataset_str = document.querySelector('#dataset').textContent;
