@@ -2,14 +2,8 @@ Examples
 ==========
 
 .. toctree::
-    :maxdepth: 1
-    :caption: Get Started
+    :maxdepth: 2
 
-    get_started/create_simple_plot
-    get_started/add_titles
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Scatters
-
-    scatters/select_modes
+    get_started/index
+    configurations/index
+    scatters/index
