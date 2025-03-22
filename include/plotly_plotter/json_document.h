@@ -76,6 +76,7 @@ public:
      */
     json_document& operator=(json_document&& other) noexcept {
         if (this != &other) {
+            clear();
             document_ = std::exchange(other.document_, nullptr);
             root_ = std::exchange(other.root_, nullptr);
         }
@@ -85,7 +86,7 @@ public:
     /*!
      * \brief Destructor.
      */
-    ~json_document() { yyjson_mut_doc_free(document_); }
+    ~json_document() { clear(); }
 
     /*!
      * \brief Get the root value.
@@ -129,6 +130,17 @@ public:
     }
 
 private:
+    /*!
+     * \brief Clear the document.
+     */
+    void clear() noexcept {
+        if (document_ != nullptr) {
+            yyjson_mut_doc_free(document_);
+            document_ = nullptr;
+        }
+        root_ = nullptr;
+    }
+
     //! Document.
     yyjson_mut_doc* document_;
 

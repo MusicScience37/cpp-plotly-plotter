@@ -32,7 +32,28 @@ TEST_CASE("plotly_plotter::json_document") {
     using plotly_plotter::json_document;
     using plotly_plotter::json_value;
 
-    // TODO test of copy and move
+    SECTION("move constructor") {
+        json_document document1;
+        document1.root() = 123;  // NOLINT(*-magic-numbers)
+
+        json_document document2(std::move(document1));
+
+        REQUIRE(yyjson_mut_is_int(document2.root().internal_value()));
+        REQUIRE(yyjson_mut_get_int(document2.root().internal_value()) ==
+            123);  // NOLINT(*-magic-numbers)
+    }
+
+    SECTION("move assignment operator") {
+        json_document document1;
+        document1.root() = 123;  // NOLINT(*-magic-numbers)
+
+        json_document document2;
+        document2 = std::move(document1);
+
+        REQUIRE(yyjson_mut_is_int(document2.root().internal_value()));
+        REQUIRE(yyjson_mut_get_int(document2.root().internal_value()) ==
+            123);  // NOLINT(*-magic-numbers)
+    }
 
     SECTION("serialize to JSON string") {
         json_document document;
