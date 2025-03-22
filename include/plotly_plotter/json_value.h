@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <cstdint>
 #include <stdexcept>
 #include <string_view>
 #include <type_traits>
@@ -39,6 +40,32 @@ namespace plotly_plotter {
  */
 class json_value {
 public:
+    /*!
+     * \brief Enumeration of value types.
+     */
+    enum class value_type : std::uint8_t {
+        //! Null.
+        null,
+
+        //! Boolean.
+        boolean,
+
+        //! Number.
+        number,
+
+        //! String.
+        string,
+
+        //! Array.
+        array,
+
+        //! Object.
+        object,
+
+        //! Other. (Types not supported by this class.)
+        other
+    };
+
     /*!
      * \brief Constructor.
      *
@@ -82,6 +109,30 @@ public:
     ~json_value() = default;
 
     /*!
+     * \brief Get the type of the value.
+     *
+     * \return Type of the value.
+     */
+    [[nodiscard]] value_type type() const noexcept {
+        switch (yyjson_mut_get_type(value_)) {
+        case YYJSON_TYPE_NULL:
+            return value_type::null;
+        case YYJSON_TYPE_BOOL:
+            return value_type::boolean;
+        case YYJSON_TYPE_NUM:
+            return value_type::number;
+        case YYJSON_TYPE_STR:
+            return value_type::string;
+        case YYJSON_TYPE_ARR:
+            return value_type::array;
+        case YYJSON_TYPE_OBJ:
+            return value_type::object;
+        default:
+            return value_type::other;
+        }
+    }
+
+    /*!
      * \brief Assign a value.
      *
      * \tparam T Type of the value.
@@ -91,9 +142,6 @@ public:
     template <typename T,
         typename = std::enable_if_t<!std::is_same_v<T, json_value>>>
     json_value& operator=(const T& value) {
-        if (!yyjson_mut_is_null(value_)) {
-            throw std::runtime_error("Value is already set");
-        }
         json_converter<std::decay_t<T>>::to_json(value, *this);
         return *this;
     }
@@ -109,12 +157,8 @@ public:
      */
     template <typename T>
     void push_back(const T& value) {
-        if (yyjson_mut_is_null(value_)) {
-            yyjson_mut_set_arr(value_);
-        }
-        if (!yyjson_mut_is_arr(value_)) {
-            throw std::runtime_error("Value is not an array");
-        }
+        set_to_array();
+
         json_value new_value(yyjson_mut_null(document_), document_);
         new_value = value;
         yyjson_mut_arr_append(value_, new_value.internal_value());
@@ -129,12 +173,8 @@ public:
      * array.
      */
     json_value emplace_back() {
-        if (yyjson_mut_is_null(value_)) {
-            yyjson_mut_set_arr(value_);
-        }
-        if (!yyjson_mut_is_arr(value_)) {
-            throw std::runtime_error("Value is not an array");
-        }
+        set_to_array();
+
         json_value new_value(yyjson_mut_null(document_), document_);
         yyjson_mut_arr_append(value_, new_value.internal_value());
         return new_value;
@@ -148,12 +188,8 @@ public:
      * \return Value.
      */
     json_value operator[](std::string_view key) {
-        if (yyjson_mut_is_null(value_)) {
-            yyjson_mut_set_obj(value_);
-        }
-        if (!yyjson_mut_is_obj(value_)) {
-            throw std::runtime_error("Value is not an object");
-        }
+        set_to_object();
+
         yyjson_mut_val* existing_value =
             yyjson_mut_obj_getn(value_, key.data(), key.size());
         if (existing_value != nullptr) {
@@ -170,20 +206,28 @@ public:
      * \brief Set this value to an array.
      */
     void set_to_array() {
-        if (!yyjson_mut_is_null(value_)) {
-            throw std::runtime_error("Value is already set");
+        if (type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
         }
-        yyjson_mut_set_arr(value_);
+        if (!yyjson_mut_is_arr(value_)) {
+            yyjson_mut_set_arr(value_);
+        }
     }
 
     /*!
      * \brief Set this value to an object.
      */
     void set_to_object() {
-        if (!yyjson_mut_is_null(value_)) {
-            throw std::runtime_error("Value is already set");
+        if (type() == json_value::value_type::array) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
         }
-        yyjson_mut_set_obj(value_);
+        if (!yyjson_mut_is_obj(value_)) {
+            yyjson_mut_set_obj(value_);
+        }
     }
 
     /*!

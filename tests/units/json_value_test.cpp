@@ -23,13 +23,12 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: keep
 #include "plotly_plotter/json_document.h"
 
 TEST_CASE("plotly_plotter::json_value") {
     using plotly_plotter::json_document;
-
-    // TODO test of copy and move
 
     SECTION("set a value") {
         json_document document;
@@ -101,5 +100,58 @@ TEST_CASE("plotly_plotter::json_value") {
         CHECK(std::string(yyjson_mut_get_str(yyjson_mut_obj_get(
                   yyjson_mut_obj_get(document.root().internal_value(), "key2"),
                   "key3"))) == "abc");
+    }
+
+    SECTION("try to change the type of a value from an array") {
+        json_document document;
+
+        document.root().push_back(123);  // NOLINT(*-magic-numbers)
+
+        CHECK_THROWS_AS(document.root() = true, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123U, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123.0, std::runtime_error);
+        CHECK_THROWS_AS(
+            document.root() = std::string("abc"), std::runtime_error);
+        CHECK_THROWS_AS(document.root() = "abc", std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root()["key"] = 123, std::runtime_error);
+    }
+
+    SECTION("try to change the type of a value from an object") {
+        json_document document;
+
+        document.root()["key"] = 123;  // NOLINT(*-magic-numbers)
+
+        CHECK_THROWS_AS(document.root() = true, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123U, std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root() = 123.0, std::runtime_error);
+        CHECK_THROWS_AS(
+            document.root() = std::string("abc"), std::runtime_error);
+        CHECK_THROWS_AS(document.root() = "abc", std::runtime_error);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        CHECK_THROWS_AS(document.root().push_back(123), std::runtime_error);
+        CHECK_THROWS_AS(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            document.root() = plotly_plotter::as_array(std::vector{123}),
+            std::runtime_error);
+    }
+
+    SECTION("change the value") {
+        json_document document;
+
+        document.root() = "abc";
+        document.root() = "def";
+
+        REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
+        CHECK(std::string(yyjson_mut_get_str(
+                  document.root().internal_value())) == "def");
     }
 }
