@@ -106,7 +106,7 @@ public:
     [[nodiscard]] std::string serialize_to_string(
         bool pretty_output = false) const {
         const yyjson_write_flag flags = pretty_output
-            ? static_cast<yyjson_write_flag>(YYJSON_WRITE_PRETTY)
+            ? static_cast<yyjson_write_flag>(YYJSON_WRITE_PRETTY_TWO_SPACES)
             : static_cast<yyjson_write_flag>(0);
         char* str = yyjson_mut_write(document_, flags, nullptr);
         if (str == nullptr) {

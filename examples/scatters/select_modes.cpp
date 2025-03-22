@@ -47,6 +47,14 @@ int main() {
     scatter.name("lines+markers");
     scatter.mode("lines+markers");
 
+    //! Add another scatter trace with a different mode.
+    scatter = figure.add_scatter();
+    scatter.x(std::vector{1, 2, 3});
+    scatter.y(std::vector{4.5, 5.6, 6.7});
+    scatter.text(std::vector{"A", "B", "C"});
+    scatter.name("text");
+    scatter.mode("text");
+
     figure.title("Scatter Plots with Different Modes");
     plotly_plotter::write_html("scatter_select_modes.html", figure);
 }

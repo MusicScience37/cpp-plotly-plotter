@@ -81,24 +81,28 @@ TEST_CASE("scatter") {
         scatter.name("lines");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
         scatter.mode("lines");
 
         scatter = figure.add_scatter();
         scatter.name("markers");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
         scatter.mode("markers");
 
         scatter = figure.add_scatter();
         scatter.name("lines+markers");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{6, 7, 8});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
         scatter.mode("lines+markers");
 
         scatter = figure.add_scatter();
         scatter.name("lines+markers+text");
         scatter.x(std::vector{1, 2, 3});
         scatter.y(std::vector{7, 8, 9});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
         scatter.mode("lines+markers+text");
 
         figure.title("Scatter Modes");
