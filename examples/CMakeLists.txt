@@ -39,6 +39,10 @@ add_example(configurations_customize_hover_texts
 add_example_output(configurations_customize_hover_texts
                    configurations_customize_hover_texts.html)
 
+add_example(configurations_set_error_bars configurations/set_error_bars.cpp)
+add_example_output(configurations_set_error_bars
+                   configurations_set_error_bars.html)
+
 add_example(configurations_set_axes_to_log_scale
             configurations/set_axes_to_log_scale.cpp)
 add_example_output(configurations_set_axes_to_log_scale
