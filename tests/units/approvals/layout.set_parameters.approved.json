@@ -1,0 +1,18 @@
+{
+    "data": [],
+    "layout": {
+        "xaxis": {
+            "title": {
+                "text": "x-axis"
+            }
+        },
+        "yaxis": {
+            "title": {
+                "text": "y-axis"
+            }
+        },
+        "title": {
+            "text": "Test Title"
+        }
+    }
+}
