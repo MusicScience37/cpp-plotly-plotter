@@ -13,6 +13,36 @@
         5,
         6
       ],
+      "error_x": {
+        "type": "data",
+        "symmetric": false,
+        "visible": true,
+        "array": [
+          0.125,
+          0.25,
+          0.375
+        ],
+        "arrayminus": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "error_y": {
+        "type": "data",
+        "symmetric": false,
+        "visible": true,
+        "array": [
+          0.125,
+          0.25,
+          0.375
+        ],
+        "arrayminus": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
       "text": [
         "a",
         "b",

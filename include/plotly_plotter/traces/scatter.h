@@ -28,6 +28,81 @@
 namespace plotly_plotter::traces {
 
 /*!
+ * \brief Class to configure error bars in scatter traces.
+ *
+ * \note Objects of this class should be created from \ref scatter objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class scatter_error {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref scatter objects.
+     */
+    explicit scatter_error(json_value data) : data_(data) {}
+
+    /*!
+     * \brief Set the type of error bars.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     *
+     * - `"percent"`
+     * - `"constant"`
+     * - `"sqrt"`
+     * - `"data"` (use data passed to array() function and optional
+     * array_minus() function are used.)
+     */
+    void type(std::string_view value) { data_["type"] = value; }
+
+    /*!
+     * \brief Set whether the error bars are symmetric.
+     *
+     * \param[in] value Value.
+     */
+    void symmetric(bool value) { data_["symmetric"] = value; }
+
+    /*!
+     * \brief Set whether the error bars are visible.
+     *
+     * \param[in] value Value.
+     */
+    void visible(bool value) { data_["visible"] = value; }
+
+    /*!
+     * \brief Set the data of the error bars as an array of values.
+     *
+     * \tparam Container Type of the container of values.
+     * \param[in] values Values.
+     */
+    template <typename Container>
+    void array(const Container& values) {
+        data_["array"] = as_array(values);
+    }
+
+    /*!
+     * \brief Set the data of the error bars as an array of values.
+     *
+     * \tparam Container Type of the container of values.
+     * \param[in] values Values.
+     */
+    template <typename Container>
+    void array_minus(const Container& values) {
+        data_["arrayminus"] = as_array(values);
+    }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of scatter traces in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -79,6 +154,24 @@ public:
     template <typename Container>
     void y(const Container& values) {
         data_["y"] = as_array(values);
+    }
+
+    /*!
+     * \brief Access the configuration of error bars in x direction.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] scatter_error error_x() {
+        return scatter_error(data_["error_x"]);
+    }
+
+    /*!
+     * \brief Access the configuration of error bars in y direction.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] scatter_error error_y() {
+        return scatter_error(data_["error_y"]);
     }
 
     /*!

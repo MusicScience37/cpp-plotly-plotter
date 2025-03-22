@@ -132,4 +132,90 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("set symmetric error bars") {
+        auto scatter = figure.add_scatter();
+        scatter.name("hover template");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.error_x().type("data");
+        scatter.error_x().symmetric(true);
+        scatter.error_x().visible(true);
+        scatter.error_x().array(
+            std::vector{0.25, 0.5, 0.75});  // NOLINT(*-magic-numbers)
+        scatter.error_y().type("data");
+        scatter.error_y().symmetric(true);
+        scatter.error_y().visible(true);
+        scatter.error_y().array(
+            std::vector{0.5, 1.0, 1.5});  // NOLINT(*-magic-numbers)
+
+        figure.title("Scatter with Symmetric Error Bars");
+
+        const std::string file_path = "scatter_set_symmetric_error_bars.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set asymmetric error bars") {
+        auto scatter = figure.add_scatter();
+        scatter.name("hover template");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.error_x().type("data");
+        scatter.error_x().symmetric(false);
+        scatter.error_x().visible(true);
+        scatter.error_x().array(
+            std::vector{0.125, 0.25, 0.375});  // NOLINT(*-magic-numbers)
+        scatter.error_x().array_minus(
+            std::vector{0.25, 0.5, 0.75});  // NOLINT(*-magic-numbers)
+        scatter.error_y().type("data");
+        scatter.error_y().symmetric(false);
+        scatter.error_y().visible(true);
+        scatter.error_y().array(
+            std::vector{0.375, 0.75, 1.125});  // NOLINT(*-magic-numbers)
+        scatter.error_y().array_minus(
+            std::vector{0.5, 1.0, 1.5});  // NOLINT(*-magic-numbers)
+
+        figure.title("Scatter with Asymmetric Error Bars");
+
+        const std::string file_path = "scatter_set_asymmetric_error_bars.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set error bars in log scale") {
+        auto scatter = figure.add_scatter();
+        scatter.name("hover template");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.error_x().type("data");
+        scatter.error_x().symmetric(true);
+        scatter.error_x().visible(true);
+        scatter.error_x().array(
+            std::vector{0.25, 0.5, 0.75});  // NOLINT(*-magic-numbers)
+        scatter.error_y().type("data");
+        scatter.error_y().symmetric(true);
+        scatter.error_y().visible(true);
+        scatter.error_y().array(
+            std::vector{0.5, 1.0, 1.5});  // NOLINT(*-magic-numbers)
+
+        figure.layout().xaxis().type("log");
+        figure.layout().yaxis().type("log");
+
+        figure.title("Scatter with Error Bars in Log Scale");
+
+        const std::string file_path =
+            "scatter_set_error_bars_in_log_scale.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

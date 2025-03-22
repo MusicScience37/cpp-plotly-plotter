@@ -21,7 +21,7 @@
   - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
   - [x] Plots with log scales.
-  - [ ] Plots with error bars.
+  - [x] Plots with error bars.
   - Labels and titles.
     - [x] Titles of the plot.
     - [x] Titles of the x-axis.
