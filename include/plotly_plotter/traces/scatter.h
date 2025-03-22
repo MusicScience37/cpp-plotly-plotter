@@ -82,6 +82,19 @@ public:
     }
 
     /*!
+     * \brief Set the text for each point.
+     *
+     * \tparam Container Type of the container of texts.
+     * \param[in] values Values.
+     *
+     * \note The container must support `std::begin` and `std::end` functions.
+     */
+    template <typename Container>
+    void text(const Container& values) {
+        data_["text"] = as_array(values);
+    }
+
+    /*!
      * \brief Set the mode of the trace.
      *
      * \param[in] value Value.

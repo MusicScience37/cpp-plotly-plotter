@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 
 #include <yyjson.h>
 
@@ -142,9 +143,11 @@ public:
      * \return This object.
      */
     template <typename T,
-        typename = std::enable_if_t<!std::is_same_v<T, json_value>>>
-    json_value& operator=(const T& value) {
-        json_converter<std::decay_t<T>>::to_json(value, *this);
+        typename =
+            std::enable_if_t<!std::is_same_v<std::decay_t<T>, json_value>>>
+    json_value& operator=(T&& value) {
+        json_converter<std::remove_cv_t<std::remove_reference_t<T>>>::to_json(
+            std::forward<T>(value), *this);
         return *this;
     }
 
@@ -158,11 +161,11 @@ public:
      * array.
      */
     template <typename T>
-    void push_back(const T& value) {
+    void push_back(T&& value) {
         set_to_array();
 
         json_value new_value(yyjson_mut_null(document_), document_);
-        new_value = value;
+        new_value = std::forward<T>(value);
         yyjson_mut_arr_append(value_, new_value.internal_value());
     }
 

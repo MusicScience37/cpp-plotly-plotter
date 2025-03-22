@@ -169,26 +169,26 @@ public:
  * \brief Specialization of json_converter class for const char*.
  */
 template <>
-class json_converter<char*> {
-public:
-    /*!
-     * \brief Convert an object to a JSON value.
-     *
-     * \param[in] from Object to convert from.
-     * \param[out] to JSON value to convert to.
-     */
-    static void to_json(const char* from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
-        const std::size_t len = std::strlen(from);
-        yyjson_mut_set_strn(to.internal_value(),
-            unsafe_yyjson_mut_strncpy(to.internal_document(), from, len), len);
-    }
-};
+class json_converter<const char*> : public json_converter<std::string_view> {};
+
+/*!
+ * \brief Specialization of json_converter class for char*.
+ */
+template <>
+class json_converter<char*> : public json_converter<std::string_view> {};
+
+/*!
+ * \brief Specialization of json_converter class for const char arrays.
+ */
+template <std::size_t Size>
+class json_converter<const char[Size]>
+    : public json_converter<std::string_view> {};
+
+/*!
+ * \brief Specialization of json_converter class for char arrays.
+ */
+template <std::size_t Size>
+class json_converter<char[Size]> : public json_converter<std::string_view> {};
 
 namespace details {
 

@@ -37,9 +37,11 @@ TEST_CASE("plotly_plotter::traces::scatter") {
         CHECK_NOTHROW(scatter.name("scatter1"));
         CHECK_NOTHROW(scatter.x(std::vector{1, 2, 3}));
         CHECK_NOTHROW(scatter.y(std::vector{4, 5, 6}));
+        CHECK_NOTHROW(scatter.text(std::vector{"a", "b", "c"}));
         CHECK_NOTHROW(scatter.mode("lines"));
 
-        const std::string json_string = figure.document().serialize_to_string();
+        const std::string json_string =
+            figure.document().serialize_to_string(true);
         ApprovalTests::Approvals::verify(json_string,
             ApprovalTests::Options().fileOptions().withFileExtension(".json"));
     }
