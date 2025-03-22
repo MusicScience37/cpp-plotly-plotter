@@ -43,7 +43,7 @@ int main() {
     // Set the title of the figure.
     figure.title("Simple Plot with Titles");
 
-    //! Set titles of axes.
+    // Set titles of axes.
     figure.layout().xaxis().title().text("x-axis");
     figure.layout().yaxis().title().text("y-axis");
 
