@@ -11,9 +11,9 @@
   - [ ] Histograms.
   - [ ] Heatmaps.
 - Plot with various data types.
-  - [ ] Floating-point numbers.
+  - [x] Floating-point numbers.
   - [x] Integers.
-  - [ ] Strings. (For grouping.)
+  - [x] Strings. (For grouping.)
   - [ ] Dates and times.
   - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
