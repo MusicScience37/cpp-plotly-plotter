@@ -10,5 +10,6 @@ set(SOURCE_FILES
     test_main.cpp
     traces/box_test.cpp
     traces/scatter_test.cpp
+    traces/violin_test.cpp
     write_html_test.cpp
 )

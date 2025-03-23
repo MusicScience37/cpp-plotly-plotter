@@ -8,3 +8,4 @@ Examples
     configurations/index
     scatters/index
     boxes/index
+    violins/index

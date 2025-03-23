@@ -1,8 +1,8 @@
 {
   "data": [
     {
-      "type": "box",
-      "name": "box1",
+      "type": "violin",
+      "name": "violin1",
       "x": [
         1,
         2,
@@ -13,15 +13,15 @@
         5,
         6
       ],
-      "text": [
-        "a",
-        "b",
-        "c"
-      ],
       "hovertemplate": "x: %{x}<br>y: %{y}",
       "legendgroup": "group1",
-      "boxmean": true,
-      "boxpoints": "all"
+      "box": {
+        "visible": true
+      },
+      "meanline": {
+        "visible": true
+      },
+      "points": "all"
     }
   ],
   "layout": {}

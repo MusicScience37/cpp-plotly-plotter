@@ -36,6 +36,8 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().yaxis().title().text("y-axis");
         figure.layout().yaxis().type("log");
         figure.layout().title().text("Test Title");
+        figure.layout().box_mode("group");
+        figure.layout().violin_mode("group");
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

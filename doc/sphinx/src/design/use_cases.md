@@ -10,7 +10,7 @@
     - [ ] Customization of lines.
   - [x] Box plots.
   - [ ] Bar plots.
-  - [ ] Violin plots.
+  - [x] Violin plots.
   - [ ] Histograms.
   - [ ] Heatmaps.
 - Plot with various data types.

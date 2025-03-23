@@ -227,6 +227,28 @@ public:
      */
     [[nodiscard]] figure_title title() { return figure_title(data_["title"]); }
 
+    /*!
+     * \brief Set the mode of showing box traces.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"group"`: group traces without overlaying
+     * - `"overlay"`: overlay traces
+     */
+    void box_mode(std::string_view value) { data_["boxmode"] = value; }
+
+    /*!
+     * \brief Set the mode of showing violin traces.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"group"`: group traces without overlaying
+     * - `"overlay"`: overlay traces
+     */
+    void violin_mode(std::string_view value) { data_["violinmode"] = value; }
+
 private:
     //! JSON data.
     json_value data_;

@@ -55,6 +55,7 @@ TEST_CASE("plotly_plotter::traces::scatter") {
         CHECK_NOTHROW(scatter.mode("lines"));
         CHECK_NOTHROW(
             scatter.hover_template("x: %{x}<br>y: %{y}<br>text: %{text}"));
+        CHECK_NOTHROW(scatter.legend_group("group1"));
 
         const std::string json_string =
             figure.document().serialize_to_string(true);
@@ -90,6 +91,7 @@ TEST_CASE("plotly_plotter::traces::scatter_gl") {
         CHECK_NOTHROW(scatter.mode("lines"));
         CHECK_NOTHROW(
             scatter.hover_template("x: %{x}<br>y: %{y}<br>text: %{text}"));
+        CHECK_NOTHROW(scatter.legend_group("group1"));
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

@@ -64,3 +64,14 @@ add_example(scatters_plot_many_points_using_web_gl
             scatters/plot_many_points_using_web_gl.cpp)
 add_example_output(scatters_plot_many_points_using_web_gl
                    scatters_plot_many_points_using_web_gl.html)
+
+add_example(violins_create_simple_violin violins/create_simple_violin.cpp)
+add_example_output(violins_create_simple_violin
+                   violins_create_simple_violin.html)
+
+add_example(violins_create_multiple_violins violins/create_multiple_violins.cpp)
+add_example_output(violins_create_multiple_violins
+                   violins_create_multiple_violins.html)
+
+add_example(violins_show_box_and_mean violins/show_box_and_mean.cpp)
+add_example_output(violins_show_box_and_mean violins_show_box_and_mean.html)
