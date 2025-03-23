@@ -49,7 +49,8 @@
         "c"
       ],
       "mode": "lines",
-      "hovertemplate": "x: %{x}<br>y: %{y}<br>text: %{text}"
+      "hovertemplate": "x: %{x}<br>y: %{y}<br>text: %{text}",
+      "legendgroup": "group1"
     }
   ],
   "layout": {}

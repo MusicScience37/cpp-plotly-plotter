@@ -117,4 +117,27 @@ TEST_CASE("box") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("group box plots") {
+        auto box = figure.add_box();
+        box.x(std::vector{"A", "A", "A", "A", "B", "B", "B", "B", "B", "B"});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        box.name("Group 1");
+
+        box = figure.add_box();
+        box.x(std::vector{"A", "A", "A", "A", "A", "A", "A", "B", "B", "B"});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+        box.name("Group 2");
+
+        figure.layout().box_mode("group");
+
+        const std::string file_path = "box_group_box_plots.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

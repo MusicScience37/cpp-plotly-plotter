@@ -27,6 +27,7 @@
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/box.h"
 #include "plotly_plotter/traces/scatter.h"
+#include "plotly_plotter/traces/violin.h"
 
 namespace plotly_plotter {
 
@@ -68,6 +69,15 @@ public:
      */
     [[nodiscard]] traces::box add_box() {
         return traces::box(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a violin trace to this figure.
+     *
+     * \return Added violin trace.
+     */
+    [[nodiscard]] traces::violin add_violin() {
+        return traces::violin(data_.emplace_back());
     }
 
     /*!

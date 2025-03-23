@@ -9,4 +9,5 @@
 #include "test_main.cpp"                 // NOLINT(bugprone-suspicious-include)
 #include "traces/box_test.cpp"           // NOLINT(bugprone-suspicious-include)
 #include "traces/scatter_test.cpp"       // NOLINT(bugprone-suspicious-include)
+#include "traces/violin_test.cpp"        // NOLINT(bugprone-suspicious-include)
 #include "write_html_test.cpp"           // NOLINT(bugprone-suspicious-include)

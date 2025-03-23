@@ -94,6 +94,13 @@ public:
     }
 
     /*!
+     * \brief Set the legend group.
+     *
+     * \param[in] value Value.
+     */
+    void legend_group(std::string_view value) { data_["legendgroup"] = value; }
+
+    /*!
      * \brief Get the JSON data for this trace.
      *
      * \return JSON data.
