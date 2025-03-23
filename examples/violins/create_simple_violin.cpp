@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Example to create a simple box plot.
+ * \brief Example to create a simple violin plot.
  */
 #include <vector>
 
@@ -25,11 +25,11 @@
 int main() {
     plotly_plotter::figure figure;
 
-    // Create a box trace with minimal settings.
-    plotly_plotter::traces::box box = figure.add_box();
-    box.y(std::vector{1, 2, 3, 5, 8, 13});
-    box.name("Box Plot");
+    // Create a violin trace with minimal settings.
+    plotly_plotter::traces::violin violin = figure.add_violin();
+    violin.y(std::vector{1, 2, 3, 5, 8, 13});
+    violin.name("Violin Plot");
 
-    figure.title("Simple Box Plot");
-    plotly_plotter::write_html("boxes_create_simple_box.html", figure);
+    figure.title("Simple Violin Plot");
+    plotly_plotter::write_html("violins_create_simple_violin.html", figure);
 }
