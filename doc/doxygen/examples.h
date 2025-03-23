@@ -67,3 +67,18 @@
  * \example scatters/select_modes.cpp
  * Example to select modes of scatter plots.
  */
+
+/*!
+ * \example violins/create_multiple_violins.cpp
+ * Example to create multiple violin plots.
+ */
+
+/*!
+ * \example violins/create_simple_violin.cpp
+ * Example to create a simple violin plot.
+ */
+
+/*!
+ * \example violins/show_box_and_mean.cpp
+ * Example to show boxes and mean lines of violin plots.
+ */
