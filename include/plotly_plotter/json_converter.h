@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <ctime>
@@ -252,6 +253,32 @@ public:
             from.tv_nsec);
         json_converter<std::string_view>::to_json(
             std::string_view(buffer.data(), buffer.size()), to);
+    }
+};
+
+/*!
+ * \brief Specialization of json_converter class for
+ * std::chrono::system_clock::time_point.
+ */
+template <>
+class json_converter<std::chrono::system_clock::time_point> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(
+        const std::chrono::system_clock::time_point& from, json_value& to) {
+        const auto time_point_secs =
+            std::chrono::time_point_cast<std::chrono::seconds>(from);
+        std::timespec timespec{};
+        timespec.tv_sec = std::chrono::system_clock::to_time_t(time_point_secs);
+        timespec.tv_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            from - time_point_secs)
+                               .count();
+        json_converter<std::timespec>::to_json(timespec, to);
     }
 };
 
