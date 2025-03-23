@@ -2,18 +2,18 @@
 file_format: mystnb
 ---
 
-# Create a Simple Violin Plot
+# Show Boxes and Mean Lines of Violin Plots
 
-This section shows how to create a simple violin plot using cpp-plotly-plotter library.
+This section shows how to show boxes and mean lines of violin plots using cpp-plotly-plotter library.
 
 ## Prerequisites
 
-- [Install cpp-plotly-plotter Library](../../install.md)
+- [Create a Simple Violin Plot](create_simple_violin.md)
 
 ## Sample Code
 
-```{literalinclude} /../../../examples/violins/create_simple_violin.cpp
-:caption: Example to create a simple violin plot.
+```{literalinclude} /../../../examples/violins/show_box_and_mean.cpp
+:caption: Example to show boxes and mean lines of violin plots.
 :language: cpp
 :start-at: "#include"
 ```
@@ -27,12 +27,11 @@ This above code will create an HTML file with a plot as shown below.
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/violins_create_simple_violin.html", version=2)
+show_html_figure("../outputs/violins_show_box_and_mean.html", version=1)
 ```
 
 ## Further Reading
 
-- [Create Multiple Violin Plots](create_multiple_violins.md)
 - API Reference:
   - {cpp:func}`plotly_plotter::figure::add_violin`
   - {cpp:class}`plotly_plotter::traces::violin`

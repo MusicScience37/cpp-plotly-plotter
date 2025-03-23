@@ -121,7 +121,8 @@ public:
      *
      * \return Configuration of boxes.
      */
-    [[nodiscard]] violin_box box() const noexcept {
+    [[nodiscard]] violin_box box() {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
         return violin_box(data()["box"]);
     }
 
@@ -130,7 +131,9 @@ public:
      *
      * \return Configuration of mean lines.
      */
-    [[nodiscard]] violin_mean_line mean_line() const noexcept {
+    [[nodiscard]] violin_mean_line
+    mean_line() {  // NOLINT(*-member-function-const)
+                   // This function modifies the internal state.
         return violin_mean_line(data()["meanline"]);
     }
 

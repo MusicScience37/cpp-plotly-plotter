@@ -5,3 +5,5 @@ VIolin Plots
     :maxdepth: 1
 
     create_simple_violin
+    create_multiple_violins
+    show_box_and_mean
