@@ -38,9 +38,9 @@ option(${UPPER_PROJECT_NAME}_BUILD_EXAMPLES
 # Libraries.
 # ##############################################################################
 find_package(yyjson REQUIRED)
+find_package(fmt REQUIRED)
 if(${UPPER_PROJECT_NAME}_TESTING)
     find_package(Catch2 REQUIRED)
-    find_package(fmt REQUIRED)
     find_package(Eigen3 REQUIRED)
 
     # ApprovalTests.
@@ -80,7 +80,7 @@ target_include_directories(
     INTERFACE $<BUILD_INTERFACE:${${UPPER_PROJECT_NAME}_SOURCE_DIR}/include>
               $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(
-    ${PROJECT_NAME} INTERFACE yyjson::yyjson
+    ${PROJECT_NAME} INTERFACE yyjson::yyjson fmt::fmt
                               $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 

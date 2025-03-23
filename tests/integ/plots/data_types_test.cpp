@@ -18,6 +18,7 @@
  * \brief Test of data types.
  */
 #include <Eigen/Core>
+#include <ctime>
 #include <string>
 #include <vector>
 
@@ -76,6 +77,26 @@ TEST_CASE("data types") {
         scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
 
         const std::string file_path = "data_types_vector_string.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("vector<timespec>") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{
+            // 2025-03-23 23:22:14.123456789 UTC
+            std::timespec{1742772134, 123456789},  // NOLINT(*-magic-numbers)
+            // 2025-03-23 23:22:15.234567890 UTC
+            std::timespec{1742772135, 234567890},  // NOLINT(*-magic-numbers)
+            // 2025-03-23 23:22:17.345678901 UTC
+            std::timespec{1742772137, 345678901}  // NOLINT(*-magic-numbers)
+        });
+        scatter.y(std::vector{4.5, 5.75, 7.0});  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "data_types_vector_timespec.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(

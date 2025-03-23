@@ -175,3 +175,22 @@ TEST_CASE("plotly_plotter::json_converter<strings>") {
                   document.root().internal_value())) == "abc");
     }
 }
+
+TEST_CASE("plotly_plotter::json_converter<std::timespec>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert") {
+        // 2025-03-23 23:22:14.123456789 UTC
+        const std::timespec time{
+            1742772134, 123456789};  // NOLINT(*-magic-numbers)
+
+        document.root() = time;
+
+        REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
+        CHECK(
+            std::string(yyjson_mut_get_str(document.root().internal_value())) ==
+            "2025-03-23 23:22:14.123456789");
+    }
+}
