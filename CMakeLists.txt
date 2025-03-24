@@ -73,16 +73,10 @@ include(ConfigureCcache)
 include(poetry)
 
 set(${UPPER_PROJECT_NAME}_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR
+    ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-add_library(${PROJECT_NAME} INTERFACE)
-target_include_directories(
-    ${PROJECT_NAME}
-    INTERFACE $<BUILD_INTERFACE:${${UPPER_PROJECT_NAME}_SOURCE_DIR}/include>
-              $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_link_libraries(
-    ${PROJECT_NAME} INTERFACE yyjson::yyjson fmt::fmt
-                              $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
-target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
+add_subdirectory(src)
 
 if(${UPPER_PROJECT_NAME}_BUILD_DOC)
     add_subdirectory(doc)

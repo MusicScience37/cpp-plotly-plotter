@@ -21,19 +21,15 @@
 
 #include <chrono>
 #include <cstdint>
-#include <cstring>
 #include <ctime>
-#include <iterator>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <type_traits>
 
-#include <fmt/chrono.h>
-#include <fmt/core.h>
-#include <fmt/format.h>
 #include <yyjson.h>
 
+#include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
 
@@ -240,20 +236,8 @@ public:
      * \param[in] from Object to convert from.
      * \param[out] to JSON value to convert to.
      */
-    static void to_json(const std::timespec& from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
-        fmt::memory_buffer buffer;
-        fmt::format_to(std::back_inserter(buffer),
-            "{:%Y-%m-%d %H:%M:%S}.{:09d}", fmt::localtime(from.tv_sec),
-            from.tv_nsec);
-        json_converter<std::string_view>::to_json(
-            std::string_view(buffer.data(), buffer.size()), to);
-    }
+    PLOTLY_PLOTTER_EXPORT static void to_json(
+        const std::timespec& from, json_value& to);
 };
 
 /*!
