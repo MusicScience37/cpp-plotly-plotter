@@ -19,8 +19,9 @@
  */
 #pragma once
 
+#include <chrono>
 #include <cstdint>
-#include <cstring>
+#include <ctime>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -28,6 +29,7 @@
 
 #include <yyjson.h>
 
+#include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
 
@@ -221,5 +223,47 @@ public:
 };
 
 }  // namespace details
+
+/*!
+ * \brief Specialization of json_converter class for std::timespec.
+ */
+template <>
+class json_converter<std::timespec> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    PLOTLY_PLOTTER_EXPORT static void to_json(
+        const std::timespec& from, json_value& to);
+};
+
+/*!
+ * \brief Specialization of json_converter class for
+ * std::chrono::system_clock::time_point.
+ */
+template <>
+class json_converter<std::chrono::system_clock::time_point> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(
+        const std::chrono::system_clock::time_point& from, json_value& to) {
+        const auto time_point_secs =
+            std::chrono::time_point_cast<std::chrono::seconds>(from);
+        std::timespec timespec{};
+        timespec.tv_sec = std::chrono::system_clock::to_time_t(time_point_secs);
+        timespec.tv_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            from - time_point_secs)
+                               .count();
+        json_converter<std::timespec>::to_json(timespec, to);
+    }
+};
 
 }  // namespace plotly_plotter

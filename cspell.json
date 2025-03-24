@@ -58,6 +58,7 @@
     "hicpp",
     "hovertemplate",
     "INCLUDEDIR",
+    "INLINES",
     "installargs",
     "INTEG",
     "interruptible",

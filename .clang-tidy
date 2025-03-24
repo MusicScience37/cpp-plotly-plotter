@@ -20,6 +20,7 @@ Checks: >
     -readability-function-cognitive-complexity,
     -readability-suspicious-call-argument,
     -readability-math-missing-parentheses,
+    -readability-avoid-unconditional-preprocessor-if,
   modernize-*,
     -modernize-return-braced-init-list,
     -modernize-use-trailing-return-type,
@@ -51,6 +52,7 @@ Checks: >
 # - modernize-use-trailing-return-type decrease readability.
 # - cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays generates warnings to string literals.
 # - cppcoreguidelines-pro-bounds-array-to-pointer-decay, hicpp-no-array-decay generates warnings to string literals.
+# - readability-avoid-unconditional-preprocessor-if generates warnings to automatically generated files which cannot be fixed.
 
 CheckOptions:
   # Naming Conventions

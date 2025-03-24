@@ -17,7 +17,7 @@
   - [x] Floating-point numbers.
   - [x] Integers.
   - [x] Strings. (For grouping.)
-  - [ ] Dates and times.
+  - [x] Dates and times.
   - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
 - Configurations.
   - [x] Plots with log scales.

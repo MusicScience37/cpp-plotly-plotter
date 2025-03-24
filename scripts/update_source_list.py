@@ -7,6 +7,7 @@ from pathlib import Path
 THIS_DIR = Path(__file__).parent.absolute()
 
 SOURCE_PATHS = [
+    THIS_DIR.parent / "src",
     THIS_DIR.parent / "tests" / "units",
     THIS_DIR.parent / "tests" / "integ" / "plots",
 ]

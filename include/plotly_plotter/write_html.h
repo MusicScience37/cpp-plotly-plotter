@@ -19,14 +19,9 @@
  */
 #pragma once
 
-#include <cstddef>
-#include <stdexcept>
 #include <string>
-#include <string_view>
 
-#include "plotly_plotter/details/escape_for_html.h"
-#include "plotly_plotter/details/file_handle.h"
-#include "plotly_plotter/details/templates/plotly_plot_template.h"
+#include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/json_document.h"
 
@@ -35,18 +30,14 @@ namespace plotly_plotter {
 namespace details {
 
 /*!
- * \brief Check whether an input string starts with a prefix.
+ * \brief Write a figure to an HTML file.
  *
- * \param[in] string Input string.
- * \param[in] prefix Prefix.
- * \retval true Input string starts with the prefix.
- * \retval false Input string does not start with the prefix.
- *
- * \note This function works like `std::string::starts_with` in C++20.
+ * \param[in] file_path File path.
+ * \param[in] html_title Title of the HTML file.
+ * \param[in] data Data.
  */
-inline bool starts_with(std::string_view string, std::string_view prefix) {
-    return string.substr(0, prefix.size()) == prefix;
-}
+PLOTLY_PLOTTER_EXPORT void write_html_impl(
+    const char* file_path, const char* html_title, const json_document& data);
 
 }  // namespace details
 
@@ -57,37 +48,8 @@ inline bool starts_with(std::string_view string, std::string_view prefix) {
  * \param[in] fig Figure.
  */
 inline void write_html(const std::string& file_path, const figure& fig) {
-    details::file_handle file(file_path, "w");
-
-    std::string_view remaining_template =
-        details::templates::plotly_plot_template;
-
-    while (!remaining_template.empty()) {
-        const std::size_t next_placeholder = remaining_template.find("{{");
-        if (next_placeholder == std::string_view::npos) {
-            file.write(remaining_template);
-            break;
-        }
-        file.write(remaining_template.substr(0, next_placeholder));
-        remaining_template = remaining_template.substr(next_placeholder);
-
-        constexpr std::string_view title_placeholder = "{{ title }}";
-        constexpr std::string_view escaped_data_placeholder =
-            "{{ escaped_data }}";
-        if (details::starts_with(remaining_template, title_placeholder)) {
-            file.write(details::escape_for_html(fig.html_title()));
-            remaining_template =
-                remaining_template.substr(title_placeholder.size());
-        } else if (details::starts_with(
-                       remaining_template, escaped_data_placeholder)) {
-            file.write(
-                details::escape_for_html(fig.document().serialize_to_string()));
-            remaining_template =
-                remaining_template.substr(escaped_data_placeholder.size());
-        } else {
-            throw std::runtime_error("Invalid placeholder in the template.");
-        }
-    }
+    details::write_html_impl(
+        file_path.c_str(), fig.html_title().c_str(), fig.document());
 }
 
 }  // namespace plotly_plotter

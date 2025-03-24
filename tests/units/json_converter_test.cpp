@@ -19,10 +19,12 @@
  */
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: keep
 
+#include <chrono>
 #include <string>
 #include <string_view>
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_string.hpp>
 
 #include "plotly_plotter/json_document.h"
 
@@ -173,5 +175,48 @@ TEST_CASE("plotly_plotter::json_converter<strings>") {
         REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
         CHECK(std::string(yyjson_mut_get_str(
                   document.root().internal_value())) == "abc");
+    }
+}
+
+TEST_CASE("plotly_plotter::json_converter<std::timespec>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert") {
+        // 2025-03-23 23:22:14.123456789 UTC
+        const std::timespec time{
+            1742772134, 123456789};  // NOLINT(*-magic-numbers)
+
+        document.root() = time;
+
+        REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
+        CHECK(
+            std::string(yyjson_mut_get_str(document.root().internal_value())) ==
+            "2025-03-23 23:22:14.123456789");
+    }
+}
+
+TEST_CASE(
+    "plotly_plotter::json_converter<std::chrono::system_clock::time_point>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert") {
+        // 2025-03-23 23:22:14.123456789 UTC
+        const std::chrono::system_clock::time_point time{
+            std::chrono::duration_cast<std::chrono::system_clock::duration>(
+                std::chrono::seconds{1742772134} +
+                std::chrono::nanoseconds{
+                    123456789})};  // NOLINT(*-magic-numbers)
+
+        document.root() = time;
+
+        REQUIRE(yyjson_mut_is_str(document.root().internal_value()));
+        CHECK_THAT(
+            std::string(yyjson_mut_get_str(document.root().internal_value())),
+            // System clock may not use nanoseconds.
+            Catch::Matchers::Matches(R"(2025-03-23 23:22:14.123\d\d\d\d\d\d)"));
     }
 }
