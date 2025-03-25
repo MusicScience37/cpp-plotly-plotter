@@ -41,7 +41,9 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
     std::vector<std::string> command{"google-chrome", "--headless",
         fmt::format("--print-to-pdf={}", pdf_file_path),
         fmt::format("--window-size={},{}", width, height),
-        "--no-pdf-header-footer", html_file_path};
+        "--no-pdf-header-footer",
+        // --no-sandbox is required for running chrome as root user.
+        "--no-sandbox", html_file_path};
 
     std::vector<char*> argv;
     argv.reserve(command.size() + 1);
