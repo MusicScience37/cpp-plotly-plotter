@@ -17,7 +17,7 @@
  * \file
  * \brief Implementation of write_html function.
  */
-#include "plotly_plotter/write_html.h"
+#include "plotly_plotter/details/write_html_impl.h"
 
 #include <cstddef>
 #include <stdexcept>
@@ -26,7 +26,8 @@
 
 #include "plotly_plotter/details/escape_for_html.h"
 #include "plotly_plotter/details/file_handle.h"
-#include "plotly_plotter/details/templates/plotly_plot_template.h"
+#include "plotly_plotter/details/templates/plotly_plot.h"
+#include "plotly_plotter/details/templates/plotly_plot_pdf.h"
 #include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter::details {
@@ -45,12 +46,27 @@ inline bool starts_with(std::string_view string, std::string_view prefix) {
     return string.substr(0, prefix.size()) == prefix;
 }
 
-void write_html_impl(
-    const char* file_path, const char* html_title, const json_document& data) {
+[[nodiscard]] std::string_view get_template(html_template_type template_type) {
+    switch (template_type) {
+    case html_template_type::html:
+        return details::templates::plotly_plot;
+    case html_template_type::pdf:
+        return details::templates::plotly_plot_pdf;
+    default:
+        throw std::runtime_error("Invalid template type.");
+    }
+}
+
+void write_html_impl(const char* file_path, const char* html_title,
+    const json_document& data, html_template_type template_type,
+    std::size_t width, std::size_t height) {
     details::file_handle file(file_path, "w");
 
-    std::string_view remaining_template =
-        details::templates::plotly_plot_template;
+    std::string_view remaining_template = get_template(template_type);
+
+    // TODO Implementation of width and height.
+    (void)width;
+    (void)height;
 
     while (!remaining_template.empty()) {
         const std::size_t next_placeholder = remaining_template.find("{{");

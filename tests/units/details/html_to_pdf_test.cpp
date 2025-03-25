@@ -23,6 +23,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/details/write_html_impl.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/write_html.h"
 
@@ -35,12 +36,14 @@ TEST_CASE("plotly_plotter::details::html_to_pdf") {
 
     // Create HTML file.
     const std::string html_file_path = "html_to_pdf_test.html";
-    plotly_plotter::write_html(html_file_path, figure);
+    constexpr std::size_t width = 800;
+    constexpr std::size_t height = 600;
+    plotly_plotter::details::write_html_impl(html_file_path.c_str(),
+        figure.html_title().c_str(), figure.document(),
+        plotly_plotter::details::html_template_type::pdf, width, height);
 
     SECTION("convert an HTML to a PDF") {
         const std::string pdf_file_path = "html_to_pdf_test.pdf";
-        constexpr std::size_t width = 800;
-        constexpr std::size_t height = 600;
 
 #if defined(linux)
         CHECK_NOTHROW(plotly_plotter::details::html_to_pdf(

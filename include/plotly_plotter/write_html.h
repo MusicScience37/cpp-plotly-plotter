@@ -21,25 +21,10 @@
 
 #include <string>
 
-#include "plotly_plotter/details/plotly_plotter_export.h"
+#include "plotly_plotter/details/write_html_impl.h"
 #include "plotly_plotter/figure.h"
-#include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter {
-
-namespace details {
-
-/*!
- * \brief Write a figure to an HTML file.
- *
- * \param[in] file_path File path.
- * \param[in] html_title Title of the HTML file.
- * \param[in] data Data.
- */
-PLOTLY_PLOTTER_EXPORT void write_html_impl(
-    const char* file_path, const char* html_title, const json_document& data);
-
-}  // namespace details
 
 /*!
  * \brief Write a figure to an HTML file.
@@ -48,8 +33,11 @@ PLOTLY_PLOTTER_EXPORT void write_html_impl(
  * \param[in] fig Figure.
  */
 inline void write_html(const std::string& file_path, const figure& fig) {
-    details::write_html_impl(
-        file_path.c_str(), fig.html_title().c_str(), fig.document());
+    details::write_html_impl(file_path.c_str(), fig.html_title().c_str(),
+        fig.document(), details::html_template_type::html,
+        // Width and height are not used for HTML output, so arbitrary values
+        // can be used.
+        0, 0);
 }
 
 }  // namespace plotly_plotter

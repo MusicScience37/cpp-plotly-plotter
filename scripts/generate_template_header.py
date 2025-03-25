@@ -9,15 +9,19 @@ ROOT_DIR = THIS_DIR.parent
 TEMPLATE_HEADER_DIR = ROOT_DIR / "include" / "plotly_plotter" / "details" / "templates"
 
 
-def generate_template_header() -> None:
-    """Generate the C++ header file for the HTML template."""
-    html_path = THIS_DIR / "plotly_plot.html.jinja"
+def _generate_template_header(template_name: str) -> None:
+    """Generate a C++ header file for an HTML template.
+
+    Args:
+        template_name (str): Name of the template.
+    """
+    html_path = THIS_DIR / "templates" / f"{template_name}.html.jinja"
     with open(str(html_path), "r", encoding="utf-8") as file:
         html_contents = file.read()
 
     relative_html_path = html_path.relative_to(ROOT_DIR)
-    header_path = TEMPLATE_HEADER_DIR / "plotly_plot_template.h"
-    variable_name = "plotly_plot_template"
+    header_path = TEMPLATE_HEADER_DIR / f"{template_name}.h"
+    variable_name = template_name
 
     with open(str(header_path), "w", encoding="utf-8") as file:
         file.write(
@@ -59,6 +63,12 @@ static constexpr std::string_view {variable_name} = R"({html_contents})";
         )
 
     subprocess.run(["clang-format", "-i", str(header_path)], check=True)
+
+
+def generate_template_header() -> None:
+    """Generate C++ header files for all HTML templates."""
+    _generate_template_header("plotly_plot")
+    _generate_template_header("plotly_plot_pdf")
 
 
 if __name__ == "__main__":
