@@ -27,6 +27,7 @@
 #include <fmt/format.h>
 
 #ifdef linux
+#include <stdlib.h>  // NOLINT
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
@@ -77,6 +78,10 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
     }
 
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        if (WIFSIGNALED(status)) {
+            throw std::runtime_error(fmt::format(
+                "Failed to generate PDF with signal {}.", WTERMSIG(status)));
+        }
         throw std::runtime_error(fmt::format(
             "Failed to generate PDF with status {}.", WEXITSTATUS(status)));
     }
