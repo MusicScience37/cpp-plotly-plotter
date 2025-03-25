@@ -1,6 +1,7 @@
 #include "array_view_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "details/escape_for_html_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "details/file_handle_test.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "details/html_to_pdf_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_test.cpp"               // NOLINT(bugprone-suspicious-include)
 #include "json_converter_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "json_document_test.cpp"        // NOLINT(bugprone-suspicious-include)
