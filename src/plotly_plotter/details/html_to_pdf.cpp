@@ -163,11 +163,12 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
 #else
 
 void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
-    std::size_t width, std::size_t height) {
+    std::size_t width, std::size_t height, bool capture_logs) {
     (void)html_file_path;
     (void)pdf_file_path;
     (void)width;
     (void)height;
+    (void)capture_logs;
     throw std::runtime_error("PDF is not supported for this platform.");
 }
 
