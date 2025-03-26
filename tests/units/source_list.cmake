@@ -13,4 +13,5 @@ set(SOURCE_FILES
     traces/scatter_test.cpp
     traces/violin_test.cpp
     write_html_test.cpp
+    write_pdf_test.cpp
 )

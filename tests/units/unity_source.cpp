@@ -12,3 +12,4 @@
 #include "traces/scatter_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "traces/violin_test.cpp"        // NOLINT(bugprone-suspicious-include)
 #include "write_html_test.cpp"           // NOLINT(bugprone-suspicious-include)
+#include "write_pdf_test.cpp"            // NOLINT(bugprone-suspicious-include)
