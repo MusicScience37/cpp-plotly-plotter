@@ -55,8 +55,7 @@ static constexpr std::string_view plotly_plot_pdf = R"(<!DOCTYPE html>
             @page {
                 margin: 0px;
                 padding: 0px;
-                /* TODO insert correct sizes */
-                size: 800px 600px;
+                size: {{ width }}px {{ height }}px;
             }
         }
     </style>

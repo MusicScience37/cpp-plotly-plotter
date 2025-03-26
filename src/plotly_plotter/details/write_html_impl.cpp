@@ -24,6 +24,8 @@
 #include <string>
 #include <string_view>
 
+#include <fmt/format.h>
+
 #include "plotly_plotter/details/escape_for_html.h"
 #include "plotly_plotter/details/file_handle.h"
 #include "plotly_plotter/details/templates/plotly_plot.h"
@@ -64,10 +66,6 @@ void write_html_impl(const char* file_path, const char* html_title,
 
     std::string_view remaining_template = get_template(template_type);
 
-    // TODO Implementation of width and height.
-    (void)width;
-    (void)height;
-
     while (!remaining_template.empty()) {
         const std::size_t next_placeholder = remaining_template.find("{{");
         if (next_placeholder == std::string_view::npos) {
@@ -80,6 +78,8 @@ void write_html_impl(const char* file_path, const char* html_title,
         constexpr std::string_view title_placeholder = "{{ title }}";
         constexpr std::string_view escaped_data_placeholder =
             "{{ escaped_data }}";
+        constexpr std::string_view width_placeholder = "{{ width }}";
+        constexpr std::string_view height_placeholder = "{{ height }}";
         if (details::starts_with(remaining_template, title_placeholder)) {
             file.write(details::escape_for_html(html_title));
             remaining_template =
@@ -89,6 +89,16 @@ void write_html_impl(const char* file_path, const char* html_title,
             file.write(details::escape_for_html(data.serialize_to_string()));
             remaining_template =
                 remaining_template.substr(escaped_data_placeholder.size());
+        } else if (details::starts_with(
+                       remaining_template, width_placeholder)) {
+            file.write(fmt::to_string(width));
+            remaining_template =
+                remaining_template.substr(width_placeholder.size());
+        } else if (details::starts_with(
+                       remaining_template, height_placeholder)) {
+            file.write(fmt::to_string(height));
+            remaining_template =
+                remaining_template.substr(height_placeholder.size());
         } else {
             throw std::runtime_error("Invalid placeholder in the template.");
         }
