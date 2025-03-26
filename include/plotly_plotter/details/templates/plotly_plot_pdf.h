@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Definition of plotly_plot_template variable.
+ * \brief Definition of plotly_plot_pdf variable.
  *
- * This file is generated from scripts/plotly_plot.html.jinja.
+ * This file is generated from scripts/templates/plotly_plot_pdf.html.jinja.
  * Change this file only via scripts/generate_template_header.py script.
  */
 #pragma once
@@ -29,23 +29,34 @@ namespace plotly_plotter::details::templates {
 /*!
  * \brief HTML template for Plotly plot.
  */
-static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
+static constexpr std::string_view plotly_plot_pdf = R"(<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>{{ title }}</title>
     </head>
     <body>
-        <div id="plot" class="container"></div>
-        <div id="dataset" style="display:none">{{ escaped_data }}</div>
+        <div id="plot" class="plotly-plotter-container"></div>
+        <div id="dataset" class="plotly-plotter-hide">{{ escaped_data }}</div>
     </body>
     <style>
-        html,
-        body,
-        .container {
+        html, body, .plotly-plotter-container {
             height: 100%;
             width: 100%;
             margin: 0px;
+            padding: 0px;
+        }
+
+        .plotly-plotter-hide {
+            display: none;
+        }
+
+        @media print {
+            @page {
+                margin: 0px;
+                padding: 0px;
+                size: {{ width }}px {{ height }}px;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
@@ -53,7 +64,9 @@ static constexpr std::string_view plotly_plot_template = R"(<!DOCTYPE html>
     <script type="text/javascript">
         var dataset_str = document.querySelector('#dataset').textContent;
         var dataset = JSON.parse(dataset_str);
-        Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
+        var config = {};
+        config.displayModeBar = false;
+        Plotly.newPlot("plot", dataset.data, dataset.layout, config);
     </script>
 </html>
 )";

@@ -44,7 +44,8 @@
         "ms-python.flake8",
         "ms-python.pylint",
         "monosans.djlint",
-        "executablebookproject.myst-highlight"
+        "executablebookproject.myst-highlight",
+        "samuelcolvin.jinjahtml"
       ],
       "settings": {
         "cmakeFormat.exePath": "/workspaces/cpp-plotly-plotter/.venv/bin/cmake-format",

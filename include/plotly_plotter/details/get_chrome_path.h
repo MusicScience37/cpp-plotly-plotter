@@ -15,29 +15,21 @@
  */
 /*!
  * \file
- * \brief Definition of write_html function.
+ * \brief Declaration of get_chrome_path function.
  */
 #pragma once
 
-#include <string>
+#include <string_view>
 
-#include "plotly_plotter/details/write_html_impl.h"
-#include "plotly_plotter/figure.h"
+#include "plotly_plotter/details/plotly_plotter_export.h"
 
-namespace plotly_plotter {
+namespace plotly_plotter::details {
 
 /*!
- * \brief Write a figure to an HTML file.
+ * \brief Get the path of the Chrome executable.
  *
- * \param[in] file_path File path.
- * \param[in] fig Figure.
+ * \return The path of the Chrome executable.
  */
-inline void write_html(const std::string& file_path, const figure& fig) {
-    details::write_html_impl(file_path.c_str(), fig.html_title().c_str(),
-        fig.document(), details::html_template_type::html,
-        // Width and height are not used for HTML output, so arbitrary values
-        // can be used.
-        0, 0);
-}
+PLOTLY_PLOTTER_EXPORT [[nodiscard]] std::string_view get_chrome_path();
 
-}  // namespace plotly_plotter
+}  // namespace plotly_plotter::details

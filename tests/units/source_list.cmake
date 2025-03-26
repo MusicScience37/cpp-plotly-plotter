@@ -2,6 +2,7 @@ set(SOURCE_FILES
     array_view_test.cpp
     details/escape_for_html_test.cpp
     details/file_handle_test.cpp
+    details/html_to_pdf_test.cpp
     figure_test.cpp
     json_converter_test.cpp
     json_document_test.cpp
@@ -12,4 +13,5 @@ set(SOURCE_FILES
     traces/scatter_test.cpp
     traces/violin_test.cpp
     write_html_test.cpp
+    write_pdf_test.cpp
 )
