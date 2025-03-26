@@ -20,19 +20,26 @@
 #include "plotly_plotter/details/html_to_pdf.h"
 
 #include <stdexcept>
+#include <string>
 #include <string_view>
+#include <vector>
+
+#include <fmt/format.h>
 
 #include "plotly_plotter/details/execute_command.h"
+#include "plotly_plotter/details/get_chrome_path.h"
+
+#ifdef linux
+#include <stdlib.h>  // NOLINT
+#endif
 
 namespace plotly_plotter::details {
 
 #ifdef linux
 
-constexpr std::string_view chrome_name = "google-chrome";
-
 bool is_pdf_supported() {
     std::vector<std::string> command{
-        static_cast<std::string>(chrome_name), "--version"};
+        static_cast<std::string>(get_chrome_path()), "--version"};
 
     const auto [status, command_output] = execute_command(command, true);
 
@@ -41,8 +48,9 @@ bool is_pdf_supported() {
 
 void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
     std::size_t width, std::size_t height, bool capture_logs) {
-    std::vector<std::string> command{static_cast<std::string>(chrome_name),
-        "--headless", fmt::format("--print-to-pdf={}", pdf_file_path),
+    std::vector<std::string> command{
+        static_cast<std::string>(get_chrome_path()), "--headless",
+        fmt::format("--print-to-pdf={}", pdf_file_path),
         fmt::format("--window-size={},{}", width, height),
         "--no-pdf-header-footer",
         // --no-sandbox is required for running chrome as root user.
