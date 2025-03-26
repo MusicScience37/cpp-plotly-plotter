@@ -40,11 +40,13 @@ TEST_CASE("plotly_plotter::write_pdf") {
         constexpr std::size_t height = 900;
 
 #ifdef linux
+        CHECK(plotly_plotter::is_pdf_supported());
         CHECK_NOTHROW(
             plotly_plotter::write_pdf(pdf_file_path, figure, width, height));
 
         CHECK(std::filesystem::exists(pdf_file_path));
 #else
+        CHECK_FALSE(plotly_plotter::is_pdf_supported());
         CHECK_THROWS(
             plotly_plotter::write_pdf(pdf_file_path, figure, width, height));
 #endif

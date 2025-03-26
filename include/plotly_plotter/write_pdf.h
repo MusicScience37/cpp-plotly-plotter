@@ -22,6 +22,7 @@
 #include <cstddef>
 #include <string>
 
+#include "plotly_plotter/details/html_to_pdf.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/json_document.h"
@@ -50,6 +51,13 @@ PLOTLY_PLOTTER_EXPORT void write_pdf_impl(const char* file_path,
     std::size_t height);
 
 }  // namespace details
+
+/*!
+ * \brief Check if PDF is supported in the current environment.
+ *
+ * \return True if PDF is supported.
+ */
+inline bool is_pdf_supported() { return details::is_pdf_supported(); }
 
 /*!
  * \brief Write a figure to a PDF file.

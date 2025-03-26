@@ -48,10 +48,13 @@ TEST_CASE("plotly_plotter::details::html_to_pdf") {
         const std::string pdf_file_path = "html_to_pdf_test.pdf";
 
 #if defined(linux)
+        // Development environment should have google-chrome installed.
+        CHECK(plotly_plotter::details::is_pdf_supported());
         CHECK_NOTHROW(plotly_plotter::details::html_to_pdf(
             html_file_path.c_str(), pdf_file_path.c_str(), width, height));
         CHECK(std::filesystem::exists(pdf_file_path));
 #else
+        CHECK_FALSE(plotly_plotter::details::is_pdf_supported());
         CHECK_THROWS(plotly_plotter::details::html_to_pdf(
             html_file_path.c_str(), pdf_file_path.c_str(), width, height));
 #endif
