@@ -56,6 +56,11 @@ PLOTLY_PLOTTER_EXPORT void write_pdf_impl(const char* file_path,
  * \brief Check if PDF is supported in the current environment.
  *
  * \return True if PDF is supported.
+ *
+ * \note When this functions returns false, \ref plotly_plotter::write_pdf
+ * function always fails with an exception.
+ * \warning PDF output is experimental and implemented only for Linux.
+ * In other environments, this function always returns false.
  */
 inline bool is_pdf_supported() { return details::is_pdf_supported(); }
 
@@ -66,6 +71,11 @@ inline bool is_pdf_supported() { return details::is_pdf_supported(); }
  * \param[in] fig Figure.
  * \param[in] width Width of the PDF file.
  * \param[in] height Height of the PDF file.
+ *
+ * \warning This function is experimental and implemented only for Linux.
+ * \warning WebGL is not working in PDF outputs currently.
+ * \note Support of PDF output can be checked using \ref
+ * plotly_plotter::is_pdf_supported function.
  */
 inline void write_pdf(const std::string& file_path, const figure& fig,
     std::size_t width = default_pdf_width,
