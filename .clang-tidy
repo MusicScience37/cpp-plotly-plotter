@@ -9,6 +9,7 @@ Checks: >
     -cppcoreguidelines-avoid-non-const-global-variables,
     -cppcoreguidelines-avoid-c-arrays,
     -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+    -cppcoreguidelines-pro-type-vararg,
   google-*,
     -google-runtime-references,
     -google-readability-todo,
@@ -28,6 +29,7 @@ Checks: >
   hicpp-*,
     -hicpp-avoid-c-arrays,
     -hicpp-no-array-decay,
+    -hicpp-vararg,
   cert-*,
     -cert-err58-cpp,
   bugprone-*,
@@ -53,6 +55,7 @@ Checks: >
 # - cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays generates warnings to string literals.
 # - cppcoreguidelines-pro-bounds-array-to-pointer-decay, hicpp-no-array-decay generates warnings to string literals.
 # - readability-avoid-unconditional-preprocessor-if generates warnings to automatically generated files which cannot be fixed.
+# - cppcoreguidelines-pro-type-vararg, hicpp-vararg generates warnings only to functions which are not written by us.
 
 CheckOptions:
   # Naming Conventions

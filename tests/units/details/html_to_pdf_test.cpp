@@ -20,12 +20,14 @@
 #include "plotly_plotter/details/html_to_pdf.h"
 
 #include <filesystem>
+#include <string>
+#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/details/write_html_impl.h"
 #include "plotly_plotter/figure.h"
-#include "plotly_plotter/write_html.h"
+#include "plotly_plotter/traces/scatter.h"
 
 TEST_CASE("plotly_plotter::details::html_to_pdf") {
     // Figure for test.

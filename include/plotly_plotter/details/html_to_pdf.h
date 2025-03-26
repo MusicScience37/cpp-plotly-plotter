@@ -32,8 +32,11 @@ namespace plotly_plotter::details {
  * \param[in] pdf_file_path Path to the PDF file.
  * \param[in] width Width of the PDF file.
  * \param[in] height Height of the PDF file.
+ * \param[in] capture_logs Whether to capture logs. When true, logs are captured
+ * and not shown unless an error occurs.
  */
 PLOTLY_PLOTTER_EXPORT void html_to_pdf(const char* html_file_path,
-    const char* pdf_file_path, std::size_t width, std::size_t height);
+    const char* pdf_file_path, std::size_t width, std::size_t height,
+    bool capture_logs = true);
 
 }  // namespace plotly_plotter::details
