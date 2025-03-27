@@ -3,6 +3,7 @@ set(SOURCE_FILES
     details/escape_for_html_test.cpp
     details/file_handle_test.cpp
     details/html_to_pdf_test.cpp
+    details/html_to_png_test.cpp
     figure_test.cpp
     json_converter_test.cpp
     json_document_test.cpp

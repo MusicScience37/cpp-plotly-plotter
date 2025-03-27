@@ -20,6 +20,7 @@
 #include "plotly_plotter/write_pdf.h"
 
 #include <filesystem>
+#include <stdexcept>
 
 #include "plotly_plotter/details/html_to_pdf.h"
 #include "plotly_plotter/details/write_html_impl.h"

@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Implementation of html_to_pdf function.
+ * \brief Implementation of html_to_png function.
  */
-#include "plotly_plotter/details/html_to_pdf.h"
+#include "plotly_plotter/details/html_to_png.h"
 
 #include <stdexcept>
 #include <string>
@@ -36,8 +36,7 @@
 namespace plotly_plotter::details {
 
 #ifdef linux
-
-bool is_pdf_supported() {
+bool is_png_supported() {
     std::vector<std::string> command{
         static_cast<std::string>(get_chrome_path()), "--version"};
 
@@ -46,13 +45,12 @@ bool is_pdf_supported() {
     return WIFEXITED(status) && WEXITSTATUS(status) == 0;
 }
 
-void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
+void html_to_png(const char* html_file_path, const char* png_file_path,
     std::size_t width, std::size_t height, bool capture_logs) {
     std::vector<std::string> command{
         static_cast<std::string>(get_chrome_path()), "--headless",
-        fmt::format("--print-to-pdf={}", pdf_file_path),
+        fmt::format("--screenshot={}", png_file_path),
         fmt::format("--window-size={},{}", width, height),
-        "--no-pdf-header-footer",
         // --no-sandbox is required for running chrome as root user.
         "--no-sandbox",
         // GPU can not be used in ordinary Docker containers.
@@ -64,27 +62,27 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
         if (WIFSIGNALED(status)) {
             throw std::runtime_error(
-                fmt::format("Failed to generate PDF with signal {}.{}",
+                fmt::format("Failed to generate PNG with signal {}.{}",
                     WTERMSIG(status), command_output));
         }
         throw std::runtime_error(
-            fmt::format("Failed to generate PDF with status {}.{}",
+            fmt::format("Failed to generate PNG with status {}.{}",
                 WEXITSTATUS(status), command_output));
     }
 }
 
 #else
 
-bool is_pdf_supported() { return false; }
+bool is_png_supported() { return false; }
 
-void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
+void html_to_png(const char* html_file_path, const char* png_file_path,
     std::size_t width, std::size_t height, bool capture_logs) {
     (void)html_file_path;
-    (void)pdf_file_path;
+    (void)png_file_path;
     (void)width;
     (void)height;
     (void)capture_logs;
-    throw std::runtime_error("PDF is not supported for this platform.");
+    throw std::runtime_error("PNG is not supported for this platform.");
 }
 
 #endif
