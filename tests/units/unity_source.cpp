@@ -14,3 +14,4 @@
 #include "traces/violin_test.cpp"        // NOLINT(bugprone-suspicious-include)
 #include "write_html_test.cpp"           // NOLINT(bugprone-suspicious-include)
 #include "write_pdf_test.cpp"            // NOLINT(bugprone-suspicious-include)
+#include "write_png_test.cpp"            // NOLINT(bugprone-suspicious-include)

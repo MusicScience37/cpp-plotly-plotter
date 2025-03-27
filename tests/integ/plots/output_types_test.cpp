@@ -22,6 +22,7 @@
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/write_html.h"
 #include "plotly_plotter/write_pdf.h"
+#include "plotly_plotter/write_png.h"
 
 TEST_CASE("output types") {
     plotly_plotter::figure figure;
@@ -48,6 +49,10 @@ TEST_CASE("output types") {
         if (plotly_plotter::is_pdf_supported()) {
             CHECK_NOTHROW(
                 plotly_plotter::write_pdf(file_name + ".pdf", figure));
+        }
+        if (plotly_plotter::is_png_supported()) {
+            CHECK_NOTHROW(
+                plotly_plotter::write_png(file_name + ".png", figure));
         }
     }
 
@@ -80,6 +85,10 @@ TEST_CASE("output types") {
             CHECK_NOTHROW(
                 plotly_plotter::write_pdf(file_name + ".pdf", figure));
         }
+        if (plotly_plotter::is_png_supported()) {
+            CHECK_NOTHROW(
+                plotly_plotter::write_png(file_name + ".png", figure));
+        }
     }
 
     SECTION("TeX") {
@@ -99,6 +108,10 @@ TEST_CASE("output types") {
         if (plotly_plotter::is_pdf_supported()) {
             CHECK_NOTHROW(
                 plotly_plotter::write_pdf(file_name + ".pdf", figure));
+        }
+        if (plotly_plotter::is_png_supported()) {
+            CHECK_NOTHROW(
+                plotly_plotter::write_png(file_name + ".png", figure));
         }
     }
 
@@ -128,6 +141,13 @@ TEST_CASE("output types") {
 
         const std::string file_name = "output_types_web_gl";
         CHECK_NOTHROW(plotly_plotter::write_html(file_name + ".html", figure));
-        // TODO PDF is not working now.
+        if (plotly_plotter::is_pdf_supported()) {
+            CHECK_NOTHROW(
+                plotly_plotter::write_pdf(file_name + ".pdf", figure));
+        }
+        if (plotly_plotter::is_png_supported()) {
+            CHECK_NOTHROW(
+                plotly_plotter::write_png(file_name + ".png", figure));
+        }
     }
 }

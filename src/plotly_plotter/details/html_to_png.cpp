@@ -54,7 +54,7 @@ void html_to_png(const char* html_file_path, const char* png_file_path,
         // --no-sandbox is required for running chrome as root user.
         "--no-sandbox",
         // GPU can not be used in ordinary Docker containers.
-        "--disable-gpu", html_file_path};
+        "--disable-gpu", "--enable-unsafe-swiftshader", html_file_path};
 
     const auto [status, command_output] =
         execute_command(command, capture_logs);

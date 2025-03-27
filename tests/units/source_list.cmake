@@ -15,4 +15,5 @@ set(SOURCE_FILES
     traces/violin_test.cpp
     write_html_test.cpp
     write_pdf_test.cpp
+    write_png_test.cpp
 )
