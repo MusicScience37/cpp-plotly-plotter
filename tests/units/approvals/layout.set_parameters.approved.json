@@ -18,5 +18,9 @@
     },
     "boxmode": "group",
     "violinmode": "group"
+  },
+  "config": {
+    "scrollZoom": true,
+    "responsive": true
   }
 }

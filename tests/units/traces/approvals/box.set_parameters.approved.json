@@ -24,5 +24,9 @@
       "boxpoints": "all"
     }
   ],
-  "layout": {}
+  "layout": {},
+  "config": {
+    "scrollZoom": true,
+    "responsive": true
+  }
 }

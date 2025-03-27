@@ -53,5 +53,9 @@
       "legendgroup": "group1"
     }
   ],
-  "layout": {}
+  "layout": {},
+  "config": {
+    "scrollZoom": true,
+    "responsive": true
+  }
 }
