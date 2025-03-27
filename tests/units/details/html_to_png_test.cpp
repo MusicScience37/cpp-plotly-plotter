@@ -42,7 +42,7 @@ TEST_CASE("plotly_plotter::details::html_to_png") {
     constexpr std::size_t height = 600;
     plotly_plotter::details::write_html_impl(html_file_path.c_str(),
         figure.html_title().c_str(), figure.document(),
-        plotly_plotter::details::html_template_type::pdf, width, height);
+        plotly_plotter::details::html_template_type::png, width, height);
 
     SECTION("convert an HTML to a PDF") {
         const std::string png_file_path = "html_to_png_test.png";

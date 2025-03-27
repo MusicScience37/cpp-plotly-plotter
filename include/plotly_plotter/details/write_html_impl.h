@@ -35,7 +35,10 @@ enum class html_template_type : std::uint8_t {
     html = 1,
 
     //! Template for PDF output.
-    pdf = 2
+    pdf = 2,
+
+    //! Template for PNG output.
+    png = 3
 };
 
 /*!
