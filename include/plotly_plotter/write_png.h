@@ -15,72 +15,72 @@
  */
 /*!
  * \file
- * \brief Definition of write_pdf function.
+ * \brief Definition of write_png function.
  */
 #pragma once
 
 #include <cstddef>
 #include <string>
 
-#include "plotly_plotter/details/html_to_pdf.h"
+#include "plotly_plotter/details/html_to_png.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter {
 
-//! Default width of PDF files.
-constexpr std::size_t default_pdf_width = 800;
+//! Default width of PNG files.
+constexpr std::size_t default_png_width = 800;
 
-//! Default height of PDF files.
-constexpr std::size_t default_pdf_height = 600;
+//! Default height of PNG files.
+constexpr std::size_t default_png_height = 600;
 
 namespace details {
 
 /*!
- * \brief Write a figure to a PDF file.
+ * \brief Write a figure to a PNG file.
  *
  * \param[in] file_path File path.
  * \param[in] html_title Title of the HTML file.
  * \param[in] data Data.
- * \param[in] width Width of the PDF file.
- * \param[in] height Height of the PDF file.
+ * \param[in] width Width of the PNG file.
+ * \param[in] height Height of the PNG file.
  */
-PLOTLY_PLOTTER_EXPORT void write_pdf_impl(const char* file_path,
+PLOTLY_PLOTTER_EXPORT void write_png_impl(const char* file_path,
     const char* html_title, const json_document& data, std::size_t width,
     std::size_t height);
 
 }  // namespace details
 
 /*!
- * \brief Check if PDF is supported in the current environment.
+ * \brief Check if PNG is supported in the current environment.
  *
- * \return True if PDF is supported.
+ * \return True if PNG is supported.
  *
- * \note When this functions returns false, \ref plotly_plotter::write_pdf
+ * \note When this functions returns false, \ref plotly_plotter::write_png
  * function always fails with an exception.
- * \warning PDF output is experimental and implemented only for Linux.
+ * \warning PNG output is experimental and implemented only for Linux.
  * In other environments, this function always returns false.
  */
-inline bool is_pdf_supported() { return details::is_pdf_supported(); }
+inline bool is_png_supported() { return details::is_png_supported(); }
 
 /*!
- * \brief Write a figure to a PDF file.
+ * \brief Write a figure to a PNG file.
  *
  * \param[in] file_path File path.
  * \param[in] fig Figure.
- * \param[in] width Width of the PDF file.
- * \param[in] height Height of the PDF file.
+ * \param[in] width Width of the PNG file.
+ * \param[in] height Height of the PNG file.
  *
  * \warning This function is experimental and implemented only for Linux.
  * \warning WebGL can cause program freeze.
- * \note Support of PDF output can be checked using \ref
- * plotly_plotter::is_pdf_supported function.
+ * \note Support of PNG output can be checked using \ref
+ * plotly_plotter::is_png_supported function.
  */
-inline void write_pdf(const std::string& file_path, const figure& fig,
-    std::size_t width = default_pdf_width,
-    std::size_t height = default_pdf_height) {
-    details::write_pdf_impl(file_path.c_str(), fig.html_title().c_str(),
+inline void write_png(const std::string& file_path, const figure& fig,
+    std::size_t width = default_png_width,
+    std::size_t height = default_png_height) {
+    details::write_png_impl(file_path.c_str(), fig.html_title().c_str(),
         fig.document(), width, height);
 }
 

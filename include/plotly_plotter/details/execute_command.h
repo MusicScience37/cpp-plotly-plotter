@@ -108,7 +108,7 @@ namespace plotly_plotter::details {
         constexpr std::size_t buffer_size = 1024;
         char buffer[buffer_size];
         const auto deadline =
-            std::chrono::steady_clock::now() + std::chrono::seconds(30);
+            std::chrono::steady_clock::now() + std::chrono::seconds(10);
         while (true) {
             ssize_t read_result =
                 read(pipe_descriptors[0], buffer, sizeof(buffer));
@@ -118,7 +118,8 @@ namespace plotly_plotter::details {
                         throw std::runtime_error(fmt::format(
                             "Timeout in child process.{}", command_output));
                     }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    // NOLINTNEXTLINE
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
                     continue;
                 }
                 perror("Failed to read from the pipe");

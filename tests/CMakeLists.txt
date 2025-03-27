@@ -17,7 +17,7 @@ set(${UPPER_PROJECT_NAME}_TEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 macro(target_add_catch2 TARGET)
     target_link_libraries(
         ${TARGET} PRIVATE Catch2::Catch2WithMain ApprovalTests::ApprovalTests
-                          fmt::fmt ${PROJECT_NAME})
+                          ${PROJECT_NAME})
     target_include_directories(
         ${TARGET} PRIVATE ${${UPPER_PROJECT_NAME}_TEST_INCLUDE_DIR})
 
@@ -32,6 +32,7 @@ macro(target_add_catch2 TARGET)
         NAME ${TARGET}
         COMMAND ${TARGET} ${CATCH2_REPORT_OPTIONS}
         WORKING_DIRECTORY ${${UPPER_PROJECT_NAME}_TEMP_TEST_DIR})
+    set_tests_properties(${TARGET} PROPERTIES TIMEOUT 60)
 endmacro()
 
 option(${UPPER_PROJECT_NAME}_ENABLE_UNIT_TESTS

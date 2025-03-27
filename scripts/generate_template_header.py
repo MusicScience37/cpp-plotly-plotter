@@ -69,6 +69,7 @@ def generate_template_header() -> None:
     """Generate C++ header files for all HTML templates."""
     _generate_template_header("plotly_plot")
     _generate_template_header("plotly_plot_pdf")
+    _generate_template_header("plotly_plot_png")
 
 
 if __name__ == "__main__":

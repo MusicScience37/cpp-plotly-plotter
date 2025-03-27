@@ -7,5 +7,5 @@ add_executable(${PROJECT_NAME}_test_integ_plots_unity EXCLUDE_FROM_ALL
                unity_source.cpp)
 target_link_libraries(
     ${PROJECT_NAME}_test_integ_plots_unity
-    PRIVATE Catch2::Catch2WithMain ApprovalTests::ApprovalTests fmt::fmt
-            Eigen3::Eigen ${PROJECT_NAME})
+    PRIVATE Catch2::Catch2WithMain ApprovalTests::ApprovalTests Eigen3::Eigen
+            ${PROJECT_NAME})

@@ -15,26 +15,26 @@
  */
 /*!
  * \file
- * \brief Implementation of write_pdf function.
+ * \brief Implementation of write_png function.
  */
-#include "plotly_plotter/write_pdf.h"
+#include "plotly_plotter/write_png.h"
 
 #include <filesystem>
 #include <stdexcept>
 
-#include "plotly_plotter/details/html_to_pdf.h"
+#include "plotly_plotter/details/html_to_png.h"
 #include "plotly_plotter/details/write_html_impl.h"
 
 namespace plotly_plotter::details {
 
-void write_pdf_impl(const char* file_path, const char* html_title,
+void write_png_impl(const char* file_path, const char* html_title,
     const json_document& data, std::size_t width, std::size_t height) {
     const std::string html_file_path = std::string(file_path) + ".html";
     write_html_impl(html_file_path.c_str(), html_title, data,
-        html_template_type::pdf, width, height);
-    html_to_pdf(html_file_path.c_str(), file_path, width, height);
+        html_template_type::png, width, height);
+    html_to_png(html_file_path.c_str(), file_path, width, height);
     if (!std::filesystem::exists(file_path)) {
-        throw std::runtime_error("Failed to create PDF file.");
+        throw std::runtime_error("Failed to create PNG file.");
     }
     std::filesystem::remove(html_file_path);
 }

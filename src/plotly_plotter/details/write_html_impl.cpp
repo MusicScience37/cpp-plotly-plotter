@@ -30,6 +30,7 @@
 #include "plotly_plotter/details/file_handle.h"
 #include "plotly_plotter/details/templates/plotly_plot.h"
 #include "plotly_plotter/details/templates/plotly_plot_pdf.h"
+#include "plotly_plotter/details/templates/plotly_plot_png.h"
 #include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter::details {
@@ -54,6 +55,8 @@ inline bool starts_with(std::string_view string, std::string_view prefix) {
         return details::templates::plotly_plot;
     case html_template_type::pdf:
         return details::templates::plotly_plot_pdf;
+    case html_template_type::png:
+        return details::templates::plotly_plot_png;
     default:
         throw std::runtime_error("Invalid template type.");
     }
