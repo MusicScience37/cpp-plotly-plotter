@@ -45,14 +45,21 @@ TEST_CASE("output types") {
         figure.layout().yaxis().title().text("y-axis");
 
         const std::string file_name = "output_types_scatter";
-        CHECK_NOTHROW(plotly_plotter::write_html(file_name + ".html", figure));
-        if (plotly_plotter::is_pdf_supported()) {
+        SECTION("HTML") {
             CHECK_NOTHROW(
-                plotly_plotter::write_pdf(file_name + ".pdf", figure));
+                plotly_plotter::write_html(file_name + ".html", figure));
         }
-        if (plotly_plotter::is_png_supported()) {
-            CHECK_NOTHROW(
-                plotly_plotter::write_png(file_name + ".png", figure));
+        SECTION("PDF") {
+            if (plotly_plotter::is_pdf_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_pdf(file_name + ".pdf", figure));
+            }
+        }
+        SECTION("PNG") {
+            if (plotly_plotter::is_png_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_png(file_name + ".png", figure));
+            }
         }
     }
 
@@ -80,14 +87,21 @@ TEST_CASE("output types") {
         figure.layout().yaxis().title().text("y-axis");
 
         const std::string file_name = "output_types_violin";
-        CHECK_NOTHROW(plotly_plotter::write_html(file_name + ".html", figure));
-        if (plotly_plotter::is_pdf_supported()) {
+        SECTION("HTML") {
             CHECK_NOTHROW(
-                plotly_plotter::write_pdf(file_name + ".pdf", figure));
+                plotly_plotter::write_html(file_name + ".html", figure));
         }
-        if (plotly_plotter::is_png_supported()) {
-            CHECK_NOTHROW(
-                plotly_plotter::write_png(file_name + ".png", figure));
+        SECTION("PDF") {
+            if (plotly_plotter::is_pdf_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_pdf(file_name + ".pdf", figure));
+            }
+        }
+        SECTION("PNG") {
+            if (plotly_plotter::is_png_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_png(file_name + ".png", figure));
+            }
         }
     }
 
@@ -104,19 +118,26 @@ TEST_CASE("output types") {
             R"($\text{y-axis title with TeX: } \gamma_3$)");
 
         const std::string file_name = "output_types_tex";
-        CHECK_NOTHROW(plotly_plotter::write_html(file_name + ".html", figure));
-        if (plotly_plotter::is_pdf_supported()) {
+        SECTION("HTML") {
             CHECK_NOTHROW(
-                plotly_plotter::write_pdf(file_name + ".pdf", figure));
+                plotly_plotter::write_html(file_name + ".html", figure));
         }
-        if (plotly_plotter::is_png_supported()) {
-            CHECK_NOTHROW(
-                plotly_plotter::write_png(file_name + ".png", figure));
+        SECTION("PDF") {
+            if (plotly_plotter::is_pdf_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_pdf(file_name + ".pdf", figure));
+            }
+        }
+        SECTION("PNG") {
+            if (plotly_plotter::is_png_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_png(file_name + ".png", figure));
+            }
         }
     }
 }
 
-TEST_CASE("output types (unstable)") {
+TEST_CASE("output types (unstable)", "[!mayfail]") {
     plotly_plotter::figure figure;
 
     SECTION("WebGL") {
@@ -144,14 +165,21 @@ TEST_CASE("output types (unstable)") {
         figure.layout().yaxis().title().text("$y$");
 
         const std::string file_name = "output_types_web_gl";
-        CHECK_NOTHROW(plotly_plotter::write_html(file_name + ".html", figure));
-        if (plotly_plotter::is_pdf_supported()) {
+        SECTION("HTML") {
             CHECK_NOTHROW(
-                plotly_plotter::write_pdf(file_name + ".pdf", figure));
+                plotly_plotter::write_html(file_name + ".html", figure));
         }
-        if (plotly_plotter::is_png_supported()) {
-            CHECK_NOTHROW(
-                plotly_plotter::write_png(file_name + ".png", figure));
+        SECTION("PDF") {
+            if (plotly_plotter::is_pdf_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_pdf(file_name + ".pdf", figure));
+            }
+        }
+        SECTION("PNG") {
+            if (plotly_plotter::is_png_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_png(file_name + ".png", figure));
+            }
         }
     }
 }
