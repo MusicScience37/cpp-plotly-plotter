@@ -10,6 +10,7 @@ SOURCE_PATHS = [
     THIS_DIR.parent / "src",
     THIS_DIR.parent / "tests" / "units",
     THIS_DIR.parent / "tests" / "integ" / "plots",
+    THIS_DIR.parent / "tests" / "integ" / "outputs",
 ]
 
 UNITY_SRC_SUFFIX = "unity_source.cpp"

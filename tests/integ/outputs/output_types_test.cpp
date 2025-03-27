@@ -114,6 +114,10 @@ TEST_CASE("output types") {
                 plotly_plotter::write_png(file_name + ".png", figure));
         }
     }
+}
+
+TEST_CASE("output types (unstable)") {
+    plotly_plotter::figure figure;
 
     SECTION("WebGL") {
         constexpr std::size_t num_points = 1000;
