@@ -33,6 +33,8 @@ option(${UPPER_PROJECT_NAME}_BUILD_DOC
 option(${UPPER_PROJECT_NAME}_TESTING "enable tests of ${FULL_PROJECT_NAME}" OFF)
 option(${UPPER_PROJECT_NAME}_BUILD_EXAMPLES
        "build examples of ${FULL_PROJECT_NAME}" OFF)
+option(${UPPER_PROJECT_NAME}_ENABLE_INSTALL
+       "enable install of ${FULL_PROJECT_NAME}" ON)
 
 # ##############################################################################
 # Libraries.
@@ -88,4 +90,40 @@ endif()
 
 if(${UPPER_PROJECT_NAME}_BUILD_DOC OR ${UPPER_PROJECT_NAME}_BUILD_EXAMPLES)
     add_subdirectory(examples)
+endif()
+
+# ##############################################################################
+# Install.
+# ##############################################################################
+if(${UPPER_PROJECT_NAME}_ENABLE_INSTALL)
+    install(
+        TARGETS ${PROJECT_NAME}
+        EXPORT ${FULL_PROJECT_NAME}-targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        FRAMEWORK DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+    install(
+        DIRECTORY
+            ${${UPPER_PROJECT_NAME}_SOURCE_DIR}/include/${SHORT_PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        FILES_MATCHING
+        PATTERN "*.h*")
+
+    install(
+        EXPORT ${FULL_PROJECT_NAME}-targets
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${FULL_PROJECT_NAME}
+        NAMESPACE cpp_plotly_plotter::)
+
+    include(CMakePackageConfigHelpers)
+    configure_package_config_file(
+        cmake/${FULL_PROJECT_NAME}-config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${FULL_PROJECT_NAME}-config.cmake"
+        INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${FULL_PROJECT_NAME}"
+    )
+
+    install(
+        FILES "${CMAKE_CURRENT_BINARY_DIR}/${FULL_PROJECT_NAME}-config.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${FULL_PROJECT_NAME}")
 endif()
