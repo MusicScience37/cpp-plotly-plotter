@@ -29,7 +29,7 @@ TEST_CASE("plotly_plotter::figure") {
 
         const std::string json_string = figure.document().serialize_to_string();
         CHECK(json_string ==
-            R"({"data":[],"layout":{"title":{"text":"Test Title"}}})");
+            R"({"data":[],"layout":{"title":{"text":"Test Title"}},"config":{"scrollZoom":true,"responsive":true}})");
         CHECK(figure.html_title() == "Test Title");
     }
 }

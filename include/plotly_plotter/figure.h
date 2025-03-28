@@ -22,6 +22,7 @@
 #include <string>
 #include <string_view>
 
+#include "plotly_plotter/config.h"
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
@@ -42,6 +43,9 @@ public:
     figure() {
         data_.set_to_array();
         layout_.set_to_object();
+        config_.set_to_object();
+        config().scroll_zoom(true);
+        config().responsive(true);
     }
 
     /*!
@@ -87,6 +91,15 @@ public:
      */
     [[nodiscard]] plotly_plotter::layout layout() {
         return plotly_plotter::layout(layout_);
+    }
+
+    /*!
+     * \brief Access the configuration of this figure.
+     *
+     * \return Configuration of this figure.
+     */
+    [[nodiscard]] plotly_plotter::config config() {
+        return plotly_plotter::config(config_);
     }
 
     /*!
@@ -151,6 +164,9 @@ private:
 
     //! JSON data of layout.
     json_value layout_{document_.root()["layout"]};
+
+    //! JSON data of configuration.
+    json_value config_{document_.root()["config"]};
 
     //! Title of the HTML page.
     std::string html_title_{"Untitled Plot"};

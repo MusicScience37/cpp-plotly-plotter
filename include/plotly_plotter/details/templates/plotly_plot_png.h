@@ -56,7 +56,9 @@ static constexpr std::string_view plotly_plot_png = R"(<!DOCTYPE html>
     <script type="text/javascript">
         var dataset_str = document.querySelector('#dataset').textContent;
         var dataset = JSON.parse(dataset_str);
-        var config = {};
+        var config = dataset.config;
+        config.scrollZoom = false;
+        config.responsive = true;
         config.displayModeBar = false;
         Plotly.newPlot("plot", dataset.data, dataset.layout, config);
     </script>

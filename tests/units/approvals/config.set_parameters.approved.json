@@ -1,0 +1,11 @@
+{
+  "data": [],
+  "layout": {},
+  "config": {
+    "scrollZoom": true,
+    "responsive": true,
+    "editable": true,
+    "staticPlot": false,
+    "displayModeBar": true
+  }
+}

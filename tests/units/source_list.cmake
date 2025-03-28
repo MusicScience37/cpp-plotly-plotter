@@ -1,5 +1,6 @@
 set(SOURCE_FILES
     array_view_test.cpp
+    config_test.cpp
     details/escape_for_html_test.cpp
     details/file_handle_test.cpp
     details/html_to_pdf_test.cpp
