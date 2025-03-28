@@ -33,11 +33,16 @@ TEST_CASE("plotly_plotter::layout") {
     SECTION("set parameters") {
         figure.layout().xaxis().title().text("x-axis");
         figure.layout().xaxis().type("linear");
+        figure.layout().xaxis().range(0, nullptr);
+        figure.layout().xaxis().constrain("domain");
         figure.layout().yaxis().title().text("y-axis");
         figure.layout().yaxis().type("log");
+        figure.layout().yaxis().range(nullptr, "2025-01-01");
+        figure.layout().yaxis().constrain("range");
         figure.layout().title().text("Test Title");
         figure.layout().box_mode("group");
         figure.layout().violin_mode("group");
+        figure.layout().show_legend(true);
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

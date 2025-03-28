@@ -11,4 +11,5 @@ For full API reference, see `here <../api/index.html>`_.
     outputs
     traces
     layouts
+    configs
     json

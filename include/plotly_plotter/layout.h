@@ -27,6 +27,33 @@
 namespace plotly_plotter {
 
 /*!
+ * \brief Base class of titles in Plotly.
+ */
+class title_base {
+public:
+    /*!
+     * \brief Set the text of the title.
+     *
+     * \param[in] value Value.
+     */
+    void text(std::string_view value) { data_["text"] = value; }
+
+protected:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit title_base(json_value data) : data_(data) {
+        data_.set_to_object();
+    }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of titles of axes in Plotly.
  *
  * \note Objects of this class should be created from \ref xaxis, \ref yaxis
@@ -34,7 +61,7 @@ namespace plotly_plotter {
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
-class axis_title {
+class axis_title : public title_base {
 public:
     /*!
      * \brief Constructor.
@@ -44,18 +71,7 @@ public:
      * \warning This function should not be used in ordinary user code,
      * create objects of this class from \ref xaxis, \ref yaxis objects.
      */
-    explicit axis_title(json_value data) : data_(data) {}
-
-    /*!
-     * \brief Set the text of the title.
-     *
-     * \param[in] value Value.
-     */
-    void text(std::string_view value) { data_["text"] = value; }
-
-private:
-    //! JSON data.
-    json_value data_;
+    explicit axis_title(json_value data) : title_base(data) {}
 };
 
 /*!
@@ -65,7 +81,7 @@ private:
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
-class figure_title {
+class figure_title : public title_base {
 public:
     /*!
      * \brief Constructor.
@@ -75,39 +91,14 @@ public:
      * \warning This function should not be used in ordinary user code,
      * create objects of this class from \ref layout objects.
      */
-    explicit figure_title(json_value data) : data_(data) {}
-
-    /*!
-     * \brief Set the text of the title.
-     *
-     * \param[in] value Value.
-     */
-    void text(std::string_view value) { data_["text"] = value; }
-
-private:
-    //! JSON data.
-    json_value data_;
+    explicit figure_title(json_value data) : title_base(data) {}
 };
 
 /*!
- * \brief Class of layout of x-axis in Plotly.
- *
- * \note Objects of this class should be created from \ref layout objects.
- * \note Objects of this class doesn't manage the memory of the data,
- * so the objects can be simply copied or moved.
+ * \brief Base class of axes in Plotly.
  */
-class xaxis {
+class axis_base {
 public:
-    /*!
-     * \brief Constructor.
-     *
-     * \param[in] data JSON data.
-     *
-     * \warning This function should not be used in ordinary user code,
-     * create objects of this class from \ref layout objects.
-     */
-    explicit xaxis(json_value data) : data_(data) {}
-
     /*!
      * \brief Access the title of the x-axis.
      *
@@ -131,19 +122,52 @@ public:
      */
     void type(std::string_view value) { data_["type"] = value; }
 
+    /*!
+     * \brief Set the range of the axis.
+     *
+     * \tparam Min Type of the minimum value.
+     * \tparam Max Type of the maximum value.
+     * \param[in] min Minimum value.
+     * \param[in] max Maximum value.
+     *
+     * \note If type is set to `"log"`, values must be the log of the actual
+     * values.
+     * \note To left either minimum or maximum unset, use `nullptr`.
+     */
+    template <typename Min, typename Max>
+    void range(Min min, Max max) {
+        data_["range"].push_back(min);
+        data_["range"].push_back(max);
+    }
+
+    /*!
+     * \brief Set the way to compress the axis.
+     *
+     * \param[in] value Value.
+     */
+    void constrain(std::string_view value) { data_["constrain"] = value; }
+
+protected:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit axis_base(json_value data) : data_(data) { data_.set_to_object(); }
+
 private:
     //! JSON data.
     json_value data_;
 };
 
 /*!
- * \brief Class of layout of y-axis in Plotly.
+ * \brief Class of layout of x-axis in Plotly.
  *
  * \note Objects of this class should be created from \ref layout objects.
  * \note Objects of this class doesn't manage the memory of the data,
  * so the objects can be simply copied or moved.
  */
-class yaxis {
+class xaxis : public axis_base {
 public:
     /*!
      * \brief Constructor.
@@ -153,34 +177,27 @@ public:
      * \warning This function should not be used in ordinary user code,
      * create objects of this class from \ref layout objects.
      */
-    explicit yaxis(json_value data) : data_(data) {}
+    explicit xaxis(json_value data) : axis_base(data) {}
+};
 
+/*!
+ * \brief Class of layout of y-axis in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class yaxis : public axis_base {
+public:
     /*!
-     * \brief Access the title of the y-axis.
+     * \brief Constructor.
      *
-     * \return Title of the y-axis.
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref layout objects.
      */
-    [[nodiscard]] axis_title title() { return axis_title(data_["title"]); }
-
-    /*!
-     * \brief Set the type of the axis.
-     *
-     * \param[in] value Value.
-     *
-     * Value can be one of the following:
-     *
-     * - `"-"` (auto)
-     * - `"linear"`
-     * - `"log"`
-     * - `"date"`
-     * - `"category"`
-     * - `"multicategory"`
-     */
-    void type(std::string_view value) { data_["type"] = value; }
-
-private:
-    //! JSON data.
-    json_value data_;
+    explicit yaxis(json_value data) : axis_base(data) {}
 };
 
 /*!
@@ -248,6 +265,13 @@ public:
      * - `"overlay"`: overlay traces
      */
     void violin_mode(std::string_view value) { data_["violinmode"] = value; }
+
+    /*!
+     * \brief Set whether to show the legend.
+     *
+     * \param[in] value Value.
+     */
+    void show_legend(bool value) { data_["showlegend"] = value; }
 
 private:
     //! JSON data.

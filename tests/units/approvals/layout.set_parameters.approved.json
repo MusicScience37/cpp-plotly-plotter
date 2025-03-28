@@ -5,19 +5,30 @@
       "title": {
         "text": "x-axis"
       },
-      "type": "linear"
+      "type": "linear",
+      "range": [
+        0,
+        null
+      ],
+      "constrain": "domain"
     },
     "yaxis": {
       "title": {
         "text": "y-axis"
       },
-      "type": "log"
+      "type": "log",
+      "range": [
+        null,
+        "2025-01-01"
+      ],
+      "constrain": "range"
     },
     "title": {
       "text": "Test Title"
     },
     "boxmode": "group",
-    "violinmode": "group"
+    "violinmode": "group",
+    "showlegend": true
   },
   "config": {
     "scrollZoom": true,

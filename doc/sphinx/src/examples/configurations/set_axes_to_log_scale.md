@@ -33,5 +33,4 @@ show_html_figure("../outputs/configurations_set_axes_to_log_scale.html", version
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::xaxis::type`
-  - {cpp:func}`plotly_plotter::yaxis::type`
+  - {cpp:func}`plotly_plotter::axis_base::type`
