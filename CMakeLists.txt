@@ -35,6 +35,9 @@ option(${UPPER_PROJECT_NAME}_BUILD_EXAMPLES
        "build examples of ${FULL_PROJECT_NAME}" OFF)
 option(${UPPER_PROJECT_NAME}_ENABLE_INSTALL
        "enable install of ${FULL_PROJECT_NAME}" ON)
+set(BUILD_SHARED_LIBS
+    OFF
+    CACHE BOOL "build shared libraries")
 
 # ##############################################################################
 # Libraries.

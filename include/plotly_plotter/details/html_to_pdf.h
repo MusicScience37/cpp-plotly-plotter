@@ -30,7 +30,7 @@ namespace plotly_plotter::details {
  *
  * \return Whether PDF is supported.
  */
-PLOTLY_PLOTTER_EXPORT [[nodiscard]] bool is_pdf_supported();
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT bool is_pdf_supported();
 
 /*!
  * \brief Convert an HTML file to a PDF file.

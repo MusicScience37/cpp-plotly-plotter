@@ -14,6 +14,7 @@ Full API reference can be viewed `here <api/index.html>`_.
 
     about
     license
+    change_log/index
 
 .. toctree::
     :maxdepth: 1
