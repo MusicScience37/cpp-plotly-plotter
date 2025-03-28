@@ -1,4 +1,5 @@
 #include "array_view_test.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "config_test.cpp"      // NOLINT(bugprone-suspicious-include)
 #include "details/escape_for_html_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "details/file_handle_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "details/html_to_pdf_test.cpp"  // NOLINT(bugprone-suspicious-include)
