@@ -33,5 +33,4 @@ show_html_figure("../outputs/add_titles.html", version=2)
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::figure_title::text`
-  - {cpp:func}`plotly_plotter::axis_title::text`
+  - {cpp:func}`plotly_plotter::title_base::text`
