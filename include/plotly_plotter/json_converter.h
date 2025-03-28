@@ -266,4 +266,26 @@ public:
     }
 };
 
+/*!
+ * \brief Specialization of json_converter class for std::nullptr_t.
+ */
+template <>
+class json_converter<std::nullptr_t> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(std::nullptr_t, json_value& to) {
+        if (to.type() == json_value::value_type::array ||
+            to.type() == json_value::value_type::object) {
+            throw std::runtime_error(
+                "Changing the type of a value from arrays or objects is not "
+                "allowed.");
+        }
+        yyjson_mut_set_null(to.internal_value());
+    }
+};
+
 }  // namespace plotly_plotter

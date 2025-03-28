@@ -143,4 +143,37 @@ TEST_CASE("layout") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("set range of axes") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+
+        figure.layout().xaxis().range(0, 4);
+        figure.layout().yaxis().range(0, 7);  // NOLINT(*-magic-numbers)
+
+        const std::string file_path = "layout_set_range_of_axes.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set to show legend") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+
+        figure.layout().show_legend(true);
+
+        const std::string file_path = "layout_set_to_show_legend.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

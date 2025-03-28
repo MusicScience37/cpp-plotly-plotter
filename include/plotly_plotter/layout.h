@@ -122,6 +122,31 @@ public:
      */
     void type(std::string_view value) { data_["type"] = value; }
 
+    /*!
+     * \brief Set the range of the axis.
+     *
+     * \tparam Min Type of the minimum value.
+     * \tparam Max Type of the maximum value.
+     * \param[in] min Minimum value.
+     * \param[in] max Maximum value.
+     *
+     * \note If type is set to `"log"`, values must be the log of the actual
+     * values.
+     * \note To left either minimum or maximum unset, use `nullptr`.
+     */
+    template <typename Min, typename Max>
+    void range(Min min, Max max) {
+        data_["range"].push_back(min);
+        data_["range"].push_back(max);
+    }
+
+    /*!
+     * \brief Set the way to compress the axis.
+     *
+     * \param[in] value Value.
+     */
+    void constrain(std::string_view value) { data_["constrain"] = value; }
+
 protected:
     /*!
      * \brief Constructor.
@@ -240,6 +265,13 @@ public:
      * - `"overlay"`: overlay traces
      */
     void violin_mode(std::string_view value) { data_["violinmode"] = value; }
+
+    /*!
+     * \brief Set whether to show the legend.
+     *
+     * \param[in] value Value.
+     */
+    void show_legend(bool value) { data_["showlegend"] = value; }
 
 private:
     //! JSON data.

@@ -220,3 +220,15 @@ TEST_CASE(
             Catch::Matchers::Matches(R"(2025-03-23 23:22:14.123\d\d\d\d\d\d)"));
     }
 }
+
+TEST_CASE("plotly_plotter::json_converter<std::nullptr_t>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert") {
+        document.root() = nullptr;
+
+        CHECK(yyjson_mut_is_null(document.root().internal_value()));
+    }
+}
