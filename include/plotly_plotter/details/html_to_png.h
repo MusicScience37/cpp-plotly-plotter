@@ -30,7 +30,7 @@ namespace plotly_plotter::details {
  *
  * \return Whether PNG is supported.
  */
-PLOTLY_PLOTTER_EXPORT [[nodiscard]] bool is_png_supported();
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT bool is_png_supported();
 
 /*!
  * \brief Convert an HTML file to a PNG file.

@@ -30,6 +30,6 @@ namespace plotly_plotter::details {
  *
  * \return The path of the Chrome executable.
  */
-PLOTLY_PLOTTER_EXPORT [[nodiscard]] std::string_view get_chrome_path();
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::string_view get_chrome_path();
 
 }  // namespace plotly_plotter::details
