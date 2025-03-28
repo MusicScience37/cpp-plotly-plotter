@@ -259,9 +259,10 @@ public:
             std::chrono::time_point_cast<std::chrono::seconds>(from);
         std::timespec timespec{};
         timespec.tv_sec = std::chrono::system_clock::to_time_t(time_point_secs);
-        timespec.tv_nsec = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            from - time_point_secs)
-                               .count();
+        timespec.tv_nsec = static_cast<long>(  // NOLINT
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                from - time_point_secs)
+                .count());
         json_converter<std::timespec>::to_json(timespec, to);
     }
 };
