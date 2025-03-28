@@ -1,0 +1,11 @@
+@PACKAGE_INIT@
+
+if(NOT TARGET cpp_plotly_plotter::plotly_plotter)
+    include(CMakeFindDependencyMacro)
+    find_dependency(yyjson)
+    find_dependency(fmt)
+
+    include(${CMAKE_CURRENT_LIST_DIR}/cpp-plotly-plotter-targets.cmake)
+endif()
+
+check_required_components(plotly_plotter)
