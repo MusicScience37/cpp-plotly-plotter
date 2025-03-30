@@ -108,9 +108,14 @@ public:
         const yyjson_write_flag flags = pretty_output
             ? static_cast<yyjson_write_flag>(YYJSON_WRITE_PRETTY_TWO_SPACES)
             : static_cast<yyjson_write_flag>(0);
-        char* str = yyjson_mut_write(document_, flags, nullptr);
+        yyjson_write_err error{};
+        char* str =
+            yyjson_mut_write_opts(document_, flags, nullptr, nullptr, &error);
         if (str == nullptr) {
-            throw std::runtime_error("Failed to serialize JSON document.");
+            throw std::runtime_error(
+                std::string("Failed to serialize JSON document.") +
+                (error.msg != nullptr ? std::string(" Error: ") + error.msg
+                                      : ""));
         }
         std::string result(str);
         // NOLINTNEXTLINE(*-no-malloc): Required by an external library.
@@ -124,8 +129,12 @@ public:
      * \param[in,out] file File to write.
      */
     void serialize_to(std::FILE* file) const {
-        if (!yyjson_mut_write_fp(file, document_, 0, nullptr, nullptr)) {
-            throw std::runtime_error("Failed to serialize JSON document.");
+        yyjson_write_err error{};
+        if (!yyjson_mut_write_fp(file, document_, 0, nullptr, &error)) {
+            throw std::runtime_error(
+                std::string("Failed to serialize JSON document.") +
+                (error.msg != nullptr ? std::string(" Error: ") + error.msg
+                                      : ""));
         }
     }
 
