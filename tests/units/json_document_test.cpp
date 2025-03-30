@@ -20,6 +20,7 @@
 #include "plotly_plotter/json_document.h"
 
 #include <cstdio>
+#include <limits>
 #include <string_view>
 
 #include <ApprovalTests.hpp>
@@ -67,6 +68,13 @@ TEST_CASE("plotly_plotter::json_document") {
         ApprovalTests::Approvals::verify(result);
     }
 
+    SECTION("try to serialize to JSON string with an invalid document") {
+        json_document document;
+        document.root() = std::numeric_limits<double>::infinity();
+
+        CHECK_THROWS(document.serialize_to_string());
+    }
+
     SECTION("serialize to a file") {
         json_document document;
         document.root()["key1"] = 123;  // NOLINT(*-magic-numbers)
@@ -83,5 +91,17 @@ TEST_CASE("plotly_plotter::json_document") {
 
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path));
+    }
+
+    SECTION("try to serialize to a file with an invalid document") {
+        json_document document;
+        document.root() = std::numeric_limits<double>::infinity();
+
+        const std::string file_path =
+            "json_document_test_serialize_to_file_invalid.json";
+        std::FILE* file = std::fopen(file_path.c_str(), "w");
+        REQUIRE(file != nullptr);
+        CHECK_THROWS(document.serialize_to(file));
+        (void)std::fclose(file);
     }
 }
