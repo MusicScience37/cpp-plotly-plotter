@@ -19,8 +19,12 @@
  */
 #include "plotly_plotter/data_table.h"
 
+#include <string>
+#include <vector>
+
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <yyjson.h>
 
 #include "plotly_plotter/array_view.h"  // IWYU pragma: keep
 #include "plotly_plotter/json_document.h"
