@@ -126,6 +126,19 @@ TEST_CASE("plotly_plotter::json_value") {
                   "key4")) == 123);
     }
 
+    SECTION("get a value from an object") {
+        json_document document;
+
+        document.root()["key1"] = 123;  // NOLINT(*-magic-numbers)
+        document.root()["key2"]["key3"] = "abc";
+
+        const auto value = document.root().at("key1");
+        REQUIRE(yyjson_mut_is_int(value.internal_value()));
+        CHECK(yyjson_mut_get_int(value.internal_value()) == 123);
+
+        CHECK_THROWS(document.root().at("key3"));
+    }
+
     SECTION("try to change the type of a value from an array") {
         json_document document;
 

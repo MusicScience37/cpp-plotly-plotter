@@ -23,6 +23,7 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 #include <type_traits>
 #include <utility>
@@ -220,6 +221,22 @@ public:
             yyjson_mut_strncpy(document_, key.data(), key.size()),
             new_value.internal_value());
         return new_value;
+    }
+
+    /*!
+     * \brief Get a value from the object.
+     *
+     * \param[in] key Key.
+     * \return Value.
+     */
+    [[nodiscard]] json_value at(std::string_view key) const {
+        yyjson_mut_val* value =
+            yyjson_mut_obj_getn(value_, key.data(), key.size());
+        if (value == nullptr) {
+            throw std::out_of_range(
+                "Key not found: " + static_cast<std::string>(key));
+        }
+        return json_value(value, document_);
     }
 
     /*!
