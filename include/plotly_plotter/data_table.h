@@ -19,14 +19,14 @@
  */
 #pragma once
 
-#include <string_view>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "plotly_plotter/array_view.h"
 #include "plotly_plotter/data_column.h"
-#include "plotly_plotter/json_converter.h"  // IWYU pragma: export
-#include "plotly_plotter/json_document.h"
-#include "plotly_plotter/json_value.h"
 
 namespace plotly_plotter {
 
@@ -45,23 +45,29 @@ public:
      *
      * \tparam T Type of values in the column.
      * \param[in] name Name of the column.
-     * \param[in] values Values in the column.
+     * \return Column.
      */
     template <typename T>
-    void emplace(std::string_view name, T&& values) {
-        data_[name] = as_array(std::forward<T>(values));
+    std::shared_ptr<data_column<T>> emplace(std::string name) {
+        auto column = std::make_shared<data_column<T>>();
+        data_.try_emplace(std::move(name), column);
+        return column;
     }
 
     /*!
-     * \brief Append a column or return the existing one if exists.
+     * \brief Append a column.
      *
+     * \tparam T Type of values in the column.
      * \param[in] name Name of the column.
+     * \param[in] values Values in the column.
      * \return Column.
      */
-    [[nodiscard]] data_column operator[](std::string_view name) {
-        auto value = data_[name];
-        value.set_to_array();
-        return data_column(value);
+    template <typename T>
+    std::shared_ptr<data_column<T>> emplace(
+        std::string name, std::vector<T> values) {
+        auto column = std::make_shared<data_column<T>>(std::move(values));
+        data_.try_emplace(std::move(name), column);
+        return column;
     }
 
     /*!
@@ -70,28 +76,18 @@ public:
      * \param[in] name Name.
      * \return Column.
      */
-    [[nodiscard]] data_column at(std::string_view name) const {
-        return data_column(data_.at(name));
-    }
-
-    /*!
-     * \brief Get the JSON document.
-     *
-     * \return JSON document.
-     *
-     * \warning This function is defined only for internal use.
-     * Future versions may remove this function even not in a major release.
-     */
-    [[nodiscard]] const json_document& data() const noexcept {
-        return document_;
+    [[nodiscard]] std::shared_ptr<data_column_base> at(
+        const std::string& name) const {
+        auto iter = data_.find(name);
+        if (iter == data_.end()) {
+            throw std::out_of_range("Column not found: " + name);
+        }
+        return iter->second;
     }
 
 private:
-    //! JSON document.
-    json_document document_;
-
-    //! JSON data.
-    json_value data_{document_.root()};
+    //! Data.
+    std::unordered_map<std::string, std::shared_ptr<data_column_base>> data_;
 };
 
 }  // namespace plotly_plotter

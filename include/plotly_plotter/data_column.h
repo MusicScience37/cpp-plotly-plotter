@@ -20,64 +20,103 @@
 #pragma once
 
 #include <utility>
+#include <vector>
 
-#include <yyjson.h>
-
+#include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_value.h"
 
 namespace plotly_plotter {
 
 /*!
+ * \brief Base class of columns in tables of data.
+ */
+class data_column_base {
+public:
+    /*!
+     * \brief Constructor.
+     */
+    data_column_base() = default;
+
+    /*!
+     * \brief Destructor.
+     */
+    virtual ~data_column_base() = default;
+
+    data_column_base(const data_column_base&) = delete;
+    data_column_base(data_column_base&&) = delete;
+    data_column_base& operator=(const data_column_base&) = delete;
+    data_column_base& operator=(data_column_base&&) = delete;
+
+    /*!
+     * \brief Convert the column to a JSON value.
+     *
+     * \param[in] to JSON value to convert to.
+     */
+    virtual void to_json(json_value to) const = 0;
+};
+
+/*!
  * \brief Class of columns in tables of data.
+ *
+ * \tparam T Type of the value.
  *
  * \note Objects of this class should be created from \ref data_table objects.
  * \note Objects of this class doesn't manage the memory of the value,
  * so the objects can be simply copied or moved.
  */
-class data_column {
+template <typename T>
+class data_column : public data_column_base {
 public:
+    //! Type of values.
+    using value_type = T;
+
+    /*!
+     * \brief Constructor.
+     */
+    data_column() = default;
+
     /*!
      * \brief Constructor.
      *
-     * \param[in] data JSON data.
-     *
-     * \warning This function should not be used in ordinary user code,
-     * create objects of this class from \ref data_table objects.
+     * \param[in] data Data.
      */
-    explicit data_column(json_value data) : data_(data) {}
+    explicit data_column(std::vector<T> data) : data_(std::move(data)) {}
+
+    /*!
+     * \brief Constructor.
+     *
+     * \tparam Iterator Type of iterators.
+     * \param[in] begin Iterator to the first element.
+     * \param[in] end Iterator to the past-the-last element.
+     */
+    template <typename Iterator>
+    data_column(Iterator begin, Iterator end) : data_(begin, end) {}
 
     /*!
      * \brief Append a value to the column.
      *
-     * \tparam T Type of the value.
+     * \tparam U Type of the value.
      * \param[in] value Value.
      */
-    template <typename T>
-    void push_back(T&& value) {
-        data_.push_back(std::forward<T>(value));
+    template <typename U>
+    void push_back(U&& value) {
+        data_.push_back(std::forward<U>(value));
     }
 
-    /*!
-     * \brief Get the JSON data.
-     *
-     * \return JSON data.
-     *
-     * \warning This function is defined only for internal use.
-     * Future versions may remove this function even not in a major release.
-     */
-    [[nodiscard]] const json_value& data() const noexcept { return data_; }
+    //! \copydoc data_column_base::to_json
+    void to_json(json_value to) const override { to = as_array(data_); }
 
 private:
-    //! JSON data.
-    json_value data_;
+    //! Data.
+    std::vector<value_type> data_;
 };
 
 /*!
- * \brief Specialization of json_converter class for data_column.
+ * \brief Specialization of json_converter class for data_column_base.
  */
 template <>
-class json_converter<data_column> {
+class json_converter<data_column_base> {
 public:
     /*!
      * \brief Convert an object to a JSON value.
@@ -85,35 +124,19 @@ public:
      * \param[in] from Object to convert from.
      * \param[out] to JSON value to convert to.
      */
-    static void to_json(const data_column& from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
-
-        if (from.data().type() != json_value::value_type::array) {
-            throw std::runtime_error(
-                "The type of the column must be an array.");
-        }
-
-        yyjson_mut_arr_iter iter =
-            yyjson_mut_arr_iter_with(from.data().internal_value());
-        yyjson_mut_val* element{};
-        while ((element = yyjson_mut_arr_iter_next(&iter)) != nullptr) {
-            to.push_back(json_value(element, from.data().internal_document()));
-        }
+    static void to_json(const data_column_base& from, json_value& to) {
+        from.to_json(to);
     }
 };
 
 /*!
- * \brief Implementation of as_array function for data_column.
+ * \brief Implementation of as_array function for data_column_base.
  *
  * \param[in] column Column.
  * \return Column.
  */
-[[nodiscard]] inline const data_column& as_array(const data_column& column) {
+[[nodiscard]] inline const data_column_base& as_array(
+    const data_column_base& column) {
     return column;  // NOLINT
 }
 
