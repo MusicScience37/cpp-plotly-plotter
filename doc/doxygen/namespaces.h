@@ -52,4 +52,12 @@ namespace plotly_plotter {
     //! Namespace of traces.
     namespace traces {}
 
+    /*!
+     * \dir include/plotly_plotter/figure_builders
+     * \brief Header files of builders of figures.
+     */
+
+    //! Namespace of builders of figures.
+    namespace figure_builders {}
+
 }  // namespace plotly_plotter
