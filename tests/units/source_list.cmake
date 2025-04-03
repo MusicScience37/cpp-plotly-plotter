@@ -1,6 +1,7 @@
 set(SOURCE_FILES
     array_view_test.cpp
     config_test.cpp
+    data_column_test.cpp
     data_table_test.cpp
     details/escape_for_html_test.cpp
     details/file_handle_test.cpp

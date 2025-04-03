@@ -19,11 +19,18 @@
  */
 #pragma once
 
+#include <cstddef>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include <fmt/format.h>
+
 #include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
+#include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
 
 namespace plotly_plotter {
@@ -54,6 +61,30 @@ public:
      * \param[in] to JSON value to convert to.
      */
     virtual void to_json(json_value to) const = 0;
+
+    /*!
+     * \brief Convert the column to a JSON value with a mask.
+     *
+     * \param[in] to JSON value to convert to.
+     * \param[in] mask Mask of the values.
+     * Values in this column are added to the JSON array
+     * only if the corresponding value in the mask is true.
+     */
+    virtual void to_json_partial(
+        json_value to, const std::vector<bool>& mask) const = 0;
+
+    /*!
+     * \brief Generate groups of the values in this column.
+     *
+     * \return A pair of the values of the groups and the indices of the groups
+     * for values.
+     *
+     * For example if a column has [1, 2, 1, 3, 2], this function returns
+     * ([1, 2, 3], [0, 1, 0, 2, 1]).
+     */
+    [[nodiscard]] virtual std::pair<std::vector<std::string>,
+        std::vector<std::size_t>>
+    generate_group() const = 0;
 };
 
 /*!
@@ -107,6 +138,40 @@ public:
     //! \copydoc data_column_base::to_json
     void to_json(json_value to) const override { to = as_array(data_); }
 
+    //! \copydoc data_column_base::to_json_partial
+    void to_json_partial(
+        json_value to, const std::vector<bool>& mask) const override {
+        if (mask.size() != data_.size()) {
+            throw std::invalid_argument("Mask size does not match data size.");
+        }
+
+        to.set_to_array();
+        for (std::size_t i = 0; i < data_.size(); ++i) {
+            if (mask[i]) {
+                to.push_back(data_[i]);
+            }
+        }
+    }
+
+    //! \copydoc data_column_base::generate_group
+    [[nodiscard]] std::pair<std::vector<std::string>, std::vector<std::size_t>>
+    generate_group() const override {
+        std::unordered_map<value_type, std::size_t> group_to_index;
+        std::vector<std::string> groups;
+        std::vector<std::size_t> indices;
+        indices.reserve(data_.size());
+        for (std::size_t i = 0; i < data_.size(); ++i) {
+            const auto& value = data_[i];
+            auto it = group_to_index.find(value);
+            if (it == group_to_index.end()) {
+                groups.push_back(fmt::format("{}", value));
+                it = group_to_index.insert({value, groups.size() - 1}).first;
+            }
+            indices.push_back(it->second);
+        }
+        return {std::move(groups), std::move(indices)};
+    }
+
 private:
     //! Data.
     std::vector<value_type> data_;
@@ -138,6 +203,76 @@ public:
 [[nodiscard]] inline const data_column_base& as_array(
     const data_column_base& column) {
     return column;  // NOLINT
+}
+
+/*!
+ * \brief Class of views of data columns filtered by a mask.
+ */
+class filtered_data_column_view {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] column Column.
+     * \param[in] mask Mask.
+     */
+    filtered_data_column_view(
+        const data_column_base& column, const std::vector<bool>& mask)
+        : column_(column), mask_(mask) {}
+
+    /*!
+     * \brief Convert the column to a JSON value.
+     *
+     * \param[in] to JSON value to convert to.
+     */
+    void to_json(json_value to) const { column_.to_json_partial(to, mask_); }
+
+private:
+    //! Column.
+    const data_column_base& column_;  // NOLINT(*-ref-data-members)
+
+    //! Mask.
+    const std::vector<bool>& mask_;  // NOLINT(*-ref-data-members)
+};
+
+/*!
+ * \brief Specialization of json_converter class for filtered_data_column_view.
+ */
+template <>
+class json_converter<filtered_data_column_view> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(const filtered_data_column_view& from, json_value& to) {
+        from.to_json(to);
+    }
+};
+
+/*!
+ * \brief Create a view of a data column filtered by a mask.
+ *
+ * \param[in] column Column.
+ * \param[in] mask Mask.
+ * \return View of the column filtered by the mask.
+ */
+[[nodiscard]] inline filtered_data_column_view filter_data_column(
+    const data_column_base& column, const std::vector<bool>& mask) {
+    return filtered_data_column_view(column, mask);
+}
+
+/*!
+ * \brief Implementation of as_array function for filtered_data_column_view.
+ *
+ * \param[in] view View.
+ * \return View.
+ */
+[[nodiscard]] inline const filtered_data_column_view& as_array(
+    const filtered_data_column_view& view) {
+    return view;  // NOLINT
 }
 
 }  // namespace plotly_plotter
