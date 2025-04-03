@@ -48,6 +48,7 @@ TEST_CASE("plotly_plotter::figure_builders::lines_builder") {
     SECTION("build with full settings") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
         data.emplace("y", std::vector<int>{4, 5, 6});
 
         const auto figure =
