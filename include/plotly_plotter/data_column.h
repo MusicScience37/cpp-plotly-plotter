@@ -57,14 +57,14 @@ public:
     /*!
      * \brief Convert the column to a JSON value.
      *
-     * \param[in] to JSON value to convert to.
+     * \param[out] to JSON value to convert to.
      */
     virtual void to_json(json_value to) const = 0;
 
     /*!
      * \brief Convert the column to a JSON value with a mask.
      *
-     * \param[in] to JSON value to convert to.
+     * \param[out] to JSON value to convert to.
      * \param[in] mask Mask of the values.
      * Values in this column are added to the JSON array
      * only if the corresponding value in the mask is true.
@@ -222,7 +222,7 @@ public:
     /*!
      * \brief Convert the column to a JSON value.
      *
-     * \param[in] to JSON value to convert to.
+     * \param[out] to JSON value to convert to.
      */
     void to_json(json_value to) const { column_.to_json_partial(to, mask_); }
 
