@@ -36,8 +36,6 @@ Checks: >
     -bugprone-easily-swappable-parameters,
     -bugprone-unchecked-optional-access,
   concurrency-*,
-  boost-*,
-  openmp-*,
 
 # Ignored checks:
 #

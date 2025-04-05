@@ -23,6 +23,7 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 #include <type_traits>
 #include <utility>
@@ -160,13 +161,28 @@ public:
      * \note If this object is not set, this function sets this object to an
      * array.
      */
-    template <typename T>
+    template <typename T,
+        typename =
+            std::enable_if_t<!std::is_same_v<std::decay_t<T>, json_value>>>
     void push_back(T&& value) {
         set_to_array();
 
         json_value new_value(yyjson_mut_null(document_), document_);
         new_value = std::forward<T>(value);
         yyjson_mut_arr_append(value_, new_value.internal_value());
+    }
+
+    /*!
+     * \brief Append a copy of a value.
+     *
+     * \param[in] value Value.
+     */
+    void push_back(const json_value& value) {
+        set_to_array();
+
+        yyjson_mut_val* new_value =
+            yyjson_mut_val_mut_copy(document_, value.value_);
+        yyjson_mut_arr_append(value_, new_value);
     }
 
     /*!
@@ -205,6 +221,22 @@ public:
             yyjson_mut_strncpy(document_, key.data(), key.size()),
             new_value.internal_value());
         return new_value;
+    }
+
+    /*!
+     * \brief Get a value from the object.
+     *
+     * \param[in] key Key.
+     * \return Value.
+     */
+    [[nodiscard]] json_value at(std::string_view key) const {
+        yyjson_mut_val* value =
+            yyjson_mut_obj_getn(value_, key.data(), key.size());
+        if (value == nullptr) {
+            throw std::out_of_range(
+                "Key not found: " + static_cast<std::string>(key));
+        }
+        return json_value(value, document_);
     }
 
     /*!

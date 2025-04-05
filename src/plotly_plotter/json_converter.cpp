@@ -19,11 +19,9 @@
  */
 #include "plotly_plotter/json_converter.h"
 
-#include <iterator>
-
-#include <fmt/base.h>
-#include <fmt/chrono.h>
 #include <fmt/format.h>
+
+#include "plotly_plotter/details/format_time.h"
 
 namespace plotly_plotter {
 
@@ -36,8 +34,21 @@ void json_converter<std::timespec>::to_json(
             "allowed.");
     }
     fmt::memory_buffer buffer;
-    fmt::format_to(std::back_inserter(buffer), "{:%Y-%m-%d %H:%M:%S}.{:09d}",
-        fmt::localtime(from.tv_sec), from.tv_nsec);
+    details::format_time(from, buffer);
+    json_converter<std::string_view>::to_json(
+        std::string_view(buffer.data(), buffer.size()), to);
+}
+
+void json_converter<std::chrono::system_clock::time_point>::to_json(
+    const std::chrono::system_clock::time_point& from, json_value& to) {
+    if (to.type() == json_value::value_type::array ||
+        to.type() == json_value::value_type::object) {
+        throw std::runtime_error(
+            "Changing the type of a value from arrays or objects is not "
+            "allowed.");
+    }
+    fmt::memory_buffer buffer;
+    details::format_time(from, buffer);
     json_converter<std::string_view>::to_json(
         std::string_view(buffer.data(), buffer.size()), to);
 }

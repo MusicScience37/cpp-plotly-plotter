@@ -253,18 +253,8 @@ public:
      * \param[in] from Object to convert from.
      * \param[out] to JSON value to convert to.
      */
-    static void to_json(
-        const std::chrono::system_clock::time_point& from, json_value& to) {
-        const auto time_point_secs =
-            std::chrono::time_point_cast<std::chrono::seconds>(from);
-        std::timespec timespec{};
-        timespec.tv_sec = std::chrono::system_clock::to_time_t(time_point_secs);
-        timespec.tv_nsec = static_cast<long>(  // NOLINT
-            std::chrono::duration_cast<std::chrono::nanoseconds>(
-                from - time_point_secs)
-                .count());
-        json_converter<std::timespec>::to_json(timespec, to);
-    }
+    PLOTLY_PLOTTER_EXPORT static void to_json(
+        const std::chrono::system_clock::time_point& from, json_value& to);
 };
 
 /*!

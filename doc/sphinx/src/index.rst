@@ -23,7 +23,7 @@ Full API reference can be viewed `here <api/index.html>`_.
     install
     examples/index
     basic_api/index
-    Full API Reference <https://cpp-plotly-plotter-332fca.gitlab.io/api/index.html>
+    Full API Reference <https://cppplotlyplotter.musicscience37.com/api/index.html>
 
 .. toctree::
     :maxdepth: 1

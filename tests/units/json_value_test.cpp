@@ -59,6 +59,22 @@ TEST_CASE("plotly_plotter::json_value") {
                   document.root().internal_value(), 1))) == "abc");
     }
 
+    SECTION("append a value from another document") {
+        json_document document1;
+        document1.root() = 123;  // NOLINT(*-magic-numbers)
+
+        json_document document2;
+        document2.root().push_back(document1.root());
+
+        REQUIRE(yyjson_mut_is_arr(document2.root().internal_value()));
+        REQUIRE(yyjson_mut_arr_size(document2.root().internal_value()) == 1);
+        REQUIRE(yyjson_mut_is_int(
+            yyjson_mut_arr_get(document2.root().internal_value(), 0)));
+        CHECK(yyjson_mut_get_int(yyjson_mut_arr_get(
+                  // NOLINTNEXTLINE(*-magic-numbers)
+                  document2.root().internal_value(), 0)) == 123);
+    }
+
     SECTION("append a value as an array using emplace_back") {
         json_document document;
 
@@ -108,6 +124,19 @@ TEST_CASE("plotly_plotter::json_value") {
         CHECK(yyjson_mut_get_int(yyjson_mut_obj_get(
                   yyjson_mut_obj_get(document.root().internal_value(), "key2"),
                   "key4")) == 123);
+    }
+
+    SECTION("get a value from an object") {
+        json_document document;
+
+        document.root()["key1"] = 123;  // NOLINT(*-magic-numbers)
+        document.root()["key2"]["key3"] = "abc";
+
+        const auto value = document.root().at("key1");
+        REQUIRE(yyjson_mut_is_int(value.internal_value()));
+        CHECK(yyjson_mut_get_int(value.internal_value()) == 123);
+
+        CHECK_THROWS(document.root().at("key3"));
     }
 
     SECTION("try to change the type of a value from an array") {
