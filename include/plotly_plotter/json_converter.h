@@ -20,6 +20,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
@@ -35,6 +36,24 @@
 
 namespace plotly_plotter {
 
+namespace details {
+
+/*!
+ * \brief Check if the assignment is valid.
+ *
+ * \param[in] target JSON value to check.
+ */
+inline void check_assignment(const json_value& target) {
+    if (target.type() == json_value::value_type::array ||
+        target.type() == json_value::value_type::object) {
+        throw std::runtime_error(
+            "Changing the type of a value from arrays or objects is not "
+            "allowed.");
+    }
+}
+
+}  // namespace details
+
 /*!
  * \brief Specialization of json_converter class for bool.
  */
@@ -48,12 +67,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(bool from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_bool(to.internal_value(), from);
     }
 };
@@ -74,12 +88,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_uint(
             to.internal_value(), static_cast<std::uint64_t>(from));
     }
@@ -101,12 +110,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_sint(
             to.internal_value(), static_cast<std::int64_t>(from));
     }
@@ -127,12 +131,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(T from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_real(to.internal_value(), static_cast<double>(from));
     }
 };
@@ -154,12 +153,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(const T& from, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_strn(to.internal_value(),
             unsafe_yyjson_mut_strncpy(
                 to.internal_document(), from.data(), from.size()),
@@ -209,11 +203,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(const T& from, json_value& to) {
-        if (to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_arr(to.internal_value());
         yyjson_mut_arr_clear(to.internal_value());
         for (const auto& value : from) {
@@ -269,12 +259,7 @@ public:
      * \param[out] to JSON value to convert to.
      */
     static void to_json(std::nullptr_t, json_value& to) {
-        if (to.type() == json_value::value_type::array ||
-            to.type() == json_value::value_type::object) {
-            throw std::runtime_error(
-                "Changing the type of a value from arrays or objects is not "
-                "allowed.");
-        }
+        details::check_assignment(to);
         yyjson_mut_set_null(to.internal_value());
     }
 };
