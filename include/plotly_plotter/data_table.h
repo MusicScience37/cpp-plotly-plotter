@@ -22,11 +22,13 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "plotly_plotter/data_column.h"
+#include "plotly_plotter/details/has_iterator.h"
 
 namespace plotly_plotter {
 
@@ -68,6 +70,25 @@ public:
         auto column = std::make_shared<data_column<T>>(std::move(values));
         data_.try_emplace(std::move(name), column);
         return column;
+    }
+
+    /*!
+     * \brief Append a column.
+     *
+     * \tparam Container Type of the container of values in the column.
+     * \param[in] name Name of the column.
+     * \param[in] values Values in the column.
+     * \return Column.
+     */
+    template <typename Container,
+        typename = std::enable_if_t<details::has_iterator_v<Container> &&
+            !std::is_same_v<std::decay_t<Container>,
+                std::vector<typename Container::value_type>>>>
+    std::shared_ptr<data_column<typename Container::value_type>> emplace(
+        std::string name, Container&& values) {  // NOLINT(*-std-forward)
+        std::vector<typename Container::value_type> vec(
+            std::begin(values), std::end(values));
+        return emplace(std::move(name), std::move(vec));
     }
 
     /*!

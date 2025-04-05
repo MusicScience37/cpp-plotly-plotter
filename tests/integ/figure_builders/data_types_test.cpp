@@ -17,6 +17,7 @@
  * \file
  * \brief Test of data types.
  */
+#include <Eigen/Core>
 #include <string>
 #include <vector>
 
@@ -92,6 +93,46 @@ TEST_CASE("data types") {
             line(data).x("x").y("y").title("Line with vector<string>").create();
 
         const std::string file_path = "data_types_vector_string.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXd") {
+        data_table data;
+        data.emplace("x", std::vector{1, 2, 3});
+        data.emplace(
+            "y", Eigen::VectorXd{{4.5, 5.75, 7.0}});  // NOLINT(*-magic-numbers)
+
+        const auto figure = line(data)
+                                .x("x")
+                                .y("y")
+                                .title("Line with Eigen::VectorXd")
+                                .create();
+
+        const std::string file_path = "data_types_eigen_vector_xd.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("Eigen::VectorXi") {
+        data_table data;
+        data.emplace("x", std::vector{1, 2, 3});
+        data.emplace(
+            "y", Eigen::VectorXi{{4, 5, 6}});  // NOLINT(*-magic-numbers)
+
+        const auto figure = line(data)
+                                .x("x")
+                                .y("y")
+                                .title("Line with Eigen::VectorXi")
+                                .create();
+
+        const std::string file_path = "data_types_eigen_vector_xi.html";
         write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
