@@ -13,6 +13,7 @@ set(SOURCE_FILES
     json_value_test.cpp
     layout_test.cpp
     test_main.cpp
+    to_string_test.cpp
     traces/box_test.cpp
     traces/scatter_test.cpp
     traces/violin_test.cpp

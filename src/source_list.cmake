@@ -1,4 +1,5 @@
 set(SOURCE_FILES
+    plotly_plotter/details/format_time.cpp
     plotly_plotter/details/get_chrome_path.cpp
     plotly_plotter/details/html_to_pdf.cpp
     plotly_plotter/details/html_to_png.cpp
@@ -6,6 +7,7 @@ set(SOURCE_FILES
     plotly_plotter/figure_builders/figure_builder_base.cpp
     plotly_plotter/figure_builders/line.cpp
     plotly_plotter/json_converter.cpp
+    plotly_plotter/to_string.cpp
     plotly_plotter/write_pdf.cpp
     plotly_plotter/write_png.cpp
 )

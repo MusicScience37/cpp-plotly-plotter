@@ -12,6 +12,7 @@
 #include "json_value_test.cpp"            // NOLINT(bugprone-suspicious-include)
 #include "layout_test.cpp"                // NOLINT(bugprone-suspicious-include)
 #include "test_main.cpp"                  // NOLINT(bugprone-suspicious-include)
+#include "to_string_test.cpp"             // NOLINT(bugprone-suspicious-include)
 #include "traces/box_test.cpp"            // NOLINT(bugprone-suspicious-include)
 #include "traces/scatter_test.cpp"        // NOLINT(bugprone-suspicious-include)
 #include "traces/violin_test.cpp"         // NOLINT(bugprone-suspicious-include)

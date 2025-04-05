@@ -26,12 +26,11 @@
 #include <utility>
 #include <vector>
 
-#include <fmt/format.h>
-
 #include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
+#include "plotly_plotter/to_string.h"
 
 namespace plotly_plotter {
 
@@ -164,7 +163,7 @@ public:
             const auto& value = data_[i];
             auto it = group_to_index.find(value);
             if (it == group_to_index.end()) {
-                groups.push_back(fmt::format("{}", value));
+                groups.push_back(to_string(value));
                 it = group_to_index.insert({value, groups.size() - 1}).first;
             }
             indices.push_back(it->second);
