@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Defintion of has_iterator class.
+ * \brief Definition of has_iterator class.
  */
 #pragma once
 
