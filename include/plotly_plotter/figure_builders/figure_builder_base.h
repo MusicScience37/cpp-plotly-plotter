@@ -134,6 +134,13 @@ private:
      */
     [[nodiscard]] figure create_with_grouping() const;
 
+    /*!
+     * \brief Add configuration common for figures with and without grouping.
+     *
+     * \param[out] fig Figure to configure.
+     */
+    void configure_figure(figure& fig) const;
+
     //! Data.
     const data_table& data_;  // NOLINT(*-ref-data-members)
 

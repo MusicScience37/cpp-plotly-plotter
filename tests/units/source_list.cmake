@@ -5,6 +5,7 @@ set(SOURCE_FILES
     data_table_test.cpp
     details/escape_for_html_test.cpp
     details/file_handle_test.cpp
+    figure_builders/figure_builder_base_test.cpp
     figure_builders/line_test.cpp
     figure_test.cpp
     json_converter_test.cpp

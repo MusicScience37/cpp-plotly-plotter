@@ -59,12 +59,7 @@ figure figure_builder_base::create_without_grouping() const {
 
     add_trace_without_grouping(fig);
 
-    configure_axes(fig);
-    if (title_.empty()) {
-        fig.layout().title().text(default_title());
-    } else {
-        fig.layout().title().text(title_);
-    }
+    configure_figure(fig);
 
     return fig;
 }
@@ -89,14 +84,18 @@ figure figure_builder_base::create_with_grouping() const {
         add_trace_for_group(fig, group_mask, group_name);
     }
 
+    configure_figure(fig);
+
+    return fig;
+}
+
+void figure_builder_base::configure_figure(figure& fig) const {
     configure_axes(fig);
     if (title_.empty()) {
         fig.layout().title().text(default_title());
     } else {
         fig.layout().title().text(title_);
     }
-
-    return fig;
 }
 
 }  // namespace plotly_plotter::figure_builders
