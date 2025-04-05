@@ -10,6 +10,7 @@ SOURCE_PATHS = [
     THIS_DIR.parent / "src",
     THIS_DIR.parent / "tests" / "units",
     THIS_DIR.parent / "tests" / "integ" / "traces",
+    THIS_DIR.parent / "tests" / "integ" / "figure_builders",
     THIS_DIR.parent / "tests" / "integ" / "outputs",
 ]
 
