@@ -27,12 +27,7 @@ namespace plotly_plotter {
 
 void json_converter<std::timespec>::to_json(
     const std::timespec& from, json_value& to) {
-    if (to.type() == json_value::value_type::array ||
-        to.type() == json_value::value_type::object) {
-        throw std::runtime_error(
-            "Changing the type of a value from arrays or objects is not "
-            "allowed.");
-    }
+    details::check_assignment(to);
     fmt::memory_buffer buffer;
     details::format_time(from, buffer);
     json_converter<std::string_view>::to_json(
@@ -41,12 +36,7 @@ void json_converter<std::timespec>::to_json(
 
 void json_converter<std::chrono::system_clock::time_point>::to_json(
     const std::chrono::system_clock::time_point& from, json_value& to) {
-    if (to.type() == json_value::value_type::array ||
-        to.type() == json_value::value_type::object) {
-        throw std::runtime_error(
-            "Changing the type of a value from arrays or objects is not "
-            "allowed.");
-    }
+    details::check_assignment(to);
     fmt::memory_buffer buffer;
     details::format_time(from, buffer);
     json_converter<std::string_view>::to_json(
