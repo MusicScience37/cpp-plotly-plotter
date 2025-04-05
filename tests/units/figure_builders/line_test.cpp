@@ -81,4 +81,12 @@ TEST_CASE("plotly_plotter::figure_builders::line") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("try to build without y") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+
+        REQUIRE_THROWS_AS(line(data).create(), std::runtime_error);
+        REQUIRE_THROWS_AS(line(data).group("x").create(), std::runtime_error);
+    }
 }
