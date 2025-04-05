@@ -44,7 +44,7 @@ TEST_CASE("plotly_plotter::figure_builders::line") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("build with full settings") {
+    SECTION("build without grouping") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3});
         // NOLINTNEXTLINE(*-magic-numbers)
@@ -52,6 +52,28 @@ TEST_CASE("plotly_plotter::figure_builders::line") {
 
         const auto figure =
             line(data).x("x").y("y").title("Test Title").create();
+
+        const std::string file_path = "line_build_without_grouping.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("build with full settings") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = line(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .title("Test Title")
+                                .create();
 
         const std::string file_path = "line_build_with_full_settings.html";
         plotly_plotter::write_html(file_path, figure);

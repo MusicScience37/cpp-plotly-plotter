@@ -19,11 +19,15 @@
  */
 #pragma once
 
+#include <cstddef>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
+
+#include <fmt/format.h>
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"
@@ -75,6 +79,17 @@ public:
     }
 
     /*!
+     * \brief Set the column name of groups.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    line& group(std::string value) {
+        group_ = std::move(value);
+        return *this;
+    }
+
+    /*!
      * \brief Set the title of the figure.
      *
      * \param[in] value Value.
@@ -91,6 +106,19 @@ public:
      * \return Figure.
      */
     [[nodiscard]] figure create() const {
+        if (group_.empty()) {
+            return create_without_grouping();
+        }
+        return create_with_grouping();
+    }
+
+private:
+    /*!
+     * \brief Create a figure without grouping.
+     *
+     * \return Figure.
+     */
+    [[nodiscard]] figure create_without_grouping() const {
         figure fig;
 
         auto scatter = fig.add_scatter();
@@ -112,7 +140,63 @@ public:
         return fig;
     }
 
-private:
+    /*!
+     * \brief Create a figure with grouping.
+     *
+     * \return Figure.
+     */
+    [[nodiscard]] figure create_with_grouping() const {
+        figure fig;
+
+        const auto grouping = data_.at(group_)->generate_group();
+        const auto& group_values = grouping.first;
+        const auto& group_indices = grouping.second;
+
+        std::vector<bool> group_mask(group_indices.size(), false);
+        for (std::size_t group_index = 0; group_index < group_values.size();
+            ++group_index) {
+            for (std::size_t row_index = 0; row_index < group_indices.size();
+                ++row_index) {
+                group_mask[row_index] =
+                    (group_indices[row_index] == group_index);
+            }
+
+            const auto group_name =
+                fmt::format("{}={}", group_, group_values[group_index]);
+            add_trace_for_group(fig, group_mask, group_name);
+        }
+
+        if (!x_.empty()) {
+            fig.layout().xaxis().title().text(x_);
+        }
+        fig.layout().yaxis().title().text(y_);
+        fig.layout().title().text(title_.empty() ? y_ : title_);
+
+        return fig;
+    }
+
+    /*!
+     * \brief Add a trace for a group.
+     *
+     * \param[out] figure Figure to add the trace to.
+     * \param[in] group_mask Mask of the values in the group.
+     * \param[in] group_name Name of the group.
+     */
+    void add_trace_for_group(figure& figure,
+        const std::vector<bool>& group_mask,
+        std::string_view group_name) const {
+        auto scatter = figure.add_scatter();
+        scatter.mode("lines");
+        if (!x_.empty()) {
+            scatter.x(filter_data_column(*data_.at(x_), group_mask));
+        }
+        if (y_.empty()) {
+            throw std::runtime_error("y coordinates must be set.");
+        }
+        scatter.y(filter_data_column(*data_.at(y_), group_mask));
+        scatter.name(group_name);
+    }
+
     //! Data.
     const data_table& data_;  // NOLINT(*-ref-data-members)
 
@@ -121,6 +205,9 @@ private:
 
     //! Column name of y coordinates.
     std::string y_;
+
+    //! Column name of groups.
+    std::string group_;
 
     //! Title of the figure.
     std::string title_;
