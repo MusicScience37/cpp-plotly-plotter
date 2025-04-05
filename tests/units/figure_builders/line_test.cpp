@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Test of lines_builder class.
+ * \brief Test of line class.
  */
-#include "plotly_plotter/figure_builders/lines_builder.h"
+#include "plotly_plotter/figure_builders/line.h"
 
 #include <vector>
 
@@ -27,18 +27,17 @@
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/write_html.h"
 
-TEST_CASE("plotly_plotter::figure_builders::lines_builder") {
+TEST_CASE("plotly_plotter::figure_builders::line") {
     using plotly_plotter::data_table;
-    using plotly_plotter::figure_builders::lines_builder;
+    using plotly_plotter::figure_builders::line;
 
     SECTION("build with minimal settings") {
         data_table data;
         data.emplace("y", std::vector<int>{1, 2, 3});
 
-        const auto figure = lines_builder(data).y("y").build();
+        const auto figure = line(data).y("y").create();
 
-        const std::string file_path =
-            "lines_builder_build_with_minimal_settings.html";
+        const std::string file_path = "line_build_with_minimal_settings.html";
         plotly_plotter::write_html(file_path, figure);
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
@@ -52,10 +51,9 @@ TEST_CASE("plotly_plotter::figure_builders::lines_builder") {
         data.emplace("y", std::vector<int>{4, 5, 6});
 
         const auto figure =
-            lines_builder(data).x("x").y("y").title("Test Title").build();
+            line(data).x("x").y("y").title("Test Title").create();
 
-        const std::string file_path =
-            "lines_builder_build_with_full_settings.html";
+        const std::string file_path = "line_build_with_full_settings.html";
         plotly_plotter::write_html(file_path, figure);
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),

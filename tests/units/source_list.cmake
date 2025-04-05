@@ -7,7 +7,7 @@ set(SOURCE_FILES
     details/file_handle_test.cpp
     details/html_to_pdf_test.cpp
     details/html_to_png_test.cpp
-    figure_builders/lines_builder_test.cpp
+    figure_builders/line_test.cpp
     figure_test.cpp
     json_converter_test.cpp
     json_document_test.cpp

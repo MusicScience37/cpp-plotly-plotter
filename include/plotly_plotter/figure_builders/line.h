@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of lines_builder class.
+ * \brief Definition of line class.
  */
 #pragma once
 
@@ -40,7 +40,7 @@ namespace plotly_plotter::figure_builders {
  * So, the data must be valid until this object is destructed.
  * \note Objects of this class can't be reused.
  */
-class lines_builder {
+class line {
 public:
     /*!
      * \brief Constructor.
@@ -50,7 +50,7 @@ public:
      * \note This class hold the reference of the data.
      * So, the data must be valid until this object is destructed.
      */
-    explicit lines_builder(const data_table& data) : data_(data) {}
+    explicit line(const data_table& data) : data_(data) {}
 
     /*!
      * \brief Set the column name of x coordinates.
@@ -58,7 +58,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    lines_builder& x(std::string value) {
+    line& x(std::string value) {
         x_ = std::move(value);
         return *this;
     }
@@ -69,7 +69,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    lines_builder& y(std::string value) {
+    line& y(std::string value) {
         y_ = std::move(value);
         return *this;
     }
@@ -80,7 +80,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    lines_builder& title(std::string value) {
+    line& title(std::string value) {
         title_ = std::move(value);
         return *this;
     }
@@ -90,7 +90,7 @@ public:
      *
      * \return Figure.
      */
-    [[nodiscard]] figure build() const {
+    [[nodiscard]] figure create() const {
         figure fig;
 
         auto scatter = fig.add_scatter();
