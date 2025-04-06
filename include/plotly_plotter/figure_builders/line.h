@@ -15,90 +15,23 @@
  */
 /*!
  * \file
- * \brief Definition of line class.
+ * \brief Definition of line function.
  */
 #pragma once
 
-#include <string>
-#include <string_view>
-
 #include "plotly_plotter/data_table.h"
-#include "plotly_plotter/details/plotly_plotter_export.h"
-#include "plotly_plotter/figure_builders/figure_builder_base.h"
+#include "plotly_plotter/figure_builders/scatter.h"
 
 namespace plotly_plotter::figure_builders {
 
 /*!
- * \brief Class to create figures of line plots.
+ * \brief Create a \ref scatter object to create a line plot.
  *
- * \note This class hold the reference of the data.
- * So, the data must be valid until this object is destructed.
- * \note Objects of this class can't be reused.
+ * \param[in] data Data.
+ * \return \ref scatter object.
  */
-class PLOTLY_PLOTTER_EXPORT line final : public figure_builder_base {
-public:
-    /*!
-     * \brief Constructor.
-     *
-     * \param[in] data Data.
-     *
-     * \note This class hold the reference of the data.
-     * So, the data must be valid until this object is destructed.
-     */
-    explicit line(const data_table& data);
-
-    /*!
-     * \brief Set the column name of x coordinates.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    line& x(std::string value);
-
-    /*!
-     * \brief Set the column name of y coordinates.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    line& y(std::string value);
-
-    /*!
-     * \brief Set the column name of groups.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    line& group(std::string value);
-
-    /*!
-     * \brief Set the title of the figure.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    line& title(std::string value);
-
-private:
-    //! \copydoc figure_builder_base::configure_axes
-    void configure_axes(figure& fig) const override;
-
-    //! \copydoc figure_builder_base::default_title
-    [[nodiscard]] std::string default_title() const override;
-
-    //! \copydoc figure_builder_base::add_trace_without_grouping
-    void add_trace_without_grouping(figure& fig) const override;
-
-    //! \copydoc figure_builder_base::add_trace_for_group
-    void add_trace_for_group(figure& figure,
-        const std::vector<bool>& group_mask,
-        std::string_view group_name) const override;
-
-    //! Column name of x coordinates.
-    std::string x_;
-
-    //! Column name of y coordinates.
-    std::string y_;
-};
+[[nodiscard]] inline scatter line(const data_table& data) {
+    return scatter(data).mode("lines");
+}
 
 }  // namespace plotly_plotter::figure_builders

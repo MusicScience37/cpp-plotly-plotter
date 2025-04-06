@@ -45,8 +45,6 @@ public:
      */
     [[nodiscard]] figure create() const;
 
-    figure_builder_base(const figure_builder_base&) = delete;
-    figure_builder_base(figure_builder_base&&) = delete;
     figure_builder_base& operator=(const figure_builder_base&) = delete;
     figure_builder_base& operator=(figure_builder_base&&) = delete;
 
@@ -60,6 +58,16 @@ protected:
      * So, the data must be valid until this object is destructed.
      */
     explicit figure_builder_base(const data_table& data);
+
+    /*!
+     * \brief Copy constructor.
+     */
+    figure_builder_base(const figure_builder_base& /*other*/) = default;
+
+    /*!
+     * \brief Move constructor.
+     */
+    figure_builder_base(figure_builder_base&& /*other*/) = default;
 
     /*!
      * \brief Destructor.
