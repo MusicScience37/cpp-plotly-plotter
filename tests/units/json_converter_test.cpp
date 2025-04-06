@@ -146,6 +146,18 @@ TEST_CASE("plotly_plotter::json_converter<floating point types>") {
         // NOLINTNEXTLINE(*-magic-numbers)
         CHECK(yyjson_mut_get_real(document.root().internal_value()) == 1.25);
     }
+
+    SECTION("convert NaN") {
+        document.root() = std::numeric_limits<double>::quiet_NaN();
+
+        CHECK(yyjson_mut_is_null(document.root().internal_value()));
+    }
+
+    SECTION("convert infinity") {
+        document.root() = std::numeric_limits<double>::infinity();
+
+        CHECK(yyjson_mut_is_null(document.root().internal_value()));
+    }
 }
 
 TEST_CASE("plotly_plotter::json_converter<strings>") {

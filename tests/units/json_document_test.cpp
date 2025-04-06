@@ -70,7 +70,8 @@ TEST_CASE("plotly_plotter::json_document") {
 
     SECTION("try to serialize to JSON string with an invalid document") {
         json_document document;
-        document.root() = std::numeric_limits<double>::infinity();
+        yyjson_mut_set_real(document.root().internal_value(),
+            std::numeric_limits<double>::infinity());
 
         CHECK_THROWS(document.serialize_to_string());
     }
@@ -95,7 +96,8 @@ TEST_CASE("plotly_plotter::json_document") {
 
     SECTION("try to serialize to a file with an invalid document") {
         json_document document;
-        document.root() = std::numeric_limits<double>::infinity();
+        yyjson_mut_set_real(document.root().internal_value(),
+            std::numeric_limits<double>::infinity());
 
         const std::string file_path =
             "json_document_test_serialize_to_file_invalid.json";
