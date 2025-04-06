@@ -19,11 +19,14 @@
  */
 #include "plotly_plotter/figure_builders/scatter.h"
 
+#include <cstddef>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
+
+#include <fmt/format.h>
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"

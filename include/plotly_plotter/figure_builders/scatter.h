@@ -22,6 +22,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"

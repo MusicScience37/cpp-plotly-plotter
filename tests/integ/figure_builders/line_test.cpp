@@ -19,6 +19,7 @@
  */
 #include "plotly_plotter/figure_builders/line.h"
 
+#include <cstddef>
 #include <vector>
 
 #include <ApprovalTests.hpp>

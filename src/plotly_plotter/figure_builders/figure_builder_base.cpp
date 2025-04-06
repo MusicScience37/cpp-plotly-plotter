@@ -22,10 +22,12 @@
 #include <cstddef>
 #include <iterator>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include <fmt/base.h>
 #include <fmt/format.h>
 
 #include "plotly_plotter/data_column.h"

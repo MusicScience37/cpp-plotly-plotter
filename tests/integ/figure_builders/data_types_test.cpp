@@ -26,6 +26,7 @@
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure_builders/line.h"
+#include "plotly_plotter/figure_builders/scatter.h"
 #include "plotly_plotter/write_html.h"
 
 TEST_CASE("data types") {

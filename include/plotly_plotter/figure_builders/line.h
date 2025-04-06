@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <string>
+
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure_builders/scatter.h"
 
