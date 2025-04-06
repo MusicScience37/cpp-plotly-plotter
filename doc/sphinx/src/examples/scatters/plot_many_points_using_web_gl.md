@@ -11,7 +11,9 @@ Use of WebGL is recommended when plotting more than 1000 points
 according to the document of
 [plotly.express.scatter function](https://plotly.com/python-api-reference/generated/plotly.express.scatter)
 in Plotly Python library.
-However, WebGL doesn't support some features like "text" in scatter's mode.
+
+When you use figure builders API,
+this library will automatically use WebGL when the number of points is more than 1000.
 ```
 
 ## Prerequisites

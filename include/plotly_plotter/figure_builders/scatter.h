@@ -102,6 +102,9 @@ public:
      *
      * \param[in] value Value.
      * \return This object.
+     *
+     * \note If this option is not set, this class automatically selects whether
+     * to use WebGL according to the number of points.
      */
     scatter& use_web_gl(bool value);
 
