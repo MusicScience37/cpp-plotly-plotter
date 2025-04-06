@@ -103,12 +103,13 @@ figure figure_builder_base::create_with_grouping() const {
             }
         }
 
-        const auto group_name =
-            fmt::format("{}={}", group_, group_values[group_index]);
-        const auto hover_prefix = fmt::format("{}<br>", group_name);
+        const auto& group_name = group_values[group_index];
+        const auto hover_prefix = fmt::format("{}={}<br>", group_, group_name);
         add_trace_for_group(fig, group_mask, group_name, group_index,
             hover_prefix, additional_hover_text_filtered);
     }
+
+    fig.layout().legend().title().text(group_);
 
     configure_figure(fig);
 

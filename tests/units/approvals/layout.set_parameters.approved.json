@@ -54,6 +54,12 @@
       "pattern": "independent",
       "roworder": "bottom to top"
     },
+    "legend": {
+      "title": {
+        "text": "Legend"
+      },
+      "tracegroupgap": 5.0
+    },
     "boxmode": "group",
     "violinmode": "group",
     "showlegend": true

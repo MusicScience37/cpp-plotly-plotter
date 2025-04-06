@@ -52,6 +52,8 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().grid().columns(3);
         figure.layout().grid().pattern("independent");
         figure.layout().grid().row_order("bottom to top");
+        figure.layout().legend().title().text("Legend");
+        figure.layout().legend().trace_group_gap(5);  // NOLINT
         figure.layout().box_mode("group");
         figure.layout().violin_mode("group");
         figure.layout().show_legend(true);

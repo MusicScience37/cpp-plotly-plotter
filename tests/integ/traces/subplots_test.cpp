@@ -95,6 +95,8 @@ TEST_CASE("subplots") {
 
         figure.layout().yaxis().title().text("y");
 
+        figure.layout().legend().trace_group_gap(0);
+
         figure.layout().title().text("Subplots in Columns");
 
         const std::string file_path = "subplots_in_columns.html";
@@ -163,6 +165,8 @@ TEST_CASE("subplots") {
         figure.layout().yaxis(1).title().text("y1");
         figure.layout().yaxis(2).title().text("y2");
         figure.layout().yaxis(3).title().text("y3");
+
+        figure.layout().legend().trace_group_gap(0);
 
         figure.layout().title().text("Subplots in Rows");
 
@@ -301,6 +305,8 @@ TEST_CASE("subplots") {
         figure.layout().xaxis(3).title().text("x3");
         figure.layout().yaxis(1).title().text("y1");
         figure.layout().yaxis(2).title().text("y2");
+
+        figure.layout().legend().trace_group_gap(0);
 
         figure.layout().title().text("Subplots in Table");
 

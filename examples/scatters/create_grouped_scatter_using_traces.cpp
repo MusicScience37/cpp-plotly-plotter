@@ -31,7 +31,7 @@ int main() {
     scatter.x(std::vector{1, 2, 3});
     scatter.y(std::vector{1.2, 2.3, 3.4});
     // Set the name of the trace.
-    scatter.name("Group=A");
+    scatter.name("A");
     // Additional configuration of plotly.js.
     scatter.hover_template("Group=A<br>x=%{x}<br>y=%{y}");
     scatter.mode("markers");
@@ -42,7 +42,7 @@ int main() {
     scatter.x(std::vector{1, 2, 3});
     scatter.y(std::vector{4.5, 5.6, 6.7});
     // Set the name of the trace.
-    scatter.name("Group=B");
+    scatter.name("B");
     // Additional configuration of plotly.js.
     scatter.hover_template("Group=B<br>x=%{x}<br>y=%{y}");
     scatter.mode("markers");
