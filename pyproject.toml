@@ -51,4 +51,4 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.pylint.main]
-disable = "too-many-instance-attributes,line-too-long"
+disable = "too-many-instance-attributes,line-too-long,global-variable-not-assigned"
