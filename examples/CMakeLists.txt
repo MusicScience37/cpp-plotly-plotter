@@ -28,10 +28,10 @@ function(add_example_output TARGET OUTPUT_NAME)
     endif()
 endfunction()
 
-add_example(simple_plot simple_plot.cpp)
+add_example(simple_plot get_started/simple_plot.cpp)
 add_example_output(simple_plot simple_plot.html)
 
-add_example(add_titles add_titles.cpp)
+add_example(add_titles get_started/add_titles.cpp)
 add_example_output(add_titles add_titles.html)
 
 add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
