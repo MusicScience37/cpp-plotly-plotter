@@ -92,4 +92,16 @@ TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("try to create a figure with an inconsistent number of rows") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        data.emplace("group", std::vector<std::string>{"A", "A"});
+
+        // This should throw event when the inconsistent column is not used.
+        CHECK_THROWS(line(data).x("x").y("y").create());
+        CHECK_THROWS(line(data).y("y").create());
+    }
 }

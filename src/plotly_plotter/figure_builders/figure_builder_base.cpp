@@ -36,6 +36,9 @@
 namespace plotly_plotter::figure_builders {
 
 figure figure_builder_base::create() const {
+    if (!data_.has_consistent_rows()) {
+        throw std::runtime_error("Data table has inconsistent number of rows.");
+    }
     if (group_.empty()) {
         return create_without_grouping();
     }

@@ -110,12 +110,32 @@ public:
      * \brief Get the number of rows.
      *
      * \return Number of rows.
+     *
+     * \note This function returns a valid number only if all columns have the
+     * same number of rows, which can be checked by has_consistent_rows()
+     * function.
      */
     [[nodiscard]] std::size_t rows() const noexcept {
         if (data_.empty()) {
             return 0;
         }
         return data_.begin()->second->size();
+    }
+
+    /*!
+     * \brief Check whether all columns have the same number of rows.
+     *
+     * \retval true All columns have the same number of rows.
+     * (An empty table returns true too.)
+     * \retval false Not all columns have the same number of rows.
+     */
+    [[nodiscard]] bool has_consistent_rows() const noexcept {
+        if (data_.empty()) {
+            return true;
+        }
+        auto size = data_.begin()->second->size();
+        return std::all_of(data_.begin(), data_.end(),
+            [size](const auto& pair) { return pair.second->size() == size; });
     }
 
 private:

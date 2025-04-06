@@ -89,4 +89,28 @@ TEST_CASE("plotly_plotter::data_table") {
 
         CHECK_THROWS(table.at("key3"));
     }
+
+    SECTION("check the number of rows") {
+        data_table table;
+        table.emplace("key1", std::vector{1, 2, 3});
+        table.emplace("key2", std::vector{"a", "b", "c"});
+
+        CHECK(table.has_consistent_rows());
+        CHECK(table.rows() == 3);
+    }
+
+    SECTION("check the number of rows with empty table") {
+        data_table table;
+
+        CHECK(table.has_consistent_rows());
+        CHECK(table.rows() == 0);
+    }
+
+    SECTION("check the number of rows with inconsistent columns") {
+        data_table table;
+        table.emplace("key1", std::vector{1, 2, 3});
+        table.emplace("key2", std::vector{"a", "b"});
+
+        CHECK_FALSE(table.has_consistent_rows());
+    }
 }
