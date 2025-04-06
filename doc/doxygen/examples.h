@@ -19,13 +19,18 @@
  */
 
 /*!
- * \example simple_plot.cpp
+ * \example get_started/simple_plot.cpp
  * Example to create a simple plot.
  */
 
 /*!
- * \example add_titles.cpp
+ * \example get_started/add_titles.cpp
  * Example to add titles to a plot.
+ */
+
+/*!
+ * \example get_started/use_figure_builder.cpp
+ * Example to use a figure builder.
  */
 
 /*!
@@ -56,6 +61,11 @@
 /*!
  * \example configurations/set_error_bars.cpp
  * Example to set error bars.
+ */
+
+/*!
+ * \example scatters/create_scatter_using_figure_builder.cpp
+ * Example to create a scatter plot using figure builders.
  */
 
 /*!

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Untitled Plot</title>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{&quot;data&quot;:[{&quot;type&quot;:&quot;scatter&quot;,&quot;mode&quot;:&quot;lines&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[4,5,6],&quot;name&quot;:&quot;group=A&quot;,&quot;hovertemplate&quot;:&quot;group=A&lt;br&gt;x=%{x}&lt;br&gt;y=%{y}&quot;},{&quot;type&quot;:&quot;scatter&quot;,&quot;mode&quot;:&quot;lines&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[7,8,9],&quot;name&quot;:&quot;group=B&quot;,&quot;hovertemplate&quot;:&quot;group=B&lt;br&gt;x=%{x}&lt;br&gt;y=%{y}&quot;}],&quot;layout&quot;:{&quot;xaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x&quot;}},&quot;yaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;y&quot;}},&quot;title&quot;:{&quot;text&quot;:&quot;Line with Group&quot;}},&quot;config&quot;:{&quot;scrollZoom&quot;:true,&quot;responsive&quot;:true}}</div>
+    </body>
+    <style>
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var dataset_str = document.querySelector('#dataset').textContent;
+        var dataset = JSON.parse(dataset_str);
+        Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
+    </script>
+</html>
+

@@ -5,7 +5,7 @@ set(SOURCE_FILES
     plotly_plotter/details/html_to_png.cpp
     plotly_plotter/details/write_html_impl.cpp
     plotly_plotter/figure_builders/figure_builder_base.cpp
-    plotly_plotter/figure_builders/line.cpp
+    plotly_plotter/figure_builders/scatter.cpp
     plotly_plotter/json_converter.cpp
     plotly_plotter/to_string.cpp
     plotly_plotter/write_pdf.cpp

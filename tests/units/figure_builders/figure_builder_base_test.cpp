@@ -25,6 +25,7 @@
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure_builders/line.h"
+#include "plotly_plotter/figure_builders/scatter.h"
 #include "plotly_plotter/write_html.h"
 
 TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
@@ -72,11 +73,16 @@ TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
         data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
         data.emplace(
             "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+        data.emplace("additional1",
+            std::vector<std::string>{"a", "b", "c", "d", "e", "f"});
+        data.emplace("additional2",
+            std::vector<std::string>{"x", "y", "z", "u", "v", "w"});
 
         const auto figure = line(data)
                                 .x("x")
                                 .y("y")
                                 .group("group")
+                                .hover_data({"additional1", "additional2"})
                                 .title("Test Title")
                                 .create();
 
@@ -86,5 +92,17 @@ TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("try to create a figure with an inconsistent number of rows") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        data.emplace("group", std::vector<std::string>{"A", "A"});
+
+        // This should throw event when the inconsistent column is not used.
+        CHECK_THROWS(line(data).x("x").y("y").create());
+        CHECK_THROWS(line(data).y("y").create());
     }
 }

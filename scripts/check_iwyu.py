@@ -171,7 +171,7 @@ def get_files_in(path: pathlib.Path) -> list[str]:
 @click.argument("file_or_directory_paths", nargs=-1)
 def check_iwyu(file_or_directory_paths: list[str], build_dir: str, num_jobs: int):
     """Check source codes with include-what-you-use."""
-    global IS_SUCCESS  # pylint: disable=global-variable-not-assigned
+    global IS_SUCCESS
 
     filepaths: list[str] = []
     for file_or_directory_path in file_or_directory_paths:

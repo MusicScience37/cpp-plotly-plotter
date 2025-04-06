@@ -19,14 +19,18 @@
  */
 #pragma once
 
+#include <algorithm>
+#include <cstddef>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "plotly_plotter/data_column.h"
+#include "plotly_plotter/details/has_iterator.h"
 
 namespace plotly_plotter {
 
@@ -71,6 +75,25 @@ public:
     }
 
     /*!
+     * \brief Append a column.
+     *
+     * \tparam Container Type of the container of values in the column.
+     * \param[in] name Name of the column.
+     * \param[in] values Values in the column.
+     * \return Column.
+     */
+    template <typename Container,
+        typename = std::enable_if_t<details::has_iterator_v<Container> &&
+            !std::is_same_v<std::decay_t<Container>,
+                std::vector<typename Container::value_type>>>>
+    std::shared_ptr<data_column<typename Container::value_type>> emplace(
+        std::string name, Container&& values) {  // NOLINT(*-std-forward)
+        std::vector<typename Container::value_type> vec(
+            std::begin(values), std::end(values));
+        return emplace(std::move(name), std::move(vec));
+    }
+
+    /*!
      * \brief Get a column.
      *
      * \param[in] name Name.
@@ -83,6 +106,38 @@ public:
             throw std::out_of_range("Column not found: " + name);
         }
         return iter->second;
+    }
+
+    /*!
+     * \brief Get the number of rows.
+     *
+     * \return Number of rows.
+     *
+     * \note This function returns a valid number only if all columns have the
+     * same number of rows, which can be checked by has_consistent_rows()
+     * function.
+     */
+    [[nodiscard]] std::size_t rows() const noexcept {
+        if (data_.empty()) {
+            return 0;
+        }
+        return data_.begin()->second->size();
+    }
+
+    /*!
+     * \brief Check whether all columns have the same number of rows.
+     *
+     * \retval true All columns have the same number of rows.
+     * (An empty table returns true too.)
+     * \retval false Not all columns have the same number of rows.
+     */
+    [[nodiscard]] bool has_consistent_rows() const noexcept {
+        if (data_.empty()) {
+            return true;
+        }
+        auto size = data_.begin()->second->size();
+        return std::all_of(data_.begin(), data_.end(),
+            [size](const auto& pair) { return pair.second->size() == size; });
     }
 
 private:

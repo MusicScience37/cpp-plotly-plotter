@@ -12,7 +12,7 @@ This section shows how to add titles to a plot in cpp-plotly-plotter library.
 
 ## Sample Code
 
-```{literalinclude} /../../../examples/add_titles.cpp
+```{literalinclude} /../../../examples/get_started/add_titles.cpp
 :caption: Example to add titles to a plot.
 :language: cpp
 :start-at: "#include"

@@ -28,11 +28,14 @@ function(add_example_output TARGET OUTPUT_NAME)
     endif()
 endfunction()
 
-add_example(simple_plot simple_plot.cpp)
+add_example(simple_plot get_started/simple_plot.cpp)
 add_example_output(simple_plot simple_plot.html)
 
-add_example(add_titles add_titles.cpp)
+add_example(add_titles get_started/add_titles.cpp)
 add_example_output(add_titles add_titles.html)
+
+add_example(use_figure_builder get_started/use_figure_builder.cpp)
+add_example_output(use_figure_builder use_figure_builder.html)
 
 add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
 add_example_output(boxes_create_simple_box boxes_create_simple_box.html)
@@ -56,6 +59,16 @@ add_example(configurations_set_axes_to_log_scale
             configurations/set_axes_to_log_scale.cpp)
 add_example_output(configurations_set_axes_to_log_scale
                    configurations_set_axes_to_log_scale.html)
+
+add_example(scatter_create_scatter_using_figure_builder
+            scatters/create_scatter_using_figure_builder.cpp)
+add_example_output(scatter_create_scatter_using_figure_builder
+                   scatter_create_scatter_using_figure_builder.html)
+
+add_example(scatter_create_grouped_scatter_using_traces
+            scatters/create_grouped_scatter_using_traces.cpp)
+add_example_output(scatter_create_grouped_scatter_using_traces
+                   scatter_create_grouped_scatter_using_traces.html)
 
 add_example(scatter_select_modes scatters/select_modes.cpp)
 add_example_output(scatter_select_modes scatter_select_modes.html)

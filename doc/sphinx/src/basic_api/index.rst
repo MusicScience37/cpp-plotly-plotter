@@ -9,6 +9,8 @@ For full API reference, see `here <../api/index.html>`_.
 
     figures
     outputs
+    figure_builders
+    data_tables
     traces
     layouts
     configs

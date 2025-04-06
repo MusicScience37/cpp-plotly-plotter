@@ -84,6 +84,13 @@ public:
     [[nodiscard]] virtual std::pair<std::vector<std::string>,
         std::vector<std::size_t>>
     generate_group() const = 0;
+
+    /*!
+     * \brief Get the number of values in the column.
+     *
+     * \return Number of values.
+     */
+    [[nodiscard]] virtual std::size_t size() const noexcept = 0;
 };
 
 /*!
@@ -169,6 +176,11 @@ public:
             indices.push_back(it->second);
         }
         return {std::move(groups), std::move(indices)};
+    }
+
+    //! \copydoc data_column_base::size
+    [[nodiscard]] std::size_t size() const noexcept override {
+        return data_.size();
     }
 
 private:

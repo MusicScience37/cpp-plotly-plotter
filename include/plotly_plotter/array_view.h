@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "plotly_plotter/details/has_iterator.h"
 #include "plotly_plotter/json_converter.h"
 #include "plotly_plotter/json_converter_decl.h"
 
@@ -109,7 +110,8 @@ private:
  */
 template <typename T>
 [[nodiscard]] auto as_array(const T& container)
-    -> array_view<decltype(std::begin(container))> {
+    -> std::enable_if_t<details::has_iterator_v<T>,
+        array_view<decltype(std::begin(container))>> {
     return array_view<decltype(std::begin(container))>(container);
 }
 

@@ -12,7 +12,7 @@ This section shows how to create a simple plot using cpp-plotly-plotter library.
 
 ## Sample Code
 
-```{literalinclude} /../../../examples/simple_plot.cpp
+```{literalinclude} /../../../examples/get_started/simple_plot.cpp
 :caption: Example to create a simple plot.
 :language: cpp
 :start-at: "#include"
