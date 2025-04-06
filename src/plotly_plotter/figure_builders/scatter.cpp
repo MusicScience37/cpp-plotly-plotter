@@ -51,6 +51,11 @@ scatter& scatter::group(std::string value) {
     return *this;
 }
 
+scatter& scatter::hover_data(std::vector<std::string> value) {
+    set_hover_data(std::move(value));
+    return *this;
+}
+
 scatter& scatter::mode(std::string value) {
     mode_ = std::move(value);
     return *this;
@@ -70,30 +75,76 @@ void scatter::configure_axes(figure& fig) const {
 
 std::string scatter::default_title() const { return y_; }
 
-void scatter::add_trace_without_grouping(figure& fig) const {
+void scatter::add_trace_without_grouping(
+    figure& fig, const std::vector<std::string>& additional_hover_text) const {
     auto scatter = fig.add_scatter();
     scatter.mode(mode_);
+
     if (!x_.empty()) {
         scatter.x(*data().at(x_));
     }
+
     if (y_.empty()) {
         throw std::runtime_error("y coordinates must be set.");
     }
     scatter.y(*data().at(y_));
+
+    if (!additional_hover_text.empty() &&
+        !additional_hover_text.front().empty()) {
+        scatter.text(additional_hover_text);
+    }
+
+    scatter.name(y_);
+
+    std::string hover_template;
+    if (x_.empty()) {
+        hover_template += "index=%{x}<br>";
+    } else {
+        hover_template += fmt::format("{}=%{{x}}<br>", x_);
+    }
+    hover_template += fmt::format("{}=%{{y}}", y_);
+    if (!additional_hover_text.empty() &&
+        !additional_hover_text.front().empty()) {
+        hover_template += "%{text}";
+    }
+    scatter.hover_template(hover_template);
 }
 
 void scatter::add_trace_for_group(figure& figure,
-    const std::vector<bool>& group_mask, std::string_view group_name) const {
+    const std::vector<bool>& group_mask, std::string_view group_name,
+    std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text_filtered) const {
     auto scatter = figure.add_scatter();
     scatter.mode(mode_);
+
     if (!x_.empty()) {
         scatter.x(filter_data_column(*data().at(x_), group_mask));
     }
+
     if (y_.empty()) {
         throw std::runtime_error("y coordinates must be set.");
     }
     scatter.y(filter_data_column(*data().at(y_), group_mask));
+
+    if (!additional_hover_text_filtered.empty() &&
+        !additional_hover_text_filtered.front().empty()) {
+        scatter.text(additional_hover_text_filtered);
+    }
+
     scatter.name(group_name);
+
+    auto hover_template = static_cast<std::string>(hover_prefix);
+    if (x_.empty()) {
+        hover_template += "index=%{x}<br>";
+    } else {
+        hover_template += fmt::format("{}=%{{x}}<br>", x_);
+    }
+    hover_template += fmt::format("{}=%{{y}}", y_);
+    if (!additional_hover_text_filtered.empty() &&
+        !additional_hover_text_filtered.front().empty()) {
+        hover_template += "%{text}";
+    }
+    scatter.hover_template(hover_template);
 }
 
 }  // namespace plotly_plotter::figure_builders

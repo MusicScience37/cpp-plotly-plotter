@@ -106,6 +106,18 @@ public:
         return iter->second;
     }
 
+    /*!
+     * \brief Get the number of rows.
+     *
+     * \return Number of rows.
+     */
+    [[nodiscard]] std::size_t rows() const noexcept {
+        if (data_.empty()) {
+            return 0;
+        }
+        return data_.begin()->second->size();
+    }
+
 private:
     //! Data.
     std::unordered_map<std::string, std::shared_ptr<data_column_base>> data_;

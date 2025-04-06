@@ -69,4 +69,25 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("scatter with hover data") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        data.emplace("hover", std::vector<std::string>{"A", "B", "C"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .hover_data({"hover"})
+                                .title("Scatter with Hover Data")
+                                .create();
+        const std::string file_path = "scatter_with_hover_data.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

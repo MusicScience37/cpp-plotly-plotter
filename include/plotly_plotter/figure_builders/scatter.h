@@ -72,6 +72,14 @@ public:
     scatter& group(std::string value);
 
     /*!
+     * \brief Set the column names of additional data in hovers.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& hover_data(std::vector<std::string> value);
+
+    /*!
      * \brief Set the mode of the trace.
      *
      * \param[in] value Value.
@@ -103,12 +111,15 @@ private:
     [[nodiscard]] std::string default_title() const override;
 
     //! \copydoc figure_builder_base::add_trace_without_grouping
-    void add_trace_without_grouping(figure& fig) const override;
+    void add_trace_without_grouping(figure& fig,
+        const std::vector<std::string>& additional_hover_text) const override;
 
     //! \copydoc figure_builder_base::add_trace_for_group
     void add_trace_for_group(figure& figure,
-        const std::vector<bool>& group_mask,
-        std::string_view group_name) const override;
+        const std::vector<bool>& group_mask, std::string_view group_name,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text_filtered)
+        const override;
 
     //! Column name of x coordinates.
     std::string x_;

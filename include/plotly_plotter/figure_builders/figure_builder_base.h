@@ -82,6 +82,13 @@ protected:
     void set_group(std::string value);
 
     /*!
+     * \brief Set the column names of additional data in hovers.
+     *
+     * \param[in] value Value.
+     */
+    void set_hover_data(std::vector<std::string> value);
+
+    /*!
      * \brief Set the title of the figure.
      *
      * \param[in] value Value.
@@ -113,8 +120,10 @@ protected:
      * \brief Add a trace without grouping.
      *
      * \param[out] fig Figure to add the trace to.
+     * \param[in] additional_hover_text Additional hover text.
      */
-    virtual void add_trace_without_grouping(figure& fig) const = 0;
+    virtual void add_trace_without_grouping(figure& fig,
+        const std::vector<std::string>& additional_hover_text) const = 0;
 
     /*!
      * \brief Add a trace for a group.
@@ -122,10 +131,15 @@ protected:
      * \param[out] figure Figure to add the trace to.
      * \param[in] group_mask Mask of the values in the group.
      * \param[in] group_name Name of the group.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text_filtered Additional hover text.
+     * This vector is already filtered by group_mask.
      */
     virtual void add_trace_for_group(figure& figure,
-        const std::vector<bool>& group_mask,
-        std::string_view group_name) const = 0;
+        const std::vector<bool>& group_mask, std::string_view group_name,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text_filtered)
+        const = 0;
 
 private:
     /*!
@@ -149,11 +163,22 @@ private:
      */
     void configure_figure(figure& fig) const;
 
+    /*!
+     * \brief Generate additional hover text.
+     *
+     * \return Additional hover text.
+     */
+    [[nodiscard]] std::vector<std::string> generate_additional_hover_text()
+        const;
+
     //! Data.
     const data_table& data_;  // NOLINT(*-ref-data-members)
 
     //! Column name of groups.
     std::string group_;
+
+    //! Column names of additional data in hovers.
+    std::vector<std::string> hover_data_;
 
     //! Title of the figure.
     std::string title_;
