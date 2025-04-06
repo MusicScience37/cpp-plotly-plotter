@@ -22,6 +22,8 @@ Full API reference can be viewed `here <api/index.html>`_.
 
     install
     examples/index
+    api_types
+    plot_types
     basic_api/index
     Full API Reference <https://cppplotlyplotter.musicscience37.com/api/index.html>
 

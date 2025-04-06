@@ -65,6 +65,11 @@ add_example(scatter_create_scatter_using_figure_builder
 add_example_output(scatter_create_scatter_using_figure_builder
                    scatter_create_scatter_using_figure_builder.html)
 
+add_example(scatter_create_grouped_scatter_using_traces
+            scatters/create_grouped_scatter_using_traces.cpp)
+add_example_output(scatter_create_grouped_scatter_using_traces
+                   scatter_create_grouped_scatter_using_traces.html)
+
 add_example(scatter_select_modes scatters/select_modes.cpp)
 add_example_output(scatter_select_modes scatter_select_modes.html)
 

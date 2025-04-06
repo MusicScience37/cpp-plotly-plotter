@@ -19,6 +19,7 @@ author = "Kenta Kabashima"
 
 extensions = [
     "sphinx.ext.todo",
+    "sphinx_togglebutton",
 ]
 
 templates_path = ["_templates"]
