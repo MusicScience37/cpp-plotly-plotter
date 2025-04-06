@@ -18,6 +18,8 @@
         "b",
         "c"
       ],
+      "xaxis": "x",
+      "yaxis": "y",
       "hovertemplate": "x: %{x}<br>y: %{y}",
       "legendgroup": "group1",
       "boxmean": true,

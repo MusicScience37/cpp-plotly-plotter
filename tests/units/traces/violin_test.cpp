@@ -37,6 +37,8 @@ TEST_CASE("plotly_plotter::traces::violin") {
         CHECK_NOTHROW(violin.name("violin1"));
         CHECK_NOTHROW(violin.x(std::vector{1, 2, 3}));
         CHECK_NOTHROW(violin.y(std::vector{4, 5, 6}));
+        CHECK_NOTHROW(violin.xaxis("x"));
+        CHECK_NOTHROW(violin.yaxis("y"));
         CHECK_NOTHROW(violin.hover_template("x: %{x}<br>y: %{y}"));
         CHECK_NOTHROW(violin.legend_group("group1"));
         CHECK_NOTHROW(violin.box().visible(true));
