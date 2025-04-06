@@ -12,6 +12,17 @@
       ],
       "constrain": "domain"
     },
+    "xaxis2": {
+      "title": {
+        "text": "x-axis2"
+      },
+      "type": "log",
+      "range": [
+        0,
+        2
+      ],
+      "constrain": "range"
+    },
     "yaxis": {
       "title": {
         "text": "y-axis"
@@ -23,8 +34,25 @@
       ],
       "constrain": "range"
     },
+    "yaxis2": {
+      "title": {
+        "text": "y-axis2"
+      },
+      "type": "category",
+      "range": [
+        "A",
+        "C"
+      ],
+      "constrain": "domain"
+    },
     "title": {
       "text": "Test Title"
+    },
+    "grid": {
+      "rows": 2,
+      "columns": 3,
+      "pattern": "independent",
+      "roworder": "bottom to top"
     },
     "boxmode": "group",
     "violinmode": "group",

@@ -146,6 +146,17 @@ public:
         this->data()["mode"] = value;
     }
 
+    /*!
+     * \brief Set the color.
+     *
+     * \param[in] value Value.
+     */
+    void color(std::string_view value) {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        this->data()["marker"]["color"] = value;
+        this->data()["line"]["color"] = value;
+    }
+
 protected:
     /*!
      * \brief Constructor.

@@ -108,6 +108,7 @@
     "pylint",
     "pytest",
     "realpath",
+    "roworder",
     "SAST",
     "scattergl",
     "setuptools",

@@ -52,6 +52,8 @@ TEST_CASE("plotly_plotter::traces::scatter") {
         CHECK_NOTHROW(scatter.error_y().array_minus(
             std::vector{0.25, 0.5, 0.75}));  // NOLINT(*-magic-numbers)
         CHECK_NOTHROW(scatter.text(std::vector{"a", "b", "c"}));
+        CHECK_NOTHROW(scatter.xaxis("x"));
+        CHECK_NOTHROW(scatter.yaxis("y"));
         CHECK_NOTHROW(scatter.mode("lines"));
         CHECK_NOTHROW(
             scatter.hover_template("x: %{x}<br>y: %{y}<br>text: %{text}"));
@@ -88,6 +90,8 @@ TEST_CASE("plotly_plotter::traces::scatter_gl") {
         CHECK_NOTHROW(scatter.error_y().array_minus(
             std::vector{0.25, 0.5, 0.75}));  // NOLINT(*-magic-numbers)
         CHECK_NOTHROW(scatter.text(std::vector{"a", "b", "c"}));
+        CHECK_NOTHROW(scatter.xaxis("x"));
+        CHECK_NOTHROW(scatter.yaxis("y"));
         CHECK_NOTHROW(scatter.mode("lines"));
         CHECK_NOTHROW(
             scatter.hover_template("x: %{x}<br>y: %{y}<br>text: %{text}"));

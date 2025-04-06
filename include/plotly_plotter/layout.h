@@ -19,6 +19,9 @@
  */
 #pragma once
 
+#include <cstddef>
+#include <stdexcept>
+#include <string>
 #include <string_view>
 
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
@@ -201,6 +204,63 @@ public:
 };
 
 /*!
+ * \brief Class of layout of grid in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class grid {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit grid(json_value data) : data_(data) { data_.set_to_object(); }
+
+    /*!
+     * \brief Set the number of rows.
+     *
+     * \param[in] value Value.
+     */
+    void rows(int value) { data_["rows"] = value; }
+
+    /*!
+     * \brief Set the number of columns.
+     *
+     * \param[in] value Value.
+     */
+    void columns(int value) { data_["columns"] = value; }
+
+    /*!
+     * \brief Set the pattern of the grid.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"independent"`: independent
+     * - `"coupled"`: coupled (default)
+     */
+    void pattern(std::string_view value) { data_["pattern"] = value; }
+
+    /*!
+     * \brief Set the order of rows.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"top to bottom"`: top to bottom (default)
+     * - `"bottom to top"`: bottom to top
+     */
+    void row_order(std::string_view value) { data_["roworder"] = value; }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of layout in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -229,6 +289,23 @@ public:
     }
 
     /*!
+     * \brief Access the x-axis.
+     *
+     * \param[in] index Index of the x-axis.
+     * \return X-axis.
+     */
+    [[nodiscard]] plotly_plotter::xaxis xaxis(std::size_t index) {
+        if (index == 0) {
+            throw std::out_of_range("Index of x-axis must be greater than 0");
+        }
+        if (index == 1) {
+            return plotly_plotter::xaxis(data_["xaxis"]);
+        }
+        const std::string key = "xaxis" + std::to_string(index);
+        return plotly_plotter::xaxis(data_[key]);
+    }
+
+    /*!
      * \brief Access the y-axis.
      *
      * \return Y-axis.
@@ -238,11 +315,37 @@ public:
     }
 
     /*!
+     * \brief Access the y-axis.
+     *
+     * \param[in] index Index of the y-axis.
+     * \return Y-axis.
+     */
+    [[nodiscard]] plotly_plotter::yaxis yaxis(std::size_t index) {
+        if (index == 0) {
+            throw std::out_of_range("Index of x-axis must be greater than 0");
+        }
+        if (index == 1) {
+            return plotly_plotter::yaxis(data_["yaxis"]);
+        }
+        const std::string key = "yaxis" + std::to_string(index);
+        return plotly_plotter::yaxis(data_[key]);
+    }
+
+    /*!
      * \brief Access the title of the figure.
      *
      * \return Title of the figure.
      */
     [[nodiscard]] figure_title title() { return figure_title(data_["title"]); }
+
+    /*!
+     * \brief Access the layout of the grid.
+     *
+     * \return Layout of the grid.
+     */
+    [[nodiscard]] plotly_plotter::grid grid() {
+        return plotly_plotter::grid(data_["grid"]);
+    }
 
     /*!
      * \brief Set the mode of showing box traces.

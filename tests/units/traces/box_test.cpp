@@ -38,6 +38,8 @@ TEST_CASE("plotly_plotter::traces::box") {
         CHECK_NOTHROW(box.x(std::vector{1, 2, 3}));
         CHECK_NOTHROW(box.y(std::vector{4, 5, 6}));
         CHECK_NOTHROW(box.text(std::vector{"a", "b", "c"}));
+        CHECK_NOTHROW(box.xaxis("x"));
+        CHECK_NOTHROW(box.yaxis("y"));
         CHECK_NOTHROW(box.hover_template("x: %{x}<br>y: %{y}"));
         CHECK_NOTHROW(box.legend_group("group1"));
         CHECK_NOTHROW(box.box_mean(true));

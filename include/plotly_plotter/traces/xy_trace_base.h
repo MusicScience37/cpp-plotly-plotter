@@ -79,6 +79,20 @@ public:
     }
 
     /*!
+     * \brief Set the x-axis to which this trace is linked.
+     *
+     * \param[in] value Value.
+     */
+    void xaxis(std::string_view value) { data_["xaxis"] = value; }
+
+    /*!
+     * \brief Set the y-axis to which this trace is linked.
+     *
+     * \param[in] value Value.
+     */
+    void yaxis(std::string_view value) { data_["yaxis"] = value; }
+
+    /*!
      * \brief Set the template string used for hover texts.
      *
      * \param[in] value Value.
@@ -99,6 +113,13 @@ public:
      * \param[in] value Value.
      */
     void legend_group(std::string_view value) { data_["legendgroup"] = value; }
+
+    /*!
+     * \brief Set whether to show in the legend.
+     *
+     * \param[in] value Value.
+     */
+    void show_legend(bool value) { data_["showlegend"] = value; }
 
     /*!
      * \brief Get the JSON data for this trace.
