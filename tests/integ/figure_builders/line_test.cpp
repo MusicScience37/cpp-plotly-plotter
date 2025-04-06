@@ -90,4 +90,30 @@ TEST_CASE("line") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("line with many points") {
+        constexpr std::size_t num_points = 10000;
+        std::vector<double> x;
+        std::vector<double> y;
+        x.reserve(num_points);
+        y.reserve(num_points);
+        for (std::size_t i = 0; i < num_points; ++i) {
+            const double x_value = static_cast<double>(i) / num_points;
+            const double y_value = x_value * x_value;
+            x.push_back(x_value);
+            y.push_back(y_value);
+        }
+
+        data_table data;
+        data.emplace("x", x);
+        data.emplace("y", y);
+
+        const auto figure =
+            line(data).x("x").y("y").title("Line with Many Points").create();
+
+        const std::string file_path = "line_with_many_points.html";
+        write_html(file_path, figure);
+        // This produces a large file, so we do not verify it with
+        // ApprovalTests.
+    }
 }

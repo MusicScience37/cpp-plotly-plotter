@@ -78,12 +78,43 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
                                 .y("y")
                                 .group("group")
                                 .mode("lines+markers")
+                                .use_web_gl(false)
                                 .hover_data({"additional1", "additional2"})
                                 .title("Test Title")
                                 .create();
 
         const std::string file_path = "scatter_build_with_full_settings.html";
         plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("use WebGL") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+        data.emplace("additional1",
+            std::vector<std::string>{"a", "b", "c", "d", "e", "f"});
+        data.emplace("additional2",
+            std::vector<std::string>{"x", "y", "z", "u", "v", "w"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .mode("lines+markers")
+                                .use_web_gl(true)
+                                .hover_data({"additional1", "additional2"})
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path = "scatter_use_web_gl.html";
+        plotly_plotter::write_html(file_path, figure);
+
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));

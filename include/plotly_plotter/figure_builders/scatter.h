@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -96,6 +97,14 @@ public:
     scatter& mode(std::string value);
 
     /*!
+     * \brief Set whether to use WebGL.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& use_web_gl(bool value);
+
+    /*!
      * \brief Set the title of the figure.
      *
      * \param[in] value Value.
@@ -121,6 +130,34 @@ private:
         const std::vector<std::string>& additional_hover_text_filtered)
         const override;
 
+    /*!
+     * \brief Configure a trace without grouping.
+     *
+     * \tparam Trace Type of the trace.
+     * \param[out] scatter Scatter trace to configure.
+     * \param[in] additional_hover_text Additional hover text.
+     */
+    template <typename Trace>
+    void configure_trace_without_grouping(Trace& scatter,
+        const std::vector<std::string>& additional_hover_text) const;
+
+    /*!
+     * \brief Configure a trace for a group.
+     *
+     * \tparam Trace Type of the trace.
+     * \param[out] scatter Scatter trace to configure.
+     * \param[in] group_mask Mask of the values in the group.
+     * \param[in] group_name Name of the group.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text_filtered Additional hover text.
+     * This vector is already filtered by group_mask.
+     */
+    template <typename Trace>
+    void configure_trace_for_group(Trace& scatter,
+        const std::vector<bool>& group_mask, std::string_view group_name,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text_filtered) const;
+
     //! Column name of x coordinates.
     std::string x_;
 
@@ -129,6 +166,9 @@ private:
 
     //! Mode of scatters.
     std::string mode_{"markers"};
+
+    //! Whether to use WebGL.
+    std::optional<bool> use_web_gl_;
 };
 
 }  // namespace plotly_plotter::figure_builders

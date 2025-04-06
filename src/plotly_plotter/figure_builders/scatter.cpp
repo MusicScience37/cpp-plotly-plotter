@@ -61,6 +61,11 @@ scatter& scatter::mode(std::string value) {
     return *this;
 }
 
+scatter& scatter::use_web_gl(bool value) {
+    use_web_gl_ = value;
+    return *this;
+}
+
 scatter& scatter::title(std::string value) {
     set_title(std::move(value));
     return *this;
@@ -75,9 +80,52 @@ void scatter::configure_axes(figure& fig) const {
 
 std::string scatter::default_title() const { return y_; }
 
+// clang-format off
+/*!
+ * \brief The maximum number of rows for non-WebGL traces.
+ *
+ * \note This number is written in the document of
+ * [plotly.express.scatter function](https://plotly.com/python-api-reference/generated/plotly.express.scatter)
+ * in Plotly Python library.
+ */
+constexpr std::size_t max_rows_for_non_gl_trace = 1000;
+// clang-format on
+
 void scatter::add_trace_without_grouping(
     figure& fig, const std::vector<std::string>& additional_hover_text) const {
-    auto scatter = fig.add_scatter();
+    const std::size_t rows = data().rows();
+    const bool use_web_gl =
+        use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
+    if (!use_web_gl) {
+        auto scatter = fig.add_scatter();
+        configure_trace_without_grouping(scatter, additional_hover_text);
+    } else {
+        auto scatter = fig.add_scatter_gl();
+        configure_trace_without_grouping(scatter, additional_hover_text);
+    }
+}
+
+void scatter::add_trace_for_group(figure& figure,
+    const std::vector<bool>& group_mask, std::string_view group_name,
+    std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text_filtered) const {
+    const std::size_t rows = data().rows();
+    const bool use_web_gl =
+        use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
+    if (!use_web_gl) {
+        auto scatter = figure.add_scatter();
+        configure_trace_for_group(scatter, group_mask, group_name, hover_prefix,
+            additional_hover_text_filtered);
+    } else {
+        auto scatter = figure.add_scatter_gl();
+        configure_trace_for_group(scatter, group_mask, group_name, hover_prefix,
+            additional_hover_text_filtered);
+    }
+}
+
+template <typename Trace>
+void scatter::configure_trace_without_grouping(Trace& scatter,
+    const std::vector<std::string>& additional_hover_text) const {
     scatter.mode(mode_);
 
     if (!x_.empty()) {
@@ -110,11 +158,11 @@ void scatter::add_trace_without_grouping(
     scatter.hover_template(hover_template);
 }
 
-void scatter::add_trace_for_group(figure& figure,
+template <typename Trace>
+void scatter::configure_trace_for_group(Trace& scatter,
     const std::vector<bool>& group_mask, std::string_view group_name,
     std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text_filtered) const {
-    auto scatter = figure.add_scatter();
     scatter.mode(mode_);
 
     if (!x_.empty()) {
