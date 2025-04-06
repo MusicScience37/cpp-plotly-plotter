@@ -110,19 +110,19 @@ void scatter::add_trace_without_grouping(
 
 void scatter::add_trace_for_group(figure& figure,
     const std::vector<bool>& group_mask, std::string_view group_name,
-    std::string_view hover_prefix,
+    std::size_t group_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text_filtered) const {
     const std::size_t rows = data().rows();
     const bool use_web_gl =
         use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
     if (!use_web_gl) {
         auto scatter = figure.add_scatter();
-        configure_trace_for_group(scatter, group_mask, group_name, hover_prefix,
-            additional_hover_text_filtered);
+        configure_trace_for_group(scatter, group_mask, group_name, group_index,
+            hover_prefix, additional_hover_text_filtered);
     } else {
         auto scatter = figure.add_scatter_gl();
-        configure_trace_for_group(scatter, group_mask, group_name, hover_prefix,
-            additional_hover_text_filtered);
+        configure_trace_for_group(scatter, group_mask, group_name, group_index,
+            hover_prefix, additional_hover_text_filtered);
     }
 }
 
@@ -164,7 +164,7 @@ void scatter::configure_trace_without_grouping(Trace& scatter,
 template <typename Trace>
 void scatter::configure_trace_for_group(Trace& scatter,
     const std::vector<bool>& group_mask, std::string_view group_name,
-    std::string_view hover_prefix,
+    std::size_t group_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text_filtered) const {
     scatter.mode(mode_);
 
@@ -181,6 +181,8 @@ void scatter::configure_trace_for_group(Trace& scatter,
         !additional_hover_text_filtered.front().empty()) {
         scatter.text(additional_hover_text_filtered);
     }
+
+    scatter.color(color_sequence_[group_index % color_sequence_.size()]);
 
     scatter.name(group_name);
 
