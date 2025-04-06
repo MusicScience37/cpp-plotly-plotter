@@ -20,6 +20,7 @@
 #pragma once
 
 #include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <ctime>
@@ -132,7 +133,11 @@ public:
      */
     static void to_json(T from, json_value& to) {
         details::check_assignment(to);
-        yyjson_mut_set_real(to.internal_value(), static_cast<double>(from));
+        if (std::isfinite(from)) {
+            yyjson_mut_set_real(to.internal_value(), static_cast<double>(from));
+        } else {
+            yyjson_mut_set_null(to.internal_value());
+        }
     }
 };
 
