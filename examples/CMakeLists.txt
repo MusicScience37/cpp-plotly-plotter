@@ -34,6 +34,9 @@ add_example_output(simple_plot simple_plot.html)
 add_example(add_titles get_started/add_titles.cpp)
 add_example_output(add_titles add_titles.html)
 
+add_example(use_figure_builder get_started/use_figure_builder.cpp)
+add_example_output(use_figure_builder use_figure_builder.html)
+
 add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
 add_example_output(boxes_create_simple_box boxes_create_simple_box.html)
 
