@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Untitled Plot</title>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{&quot;data&quot;:[{&quot;type&quot;:&quot;violin&quot;,&quot;y&quot;:[1,2,3,4,5,6,7,8,9,10],&quot;meanline&quot;:{&quot;visible&quot;:true,&quot;color&quot;:&quot;#3e3ae2&quot;},&quot;box&quot;:{&quot;visible&quot;:true,&quot;line&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;}},&quot;points&quot;:&quot;all&quot;,&quot;name&quot;:&quot;Violin 1&quot;,&quot;legendgroup&quot;:&quot;Violin 1&quot;,&quot;marker&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;},&quot;outliercolor&quot;:&quot;#3e3ae2&quot;,&quot;line&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;}},{&quot;type&quot;:&quot;violin&quot;,&quot;y&quot;:[2,3,4,5,6,7,8,9,10,11],&quot;meanline&quot;:{&quot;visible&quot;:true,&quot;color&quot;:&quot;#53c842&quot;},&quot;box&quot;:{&quot;visible&quot;:true,&quot;line&quot;:{&quot;color&quot;:&quot;#53c842&quot;}},&quot;points&quot;:&quot;all&quot;,&quot;name&quot;:&quot;Violin 2&quot;,&quot;legendgroup&quot;:&quot;Violin 2&quot;,&quot;marker&quot;:{&quot;color&quot;:&quot;#53c842&quot;},&quot;outliercolor&quot;:&quot;#53c842&quot;,&quot;line&quot;:{&quot;color&quot;:&quot;#53c842&quot;}},{&quot;type&quot;:&quot;violin&quot;,&quot;y&quot;:[3,4,5,6,7,8,9,10,11,12],&quot;meanline&quot;:{&quot;visible&quot;:true,&quot;color&quot;:&quot;#3e3ae2&quot;},&quot;box&quot;:{&quot;visible&quot;:true,&quot;line&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;}},&quot;points&quot;:&quot;all&quot;,&quot;name&quot;:&quot;Violin 1&quot;,&quot;legendgroup&quot;:&quot;Violin 1&quot;,&quot;marker&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;},&quot;outliercolor&quot;:&quot;#3e3ae2&quot;,&quot;line&quot;:{&quot;color&quot;:&quot;#3e3ae2&quot;},&quot;xaxis&quot;:&quot;x2&quot;,&quot;showlegend&quot;:false},{&quot;type&quot;:&quot;violin&quot;,&quot;y&quot;:[4,5,6,7,8,9,10,11,12,13],&quot;meanline&quot;:{&quot;visible&quot;:true,&quot;color&quot;:&quot;#53c842&quot;},&quot;box&quot;:{&quot;visible&quot;:true,&quot;line&quot;:{&quot;color&quot;:&quot;#53c842&quot;}},&quot;points&quot;:&quot;all&quot;,&quot;name&quot;:&quot;Violin 2&quot;,&quot;legendgroup&quot;:&quot;Violin 2&quot;,&quot;marker&quot;:{&quot;color&quot;:&quot;#53c842&quot;},&quot;outliercolor&quot;:&quot;#53c842&quot;,&quot;line&quot;:{&quot;color&quot;:&quot;#53c842&quot;},&quot;xaxis&quot;:&quot;x2&quot;,&quot;showlegend&quot;:false}],&quot;layout&quot;:{&quot;grid&quot;:{&quot;rows&quot;:1,&quot;columns&quot;:2},&quot;xaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x1&quot;}},&quot;xaxis2&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x2&quot;}},&quot;yaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;y&quot;}},&quot;title&quot;:{&quot;text&quot;:&quot;Violin Plots in Subplots&quot;}},&quot;config&quot;:{&quot;scrollZoom&quot;:true,&quot;responsive&quot;:true}}</div>
+    </body>
+    <style>
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var dataset_str = document.querySelector('#dataset').textContent;
+        var dataset = JSON.parse(dataset_str);
+        Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
+    </script>
+</html>
+

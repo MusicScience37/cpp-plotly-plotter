@@ -141,4 +141,66 @@ TEST_CASE("box") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("multiple boxes in subplots") {
+        constexpr std::string_view color1 = "#3e3ae2";
+        constexpr std::string_view color2 = "#53c842";
+
+        auto box = figure.add_box();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        box.box_mean("sd");
+        box.box_points("all");
+        box.name("Box 1");
+        box.legend_group("Box 1");
+        box.color(color1);
+
+        box = figure.add_box();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+        box.box_mean("sd");
+        box.box_points("all");
+        box.name("Box 2");
+        box.legend_group("Box 2");
+        box.color(color2);
+
+        box = figure.add_box();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
+        box.box_mean("sd");
+        box.box_points("all");
+        box.name("Box 1");
+        box.legend_group("Box 1");
+        box.color(color1);
+        box.xaxis("x2");
+        box.show_legend(false);
+
+        box = figure.add_box();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{4, 5, 6, 7, 8, 9, 10, 11, 12, 13});
+        box.box_mean("sd");
+        box.box_points("all");
+        box.name("Box 2");
+        box.legend_group("Box 2");
+        box.color(color2);
+        box.xaxis("x2");
+        box.show_legend(false);
+
+        figure.layout().grid().rows(1);
+        figure.layout().grid().columns(2);
+
+        figure.layout().xaxis(1).title().text("x1");
+        figure.layout().xaxis(2).title().text("x2");
+
+        figure.layout().yaxis().title().text("y");
+
+        figure.layout().title().text("Boxes in Subplots");
+
+        const std::string file_path = "box_in_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

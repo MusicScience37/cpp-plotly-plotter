@@ -219,4 +219,58 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("multiple scatters in subplots") {
+        constexpr std::string_view color1 = "#3e3ae2";
+        constexpr std::string_view color2 = "#53c842";
+
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.name("scatter 1");
+        scatter.legend_group("scatter 1");
+        scatter.color(color1);
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
+        scatter.name("scatter 2");
+        scatter.legend_group("scatter 2");
+        scatter.color(color2);
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{6, 7, 8});  // NOLINT(*-magic-numbers)
+        scatter.name("scatter 1");
+        scatter.legend_group("scatter 1");
+        scatter.color(color1);
+        scatter.show_legend(false);
+        scatter.xaxis("x2");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{7, 8, 9});  // NOLINT(*-magic-numbers)
+        scatter.name("scatter 2");
+        scatter.legend_group("scatter 2");
+        scatter.color(color2);
+        scatter.show_legend(false);
+        scatter.xaxis("x2");
+
+        figure.layout().grid().rows(1);
+        figure.layout().grid().columns(2);
+
+        figure.layout().xaxis(1).title().text("x1");
+        figure.layout().xaxis(2).title().text("x2");
+
+        figure.layout().yaxis().title().text("y");
+
+        figure.layout().title().text("Scatters in Subplots");
+
+        const std::string file_path = "scatter_in_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

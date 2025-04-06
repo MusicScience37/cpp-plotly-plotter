@@ -163,4 +163,70 @@ TEST_CASE("violin") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("multiple violins in subplots") {
+        constexpr std::string_view color1 = "#3e3ae2";
+        constexpr std::string_view color2 = "#53c842";
+
+        auto violin = figure.add_violin();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        violin.y(std::vector{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        violin.mean_line().visible(true);
+        violin.box().visible(true);
+        violin.points("all");
+        violin.name("Violin 1");
+        violin.legend_group("Violin 1");
+        violin.color(color1);
+
+        violin = figure.add_violin();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        violin.y(std::vector{2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+        violin.mean_line().visible(true);
+        violin.box().visible(true);
+        violin.points("all");
+        violin.name("Violin 2");
+        violin.legend_group("Violin 2");
+        violin.color(color2);
+
+        violin = figure.add_violin();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        violin.y(std::vector{3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
+        violin.mean_line().visible(true);
+        violin.box().visible(true);
+        violin.points("all");
+        violin.name("Violin 1");
+        violin.legend_group("Violin 1");
+        violin.color(color1);
+        violin.xaxis("x2");
+        violin.show_legend(false);
+
+        violin = figure.add_violin();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        violin.y(std::vector{4, 5, 6, 7, 8, 9, 10, 11, 12, 13});
+        violin.mean_line().visible(true);
+        violin.box().visible(true);
+        violin.points("all");
+        violin.name("Violin 2");
+        violin.legend_group("Violin 2");
+        violin.color(color2);
+        violin.xaxis("x2");
+        violin.show_legend(false);
+
+        figure.layout().grid().rows(1);
+        figure.layout().grid().columns(2);
+
+        figure.layout().xaxis(1).title().text("x1");
+        figure.layout().xaxis(2).title().text("x2");
+
+        figure.layout().yaxis().title().text("y");
+
+        figure.layout().title().text("Violin Plots in Subplots");
+
+        const std::string file_path = "violin_in_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

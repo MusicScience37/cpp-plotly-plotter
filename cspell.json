@@ -95,6 +95,7 @@
     "NOLINTNEXTLINE",
     "NOPASSWD",
     "openmetrics",
+    "outliercolor",
     "pipx",
     "plantuml",
     "plotly",
