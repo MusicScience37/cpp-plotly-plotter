@@ -176,4 +176,21 @@ TEST_CASE("layout") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("set the title of the legend") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        figure.layout().show_legend(true);
+
+        figure.layout().legend().title().text("Legend title");
+
+        const std::string file_path = "layout_set_legend_title.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

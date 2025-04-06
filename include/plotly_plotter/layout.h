@@ -261,6 +261,61 @@ private:
 };
 
 /*!
+ * \brief Class of title of legend in Plotly.
+ *
+ * \note Objects of this class should be created from \ref legend objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class legend_title : public title_base {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref legend objects.
+     */
+    explicit legend_title(json_value data) : title_base(data) {}
+};
+
+/*!
+ * \brief Class of legend in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class legend {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit legend(json_value data) : data_(data) { data_.set_to_object(); }
+
+    /*!
+     * \brief Access the title of the legend.
+     *
+     * \return Title of the legend.
+     */
+    [[nodiscard]] legend_title title() { return legend_title(data_["title"]); }
+
+    /*!
+     * \brief Set the vertical space (in pixels) between legend groups.
+     *
+     * \param[in] value Value.
+     */
+    void trace_group_gap(double value) { data_["tracegroupgap"] = value; }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of layout in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -345,6 +400,15 @@ public:
      */
     [[nodiscard]] plotly_plotter::grid grid() {
         return plotly_plotter::grid(data_["grid"]);
+    }
+
+    /*!
+     * \brief Access the legend.
+     *
+     * \return Legend.
+     */
+    [[nodiscard]] plotly_plotter::legend legend() {
+        return plotly_plotter::legend(data_["legend"]);
     }
 
     /*!
