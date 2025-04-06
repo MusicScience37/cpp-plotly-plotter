@@ -64,6 +64,11 @@
  */
 
 /*!
+ * \example scatters/create_scatter_using_figure_builder.cpp
+ * Example to create a scatter plot using figure builders.
+ */
+
+/*!
  * \example scatters/plot_many_points_using_web_gl.cpp
  * Example to plot many points in scatter plots using WebGL.
  */
