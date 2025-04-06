@@ -31,7 +31,7 @@ Examples of both APIs are shown below using the same data.
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("examples/outputs/scatter_create_grouped_scatter_using_traces.html", version=2)
+show_html_figure("examples/outputs/scatter_create_grouped_scatter_using_traces.html", version=3)
 ```
 
 ## Example of Figure Builders API
@@ -47,5 +47,5 @@ show_html_figure("examples/outputs/scatter_create_grouped_scatter_using_traces.h
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("examples/outputs/scatter_create_scatter_using_figure_builder.html", version=1)
+show_html_figure("examples/outputs/scatter_create_scatter_using_figure_builder.html", version=2)
 ```
