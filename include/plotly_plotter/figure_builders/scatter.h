@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -26,6 +27,7 @@
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
+#include "plotly_plotter/figure_builders/color_sequences.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
 
 namespace plotly_plotter::figure_builders {
@@ -130,7 +132,7 @@ private:
     //! \copydoc figure_builder_base::add_trace_for_group
     void add_trace_for_group(figure& figure,
         const std::vector<bool>& group_mask, std::string_view group_name,
-        std::string_view hover_prefix,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text_filtered)
         const override;
 
@@ -152,6 +154,7 @@ private:
      * \param[out] scatter Scatter trace to configure.
      * \param[in] group_mask Mask of the values in the group.
      * \param[in] group_name Name of the group.
+     * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text_filtered Additional hover text.
      * This vector is already filtered by group_mask.
@@ -159,7 +162,7 @@ private:
     template <typename Trace>
     void configure_trace_for_group(Trace& scatter,
         const std::vector<bool>& group_mask, std::string_view group_name,
-        std::string_view hover_prefix,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text_filtered) const;
 
     //! Column name of x coordinates.
@@ -170,6 +173,9 @@ private:
 
     //! Mode of scatters.
     std::string mode_{"markers"};
+
+    //! Color sequence.
+    std::vector<std::string> color_sequence_{color_sequence_plotly()};
 
     //! Whether to use WebGL.
     std::optional<bool> use_web_gl_;

@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <cstddef>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -131,13 +132,14 @@ protected:
      * \param[out] figure Figure to add the trace to.
      * \param[in] group_mask Mask of the values in the group.
      * \param[in] group_name Name of the group.
+     * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text_filtered Additional hover text.
      * This vector is already filtered by group_mask.
      */
     virtual void add_trace_for_group(figure& figure,
         const std::vector<bool>& group_mask, std::string_view group_name,
-        std::string_view hover_prefix,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text_filtered)
         const = 0;
 
