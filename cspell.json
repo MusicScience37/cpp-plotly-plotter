@@ -113,6 +113,7 @@
     "SAST",
     "scattergl",
     "setuptools",
+    "showarrow",
     "showlegend",
     "sphinxcontrib",
     "startuml",
@@ -140,6 +141,7 @@
     "xaxis",
     "Xiwyu",
     "yaxis",
+    "yref",
     "yyjson"
   ],
   // flagWords - list of words to be always considered incorrect

@@ -316,6 +316,95 @@ private:
 };
 
 /*!
+ * \brief Class of annotations in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class annotation {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit annotation(json_value data) : data_(data) {
+        data_.set_to_object();
+    }
+
+    /*!
+     * \brief Set the alignment of the text.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"left"`: left
+     * - `"center"`: center
+     * - `"right"`: right
+     */
+    void align(std::string_view value) { data_["align"] = value; }
+
+    /*!
+     * \brief Set whether to show the arrow.
+     *
+     * \param[in] value Value.
+     */
+    void show_arrow(bool value) { data_["showarrow"] = value; }
+
+    /*!
+     * \brief Set the text of the annotation.
+     *
+     * \param[in] value Value.
+     */
+    void text(std::string_view value) { data_["text"] = value; }
+
+    /*!
+     * \brief Set the x-coordinate of the annotation.
+     *
+     * \param[in] value Value.
+     */
+    void x(double value) { data_["x"] = value; }
+
+    /*!
+     * \brief Set the y-coordinate of the annotation.
+     *
+     * \param[in] value Value.
+     */
+    void y(double value) { data_["y"] = value; }
+
+    /*!
+     * \brief Set the reference of the x-coordinate.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"paper"`: paper
+     * - `"x"`, `"x2"`, `"x3"`, ...: x-axis (value of the axis)
+     * - `"x domain"`, `"x2 domain"`, `"x3 domain"`, ...: x-axis (rate of the
+     * position relative to the axis)
+     */
+    void x_ref(std::string_view value) { data_["xref"] = value; }
+
+    /*!
+     * \brief Set the reference of the y-coordinate.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"paper"`: paper
+     * - `"y"`, `"y2"`, `"y3"`, ...: y-axis (value of the axis)
+     * - `"y domain"`, `"y2 domain"`, `"y3 domain"`, ...: y-axis (rate of the
+     * position relative to the axis)
+     */
+    void y_ref(std::string_view value) { data_["yref"] = value; }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of layout in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -409,6 +498,15 @@ public:
      */
     [[nodiscard]] plotly_plotter::legend legend() {
         return plotly_plotter::legend(data_["legend"]);
+    }
+
+    /*!
+     * \brief Append an annotation.
+     *
+     * \return Annotation.
+     */
+    [[nodiscard]] annotation add_annotation() {
+        return annotation(data_["annotations"].emplace_back());
     }
 
     /*!

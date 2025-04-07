@@ -54,6 +54,26 @@
       "pattern": "independent",
       "roworder": "bottom to top"
     },
+    "annotations": [
+      {
+        "align": "left",
+        "showarrow": false,
+        "text": "Test annotation1",
+        "x": 0.5,
+        "y": 0.75,
+        "xref": "x",
+        "yref": "y"
+      },
+      {
+        "align": "right",
+        "showarrow": true,
+        "text": "Test annotation2",
+        "x": 0.25,
+        "y": 0.5,
+        "xref": "x2 domain",
+        "yref": "y2 domain"
+      }
+    ],
     "legend": {
       "title": {
         "text": "Legend"

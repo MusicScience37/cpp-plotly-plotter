@@ -1,4 +1,5 @@
 set(SOURCE_FILES
+    annotations_test.cpp
     box_test.cpp
     config_test.cpp
     data_types_test.cpp
