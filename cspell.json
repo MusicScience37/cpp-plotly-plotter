@@ -125,6 +125,7 @@
     "swappable",
     "swiftshader",
     "tasklist",
+    "textangle",
     "toctree",
     "togglebutton",
     "TOUPPER",
@@ -140,8 +141,10 @@
     "Wextra",
     "xaxis",
     "Xiwyu",
+    "xshift",
     "yaxis",
     "yref",
+    "yshift",
     "yyjson"
   ],
   // flagWords - list of words to be always considered incorrect

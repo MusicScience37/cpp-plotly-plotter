@@ -363,6 +363,9 @@ public:
      * \brief Set the x-coordinate of the annotation.
      *
      * \param[in] value Value.
+     *
+     * \note Meaning of this value depends on the value given to x_ref()
+     * function.
      */
     void x(double value) { data_["x"] = value; }
 
@@ -370,6 +373,9 @@ public:
      * \brief Set the y-coordinate of the annotation.
      *
      * \param[in] value Value.
+     *
+     * \note Meaning of this value depends on the value given to y_ref()
+     * function.
      */
     void y(double value) { data_["y"] = value; }
 
@@ -398,6 +404,29 @@ public:
      * position relative to the axis)
      */
     void y_ref(std::string_view value) { data_["yref"] = value; }
+
+    /*!
+     * \brief Set the shift of the x-coordinate in pixels.
+     *
+     * \param[in] value Value.
+     */
+    void x_shift(double value) { data_["xshift"] = value; }
+
+    /*!
+     * \brief Set the shift of the y-coordinate in pixels.
+     *
+     * \param[in] value Value.
+     */
+    void y_shift(double value) { data_["yshift"] = value; }
+
+    /*!
+     * \brief Set the angle of the text.
+     *
+     * \param[in] value Value.
+     *
+     * \note The value is in degrees.
+     */
+    void text_angle(double value) { data_["textangle"] = value; }
 
 private:
     //! JSON data.

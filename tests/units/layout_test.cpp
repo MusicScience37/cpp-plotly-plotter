@@ -60,6 +60,9 @@ TEST_CASE("plotly_plotter::layout") {
         annotation.y(0.75);  // NOLINT
         annotation.x_ref("x");
         annotation.y_ref("y");
+        annotation.x_shift(10.0);     // NOLINT
+        annotation.y_shift(20.0);     // NOLINT
+        annotation.text_angle(45.0);  // NOLINT
         annotation = figure.layout().add_annotation();
         annotation.align("right");
         annotation.show_arrow(true);
@@ -68,6 +71,9 @@ TEST_CASE("plotly_plotter::layout") {
         annotation.y(0.5);   // NOLINT
         annotation.x_ref("x2 domain");
         annotation.y_ref("y2 domain");
+        annotation.x_shift(30.0);     // NOLINT
+        annotation.y_shift(40.0);     // NOLINT
+        annotation.text_angle(90.0);  // NOLINT
         figure.layout().legend().title().text("Legend");
         figure.layout().legend().trace_group_gap(5);  // NOLINT
         figure.layout().box_mode("group");

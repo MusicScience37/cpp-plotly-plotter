@@ -62,7 +62,10 @@
         "x": 0.5,
         "y": 0.75,
         "xref": "x",
-        "yref": "y"
+        "yref": "y",
+        "xshift": 10.0,
+        "yshift": 20.0,
+        "textangle": 45.0
       },
       {
         "align": "right",
@@ -71,7 +74,10 @@
         "x": 0.25,
         "y": 0.5,
         "xref": "x2 domain",
-        "yref": "y2 domain"
+        "yref": "y2 domain",
+        "xshift": 30.0,
+        "yshift": 40.0,
+        "textangle": 90.0
       }
     ],
     "legend": {

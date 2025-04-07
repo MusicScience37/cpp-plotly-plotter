@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Untitled Plot</title>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{&quot;data&quot;:[{&quot;type&quot;:&quot;scatter&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[4,5,6],&quot;xaxis&quot;:&quot;x&quot;},{&quot;type&quot;:&quot;scatter&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[5,6,7],&quot;xaxis&quot;:&quot;x2&quot;},{&quot;type&quot;:&quot;scatter&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[6,7,8],&quot;xaxis&quot;:&quot;x3&quot;}],&quot;layout&quot;:{&quot;grid&quot;:{&quot;rows&quot;:1,&quot;columns&quot;:3},&quot;annotations&quot;:[{&quot;xref&quot;:&quot;x domain&quot;,&quot;yref&quot;:&quot;y domain&quot;,&quot;x&quot;:0.0,&quot;y&quot;:1.0,&quot;xshift&quot;:10.0,&quot;yshift&quot;:20.0,&quot;showarrow&quot;:false,&quot;align&quot;:&quot;left&quot;,&quot;text&quot;:&quot;Annotation text 1&quot;},{&quot;xref&quot;:&quot;x2 domain&quot;,&quot;yref&quot;:&quot;y domain&quot;,&quot;x&quot;:0.5,&quot;y&quot;:1.0,&quot;xshift&quot;:0.0,&quot;yshift&quot;:20.0,&quot;showarrow&quot;:false,&quot;align&quot;:&quot;center&quot;,&quot;text&quot;:&quot;Annotation text 2&quot;},{&quot;xref&quot;:&quot;x3 domain&quot;,&quot;yref&quot;:&quot;y domain&quot;,&quot;x&quot;:1.0,&quot;y&quot;:1.0,&quot;xshift&quot;:-10.0,&quot;yshift&quot;:20.0,&quot;showarrow&quot;:false,&quot;align&quot;:&quot;right&quot;,&quot;text&quot;:&quot;Annotation text 3&quot;},{&quot;xref&quot;:&quot;x3 domain&quot;,&quot;yref&quot;:&quot;y domain&quot;,&quot;x&quot;:1.0,&quot;y&quot;:0.5,&quot;xshift&quot;:20.0,&quot;showarrow&quot;:false,&quot;align&quot;:&quot;center&quot;,&quot;textangle&quot;:90.0,&quot;text&quot;:&quot;Annotation text 4&quot;}],&quot;xaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x1&quot;}},&quot;xaxis2&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x2&quot;}},&quot;xaxis3&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x3&quot;}},&quot;yaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;y&quot;}},&quot;title&quot;:{&quot;text&quot;:&quot;Annotations to Subplots&quot;}},&quot;config&quot;:{&quot;scrollZoom&quot;:true,&quot;responsive&quot;:true}}</div>
+    </body>
+    <style>
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var dataset_str = document.querySelector('#dataset').textContent;
+        var dataset = JSON.parse(dataset_str);
+        Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
+    </script>
+</html>
+

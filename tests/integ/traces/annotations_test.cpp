@@ -55,4 +55,83 @@ TEST_CASE("annotations") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("annotations to subplots") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.xaxis("x");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
+        scatter.xaxis("x2");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{6, 7, 8});  // NOLINT(*-magic-numbers)
+        scatter.xaxis("x3");
+
+        figure.layout().grid().rows(1);
+        figure.layout().grid().columns(3);
+
+        auto annotation = figure.layout().add_annotation();
+        annotation.x_ref("x domain");
+        annotation.y_ref("y domain");
+        annotation.x(0.0);       // NOLINT(*-magic-numbers)
+        annotation.y(1.0);       // NOLINT(*-magic-numbers)
+        annotation.x_shift(10);  // NOLINT(*-magic-numbers)
+        annotation.y_shift(20);  // NOLINT(*-magic-numbers)
+        annotation.show_arrow(false);
+        annotation.align("left");
+        annotation.text("Annotation text 1");
+
+        annotation = figure.layout().add_annotation();
+        annotation.x_ref("x2 domain");
+        annotation.y_ref("y domain");
+        annotation.x(0.5);       // NOLINT(*-magic-numbers)
+        annotation.y(1.0);       // NOLINT(*-magic-numbers)
+        annotation.x_shift(0);   // NOLINT(*-magic-numbers)
+        annotation.y_shift(20);  // NOLINT(*-magic-numbers)
+        annotation.show_arrow(false);
+        annotation.align("center");
+        annotation.text("Annotation text 2");
+
+        annotation = figure.layout().add_annotation();
+        annotation.x_ref("x3 domain");
+        annotation.y_ref("y domain");
+        annotation.x(1.0);        // NOLINT(*-magic-numbers)
+        annotation.y(1.0);        // NOLINT(*-magic-numbers)
+        annotation.x_shift(-10);  // NOLINT(*-magic-numbers)
+        annotation.y_shift(20);   // NOLINT(*-magic-numbers)
+        annotation.show_arrow(false);
+        annotation.align("right");
+        annotation.text("Annotation text 3");
+
+        annotation = figure.layout().add_annotation();
+        annotation.x_ref("x3 domain");
+        annotation.y_ref("y domain");
+        annotation.x(1.0);       // NOLINT(*-magic-numbers)
+        annotation.y(0.5);       // NOLINT(*-magic-numbers)
+        annotation.x_shift(20);  // NOLINT(*-magic-numbers)
+        annotation.show_arrow(false);
+        annotation.align("center");
+        annotation.text_angle(90.0);  // NOLINT(*-magic-numbers)
+        annotation.text("Annotation text 4");
+
+        figure.layout().xaxis(1).title().text("x1");
+        figure.layout().xaxis(2).title().text("x2");
+        figure.layout().xaxis(3).title().text("x3");
+
+        figure.layout().yaxis().title().text("y");
+
+        figure.layout().title().text("Annotations to Subplots");
+
+        const std::string file_path = "annotations_to_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }
