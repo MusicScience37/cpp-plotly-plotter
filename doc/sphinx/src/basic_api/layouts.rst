@@ -20,3 +20,5 @@ APIs of Layouts
 .. doxygenclass:: plotly_plotter::legend
 
 .. doxygenclass:: plotly_plotter::legend_title
+
+.. doxygenclass:: plotly_plotter::annotation
