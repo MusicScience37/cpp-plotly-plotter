@@ -52,6 +52,28 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().grid().columns(3);
         figure.layout().grid().pattern("independent");
         figure.layout().grid().row_order("bottom to top");
+        auto annotation = figure.layout().add_annotation();
+        annotation.align("left");
+        annotation.show_arrow(false);
+        annotation.text("Test annotation1");
+        annotation.x(0.5);   // NOLINT
+        annotation.y(0.75);  // NOLINT
+        annotation.x_ref("x");
+        annotation.y_ref("y");
+        annotation.x_shift(10.0);     // NOLINT
+        annotation.y_shift(20.0);     // NOLINT
+        annotation.text_angle(45.0);  // NOLINT
+        annotation = figure.layout().add_annotation();
+        annotation.align("right");
+        annotation.show_arrow(true);
+        annotation.text("Test annotation2");
+        annotation.x(0.25);  // NOLINT
+        annotation.y(0.5);   // NOLINT
+        annotation.x_ref("x2 domain");
+        annotation.y_ref("y2 domain");
+        annotation.x_shift(30.0);     // NOLINT
+        annotation.y_shift(40.0);     // NOLINT
+        annotation.text_angle(90.0);  // NOLINT
         figure.layout().legend().title().text("Legend");
         figure.layout().legend().trace_group_gap(5);  // NOLINT
         figure.layout().box_mode("group");
