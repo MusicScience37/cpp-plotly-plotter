@@ -41,10 +41,19 @@ figure figure_builder_base::create() const {
     if (!data_.has_consistent_rows()) {
         throw std::runtime_error("Data table has inconsistent number of rows.");
     }
-    if (group_.empty()) {
-        return create_without_grouping();
-    }
-    return create_with_grouping();
+
+    figure fig;
+
+    // TODO Handle upper layers.
+    const std::vector<bool> parent_mask(data_.rows(), true);
+    constexpr std::size_t xaxis_index = 1;
+    constexpr std::size_t yaxis_index = 1;
+    handle_groups(fig, parent_mask, xaxis_index, yaxis_index, "",
+        generate_additional_hover_text());
+
+    configure_figure(fig);
+
+    return fig;
 }
 
 figure_builder_base::figure_builder_base(const data_table& data)
@@ -64,23 +73,18 @@ void figure_builder_base::set_title(std::string value) {
 
 const data_table& figure_builder_base::data() const noexcept { return data_; }
 
-figure figure_builder_base::create_without_grouping() const {
-    figure fig;
-
-    const auto additional_hover_text = generate_additional_hover_text();
-    add_trace_without_grouping(fig, additional_hover_text);
-
-    configure_figure(fig);
-
-    return fig;
-}
-
-figure figure_builder_base::create_with_grouping() const {
-    figure fig;
-
-    const auto additional_hover_text = generate_additional_hover_text();
-    std::vector<std::string> additional_hover_text_filtered;
-    additional_hover_text_filtered.reserve(additional_hover_text.size());
+void figure_builder_base::handle_groups(figure& fig,
+    const std::vector<bool>& parent_mask, std::size_t xaxis_index,
+    std::size_t yaxis_index, std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text) const {
+    if (group_.empty()) {
+        const std::string group_name =
+            title_.empty() ? default_title() : title_;
+        constexpr std::size_t group_index = 0;
+        add_trace(fig, parent_mask, xaxis_index, yaxis_index, group_name,
+            group_index, hover_prefix, additional_hover_text);
+        return;
+    }
 
     const auto grouping = data_.at(group_)->generate_group();
     const auto& group_values = grouping.first;
@@ -91,29 +95,18 @@ figure figure_builder_base::create_with_grouping() const {
         ++group_index) {
         for (std::size_t row_index = 0; row_index < group_indices.size();
             ++row_index) {
-            group_mask[row_index] = (group_indices[row_index] == group_index);
-        }
-
-        additional_hover_text_filtered.clear();
-        for (std::size_t row_index = 0; row_index < group_indices.size();
-            ++row_index) {
-            if (group_mask[row_index]) {
-                additional_hover_text_filtered.push_back(
-                    additional_hover_text[row_index]);
-            }
+            group_mask[row_index] = parent_mask[row_index] &&
+                (group_indices[row_index] == group_index);
         }
 
         const auto& group_name = group_values[group_index];
-        const auto hover_prefix = fmt::format("{}={}<br>", group_, group_name);
-        add_trace_for_group(fig, group_mask, group_name, group_index,
-            hover_prefix, additional_hover_text_filtered);
+        const auto group_hover_prefix =
+            fmt::format("{}{}={}<br>", hover_prefix, group_, group_name);
+        add_trace(fig, group_mask, xaxis_index, yaxis_index, group_name,
+            group_index, group_hover_prefix, additional_hover_text);
     }
 
     fig.layout().legend().title().text(group_);
-
-    configure_figure(fig);
-
-    return fig;
 }
 
 void figure_builder_base::configure_figure(figure& fig) const {
