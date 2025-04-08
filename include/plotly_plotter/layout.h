@@ -224,14 +224,14 @@ public:
      *
      * \param[in] value Value.
      */
-    void rows(int value) { data_["rows"] = value; }
+    void rows(std::size_t value) { data_["rows"] = value; }
 
     /*!
      * \brief Set the number of columns.
      *
      * \param[in] value Value.
      */
-    void columns(int value) { data_["columns"] = value; }
+    void columns(std::size_t value) { data_["columns"] = value; }
 
     /*!
      * \brief Set the pattern of the grid.

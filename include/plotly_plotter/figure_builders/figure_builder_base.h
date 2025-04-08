@@ -83,6 +83,13 @@ protected:
     void set_group(std::string value);
 
     /*!
+     * \brief Set the column name of columns in subplots.
+     *
+     * \param[in] value Value.
+     */
+    void set_subplot_column(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -107,8 +114,11 @@ protected:
      * \brief Configure the axes.
      *
      * \param[out] fig Figure to configure.
+     * \param[in] num_xaxes Number of x-axes.
+     * \param[in] num_yaxes Number of y-axes.
      */
-    virtual void configure_axes(figure& fig) const = 0;
+    virtual void configure_axes(
+        figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const = 0;
 
     /*!
      * \brief Get the default value of the title used when the title is not set.
@@ -136,6 +146,20 @@ protected:
         const std::vector<std::string>& additional_hover_text) const = 0;
 
 private:
+    /*!
+     * \brief Handle columns in subplots.
+     *
+     * \param[out] fig Figure.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text Additional hover text.
+     */
+    void handle_subplot_column(figure& fig,
+        const std::vector<bool>& parent_mask, std::size_t yaxis_index,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
+
     /*!
      * \brief Handle groups.
      *
@@ -171,6 +195,9 @@ private:
 
     //! Column name of groups.
     std::string group_;
+
+    //! Column name of columns in subplots.
+    std::string subplot_column_;
 
     //! Column names of additional data in hovers.
     std::vector<std::string> hover_data_;

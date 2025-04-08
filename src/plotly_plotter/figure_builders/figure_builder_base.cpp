@@ -44,12 +44,18 @@ figure figure_builder_base::create() const {
 
     figure fig;
 
-    // TODO Handle upper layers.
+    if (!subplot_column_.empty()) {
+        fig.layout().grid().rows(1);
+        fig.layout().grid().columns(1);
+        fig.layout().grid().pattern("coupled");
+    }
+
     const std::vector<bool> parent_mask(data_.rows(), true);
-    constexpr std::size_t xaxis_index = 1;
     constexpr std::size_t yaxis_index = 1;
-    handle_groups(fig, parent_mask, xaxis_index, yaxis_index, "",
-        generate_additional_hover_text());
+    constexpr std::string_view hover_prefix;
+    const auto additional_hover_text = generate_additional_hover_text();
+    handle_subplot_column(
+        fig, parent_mask, yaxis_index, hover_prefix, additional_hover_text);
 
     configure_figure(fig);
 
@@ -63,6 +69,10 @@ void figure_builder_base::set_group(std::string value) {
     group_ = std::move(value);
 }
 
+void figure_builder_base::set_subplot_column(std::string value) {
+    subplot_column_ = std::move(value);
+}
+
 void figure_builder_base::set_hover_data(std::vector<std::string> value) {
     hover_data_ = std::move(value);
 }
@@ -72,6 +82,78 @@ void figure_builder_base::set_title(std::string value) {
 }
 
 const data_table& figure_builder_base::data() const noexcept { return data_; }
+
+namespace {
+
+//! Position of the annotation to place at the center.
+constexpr double annotation_center = 0.5;
+
+//! Position of the annotation to place at the end.
+constexpr double annotation_end = 1.0;
+
+//! Shift of the annotation to place at the end.
+constexpr double annotation_shift = 20;
+
+}  // namespace
+
+void figure_builder_base::handle_subplot_column(figure& fig,
+    const std::vector<bool>& parent_mask, std::size_t yaxis_index,
+    std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text) const {
+    if (subplot_column_.empty()) {
+        constexpr std::size_t xaxis_index = 1;
+        handle_groups(fig, parent_mask, xaxis_index, yaxis_index, hover_prefix,
+            additional_hover_text);
+        return;
+    }
+
+    const auto grouping = data_.at(subplot_column_)->generate_group();
+    const auto& group_values = grouping.first;
+    const auto& group_indices = grouping.second;
+
+    std::vector<bool> group_mask(group_indices.size(), false);
+    for (std::size_t group_index = 0; group_index < group_values.size();
+        ++group_index) {
+        for (std::size_t row_index = 0; row_index < group_indices.size();
+            ++row_index) {
+            group_mask[row_index] = parent_mask[row_index] &&
+                (group_indices[row_index] == group_index);
+        }
+
+        const auto& group_value = group_values[group_index];
+        const auto group_name =
+            fmt::format("{}={}", subplot_column_, group_value);
+        const auto group_hover_prefix =
+            fmt::format("{}{}<br>", hover_prefix, group_name);
+        const std::size_t xaxis_index = group_index + 1;
+        handle_groups(fig, group_mask, xaxis_index, yaxis_index,
+            group_hover_prefix, additional_hover_text);
+
+        std::string x_ref;
+        if (xaxis_index == 1) {
+            x_ref = "x domain";
+        } else {
+            x_ref = fmt::format("x{} domain", xaxis_index);
+        }
+        std::string y_ref;
+        if (yaxis_index == 1) {
+            y_ref = "y domain";
+        } else {
+            y_ref = fmt::format("y{} domain", yaxis_index);
+        }
+        auto annotation = fig.layout().add_annotation();
+        annotation.x_ref(x_ref);
+        annotation.y_ref(y_ref);
+        annotation.x(annotation_center);
+        annotation.y(annotation_end);
+        annotation.y_shift(annotation_shift);
+        annotation.show_arrow(false);
+        annotation.align("center");
+        annotation.text(group_name);
+    }
+
+    fig.layout().grid().columns(group_values.size());
+}
 
 void figure_builder_base::handle_groups(figure& fig,
     const std::vector<bool>& parent_mask, std::size_t xaxis_index,
@@ -110,7 +192,13 @@ void figure_builder_base::handle_groups(figure& fig,
 }
 
 void figure_builder_base::configure_figure(figure& fig) const {
-    configure_axes(fig);
+    std::size_t num_xaxes = 1;
+    std::size_t num_yaxes = 1;
+    if (!subplot_column_.empty()) {
+        const auto grouping = data_.at(subplot_column_)->generate_group();
+        num_xaxes = grouping.first.size();
+    }
+    configure_axes(fig, num_xaxes, num_yaxes);
     if (title_.empty()) {
         fig.layout().title().text(default_title());
     } else {

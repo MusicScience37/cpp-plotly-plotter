@@ -76,6 +76,14 @@ public:
     scatter& group(std::string value);
 
     /*!
+     * \brief Set the column name of columns in subplots.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& subplot_column(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -120,7 +128,8 @@ public:
 
 private:
     //! \copydoc figure_builder_base::configure_axes
-    void configure_axes(figure& fig) const override;
+    void configure_axes(figure& fig, std::size_t num_xaxes,
+        std::size_t num_yaxes) const override;
 
     //! \copydoc figure_builder_base::default_title
     [[nodiscard]] std::string default_title() const override;

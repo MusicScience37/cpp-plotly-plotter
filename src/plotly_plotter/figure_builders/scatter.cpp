@@ -54,6 +54,11 @@ scatter& scatter::group(std::string value) {
     return *this;
 }
 
+scatter& scatter::subplot_column(std::string value) {
+    set_subplot_column(std::move(value));
+    return *this;
+}
+
 scatter& scatter::hover_data(std::vector<std::string> value) {
     set_hover_data(std::move(value));
     return *this;
@@ -74,11 +79,16 @@ scatter& scatter::title(std::string value) {
     return *this;
 }
 
-void scatter::configure_axes(figure& fig) const {
+void scatter::configure_axes(
+    figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const {
     if (!x_.empty()) {
-        fig.layout().xaxis().title().text(x_);
+        for (std::size_t i = 0; i < num_xaxes; ++i) {
+            fig.layout().xaxis(i + 1).title().text(x_);
+        }
     }
-    fig.layout().yaxis().title().text(y_);
+    for (std::size_t i = 0; i < num_yaxes; ++i) {
+        fig.layout().yaxis(i + 1).title().text(y_);
+    }
 }
 
 std::string scatter::default_title() const { return y_; }
@@ -163,9 +173,11 @@ void scatter::configure_trace(Trace& scatter,
 
     if (xaxis_index > 1) {
         scatter.xaxis(fmt::format("x{}", xaxis_index));
+        scatter.show_legend(false);
     }
     if (yaxis_index > 1) {
         scatter.yaxis(fmt::format("y{}", yaxis_index));
+        scatter.show_legend(false);
     }
 }
 
