@@ -91,7 +91,7 @@ TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
 
     SECTION("build with columns in subplots") {
         data_table data;
-        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
+        data.emplace("x", std::vector<int>{1, 2, 3, 2, 3, 4});
         // NOLINTNEXTLINE(*-magic-numbers)
         data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
         data.emplace(

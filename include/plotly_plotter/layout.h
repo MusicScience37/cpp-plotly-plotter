@@ -150,6 +150,13 @@ public:
      */
     void constrain(std::string_view value) { data_["constrain"] = value; }
 
+    /*!
+     * \brief Set the another axis to which the range is linked.
+     *
+     * \param[in] value Value.
+     */
+    void matches(std::string_view value) { data_["matches"] = value; }
+
 protected:
     /*!
      * \brief Constructor.

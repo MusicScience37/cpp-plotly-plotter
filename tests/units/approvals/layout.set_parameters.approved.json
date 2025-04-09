@@ -21,7 +21,8 @@
         0,
         2
       ],
-      "constrain": "range"
+      "constrain": "range",
+      "matches": "x"
     },
     "yaxis": {
       "title": {
@@ -43,7 +44,8 @@
         "A",
         "C"
       ],
-      "constrain": "domain"
+      "constrain": "domain",
+      "matches": "y"
     },
     "title": {
       "text": "Test Title"

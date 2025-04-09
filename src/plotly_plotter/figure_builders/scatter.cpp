@@ -84,10 +84,16 @@ void scatter::configure_axes(
     if (!x_.empty()) {
         for (std::size_t i = 0; i < num_xaxes; ++i) {
             fig.layout().xaxis(i + 1).title().text(x_);
+            if (i > 0) {
+                fig.layout().xaxis(i + 1).matches("x");
+            }
         }
     }
     for (std::size_t i = 0; i < num_yaxes; ++i) {
         fig.layout().yaxis(i + 1).title().text(y_);
+        if (i > 0) {
+            fig.layout().yaxis(i + 1).matches("y");
+        }
     }
 }
 
