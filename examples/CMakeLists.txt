@@ -37,6 +37,23 @@ add_example_output(add_titles add_titles.html)
 add_example(use_figure_builder get_started/use_figure_builder.cpp)
 add_example_output(use_figure_builder use_figure_builder.html)
 
+add_example(get_started_grouping_in_figure_builder_use_group
+            get_started/grouping_in_figure_builder/use_group.cpp)
+add_example_output(get_started_grouping_in_figure_builder_use_group
+                   get_started_grouping_in_figure_builder_use_group.html)
+
+add_example(get_started_grouping_in_figure_builder_use_subplot_column
+            get_started/grouping_in_figure_builder/use_subplot_column.cpp)
+add_example_output(
+    get_started_grouping_in_figure_builder_use_subplot_column
+    get_started_grouping_in_figure_builder_use_subplot_column.html)
+
+add_example(get_started_grouping_in_figure_builder_combine_groupings
+            get_started/grouping_in_figure_builder/combine_groupings.cpp)
+add_example_output(
+    get_started_grouping_in_figure_builder_combine_groupings
+    get_started_grouping_in_figure_builder_combine_groupings.html)
+
 add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
 add_example_output(boxes_create_simple_box boxes_create_simple_box.html)
 

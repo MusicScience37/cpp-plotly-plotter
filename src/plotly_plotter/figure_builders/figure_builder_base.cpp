@@ -160,11 +160,11 @@ void figure_builder_base::handle_groups(figure& fig,
     std::size_t yaxis_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     if (group_.empty()) {
-        const std::string group_name =
-            title_.empty() ? default_title() : title_;
+        const std::string group_name;
         constexpr std::size_t group_index = 0;
         add_trace(fig, parent_mask, xaxis_index, yaxis_index, group_name,
             group_index, hover_prefix, additional_hover_text);
+        fig.layout().show_legend(false);
         return;
     }
 
