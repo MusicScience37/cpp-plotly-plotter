@@ -49,26 +49,88 @@ TEST_CASE("line") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("line with group") {
+    SECTION("line with a group") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
         // NOLINTNEXTLINE(*-magic-numbers)
         data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
         data.emplace(
             "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+        data.emplace(
+            "hover", std::vector<std::string>{"a", "b", "c", "d", "e", "f"});
 
-        const auto figure = line(data)
-                                .x("x")
-                                .y("y")
-                                .group("group")
-                                .title("Line with Group")
-                                .create();
-        const std::string file_path = "line_with_group.html";
-        write_html(file_path, figure);
+        SECTION("in groups") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .group("group")
+                                    .hover_data({"hover"})
+                                    .title("Line with Group")
+                                    .create();
 
-        ApprovalTests::Approvals::verify(
-            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
-            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+            const std::string file_path = "line_with_group_in_groups.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in columns of subplots") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .subplot_column("group")
+                                    .hover_data({"hover"})
+                                    .title("Line with Group")
+                                    .create();
+
+            const std::string file_path =
+                "line_with_group_in_columns_of_subplots.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+    }
+
+    SECTION("line with two groups") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3});
+        data.emplace(  // NOLINTNEXTLINE(*-magic-numbers)
+            "y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        data.emplace("group1",
+            std::vector<std::string>{
+                "A", "A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "B"});
+        data.emplace("group2",
+            std::vector<std::string>{
+                "C", "C", "C", "D", "D", "D", "C", "C", "C", "D", "D", "D"});
+        data.emplace("hover",
+            std::vector<std::string>{
+                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"});
+
+        SECTION("in groups and columns") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .group("group1")
+                                    .subplot_column("group2")
+                                    .hover_data({"hover"})
+                                    .title("Line with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "line_with_two_groups_in_groups_and_columns.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("line with hover data") {

@@ -150,6 +150,13 @@ public:
      */
     void constrain(std::string_view value) { data_["constrain"] = value; }
 
+    /*!
+     * \brief Set the another axis to which the range is linked.
+     *
+     * \param[in] value Value.
+     */
+    void matches(std::string_view value) { data_["matches"] = value; }
+
 protected:
     /*!
      * \brief Constructor.
@@ -224,14 +231,14 @@ public:
      *
      * \param[in] value Value.
      */
-    void rows(int value) { data_["rows"] = value; }
+    void rows(std::size_t value) { data_["rows"] = value; }
 
     /*!
      * \brief Set the number of columns.
      *
      * \param[in] value Value.
      */
-    void columns(int value) { data_["columns"] = value; }
+    void columns(std::size_t value) { data_["columns"] = value; }
 
     /*!
      * \brief Set the pattern of the grid.

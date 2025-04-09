@@ -39,6 +39,7 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().xaxis(2).type("log");
         figure.layout().xaxis(2).range(0, 2);
         figure.layout().xaxis(2).constrain("range");
+        figure.layout().xaxis(2).matches("x");
         figure.layout().yaxis().title().text("y-axis");
         figure.layout().yaxis().type("log");
         figure.layout().yaxis(1).range(nullptr, "2025-01-01");
@@ -47,6 +48,7 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().yaxis(2).type("category");
         figure.layout().yaxis(2).range("A", "C");
         figure.layout().yaxis(2).constrain("domain");
+        figure.layout().yaxis(2).matches("y");
         figure.layout().title().text("Test Title");
         figure.layout().grid().rows(2);
         figure.layout().grid().columns(3);

@@ -32,6 +32,8 @@ show_html_figure("../outputs/use_figure_builder.html", version=3)
 
 ## Further Reading
 
+- [Use Grouping in Figure Builders](use_grouping_in_figure_builder.md)
+- [Create a Scatter Plot Using Figure Builder](../scatters/create_scatter_using_figure_builder.md)
 - API Reference:
   - {cpp:class}`plotly_plotter::data_table`
   - {cpp:func}`plotly_plotter::figure_builders::line`

@@ -83,6 +83,13 @@ protected:
     void set_group(std::string value);
 
     /*!
+     * \brief Set the column name of columns in subplots.
+     *
+     * \param[in] value Value.
+     */
+    void set_subplot_column(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -107,8 +114,11 @@ protected:
      * \brief Configure the axes.
      *
      * \param[out] fig Figure to configure.
+     * \param[in] num_xaxes Number of x-axes.
+     * \param[in] num_yaxes Number of y-axes.
      */
-    virtual void configure_axes(figure& fig) const = 0;
+    virtual void configure_axes(
+        figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const = 0;
 
     /*!
      * \brief Get the default value of the title used when the title is not set.
@@ -118,45 +128,52 @@ protected:
     [[nodiscard]] virtual std::string default_title() const = 0;
 
     /*!
-     * \brief Add a trace without grouping.
-     *
-     * \param[out] fig Figure to add the trace to.
-     * \param[in] additional_hover_text Additional hover text.
-     */
-    virtual void add_trace_without_grouping(figure& fig,
-        const std::vector<std::string>& additional_hover_text) const = 0;
-
-    /*!
-     * \brief Add a trace for a group.
+     * \brief Add a trace to a figure.
      *
      * \param[out] figure Figure to add the trace to.
-     * \param[in] group_mask Mask of the values in the group.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] xaxis_index Index of the x-axis.
+     * \param[in] yaxis_index Index of the y-axis.
      * \param[in] group_name Name of the group.
      * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
-     * \param[in] additional_hover_text_filtered Additional hover text.
-     * This vector is already filtered by group_mask.
+     * \param[in] additional_hover_text Additional hover text.
      */
-    virtual void add_trace_for_group(figure& figure,
-        const std::vector<bool>& group_mask, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
-        const std::vector<std::string>& additional_hover_text_filtered)
-        const = 0;
+    virtual void add_trace(figure& figure, const std::vector<bool>& parent_mask,
+        std::size_t xaxis_index, std::size_t yaxis_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const = 0;
 
 private:
     /*!
-     * \brief Create a figure without grouping.
+     * \brief Handle columns in subplots.
      *
-     * \return Figure.
+     * \param[out] fig Figure.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text Additional hover text.
      */
-    [[nodiscard]] figure create_without_grouping() const;
+    void handle_subplot_column(figure& fig,
+        const std::vector<bool>& parent_mask, std::size_t yaxis_index,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
 
     /*!
-     * \brief Create a figure with grouping.
+     * \brief Handle groups.
      *
-     * \return Figure.
+     * \param[out] fig Figure.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] xaxis_index Index of the x-axis.
+     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text Additional hover text.
      */
-    [[nodiscard]] figure create_with_grouping() const;
+    void handle_groups(figure& fig, const std::vector<bool>& parent_mask,
+        std::size_t xaxis_index, std::size_t yaxis_index,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
 
     /*!
      * \brief Add configuration common for figures with and without grouping.
@@ -178,6 +195,9 @@ private:
 
     //! Column name of groups.
     std::string group_;
+
+    //! Column name of columns in subplots.
+    std::string subplot_column_;
 
     //! Column names of additional data in hovers.
     std::vector<std::string> hover_data_;

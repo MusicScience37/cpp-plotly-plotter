@@ -76,6 +76,14 @@ public:
     scatter& group(std::string value);
 
     /*!
+     * \brief Set the column name of columns in subplots.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& subplot_column(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -120,50 +128,38 @@ public:
 
 private:
     //! \copydoc figure_builder_base::configure_axes
-    void configure_axes(figure& fig) const override;
+    void configure_axes(figure& fig, std::size_t num_xaxes,
+        std::size_t num_yaxes) const override;
 
     //! \copydoc figure_builder_base::default_title
     [[nodiscard]] std::string default_title() const override;
 
-    //! \copydoc figure_builder_base::add_trace_without_grouping
-    void add_trace_without_grouping(figure& fig,
+    //! \copydoc figure_builder_base::add_trace
+    void add_trace(figure& figure, const std::vector<bool>& parent_mask,
+        std::size_t xaxis_index, std::size_t yaxis_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const override;
 
-    //! \copydoc figure_builder_base::add_trace_for_group
-    void add_trace_for_group(figure& figure,
-        const std::vector<bool>& group_mask, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
-        const std::vector<std::string>& additional_hover_text_filtered)
-        const override;
-
     /*!
-     * \brief Configure a trace without grouping.
+     * \brief Configure a trace.
      *
      * \tparam Trace Type of the trace.
      * \param[out] scatter Scatter trace to configure.
-     * \param[in] additional_hover_text Additional hover text.
-     */
-    template <typename Trace>
-    void configure_trace_without_grouping(Trace& scatter,
-        const std::vector<std::string>& additional_hover_text) const;
-
-    /*!
-     * \brief Configure a trace for a group.
-     *
-     * \tparam Trace Type of the trace.
-     * \param[out] scatter Scatter trace to configure.
-     * \param[in] group_mask Mask of the values in the group.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] xaxis_index Index of the x-axis.
+     * \param[in] yaxis_index Index of the y-axis.
      * \param[in] group_name Name of the group.
      * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
-     * \param[in] additional_hover_text_filtered Additional hover text.
-     * This vector is already filtered by group_mask.
+     * \param[in] additional_hover_text Additional hover text.
      */
     template <typename Trace>
-    void configure_trace_for_group(Trace& scatter,
-        const std::vector<bool>& group_mask, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
-        const std::vector<std::string>& additional_hover_text_filtered) const;
+    void configure_trace(Trace& scatter, const std::vector<bool>& parent_mask,
+        std::size_t xaxis_index, std::size_t yaxis_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
 
     //! Column name of x coordinates.
     std::string x_;

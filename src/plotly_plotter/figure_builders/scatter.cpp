@@ -54,6 +54,11 @@ scatter& scatter::group(std::string value) {
     return *this;
 }
 
+scatter& scatter::subplot_column(std::string value) {
+    set_subplot_column(std::move(value));
+    return *this;
+}
+
 scatter& scatter::hover_data(std::vector<std::string> value) {
     set_hover_data(std::move(value));
     return *this;
@@ -74,11 +79,22 @@ scatter& scatter::title(std::string value) {
     return *this;
 }
 
-void scatter::configure_axes(figure& fig) const {
+void scatter::configure_axes(
+    figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const {
     if (!x_.empty()) {
-        fig.layout().xaxis().title().text(x_);
+        for (std::size_t i = 0; i < num_xaxes; ++i) {
+            fig.layout().xaxis(i + 1).title().text(x_);
+            if (i > 0) {
+                fig.layout().xaxis(i + 1).matches("x");
+            }
+        }
     }
-    fig.layout().yaxis().title().text(y_);
+    for (std::size_t i = 0; i < num_yaxes; ++i) {
+        fig.layout().yaxis(i + 1).title().text(y_);
+        if (i > 0) {
+            fig.layout().yaxis(i + 1).matches("y");
+        }
+    }
 }
 
 std::string scatter::default_title() const { return y_; }
@@ -94,91 +110,54 @@ std::string scatter::default_title() const { return y_; }
 constexpr std::size_t max_rows_for_non_gl_trace = 1000;
 // clang-format on
 
-void scatter::add_trace_without_grouping(
-    figure& fig, const std::vector<std::string>& additional_hover_text) const {
-    const std::size_t rows = data().rows();
-    const bool use_web_gl =
-        use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
-    if (!use_web_gl) {
-        auto scatter = fig.add_scatter();
-        configure_trace_without_grouping(scatter, additional_hover_text);
-    } else {
-        auto scatter = fig.add_scatter_gl();
-        configure_trace_without_grouping(scatter, additional_hover_text);
-    }
-}
-
-void scatter::add_trace_for_group(figure& figure,
-    const std::vector<bool>& group_mask, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
-    const std::vector<std::string>& additional_hover_text_filtered) const {
+void scatter::add_trace(figure& figure, const std::vector<bool>& parent_mask,
+    std::size_t xaxis_index, std::size_t yaxis_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text) const {
     const std::size_t rows = data().rows();
     const bool use_web_gl =
         use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
     if (!use_web_gl) {
         auto scatter = figure.add_scatter();
-        configure_trace_for_group(scatter, group_mask, group_name, group_index,
-            hover_prefix, additional_hover_text_filtered);
+        configure_trace(scatter, parent_mask, xaxis_index, yaxis_index,
+            group_name, group_index, hover_prefix, additional_hover_text);
     } else {
         auto scatter = figure.add_scatter_gl();
-        configure_trace_for_group(scatter, group_mask, group_name, group_index,
-            hover_prefix, additional_hover_text_filtered);
+        configure_trace(scatter, parent_mask, xaxis_index, yaxis_index,
+            group_name, group_index, hover_prefix, additional_hover_text);
     }
 }
 
 template <typename Trace>
-void scatter::configure_trace_without_grouping(Trace& scatter,
+void scatter::configure_trace(Trace& scatter,
+    const std::vector<bool>& parent_mask, std::size_t xaxis_index,
+    std::size_t yaxis_index, std::string_view group_name,
+    std::size_t group_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     scatter.mode(mode_);
 
     if (!x_.empty()) {
-        scatter.x(*data().at(x_));
+        scatter.x(filter_data_column(*data().at(x_), parent_mask));
     }
 
     if (y_.empty()) {
         throw std::runtime_error("y coordinates must be set.");
     }
-    scatter.y(*data().at(y_));
+    scatter.y(filter_data_column(*data().at(y_), parent_mask));
 
-    if (!additional_hover_text.empty() &&
-        !additional_hover_text.front().empty()) {
-        scatter.text(additional_hover_text);
-    }
-
-    scatter.name(y_);
-
-    std::string hover_template;
-    if (x_.empty()) {
-        hover_template += "index=%{x}<br>";
-    } else {
-        hover_template += fmt::format("{}=%{{x}}<br>", x_);
-    }
-    hover_template += fmt::format("{}=%{{y}}", y_);
-    if (!additional_hover_text.empty() &&
-        !additional_hover_text.front().empty()) {
-        hover_template += "%{text}";
-    }
-    scatter.hover_template(hover_template);
-}
-
-template <typename Trace>
-void scatter::configure_trace_for_group(Trace& scatter,
-    const std::vector<bool>& group_mask, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
-    const std::vector<std::string>& additional_hover_text_filtered) const {
-    scatter.mode(mode_);
-
-    if (!x_.empty()) {
-        scatter.x(filter_data_column(*data().at(x_), group_mask));
-    }
-
-    if (y_.empty()) {
-        throw std::runtime_error("y coordinates must be set.");
-    }
-    scatter.y(filter_data_column(*data().at(y_), group_mask));
-
-    if (!additional_hover_text_filtered.empty() &&
-        !additional_hover_text_filtered.front().empty()) {
+    const bool has_additional_hover_text = !additional_hover_text.empty() &&
+        !additional_hover_text.front().empty();
+    if (has_additional_hover_text) {
+        std::vector<std::string> additional_hover_text_filtered;
+        additional_hover_text_filtered.reserve(additional_hover_text.size());
+        for (std::size_t row_index = 0; row_index < parent_mask.size();
+            ++row_index) {
+            if (parent_mask[row_index]) {
+                additional_hover_text_filtered.push_back(
+                    additional_hover_text[row_index]);
+            }
+        }
         scatter.text(additional_hover_text_filtered);
     }
 
@@ -193,11 +172,19 @@ void scatter::configure_trace_for_group(Trace& scatter,
         hover_template += fmt::format("{}=%{{x}}<br>", x_);
     }
     hover_template += fmt::format("{}=%{{y}}", y_);
-    if (!additional_hover_text_filtered.empty() &&
-        !additional_hover_text_filtered.front().empty()) {
+    if (has_additional_hover_text) {
         hover_template += "%{text}";
     }
     scatter.hover_template(hover_template);
+
+    if (xaxis_index > 1) {
+        scatter.xaxis(fmt::format("x{}", xaxis_index));
+        scatter.show_legend(false);
+    }
+    if (yaxis_index > 1) {
+        scatter.yaxis(fmt::format("y{}", yaxis_index));
+        scatter.show_legend(false);
+    }
 }
 
 }  // namespace plotly_plotter::figure_builders
