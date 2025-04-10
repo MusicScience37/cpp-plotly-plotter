@@ -17,5 +17,7 @@ def show_html_figure(html_file_path: str, version: int) -> None:
         version (int): Version number to let caches work correctly.
     """
     _ignore(version)
-    figure = plotly.graph_objects.Figure(get_htmL_figure_data(html_file_path))
+    data = get_htmL_figure_data(html_file_path)
+    data["layout"]["template"] = {"layout": data["template"]["layout"]}
+    figure = plotly.graph_objects.Figure(data)
     figure.show(renderer="notebook_connected")
