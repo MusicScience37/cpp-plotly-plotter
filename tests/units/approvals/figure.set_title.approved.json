@@ -1,12 +1,13 @@
 {
   "data": [],
-  "layout": {},
+  "layout": {
+    "title": {
+      "text": "Test Title"
+    }
+  },
   "config": {
     "scrollZoom": true,
-    "responsive": true,
-    "editable": true,
-    "staticPlot": false,
-    "displayModeBar": true
+    "responsive": true
   },
   "template": {
     "data": [],

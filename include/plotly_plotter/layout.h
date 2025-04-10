@@ -51,6 +51,13 @@ protected:
         data_.set_to_object();
     }
 
+    /*!
+     * \brief Access the JSON data.
+     *
+     * \return JSON data.
+     */
+    [[nodiscard]] json_value data() const noexcept { return data_; }
+
 private:
     //! JSON data.
     json_value data_;
@@ -95,6 +102,20 @@ public:
      * create objects of this class from \ref layout objects.
      */
     explicit figure_title(json_value data) : title_base(data) {}
+
+    /*!
+     * \brief Set the x-coordinate of the title.
+     *
+     * \param[in] value Value.
+     */
+    void x(double value) { data()["x"] = value; }
+
+    /*!
+     * \brief Set the y-coordinate of the title.
+     *
+     * \param[in] value Value.
+     */
+    void y(double value) { data()["y"] = value; }
 };
 
 /*!
@@ -156,6 +177,70 @@ public:
      * \param[in] value Value.
      */
     void matches(std::string_view value) { data_["matches"] = value; }
+
+    /*!
+     * \brief Set whether to show the line of the axis.
+     *
+     * \param[in] value Value.
+     */
+    void show_line(bool value) { data_["showline"] = value; }
+
+    /*!
+     * \brief Set the color of the line of the axis.
+     *
+     * \param[in] value Value.
+     */
+    void line_color(std::string_view value) { data_["linecolor"] = value; }
+
+    /*!
+     * \brief Set the color of the lines of the grid.
+     *
+     * \param[in] value Value.
+     */
+    void grid_color(std::string_view value) { data_["gridcolor"] = value; }
+
+    /*!
+     * \brief Set the color of the line at zero.
+     *
+     * \param[in] value Value.
+     */
+    void zero_line_color(std::string_view value) {
+        data_["zerolinecolor"] = value;
+    }
+
+    /*!
+     * \brief Set the place of the tics.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"outside"`: outside.
+     * - `"inside"`: inside.
+     * - `""`: no ticks.
+     */
+    void ticks(std::string_view value) { data_["ticks"] = value; }
+
+    /*!
+     * \brief Set whether to show axes on the opposite side.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"true"`: show axes on the opposite side.
+     * - `"false"`: do not show axes on the opposite side.
+     * - `"ticks"`: show ticks on the opposite side.
+     * - `"all"`: show axes on all the subplots.
+     * - `"allticks"`: show ticks on all the subplots.
+     */
+    void mirror(std::string_view value) {
+        if (value == "true") {
+            data_["mirror"] = true;
+        } else if (value == "false") {
+            data_["mirror"] = false;
+        } else {
+            data_["mirror"] = value;
+        }
+    }
 
 protected:
     /*!

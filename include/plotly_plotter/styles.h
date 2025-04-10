@@ -15,22 +15,23 @@
  */
 /*!
  * \file
- * \brief Test of figure class.
+ * \brief Declarations of functions of styles of figures.
  */
-#include "plotly_plotter/figure.h"
+#pragma once
 
-#include <ApprovalTests.hpp>
-#include <catch2/catch_test_macros.hpp>
+#include "plotly_plotter/details/plotly_plotter_export.h"
+#include "plotly_plotter/layout.h"
 
-TEST_CASE("plotly_plotter::figure") {
-    plotly_plotter::figure figure;
+namespace plotly_plotter::styles {
 
-    SECTION("set title") {
-        figure.title("Test Title");
+/*!
+ * \brief Set a simple style of a figure.
+ *
+ * \param[out] layout Layout of the figure.
+ * \param[in] num_xaxes Number of x-axes.
+ * \param[in] num_yaxes Number of y-axes.
+ */
+PLOTLY_PLOTTER_EXPORT void simple_style(plotly_plotter::layout layout,
+    std::size_t num_xaxes = 1, std::size_t num_yaxes = 1);
 
-        const std::string json_string =
-            figure.document().serialize_to_string(true);
-        ApprovalTests::Approvals::verify(json_string,
-            ApprovalTests::Options().fileOptions().withFileExtension(".json"));
-    }
-}
+}  // namespace plotly_plotter::styles

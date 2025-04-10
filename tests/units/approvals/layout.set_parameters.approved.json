@@ -10,7 +10,13 @@
         0,
         null
       ],
-      "constrain": "domain"
+      "constrain": "domain",
+      "showline": true,
+      "linecolor": "#123456",
+      "gridcolor": "#654321",
+      "zerolinecolor": "#abcdef",
+      "ticks": "outside",
+      "mirror": true
     },
     "xaxis2": {
       "title": {
@@ -33,7 +39,13 @@
         null,
         "2025-01-01"
       ],
-      "constrain": "range"
+      "constrain": "range",
+      "showline": false,
+      "linecolor": "#abcdef",
+      "gridcolor": "#123456",
+      "zerolinecolor": "#654321",
+      "ticks": "inside",
+      "mirror": false
     },
     "yaxis2": {
       "title": {
@@ -48,7 +60,9 @@
       "matches": "y"
     },
     "title": {
-      "text": "Test Title"
+      "text": "Test Title",
+      "x": 0.25,
+      "y": 0.75
     },
     "grid": {
       "rows": 2,
@@ -95,5 +109,27 @@
   "config": {
     "scrollZoom": true,
     "responsive": true
+  },
+  "template": {
+    "data": [],
+    "layout": {
+      "title": {
+        "x": 0.05
+      },
+      "xaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "mirror": "allticks"
+      },
+      "yaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "mirror": "allticks"
+      }
+    }
   }
 }

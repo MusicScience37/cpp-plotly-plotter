@@ -60,7 +60,9 @@ static constexpr std::string_view plotly_plot_png = R"(<!DOCTYPE html>
         config.scrollZoom = false;
         config.responsive = true;
         config.displayModeBar = false;
-        Plotly.newPlot("plot", dataset.data, dataset.layout, config);
+        var layout = dataset.layout;
+        layout.template = Plotly.makeTemplate(dataset.template);
+        Plotly.newPlot("plot", dataset.data, layout, config);
     </script>
 </html>
 )";

@@ -6,6 +6,7 @@
 #include "plotly_plotter/figure_builders/figure_builder_base.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/figure_builders/scatter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/json_converter.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "plotly_plotter/styles.cpp"     // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/to_string.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/write_pdf.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/write_png.cpp"  // NOLINT(bugprone-suspicious-include)

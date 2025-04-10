@@ -26,6 +26,7 @@
 #include "plotly_plotter/json_document.h"
 #include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
+#include "plotly_plotter/styles.h"
 #include "plotly_plotter/traces/box.h"
 #include "plotly_plotter/traces/scatter.h"
 #include "plotly_plotter/traces/violin.h"
@@ -44,8 +45,11 @@ public:
         data_.set_to_array();
         layout_.set_to_object();
         config_.set_to_object();
+        data_template_.set_to_array();
+        layout_template_.set_to_object();
         config().scroll_zoom(true);
         config().responsive(true);
+        styles::simple_style(plotly_plotter::layout(layout_template_));
     }
 
     /*!
@@ -167,6 +171,12 @@ private:
 
     //! JSON data of configuration.
     json_value config_{document_.root()["config"]};
+
+    //! JSON data of data in templates.
+    json_value data_template_{document_.root()["template"]["data"]};
+
+    //! JSON data of layout in templates.
+    json_value layout_template_{document_.root()["template"]["layout"]};
 
     //! Title of the HTML page.
     std::string html_title_{"Untitled Plot"};

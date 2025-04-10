@@ -35,6 +35,12 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().xaxis().type("linear");
         figure.layout().xaxis(1).range(0, nullptr);
         figure.layout().xaxis(1).constrain("domain");
+        figure.layout().xaxis(1).show_line(true);
+        figure.layout().xaxis(1).line_color("#123456");
+        figure.layout().xaxis(1).grid_color("#654321");
+        figure.layout().xaxis(1).zero_line_color("#abcdef");
+        figure.layout().xaxis(1).ticks("outside");
+        figure.layout().xaxis(1).mirror("true");
         figure.layout().xaxis(2).title().text("x-axis2");
         figure.layout().xaxis(2).type("log");
         figure.layout().xaxis(2).range(0, 2);
@@ -44,12 +50,20 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().yaxis().type("log");
         figure.layout().yaxis(1).range(nullptr, "2025-01-01");
         figure.layout().yaxis(1).constrain("range");
+        figure.layout().yaxis(1).show_line(false);
+        figure.layout().yaxis(1).line_color("#abcdef");
+        figure.layout().yaxis(1).grid_color("#123456");
+        figure.layout().yaxis(1).zero_line_color("#654321");
+        figure.layout().yaxis(1).ticks("inside");
+        figure.layout().yaxis(1).mirror("false");
         figure.layout().yaxis(2).title().text("y-axis2");
         figure.layout().yaxis(2).type("category");
         figure.layout().yaxis(2).range("A", "C");
         figure.layout().yaxis(2).constrain("domain");
         figure.layout().yaxis(2).matches("y");
         figure.layout().title().text("Test Title");
+        figure.layout().title().x(0.25);  // NOLINT
+        figure.layout().title().y(0.75);  // NOLINT
         figure.layout().grid().rows(2);
         figure.layout().grid().columns(3);
         figure.layout().grid().pattern("independent");
