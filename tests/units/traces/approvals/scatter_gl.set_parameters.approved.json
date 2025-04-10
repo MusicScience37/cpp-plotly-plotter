@@ -59,5 +59,27 @@
   "config": {
     "scrollZoom": true,
     "responsive": true
+  },
+  "template": {
+    "data": [],
+    "layout": {
+      "title": {
+        "x": 0.05
+      },
+      "xaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "mirror": "allticks"
+      },
+      "yaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "mirror": "allticks"
+      }
+    }
   }
 }

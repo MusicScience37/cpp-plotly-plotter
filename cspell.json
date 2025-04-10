@@ -7,6 +7,7 @@
   // words - list of words to be always considered correct
   "words": [
     "alloc",
+    "allticks",
     "ARGN",
     "arrayminus",
     "asan",
@@ -58,6 +59,7 @@
     "genhtml",
     "gitmessage",
     "Graphviz",
+    "gridcolor",
     "gruvbox",
     "hicpp",
     "hovertemplate",
@@ -81,6 +83,7 @@
     "libc",
     "libcxx",
     "libstdc",
+    "linecolor",
     "literalinclude",
     "mathjax",
     "maxdepth",
@@ -115,6 +118,7 @@
     "setuptools",
     "showarrow",
     "showlegend",
+    "showline",
     "sphinxcontrib",
     "startuml",
     "stddev",
@@ -147,7 +151,8 @@
     "yaxis",
     "yref",
     "yshift",
-    "yyjson"
+    "yyjson",
+    "zerolinecolor"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.

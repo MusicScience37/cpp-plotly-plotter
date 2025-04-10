@@ -53,7 +53,9 @@ static constexpr std::string_view plotly_plot = R"(<!DOCTYPE html>
     <script type="text/javascript">
         var dataset_str = document.querySelector('#dataset').textContent;
         var dataset = JSON.parse(dataset_str);
-        Plotly.newPlot("plot", dataset.data, dataset.layout, dataset.config);
+        var layout = dataset.layout;
+        layout.template = Plotly.makeTemplate(dataset.template);
+        Plotly.newPlot("plot", dataset.data, layout, dataset.config);
     </script>
 </html>
 )";
