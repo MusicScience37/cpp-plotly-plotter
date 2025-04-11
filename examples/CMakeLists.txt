@@ -48,6 +48,11 @@ add_example_output(
     get_started_grouping_in_figure_builder_use_subplot_column
     get_started_grouping_in_figure_builder_use_subplot_column.html)
 
+add_example(get_started_grouping_in_figure_builder_use_subplot_row
+            get_started/grouping_in_figure_builder/use_subplot_row.cpp)
+add_example_output(get_started_grouping_in_figure_builder_use_subplot_row
+                   get_started_grouping_in_figure_builder_use_subplot_row.html)
+
 add_example(get_started_grouping_in_figure_builder_combine_groupings
             get_started/grouping_in_figure_builder/combine_groupings.cpp)
 add_example_output(
