@@ -54,6 +54,11 @@ scatter& scatter::group(std::string value) {
     return *this;
 }
 
+scatter& scatter::subplot_row(std::string value) {
+    set_subplot_row(std::move(value));
+    return *this;
+}
+
 scatter& scatter::subplot_column(std::string value) {
     set_subplot_column(std::move(value));
     return *this;
@@ -79,20 +84,35 @@ scatter& scatter::title(std::string value) {
     return *this;
 }
 
-void scatter::configure_axes(
-    figure& fig, std::size_t num_subplot_columns) const {
-    for (std::size_t i = 0; i < num_subplot_columns; ++i) {
-        if (!x_.empty()) {
-            fig.layout().xaxis(i + 1).title().text(x_);
+void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
+    std::size_t num_subplot_columns) const {
+    if (!x_.empty()) {
+        for (std::size_t i = 0; i < num_subplot_columns; ++i) {
+            const std::size_t index =
+                (num_subplot_rows - 1) * num_subplot_columns + i + 1;
+            fig.layout().xaxis(index).title().text(x_);
         }
-        if (i > 0) {
-            fig.layout().xaxis(i + 1).matches("x");
+    }
+    for (std::size_t i = 0; i < num_subplot_rows; ++i) {
+        const std::size_t index = i * num_subplot_columns + 1;
+        fig.layout().yaxis(index).title().text(y_);
+    }
+    for (std::size_t row = 0; row < num_subplot_rows - 1; ++row) {
+        for (std::size_t column = 0; column < num_subplot_columns; ++column) {
+            const std::size_t index = row * num_subplot_columns + column + 1;
+            fig.layout().xaxis(index).show_tick_labels(false);
         }
-
-        fig.layout().yaxis(i + 1).title().text(y_);
-        if (i > 0) {
-            fig.layout().yaxis(i + 1).matches("y");
+    }
+    for (std::size_t column = 1; column < num_subplot_columns; ++column) {
+        for (std::size_t row = 0; row < num_subplot_rows; ++row) {
+            const std::size_t index = row * num_subplot_columns + column + 1;
+            fig.layout().yaxis(index).show_tick_labels(false);
         }
+    }
+    for (std::size_t i = 1; i < num_subplot_rows * num_subplot_columns; ++i) {
+        const std::size_t index = i + 1;
+        fig.layout().xaxis(index).matches("x");
+        fig.layout().yaxis(index).matches("y");
     }
 }
 
