@@ -242,6 +242,13 @@ public:
         }
     }
 
+    /*!
+     * \brief Set whether to show labels of ticks.
+     *
+     * \param[in] value Value.
+     */
+    void show_tick_labels(bool value) { data_["showticklabels"] = value; }
+
 protected:
     /*!
      * \brief Constructor.
@@ -346,6 +353,20 @@ public:
      * - `"bottom to top"`: bottom to top
      */
     void row_order(std::string_view value) { data_["roworder"] = value; }
+
+    /*!
+     * \brief Set the spacing between columns.
+     *
+     * \param[in] value Value.
+     */
+    void x_gap(double value) { data_["xgap"] = value; }
+
+    /*!
+     * \brief Set the spacing between rows.
+     *
+     * \param[in] value Value.
+     */
+    void y_gap(double value) { data_["ygap"] = value; }
 
 private:
     //! JSON data.

@@ -95,6 +95,25 @@ TEST_CASE("line") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in rows of subplots") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .subplot_row("group")
+                                    .hover_data({"hover"})
+                                    .title("Line with Group")
+                                    .create();
+
+            const std::string file_path =
+                "line_with_group_in_rows_of_subplots.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("line with two groups") {
@@ -124,6 +143,46 @@ TEST_CASE("line") {
 
             const std::string file_path =
                 "line_with_two_groups_in_groups_and_columns.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in groups and rows") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .group("group1")
+                                    .subplot_row("group2")
+                                    .hover_data({"hover"})
+                                    .title("Line with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "line_with_two_groups_in_groups_and_rows.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in rows and columns") {
+            const auto figure = line(data)
+                                    .x("x")
+                                    .y("y")
+                                    .subplot_row("group1")
+                                    .subplot_column("group2")
+                                    .hover_data({"hover"})
+                                    .title("Line with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "line_with_two_groups_in_rows_and_columns.html";
             write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(

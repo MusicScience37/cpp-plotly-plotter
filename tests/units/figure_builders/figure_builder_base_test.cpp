@@ -112,6 +112,57 @@ TEST_CASE("plotly_plotter::figure_builders::figure_builder_base") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
+    SECTION("build with rows in subplots") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 2, 3, 4});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = line(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_row("group")
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path =
+            "figure_builder_base_build_with_rows_in_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("build with rows and columns in subplots") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3});
+        data.emplace(  // NOLINTNEXTLINE(*-magic-numbers)
+            "y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        data.emplace("group1",
+            std::vector<std::string>{
+                "A", "A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "B"});
+        data.emplace("group2",
+            std::vector<std::string>{
+                "C", "C", "C", "D", "D", "D", "C", "C", "C", "D", "D", "D"});
+
+        const auto figure = line(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_column("group1")
+                                .subplot_row("group2")
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path =
+            "figure_builder_base_build_with_rows_and_columns_in_subplots.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("build with additional hover data") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});

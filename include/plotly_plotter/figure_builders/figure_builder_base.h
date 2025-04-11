@@ -22,6 +22,7 @@
 #include <cstddef>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "plotly_plotter/data_table.h"
@@ -83,6 +84,13 @@ protected:
     void set_group(std::string value);
 
     /*!
+     * \brief Set the column name of rows in subplots.
+     *
+     * \param[in] value Value.
+     */
+    void set_subplot_row(std::string value);
+
+    /*!
      * \brief Set the column name of columns in subplots.
      *
      * \param[in] value Value.
@@ -114,10 +122,11 @@ protected:
      * \brief Configure the axes.
      *
      * \param[out] fig Figure to configure.
+     * \param[in] num_subplot_rows Number of rows of subplots.
      * \param[in] num_subplot_columns Number of columns of subplots.
      */
-    virtual void configure_axes(
-        figure& fig, std::size_t num_subplot_columns) const = 0;
+    virtual void configure_axes(figure& fig, std::size_t num_subplot_rows,
+        std::size_t num_subplot_columns) const = 0;
 
     /*!
      * \brief Get the default value of the title used when the title is not set.
@@ -143,6 +152,20 @@ protected:
         const std::vector<std::string>& additional_hover_text) const = 0;
 
 private:
+    /*!
+     * \brief Handle rows in subplots.
+     *
+     * \param[out] fig Figure.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text Additional hover text.
+     * \return Number of rows and columns of subplots.
+     */
+    [[nodiscard]] std::pair<std::size_t, std::size_t> handle_subplot_row(
+        figure& fig, const std::vector<bool>& parent_mask,
+        std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
+
     /*!
      * \brief Handle columns in subplots.
      *
@@ -175,9 +198,11 @@ private:
      * \brief Add configuration common for figures with and without grouping.
      *
      * \param[out] fig Figure to configure.
+     * \param[in] num_subplot_rows Number of rows of subplots.
      * \param[in] num_subplot_columns Number of columns of subplots.
      */
-    void configure_figure(figure& fig, std::size_t num_subplot_columns) const;
+    void configure_figure(figure& fig, std::size_t num_subplot_rows,
+        std::size_t num_subplot_columns) const;
 
     /*!
      * \brief Generate additional hover text.
@@ -192,6 +217,9 @@ private:
 
     //! Column name of groups.
     std::string group_;
+
+    //! Column name of rows in subplots.
+    std::string subplot_row_;
 
     //! Column name of columns in subplots.
     std::string subplot_column_;
