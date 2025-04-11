@@ -20,6 +20,7 @@
   { include: ["@<__numeric/.*>", private, "<numeric>", public ] },
   { include: ["@<__exception/.*>", private, "<exception>", public ] },
   { include: ["@<__mutex/.*>", private, "<mutex>", public ] },
+  { include: ["@<__math/.*>", private, "<cmath>", public ] },
   { include: ["<__tuple>", private, "<tuple>", public ] },
   { include: ["<__tuple>", private, "<utility>", public ] },
   { include: ["<__tuple>", private, "<unordered_map>", public ] },
@@ -30,6 +31,7 @@
   { include: ["<__fwd/fstream.h>", private, "<fstream>", public ] },
   { include: ["<__fwd/ios.h>", private, "<ios>", public ] },
   { include: ["<__fwd/sstream.h>", private, "<sstream>", public ] },
+  { include: ["<__fwd/vector.h>", private, "<vector>", public ] },
   # Custom (STL - C headers)
   { include: [ "<stddef.h>", public, "<cstddef>", public ] },
   { include: [ "<stdint.h>", public, "<cstdint>", public ] },

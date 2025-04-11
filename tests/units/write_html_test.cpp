@@ -19,6 +19,7 @@
  */
 #include "plotly_plotter/write_html.h"
 
+#include <string_view>
 #include <vector>
 
 #include <ApprovalTests.hpp>

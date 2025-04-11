@@ -19,6 +19,8 @@
  */
 #include "plotly_plotter/styles.h"
 
+#include <string_view>
+
 namespace plotly_plotter::styles {
 
 void simple_style(plotly_plotter::layout layout, std::size_t num_xaxes,

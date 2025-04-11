@@ -34,6 +34,26 @@
  */
 
 /*!
+ * \example get_started/grouping_in_figure_builder/combine_groupings.cpp
+ * Example to use multiple groupings of a figure builder.
+ */
+
+/*!
+ * \example get_started/grouping_in_figure_builder/use_group.cpp
+ * Example to use group function of a figure builder.
+ */
+
+/*!
+ * \example get_started/grouping_in_figure_builder/use_subplot_column.cpp
+ * Example to use subplot_column function of a figure builder.
+ */
+
+/*!
+ * \example get_started/grouping_in_figure_builder/use_subplot_row.cpp
+ * Example to use subplot_row function of a figure builder.
+ */
+
+/*!
  * \example boxes/create_multiple_boxes.cpp
  * Example to create multiple box plots.
  */
