@@ -42,14 +42,14 @@
         "linecolor": "#242424",
         "gridcolor": "#C8C8C8",
         "zerolinecolor": "#C8C8C8",
-        "mirror": "allticks"
+        "ticks": "outside"
       },
       "yaxis": {
         "showline": true,
         "linecolor": "#242424",
         "gridcolor": "#C8C8C8",
         "zerolinecolor": "#C8C8C8",
-        "mirror": "allticks"
+        "ticks": "outside"
       }
     }
   }

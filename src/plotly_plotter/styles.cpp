@@ -29,14 +29,14 @@ void simple_style(plotly_plotter::layout layout, std::size_t num_xaxes,
         layout.xaxis(i + 1).line_color("#242424");
         layout.xaxis(i + 1).grid_color("#C8C8C8");
         layout.xaxis(i + 1).zero_line_color("#C8C8C8");
-        layout.xaxis(i + 1).mirror("allticks");
+        layout.xaxis(i + 1).ticks("outside");
     }
     for (std::size_t i = 0; i < num_yaxes; ++i) {
         layout.yaxis(i + 1).show_line(true);
         layout.yaxis(i + 1).line_color("#242424");
         layout.yaxis(i + 1).grid_color("#C8C8C8");
         layout.yaxis(i + 1).zero_line_color("#C8C8C8");
-        layout.yaxis(i + 1).mirror("allticks");
+        layout.yaxis(i + 1).ticks("outside");
     }
 }
 
