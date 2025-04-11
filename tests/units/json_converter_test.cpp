@@ -20,10 +20,12 @@
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: keep
 
 #include <chrono>
+#include <limits>
 #include <string>
 #include <string_view>
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
 
 #include "plotly_plotter/json_document.h"

@@ -17,9 +17,13 @@
  * \file
  * \brief Test of color sequences.
  */
+#include <memory>
+#include <string>
+
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure_builders/scatter.h"
 #include "plotly_plotter/write_html.h"

@@ -17,9 +17,17 @@
  * \file
  * \brief Test of output types.
  */
+#include <cstddef>
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/layout.h"
+#include "plotly_plotter/traces/scatter.h"
+#include "plotly_plotter/traces/violin.h"
 #include "plotly_plotter/write_html.h"
 #include "plotly_plotter/write_pdf.h"
 #include "plotly_plotter/write_png.h"

@@ -19,6 +19,8 @@
  */
 #pragma once
 
+// IWYU pragma: no_include <initializer_list>
+
 #include <algorithm>
 #include <cstddef>
 #include <memory>

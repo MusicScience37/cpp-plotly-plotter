@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <string_view>
+
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_value.h"
 

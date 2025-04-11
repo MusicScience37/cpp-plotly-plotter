@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <cstddef>
+
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/layout.h"
 
