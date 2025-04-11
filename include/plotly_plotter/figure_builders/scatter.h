@@ -128,17 +128,16 @@ public:
 
 private:
     //! \copydoc figure_builder_base::configure_axes
-    void configure_axes(figure& fig, std::size_t num_xaxes,
-        std::size_t num_yaxes) const override;
+    void configure_axes(
+        figure& fig, std::size_t num_subplot_columns) const override;
 
     //! \copydoc figure_builder_base::default_title
     [[nodiscard]] std::string default_title() const override;
 
     //! \copydoc figure_builder_base::add_trace
     void add_trace(figure& figure, const std::vector<bool>& parent_mask,
-        std::size_t xaxis_index, std::size_t yaxis_index,
-        std::string_view group_name, std::size_t group_index,
-        std::string_view hover_prefix,
+        std::size_t subplot_index, std::string_view group_name,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const override;
 
     /*!
@@ -147,8 +146,7 @@ private:
      * \tparam Trace Type of the trace.
      * \param[out] scatter Scatter trace to configure.
      * \param[in] parent_mask Mask of the values in the parent layer.
-     * \param[in] xaxis_index Index of the x-axis.
-     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] subplot_index Index of the subplot.
      * \param[in] group_name Name of the group.
      * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
@@ -156,9 +154,8 @@ private:
      */
     template <typename Trace>
     void configure_trace(Trace& scatter, const std::vector<bool>& parent_mask,
-        std::size_t xaxis_index, std::size_t yaxis_index,
-        std::string_view group_name, std::size_t group_index,
-        std::string_view hover_prefix,
+        std::size_t subplot_index, std::string_view group_name,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
     //! Column name of x coordinates.

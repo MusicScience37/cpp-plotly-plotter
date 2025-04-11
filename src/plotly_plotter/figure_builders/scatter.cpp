@@ -80,16 +80,15 @@ scatter& scatter::title(std::string value) {
 }
 
 void scatter::configure_axes(
-    figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const {
-    if (!x_.empty()) {
-        for (std::size_t i = 0; i < num_xaxes; ++i) {
+    figure& fig, std::size_t num_subplot_columns) const {
+    for (std::size_t i = 0; i < num_subplot_columns; ++i) {
+        if (!x_.empty()) {
             fig.layout().xaxis(i + 1).title().text(x_);
-            if (i > 0) {
-                fig.layout().xaxis(i + 1).matches("x");
-            }
         }
-    }
-    for (std::size_t i = 0; i < num_yaxes; ++i) {
+        if (i > 0) {
+            fig.layout().xaxis(i + 1).matches("x");
+        }
+
         fig.layout().yaxis(i + 1).title().text(y_);
         if (i > 0) {
             fig.layout().yaxis(i + 1).matches("y");
@@ -111,29 +110,28 @@ constexpr std::size_t max_rows_for_non_gl_trace = 1000;
 // clang-format on
 
 void scatter::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t xaxis_index, std::size_t yaxis_index,
-    std::string_view group_name, std::size_t group_index,
-    std::string_view hover_prefix,
+    std::size_t subplot_index, std::string_view group_name,
+    std::size_t group_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     const std::size_t rows = data().rows();
     const bool use_web_gl =
         use_web_gl_.value_or(rows >= max_rows_for_non_gl_trace);
     if (!use_web_gl) {
         auto scatter = figure.add_scatter();
-        configure_trace(scatter, parent_mask, xaxis_index, yaxis_index,
-            group_name, group_index, hover_prefix, additional_hover_text);
+        configure_trace(scatter, parent_mask, subplot_index, group_name,
+            group_index, hover_prefix, additional_hover_text);
     } else {
         auto scatter = figure.add_scatter_gl();
-        configure_trace(scatter, parent_mask, xaxis_index, yaxis_index,
-            group_name, group_index, hover_prefix, additional_hover_text);
+        configure_trace(scatter, parent_mask, subplot_index, group_name,
+            group_index, hover_prefix, additional_hover_text);
     }
 }
 
 template <typename Trace>
 void scatter::configure_trace(Trace& scatter,
-    const std::vector<bool>& parent_mask, std::size_t xaxis_index,
-    std::size_t yaxis_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     scatter.mode(mode_);
 
@@ -177,12 +175,9 @@ void scatter::configure_trace(Trace& scatter,
     }
     scatter.hover_template(hover_template);
 
-    if (xaxis_index > 1) {
-        scatter.xaxis(fmt::format("x{}", xaxis_index));
-        scatter.show_legend(false);
-    }
-    if (yaxis_index > 1) {
-        scatter.yaxis(fmt::format("y{}", yaxis_index));
+    if (subplot_index > 1) {
+        scatter.xaxis(fmt::format("x{}", subplot_index));
+        scatter.yaxis(fmt::format("y{}", subplot_index));
         scatter.show_legend(false);
     }
 }

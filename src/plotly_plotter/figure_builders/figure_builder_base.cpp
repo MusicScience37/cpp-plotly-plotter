@@ -47,17 +47,18 @@ figure figure_builder_base::create() const {
     if (!subplot_column_.empty()) {
         fig.layout().grid().rows(1);
         fig.layout().grid().columns(1);
-        fig.layout().grid().pattern("coupled");
+        fig.layout().grid().pattern("independent");
     }
 
     const std::vector<bool> parent_mask(data_.rows(), true);
-    constexpr std::size_t yaxis_index = 1;
+    constexpr std::size_t first_subplot_index = 1;
     constexpr std::string_view hover_prefix;
     const auto additional_hover_text = generate_additional_hover_text();
-    handle_subplot_column(
-        fig, parent_mask, yaxis_index, hover_prefix, additional_hover_text);
+    const std::size_t subplot_columns = handle_subplot_column(fig, parent_mask,
+        first_subplot_index, hover_prefix, additional_hover_text);
 
-    configure_figure(fig);
+    const std::size_t num_subplots = subplot_columns;
+    configure_figure(fig, num_subplots);
 
     return fig;
 }
@@ -96,15 +97,14 @@ constexpr double annotation_shift = 20;
 
 }  // namespace
 
-void figure_builder_base::handle_subplot_column(figure& fig,
-    const std::vector<bool>& parent_mask, std::size_t yaxis_index,
+std::size_t figure_builder_base::handle_subplot_column(figure& fig,
+    const std::vector<bool>& parent_mask, std::size_t first_subplot_index,
     std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     if (subplot_column_.empty()) {
-        constexpr std::size_t xaxis_index = 1;
-        handle_groups(fig, parent_mask, xaxis_index, yaxis_index, hover_prefix,
+        handle_groups(fig, parent_mask, first_subplot_index, hover_prefix,
             additional_hover_text);
-        return;
+        return 1;
     }
 
     const auto grouping = data_.at(subplot_column_)->generate_group();
@@ -125,45 +125,46 @@ void figure_builder_base::handle_subplot_column(figure& fig,
             fmt::format("{}={}", subplot_column_, group_value);
         const auto group_hover_prefix =
             fmt::format("{}{}<br>", hover_prefix, group_name);
-        const std::size_t xaxis_index = group_index + 1;
-        handle_groups(fig, group_mask, xaxis_index, yaxis_index,
-            group_hover_prefix, additional_hover_text);
+        const std::size_t subplot_index = first_subplot_index + group_index;
+        handle_groups(fig, group_mask, subplot_index, group_hover_prefix,
+            additional_hover_text);
 
-        std::string x_ref;
-        if (xaxis_index == 1) {
-            x_ref = "x domain";
-        } else {
-            x_ref = fmt::format("x{} domain", xaxis_index);
+        if (first_subplot_index == 1) {
+            std::string x_ref;
+            std::string y_ref;
+            if (subplot_index == 1) {
+                x_ref = "x domain";
+                y_ref = "y domain";
+            } else {
+                x_ref = fmt::format("x{} domain", subplot_index);
+                y_ref = fmt::format("y{} domain", subplot_index);
+            }
+            auto annotation = fig.layout().add_annotation();
+            annotation.x_ref(x_ref);
+            annotation.y_ref(y_ref);
+            annotation.x(annotation_center);
+            annotation.y(annotation_end);
+            annotation.y_shift(annotation_shift);
+            annotation.show_arrow(false);
+            annotation.align("center");
+            annotation.text(group_name);
         }
-        std::string y_ref;
-        if (yaxis_index == 1) {
-            y_ref = "y domain";
-        } else {
-            y_ref = fmt::format("y{} domain", yaxis_index);
-        }
-        auto annotation = fig.layout().add_annotation();
-        annotation.x_ref(x_ref);
-        annotation.y_ref(y_ref);
-        annotation.x(annotation_center);
-        annotation.y(annotation_end);
-        annotation.y_shift(annotation_shift);
-        annotation.show_arrow(false);
-        annotation.align("center");
-        annotation.text(group_name);
     }
 
     fig.layout().grid().columns(group_values.size());
+
+    return group_values.size();
 }
 
 void figure_builder_base::handle_groups(figure& fig,
-    const std::vector<bool>& parent_mask, std::size_t xaxis_index,
-    std::size_t yaxis_index, std::string_view hover_prefix,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     if (group_.empty()) {
         const std::string group_name;
         constexpr std::size_t group_index = 0;
-        add_trace(fig, parent_mask, xaxis_index, yaxis_index, group_name,
-            group_index, hover_prefix, additional_hover_text);
+        add_trace(fig, parent_mask, subplot_index, group_name, group_index,
+            hover_prefix, additional_hover_text);
         fig.layout().show_legend(false);
         return;
     }
@@ -184,21 +185,16 @@ void figure_builder_base::handle_groups(figure& fig,
         const auto& group_name = group_values[group_index];
         const auto group_hover_prefix =
             fmt::format("{}{}={}<br>", hover_prefix, group_, group_name);
-        add_trace(fig, group_mask, xaxis_index, yaxis_index, group_name,
-            group_index, group_hover_prefix, additional_hover_text);
+        add_trace(fig, group_mask, subplot_index, group_name, group_index,
+            group_hover_prefix, additional_hover_text);
     }
 
     fig.layout().legend().title().text(group_);
 }
 
-void figure_builder_base::configure_figure(figure& fig) const {
-    std::size_t num_xaxes = 1;
-    std::size_t num_yaxes = 1;
-    if (!subplot_column_.empty()) {
-        const auto grouping = data_.at(subplot_column_)->generate_group();
-        num_xaxes = grouping.first.size();
-    }
-    configure_axes(fig, num_xaxes, num_yaxes);
+void figure_builder_base::configure_figure(
+    figure& fig, std::size_t num_subplot_columns) const {
+    configure_axes(fig, num_subplot_columns);
     if (title_.empty()) {
         fig.layout().title().text(default_title());
     } else {

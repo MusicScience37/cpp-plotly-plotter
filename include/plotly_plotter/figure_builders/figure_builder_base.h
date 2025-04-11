@@ -114,11 +114,10 @@ protected:
      * \brief Configure the axes.
      *
      * \param[out] fig Figure to configure.
-     * \param[in] num_xaxes Number of x-axes.
-     * \param[in] num_yaxes Number of y-axes.
+     * \param[in] num_subplot_columns Number of columns of subplots.
      */
     virtual void configure_axes(
-        figure& fig, std::size_t num_xaxes, std::size_t num_yaxes) const = 0;
+        figure& fig, std::size_t num_subplot_columns) const = 0;
 
     /*!
      * \brief Get the default value of the title used when the title is not set.
@@ -132,17 +131,15 @@ protected:
      *
      * \param[out] figure Figure to add the trace to.
      * \param[in] parent_mask Mask of the values in the parent layer.
-     * \param[in] xaxis_index Index of the x-axis.
-     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] subplot_index Index of the subplot.
      * \param[in] group_name Name of the group.
      * \param[in] group_index Index of the group.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
      */
     virtual void add_trace(figure& figure, const std::vector<bool>& parent_mask,
-        std::size_t xaxis_index, std::size_t yaxis_index,
-        std::string_view group_name, std::size_t group_index,
-        std::string_view hover_prefix,
+        std::size_t subplot_index, std::string_view group_name,
+        std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const = 0;
 
 private:
@@ -151,12 +148,13 @@ private:
      *
      * \param[out] fig Figure.
      * \param[in] parent_mask Mask of the values in the parent layer.
-     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] first_subplot_index Index of the first subplot.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
+     * \return Number of subplots added.
      */
-    void handle_subplot_column(figure& fig,
-        const std::vector<bool>& parent_mask, std::size_t yaxis_index,
+    [[nodiscard]] std::size_t handle_subplot_column(figure& fig,
+        const std::vector<bool>& parent_mask, std::size_t first_subplot_index,
         std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
@@ -165,22 +163,21 @@ private:
      *
      * \param[out] fig Figure.
      * \param[in] parent_mask Mask of the values in the parent layer.
-     * \param[in] xaxis_index Index of the x-axis.
-     * \param[in] yaxis_index Index of the y-axis.
+     * \param[in] subplot_index Index of the subplot.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
      */
     void handle_groups(figure& fig, const std::vector<bool>& parent_mask,
-        std::size_t xaxis_index, std::size_t yaxis_index,
-        std::string_view hover_prefix,
+        std::size_t subplot_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
     /*!
      * \brief Add configuration common for figures with and without grouping.
      *
      * \param[out] fig Figure to configure.
+     * \param[in] num_subplot_columns Number of columns of subplots.
      */
-    void configure_figure(figure& fig) const;
+    void configure_figure(figure& fig, std::size_t num_subplot_columns) const;
 
     /*!
      * \brief Generate additional hover text.
