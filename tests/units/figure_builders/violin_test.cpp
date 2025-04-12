@@ -19,6 +19,7 @@
  */
 #include "plotly_plotter/figure_builders/violin.h"
 
+#include <stdexcept>
 #include <utility>
 #include <vector>
 

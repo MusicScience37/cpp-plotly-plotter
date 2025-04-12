@@ -31,6 +31,7 @@
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/layout.h"
+#include "plotly_plotter/traces/violin.h"
 
 namespace plotly_plotter::figure_builders {
 
