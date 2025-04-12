@@ -84,6 +84,36 @@ scatter& scatter::log_y(bool value) {
     return *this;
 }
 
+scatter& scatter::color_sequence(std::vector<std::string> value) {
+    color_sequence_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::fixed_color(std::string value) {
+    fixed_color_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::change_color_by_group() {
+    fixed_color_.reset();
+    return *this;
+}
+
+scatter& scatter::dash_sequence(std::vector<std::string> value) {
+    dash_sequence_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::fixed_dash(std::string value) {
+    fixed_dash_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::change_dash_by_group() {
+    fixed_dash_.reset();
+    return *this;
+}
+
 scatter& scatter::use_web_gl(bool value) {
     use_web_gl_ = value;
     return *this;
@@ -205,7 +235,18 @@ void scatter::configure_trace(Trace& scatter,
         scatter.text(additional_hover_text_filtered);
     }
 
-    scatter.color(color_sequence_[group_index % color_sequence_.size()]);
+    if (fixed_color_) {
+        scatter.color(*fixed_color_);
+    } else {
+        scatter.color(color_sequence_[group_index % color_sequence_.size()]);
+    }
+
+    if (fixed_dash_) {
+        scatter.line().dash(*fixed_dash_);
+    } else {
+        scatter.line().dash(
+            dash_sequence_[group_index % dash_sequence_.size()]);
+    }
 
     scatter.name(group_name);
 

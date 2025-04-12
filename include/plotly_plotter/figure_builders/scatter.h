@@ -28,6 +28,7 @@
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure_builders/color_sequences.h"
+#include "plotly_plotter/figure_builders/dash_sequences.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
 
 namespace plotly_plotter::figure_builders {
@@ -132,6 +133,52 @@ public:
     scatter& log_y(bool value);
 
     /*!
+     * \brief Set the color sequence.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& color_sequence(std::vector<std::string> value);
+
+    /*!
+     * \brief Set the fixed color.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& fixed_color(std::string value);
+
+    /*!
+     * \brief Set to change the color by group using the color sequence.
+     *
+     * \return This object.
+     */
+    scatter& change_color_by_group();
+
+    /*!
+     * \brief Set the dash sequence.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& dash_sequence(std::vector<std::string> value);
+
+    /*!
+     * \brief Set the fixed dash.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& fixed_dash(std::string value);
+
+    /*!
+     * \brief Set to change the dash by group using the dash sequence.
+     *
+     * \return This object.
+     */
+    scatter& change_dash_by_group();
+
+    /*!
      * \brief Set whether to use WebGL.
      *
      * \param[in] value Value.
@@ -199,6 +246,15 @@ private:
 
     //! Color sequence.
     std::vector<std::string> color_sequence_{color_sequence_plotly()};
+
+    //! Fixed color. (Null specifies use of color sequence.)
+    std::optional<std::string> fixed_color_;
+
+    //! Dash sequence.
+    std::vector<std::string> dash_sequence_{dash_sequence_default()};
+
+    //! Fixed dash. (Null specifies use of dash sequence.)
+    std::optional<std::string> fixed_dash_{"solid"};
 
     //! Whether to use WebGL.
     std::optional<bool> use_web_gl_;

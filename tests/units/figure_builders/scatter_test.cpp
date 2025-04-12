@@ -79,6 +79,8 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
                                 .y("y")
                                 .group("group")
                                 .mode("lines+markers")
+                                .change_color_by_group()
+                                .fixed_dash("dot")
                                 .use_web_gl(false)
                                 .hover_data({"additional1", "additional2"})
                                 .title("Test Title")
@@ -135,6 +137,86 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
 
         const std::string file_path = "scatter_build_with_log_scale_in_y.html";
         plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("change the style of lines") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12});
+        data.emplace("group",
+            std::vector<std::string>{
+                "A", "A", "A", "B", "B", "B", "C", "C", "C"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .mode("lines+markers")
+                                .fixed_color("#E66B0A")
+                                .change_dash_by_group()
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path = "scatter_change_the_style_of_lines.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("change the color sequence") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12});
+        data.emplace("group",
+            std::vector<std::string>{
+                "A", "A", "A", "B", "B", "B", "C", "C", "C"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .mode("lines+markers")
+                                .change_color_by_group()
+                                .color_sequence({"#E66B0A", "#0E65E5"})
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path = "scatter_change_the_color_sequence.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("change the dash sequence") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12});
+        data.emplace("group",
+            std::vector<std::string>{
+                "A", "A", "A", "B", "B", "B", "C", "C", "C"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .mode("lines+markers")
+                                .change_dash_by_group()
+                                .dash_sequence({"dot", "longdash"})
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path = "scatter_change_the_dash_sequence.html";
+        plotly_plotter::write_html(file_path, figure);
+
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));

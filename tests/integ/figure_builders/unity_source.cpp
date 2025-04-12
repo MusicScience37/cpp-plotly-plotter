@@ -1,4 +1,5 @@
 #include "color_sequence_test.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "dash_sequence_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "data_types_test.cpp"      // NOLINT(bugprone-suspicious-include)
 #include "line_test.cpp"            // NOLINT(bugprone-suspicious-include)
 #include "scatter_test.cpp"         // NOLINT(bugprone-suspicious-include)
