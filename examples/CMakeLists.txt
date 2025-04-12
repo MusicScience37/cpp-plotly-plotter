@@ -82,6 +82,11 @@ add_example(configurations_set_axes_to_log_scale
 add_example_output(configurations_set_axes_to_log_scale
                    configurations_set_axes_to_log_scale.html)
 
+add_example(figure_builders_set_axes_to_log_scale
+            figure_builders/set_axes_to_log_scale.cpp)
+add_example_output(figure_builders_set_axes_to_log_scale
+                   figure_builders_set_axes_to_log_scale.html)
+
 add_example(scatter_create_scatter_using_figure_builder
             scatters/create_scatter_using_figure_builder.cpp)
 add_example_output(scatter_create_scatter_using_figure_builder

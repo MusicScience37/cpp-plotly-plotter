@@ -6,6 +6,7 @@ Examples
 
     get_started/index
     configurations/index
+    figure_builders/index
     scatters/index
     boxes/index
     violins/index
