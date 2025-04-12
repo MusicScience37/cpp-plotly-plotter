@@ -118,5 +118,10 @@ add_example(violins_create_multiple_violins violins/create_multiple_violins.cpp)
 add_example_output(violins_create_multiple_violins
                    violins_create_multiple_violins.html)
 
+add_example(violins_create_violins_using_figure_builder
+            violins/create_violins_using_figure_builder.cpp)
+add_example_output(violins_create_violins_using_figure_builder
+                   violins_create_violins_using_figure_builder.html)
+
 add_example(violins_show_box_and_mean violins/show_box_and_mean.cpp)
 add_example_output(violins_show_box_and_mean violins_show_box_and_mean.html)
