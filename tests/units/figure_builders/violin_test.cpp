@@ -279,4 +279,36 @@ TEST_CASE("plotly_plotter::figure_builders::violin") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("try to build without y") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+
+        REQUIRE_THROWS_AS(violin(data).create(), std::runtime_error);
+        REQUIRE_THROWS_AS(violin(data).group("x").create(), std::runtime_error);
+    }
+
+    SECTION("try to set an empty color sequence") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+
+        REQUIRE_THROWS(violin(data).x("x").y("y").color_sequence({}).create());
+    }
+
+    SECTION("try to use an incomplete color map") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        data.emplace("group", std::vector<std::string>{"A", "A", "B"});
+
+        REQUIRE_THROWS(violin(data)
+                .x("x")
+                .y("y")
+                .group("group")
+                .color_map({{"A", "#E66B0A"}})
+                .create());
+    }
 }

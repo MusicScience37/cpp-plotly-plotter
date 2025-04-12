@@ -315,4 +315,37 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
         REQUIRE_THROWS_AS(
             scatter(data).group("x").create(), std::runtime_error);
     }
+
+    SECTION("try to set an empty color sequence") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+
+        REQUIRE_THROWS(scatter(data).x("x").y("y").color_sequence({}).create());
+    }
+
+    SECTION("try to set an empty dash sequence") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+
+        REQUIRE_THROWS(scatter(data).x("x").y("y").dash_sequence({}).create());
+    }
+
+    SECTION("try to use an incomplete color map") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        data.emplace("group", std::vector<std::string>{"A", "A", "B"});
+
+        REQUIRE_THROWS(scatter(data)
+                .x("x")
+                .y("y")
+                .group("group")
+                .color_map({{"A", "#E66B0A"}})
+                .create());
+    }
 }

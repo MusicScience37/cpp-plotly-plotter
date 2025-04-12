@@ -67,6 +67,9 @@ violin& violin::hover_data(std::vector<std::string> value) {
 }
 
 violin& violin::color_sequence(std::vector<std::string> value) {
+    if (value.empty()) {
+        throw std::runtime_error("Color sequence must not be empty.");
+    }
     color_sequence_ = std::move(value);
     return *this;
 }
