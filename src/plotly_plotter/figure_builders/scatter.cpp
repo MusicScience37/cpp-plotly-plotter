@@ -84,6 +84,59 @@ scatter& scatter::log_y(bool value) {
     return *this;
 }
 
+scatter& scatter::color_sequence(std::vector<std::string> value) {
+    if (value.empty()) {
+        throw std::runtime_error("Color sequence must not be empty.");
+    }
+    color_sequence_ = std::move(value);
+    color_mode_ = color_mode::sequence;
+    return *this;
+}
+
+scatter& scatter::fixed_color(std::string value) {
+    fixed_color_ = std::move(value);
+    color_mode_ = color_mode::fixed;
+    return *this;
+}
+
+scatter& scatter::change_color_by_group() {
+    color_mode_ = color_mode::sequence;
+    return *this;
+}
+
+scatter& scatter::color_map(
+    std::unordered_map<std::string, std::string> value) {
+    color_map_ = std::move(value);
+    color_mode_ = color_mode::map;
+    return *this;
+}
+
+scatter& scatter::dash_sequence(std::vector<std::string> value) {
+    if (value.empty()) {
+        throw std::runtime_error("Dash sequence must not be empty.");
+    }
+    dash_sequence_ = std::move(value);
+    dash_mode_ = dash_mode::sequence;
+    return *this;
+}
+
+scatter& scatter::fixed_dash(std::string value) {
+    fixed_dash_ = std::move(value);
+    dash_mode_ = dash_mode::fixed;
+    return *this;
+}
+
+scatter& scatter::change_dash_by_group() {
+    dash_mode_ = dash_mode::sequence;
+    return *this;
+}
+
+scatter& scatter::dash_map(std::unordered_map<std::string, std::string> value) {
+    dash_map_ = std::move(value);
+    dash_mode_ = dash_mode::map;
+    return *this;
+}
+
 scatter& scatter::use_web_gl(bool value) {
     use_web_gl_ = value;
     return *this;
@@ -205,7 +258,42 @@ void scatter::configure_trace(Trace& scatter,
         scatter.text(additional_hover_text_filtered);
     }
 
-    scatter.color(color_sequence_[group_index % color_sequence_.size()]);
+    switch (color_mode_) {
+    case color_mode::fixed:
+        scatter.color(fixed_color_);
+        break;
+    case color_mode::sequence:
+        scatter.color(color_sequence_[group_index % color_sequence_.size()]);
+        break;
+    case color_mode::map: {
+        const auto iter = color_map_.find(std::string(group_name));
+        if (iter == color_map_.end()) {
+            throw std::runtime_error(fmt::format(
+                "Color map does not contain group name: {}", group_name));
+        }
+        scatter.color(iter->second);
+        break;
+    }
+    }
+
+    switch (dash_mode_) {
+    case dash_mode::fixed:
+        scatter.line().dash(fixed_dash_);
+        break;
+    case dash_mode::sequence:
+        scatter.line().dash(
+            dash_sequence_[group_index % dash_sequence_.size()]);
+        break;
+    case dash_mode::map: {
+        const auto iter = dash_map_.find(std::string(group_name));
+        if (iter == dash_map_.end()) {
+            throw std::runtime_error(fmt::format(
+                "Dash map does not contain group name: {}", group_name));
+        }
+        scatter.line().dash(iter->second);
+        break;
+    }
+    }
 
     scatter.name(group_name);
 

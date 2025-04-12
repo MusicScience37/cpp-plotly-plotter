@@ -104,6 +104,45 @@ private:
 };
 
 /*!
+ * \brief Class to configure the line of scatter traces.
+ *
+ * \note Objects of this class should be created from \ref scatter objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class scatter_line {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref scatter objects.
+     */
+    explicit scatter_line(json_value data) : data_(data) {}
+
+    /*!
+     * \brief Set the dash style of the line.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"solid"`
+     * - `"dot"`
+     * - `"dash"`
+     * - `"longdash"`
+     * - `"dashdot"`
+     * - `"longdashdot"`
+     */
+    void dash(std::string_view value) { data_["dash"] = value; }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Base class of scatter traces.
  */
 class scatter_base : public xy_trace_base {
@@ -144,6 +183,16 @@ public:
     void mode(std::string_view value) {  // NOLINT(*-member-function-const)
         // This function modifies the internal state.
         this->data()["mode"] = value;
+    }
+
+    /*!
+     * \brief Access the configuration of the line.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] scatter_line line() {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        return scatter_line(this->data()["line"]);
     }
 
     /*!

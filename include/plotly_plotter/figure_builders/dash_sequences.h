@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of functions of color sequences.
+ * \brief Definition of functions of dash sequences.
  */
 #pragma once
 
@@ -25,13 +25,19 @@
 namespace plotly_plotter::figure_builders {
 
 /*!
- * \brief Get the color sequence used in Plotly.
+ * \brief Get the default dash sequence.
  *
- * \return Color sequence.
+ * \return Dash sequence.
  */
-[[nodiscard]] inline std::vector<std::string> color_sequence_plotly() {
-    return {"#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A", "#19D3F3",
-        "#FF6692", "#B6E880", "#FF97FF", "#FECB52"};
+[[nodiscard]] inline std::vector<std::string> dash_sequence_default() {
+    return {
+        "solid",
+        "dot",
+        "dash",
+        "longdash",
+        "dashdot",
+        "longdashdot",
+    };
 }
 
 }  // namespace plotly_plotter::figure_builders
