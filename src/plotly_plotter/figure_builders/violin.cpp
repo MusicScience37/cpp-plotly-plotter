@@ -193,6 +193,7 @@ void violin::add_trace(figure& figure, const std::vector<bool>& parent_mask,
     violin.points(points_);
 
     violin.name(group_name);
+    violin.legend_group(group_name);
 
     auto hover_template = static_cast<std::string>(hover_prefix);
     if (!x_.empty()) {
