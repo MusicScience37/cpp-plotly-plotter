@@ -6,4 +6,5 @@ set(SOURCE_FILES
     line_test.cpp
     scatter_test.cpp
     test_main.cpp
+    violin_test.cpp
 )

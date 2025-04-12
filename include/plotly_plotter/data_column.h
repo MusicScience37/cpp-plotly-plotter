@@ -22,6 +22,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -91,6 +92,14 @@ public:
      * \return Number of values.
      */
     [[nodiscard]] virtual std::size_t size() const noexcept = 0;
+
+    /*!
+     * \brief Get the range of values in the column in positive numbers.
+     *
+     * \return Minimum and maximum values in the column.
+     */
+    [[nodiscard]] virtual std::pair<double, double> get_positive_range()
+        const = 0;
 };
 
 /*!
@@ -181,6 +190,29 @@ public:
     //! \copydoc data_column_base::size
     [[nodiscard]] std::size_t size() const noexcept override {
         return data_.size();
+    }
+
+    //! \copydoc data_column_base::get_positive_range
+    [[nodiscard]] std::pair<double, double> get_positive_range()
+        const override {
+        constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+        if constexpr (!is_supported) {
+            throw std::runtime_error(
+                "get_positive_range is not supported for this type.");
+        } else {
+            double min = std::numeric_limits<double>::max();
+            double max = std::numeric_limits<double>::min();
+            for (const auto& value : data_) {
+                if (value <= static_cast<value_type>(0)) {
+                    continue;
+                }
+                const auto value_in_double = static_cast<double>(value);
+                min = std::min(min, value_in_double);
+                max = std::max(max, value_in_double);
+            }
+            return {min, max};
+        }
     }
 
 private:

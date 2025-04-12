@@ -10,6 +10,7 @@ set(SOURCE_FILES
     figure_builders/figure_builder_base_test.cpp
     figure_builders/line_test.cpp
     figure_builders/scatter_test.cpp
+    figure_builders/violin_test.cpp
     figure_test.cpp
     json_converter_test.cpp
     json_document_test.cpp
