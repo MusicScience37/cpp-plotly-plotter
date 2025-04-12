@@ -60,6 +60,7 @@ figure figure_builder_base::create() const {
         fig, parent_mask, hover_prefix, additional_hover_text);
 
     configure_figure(fig, num_subplot_rows, num_subplot_columns);
+    fig.layout().legend().trace_group_gap(0.0);
 
     return fig;
 }

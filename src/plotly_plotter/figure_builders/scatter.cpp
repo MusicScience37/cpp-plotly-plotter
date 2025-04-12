@@ -257,6 +257,7 @@ void scatter::configure_trace(Trace& scatter,
     }
 
     scatter.name(group_name);
+    scatter.legend_group(group_name);
 
     auto hover_template = static_cast<std::string>(hover_prefix);
     if (x_.empty()) {

@@ -185,6 +185,7 @@ void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
     box.box_points(box_points_);
 
     box.name(group_name);
+    box.legend_group(group_name);
 
     auto hover_template = static_cast<std::string>(hover_prefix);
     if (!x_.empty()) {
