@@ -273,4 +273,78 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("set colors") {
+        auto scatter = figure.add_scatter();
+        scatter.name("hover template");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.error_x().type("data");
+        scatter.error_x().symmetric(true);
+        scatter.error_x().visible(true);
+        scatter.error_x().array(
+            std::vector{0.25, 0.5, 0.75});  // NOLINT(*-magic-numbers)
+        scatter.error_y().type("data");
+        scatter.error_y().symmetric(true);
+        scatter.error_y().visible(true);
+        scatter.error_y().array(
+            std::vector{0.5, 1.0, 1.5});  // NOLINT(*-magic-numbers)
+        scatter.color("#E66B0A");
+
+        figure.title("Scatter with Setting of Colors");
+
+        const std::string file_path = "scatter_set_colors.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set dash") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("solid");
+        scatter.name("solid");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("dot");
+        scatter.name("dot");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{6, 7, 8});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("dash");
+        scatter.name("dash");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{7, 8, 9});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("longdash");
+        scatter.name("longdash");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{8, 9, 10});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("dashdot");
+        scatter.name("dashdot");
+
+        scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{9, 10, 11});  // NOLINT(*-magic-numbers)
+        scatter.line().dash("longdashdot");
+        scatter.name("longdashdot");
+
+        figure.title("Scatter with Setting of Dash");
+
+        const std::string file_path = "scatter_set_dash.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

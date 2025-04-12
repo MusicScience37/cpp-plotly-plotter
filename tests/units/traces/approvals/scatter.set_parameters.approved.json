@@ -51,6 +51,13 @@
       "xaxis": "x",
       "yaxis": "y",
       "mode": "lines",
+      "line": {
+        "dash": "solid",
+        "color": "#123456"
+      },
+      "marker": {
+        "color": "#123456"
+      },
       "hovertemplate": "x: %{x}<br>y: %{y}<br>text: %{text}",
       "legendgroup": "group1"
     }
