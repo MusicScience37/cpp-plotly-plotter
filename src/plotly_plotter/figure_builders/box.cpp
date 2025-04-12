@@ -19,6 +19,18 @@
  */
 #include "plotly_plotter/figure_builders/box.h"
 
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
+#include <fmt/format.h>
+
+#include "plotly_plotter/data_column.h"
+#include "plotly_plotter/figure.h"
+#include "plotly_plotter/layout.h"
+#include "plotly_plotter/traces/box.h"
+
 namespace plotly_plotter::figure_builders {
 
 box::box(const data_table& data) : figure_builder_base(data) {}
@@ -35,6 +47,21 @@ box& box::y(std::string value) {
 
 box& box::group(std::string value) {
     set_group(std::move(value));
+    return *this;
+}
+
+box& box::subplot_row(std::string value) {
+    set_subplot_row(std::move(value));
+    return *this;
+}
+
+box& box::subplot_column(std::string value) {
+    set_subplot_column(std::move(value));
+    return *this;
+}
+
+box& box::hover_data(std::vector<std::string> value) {
+    set_hover_data(std::move(value));
     return *this;
 }
 
@@ -61,6 +88,28 @@ box& box::change_color_by_group() {
 box& box::color_map(std::unordered_map<std::string, std::string> value) {
     color_map_ = std::move(value);
     color_mode_ = color_mode::map;
+    return *this;
+}
+
+box& box::box_mean(bool value) {
+    box_mean_ = value;
+    return *this;
+}
+
+box& box::box_mean(std::string value) {
+    box_mean_ = std::move(value);
+    return *this;
+}
+
+box& box::box_mean(const char* value) { return box_mean(std::string(value)); }
+
+box& box::box_points(std::string value) {
+    box_points_ = std::move(value);
+    return *this;
+}
+
+box& box::log_y(bool value) {
+    log_y_ = value;
     return *this;
 }
 
@@ -102,6 +151,15 @@ void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
     for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns; ++i) {
         const std::size_t index = i + 1;
         fig.layout().xaxis(index).type("category");
+    }
+
+    // Set log scale.
+    if (log_y_) {
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            const std::size_t index = i + 1;
+            fig.layout().yaxis(index).type("log");
+        }
     }
 
     // Configure to use same ranges.
@@ -161,12 +219,13 @@ void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
     }
     }
 
+    std::visit([&box](const auto& value) { box.box_mean(value); }, box_mean_);
+    box.box_points(box_points_);
+
     box.name(group_name);
 
     auto hover_template = static_cast<std::string>(hover_prefix);
-    if (x_.empty()) {
-        hover_template += "index=%{x}<br>";
-    } else {
+    if (!x_.empty()) {
         hover_template += fmt::format("{}=%{{x}}<br>", x_);
     }
     hover_template += fmt::format("{}=%{{y}}", y_);
@@ -179,6 +238,10 @@ void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
         box.xaxis(fmt::format("x{}", subplot_index));
         box.yaxis(fmt::format("y{}", subplot_index));
         box.show_legend(false);
+    }
+
+    if (group_index > 0 && !x_.empty()) {
+        figure.layout().box_mode("group");
     }
 }
 

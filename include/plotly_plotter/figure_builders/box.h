@@ -21,16 +21,15 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure_builders/color_sequences.h"
-#include "plotly_plotter/figure_builders/dash_sequences.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
 
 namespace plotly_plotter::figure_builders {
@@ -79,6 +78,30 @@ public:
     box& group(std::string value);
 
     /*!
+     * \brief Set the column name of rows in subplots.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    box& subplot_row(std::string value);
+
+    /*!
+     * \brief Set the column name of columns in subplots.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    box& subplot_column(std::string value);
+
+    /*!
+     * \brief Set the column names of additional data in hovers.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    box& hover_data(std::vector<std::string> value);
+
+    /*!
      * \brief Set the color sequence.
      *
      * \param[in] value Value.
@@ -108,6 +131,62 @@ public:
      * \return This object.
      */
     box& color_map(std::unordered_map<std::string, std::string> value);
+
+    /*!
+     * \brief Set whether to show the mean.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * Selection:
+     * - `true`: show the mean
+     * - `false`: do not show the mean
+     * - `"sd"` (using overload with strings): show the mean and standard
+     * deviation
+     */
+    box& box_mean(bool value);
+
+    /*!
+     * \brief Set whether to show the mean.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * Selection:
+     * - `true` (using overload with bool): show the mean
+     * - `false` (using overload with bool): do not show the mean
+     * - `"sd"`: show the mean and standard deviation
+     */
+    box& box_mean(std::string value);
+
+    /*!
+     * \brief Set whether to show the mean.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * Selection:
+     * - `true` (using overload with bool): show the mean
+     * - `false` (using overload with bool): do not show the mean
+     * - `"sd"`: show the mean and standard deviation
+     */
+    box& box_mean(const char* value);
+
+    /*!
+     * \brief Set how to show points.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    box& box_points(std::string value);
+
+    /*!
+     * \brief Set whether to use log scale in y-axis.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    box& log_y(bool value);
 
     /*!
      * \brief Set the title of the figure.
@@ -160,6 +239,15 @@ private:
 
     //! Column name of y coordinates.
     std::string y_;
+
+    //! Whether to show the mean.
+    std::variant<bool, std::string> box_mean_{false};
+
+    //! How to show points.
+    std::string box_points_{"outliers"};
+
+    //! Whether to use log scale in y-axis.
+    bool log_y_{false};
 };
 
 }  // namespace plotly_plotter::figure_builders
