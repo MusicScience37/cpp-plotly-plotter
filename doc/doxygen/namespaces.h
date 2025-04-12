@@ -61,6 +61,16 @@ namespace plotly_plotter {
      */
 
     //! Namespace of builders of figures.
-    namespace figure_builders {}
+    namespace figure_builders {
+
+        /*!
+         * \dir include/plotly_plotter/figure_builders/details
+         * \brief Header files of internal implementation details.
+         */
+
+        //! Namespace of internal implementation details.
+        namespace details {}
+
+    }  // namespace figure_builders
 
 }  // namespace plotly_plotter

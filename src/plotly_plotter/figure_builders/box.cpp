@@ -28,6 +28,7 @@
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/box.h"
 
@@ -120,32 +121,8 @@ box& box::title(std::string value) {
 
 void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
     std::size_t num_subplot_columns) const {
-    // Titles of axes.
-    if (!x_.empty()) {
-        for (std::size_t i = 0; i < num_subplot_columns; ++i) {
-            const std::size_t index =
-                (num_subplot_rows - 1) * num_subplot_columns + i + 1;
-            fig.layout().xaxis(index).title().text(x_);
-        }
-    }
-    for (std::size_t i = 0; i < num_subplot_rows; ++i) {
-        const std::size_t index = i * num_subplot_columns + 1;
-        fig.layout().yaxis(index).title().text(y_);
-    }
-
-    // Hide duplicate tick labels.
-    for (std::size_t row = 0; row < num_subplot_rows - 1; ++row) {
-        for (std::size_t column = 0; column < num_subplot_columns; ++column) {
-            const std::size_t index = row * num_subplot_columns + column + 1;
-            fig.layout().xaxis(index).show_tick_labels(false);
-        }
-    }
-    for (std::size_t column = 1; column < num_subplot_columns; ++column) {
-        for (std::size_t row = 0; row < num_subplot_rows; ++row) {
-            const std::size_t index = row * num_subplot_columns + column + 1;
-            fig.layout().yaxis(index).show_tick_labels(false);
-        }
-    }
+    details::configure_axes_common(
+        fig, num_subplot_rows, num_subplot_columns, x_, y_);
 
     // Set x-axis to categorical.
     for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns; ++i) {
@@ -160,12 +137,6 @@ void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
             const std::size_t index = i + 1;
             fig.layout().yaxis(index).type("log");
         }
-    }
-
-    // Configure to use same ranges.
-    for (std::size_t i = 1; i < num_subplot_rows * num_subplot_columns; ++i) {
-        const std::size_t index = i + 1;
-        fig.layout().yaxis(index).matches("y");
     }
 }
 
@@ -189,16 +160,7 @@ void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
     const bool has_additional_hover_text = !additional_hover_text.empty() &&
         !additional_hover_text.front().empty();
     if (has_additional_hover_text) {
-        std::vector<std::string> additional_hover_text_filtered;
-        additional_hover_text_filtered.reserve(additional_hover_text.size());
-        for (std::size_t row_index = 0; row_index < parent_mask.size();
-            ++row_index) {
-            if (parent_mask[row_index]) {
-                additional_hover_text_filtered.push_back(
-                    additional_hover_text[row_index]);
-            }
-        }
-        box.text(additional_hover_text_filtered);
+        details::add_hover_text(box, parent_mask, additional_hover_text);
     }
 
     switch (color_mode_) {
