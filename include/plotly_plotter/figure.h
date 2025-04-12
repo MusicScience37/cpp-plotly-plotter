@@ -107,6 +107,15 @@ public:
     }
 
     /*!
+     * \brief Access the template of the layout.
+     *
+     * \return Template of the layout.
+     */
+    [[nodiscard]] plotly_plotter::layout layout_template() {
+        return plotly_plotter::layout(layout_template_);
+    }
+
+    /*!
      * \brief Set the title of this figure.
      *
      * \param[in] value Value.

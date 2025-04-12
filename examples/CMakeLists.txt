@@ -59,6 +59,11 @@ add_example_output(
     get_started_grouping_in_figure_builder_combine_groupings
     get_started_grouping_in_figure_builder_combine_groupings.html)
 
+add_example(boxes_create_boxes_using_figure_builder
+            boxes/create_boxes_using_figure_builder.cpp)
+add_example_output(boxes_create_boxes_using_figure_builder
+                   boxes_create_boxes_using_figure_builder.html)
+
 add_example(boxes_create_simple_box boxes/create_simple_box.cpp)
 add_example_output(boxes_create_simple_box boxes_create_simple_box.html)
 

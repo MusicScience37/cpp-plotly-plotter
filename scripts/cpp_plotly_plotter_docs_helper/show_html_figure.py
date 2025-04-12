@@ -19,5 +19,5 @@ def show_html_figure(html_file_path: str, version: int) -> None:
     _ignore(version)
     data = get_htmL_figure_data(html_file_path)
     data["layout"]["template"] = {"layout": data["template"]["layout"]}
-    figure = plotly.graph_objects.Figure(data)
+    figure = plotly.graph_objects.Figure(data, skip_invalid=True)
     figure.show(renderer="notebook_connected")
