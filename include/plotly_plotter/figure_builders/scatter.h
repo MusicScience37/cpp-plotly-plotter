@@ -20,9 +20,11 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include "plotly_plotter/data_table.h"
@@ -156,6 +158,14 @@ public:
     scatter& change_color_by_group();
 
     /*!
+     * \brief Set the map of groups to colors.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& color_map(std::unordered_map<std::string, std::string> value);
+
+    /*!
      * \brief Set the dash sequence.
      *
      * \param[in] value Value.
@@ -170,6 +180,14 @@ public:
      * \return This object.
      */
     scatter& fixed_dash(std::string value);
+
+    /*!
+     * \brief Set the map of groups to dashes.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& dash_map(std::unordered_map<std::string, std::string> value);
 
     /*!
      * \brief Set to change the dash by group using the dash sequence.
@@ -198,6 +216,30 @@ public:
     scatter& title(std::string value);
 
 private:
+    //! Enumeration of modes of coloring.
+    enum class color_mode : std::uint8_t {
+        //! Use the fixed color.
+        fixed,
+
+        //! Use the color sequence.
+        sequence,
+
+        //! Use the color map.
+        map
+    };
+
+    //! Enumeration of modes of dashes.
+    enum class dash_mode : std::uint8_t {
+        //! Use the fixed dash.
+        fixed,
+
+        //! Use the dash sequence.
+        sequence,
+
+        //! Use the dash map.
+        map
+    };
+
     //! \copydoc figure_builder_base::configure_axes
     void configure_axes(figure& fig, std::size_t num_subplot_rows,
         std::size_t num_subplot_columns) const override;
@@ -247,14 +289,26 @@ private:
     //! Color sequence.
     std::vector<std::string> color_sequence_{color_sequence_plotly()};
 
-    //! Fixed color. (Null specifies use of color sequence.)
-    std::optional<std::string> fixed_color_;
+    //! Fixed color.
+    std::string fixed_color_;
+
+    //! Map of groups to colors.
+    std::unordered_map<std::string, std::string> color_map_;
+
+    //! Mode of coloring.
+    color_mode color_mode_{color_mode::sequence};
 
     //! Dash sequence.
     std::vector<std::string> dash_sequence_{dash_sequence_default()};
 
-    //! Fixed dash. (Null specifies use of dash sequence.)
-    std::optional<std::string> fixed_dash_{"solid"};
+    //! Fixed dash.
+    std::string fixed_dash_{"solid"};
+
+    //! Map of groups to dashes.
+    std::unordered_map<std::string, std::string> dash_map_;
+
+    //! Mode of dashes.
+    dash_mode dash_mode_{dash_mode::fixed};
 
     //! Whether to use WebGL.
     std::optional<bool> use_web_gl_;

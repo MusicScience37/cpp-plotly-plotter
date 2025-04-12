@@ -222,6 +222,60 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
+    SECTION("set colors of groups") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12});
+        data.emplace("group",
+            std::vector<std::string>{
+                "A", "A", "A", "B", "B", "B", "C", "C", "C"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .group("group")
+                                .mode("lines+markers")
+                                .color_map({{"A", "#E66B0A"}, {"B", "#0E65E5"},
+                                    {"C", "#E514CD"}})
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path = "scatter_set_colors_of_groups.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("set dash of groups") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9, 10, 11, 12});
+        data.emplace("group",
+            std::vector<std::string>{
+                "A", "A", "A", "B", "B", "B", "C", "C", "C"});
+
+        const auto figure =
+            scatter(data)
+                .x("x")
+                .y("y")
+                .group("group")
+                .mode("lines+markers")
+                .dash_map({{"A", "solid"}, {"B", "dot"}, {"C", "longdash"}})
+                .title("Test Title")
+                .create();
+
+        const std::string file_path = "scatter_set_dash_of_groups.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("use WebGL") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
