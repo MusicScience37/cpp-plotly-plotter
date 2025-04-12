@@ -5,8 +5,10 @@ set(SOURCE_FILES
     plotly_plotter/details/html_to_png.cpp
     plotly_plotter/details/write_html_impl.cpp
     plotly_plotter/figure_builders/box.cpp
+    plotly_plotter/figure_builders/details/figure_builder_helper.cpp
     plotly_plotter/figure_builders/figure_builder_base.cpp
     plotly_plotter/figure_builders/scatter.cpp
+    plotly_plotter/figure_builders/violin.cpp
     plotly_plotter/json_converter.cpp
     plotly_plotter/styles.cpp
     plotly_plotter/to_string.cpp

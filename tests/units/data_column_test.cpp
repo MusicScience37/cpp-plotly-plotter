@@ -130,4 +130,21 @@ TEST_CASE("plotly_plotter::data_column") {
         CHECK(groups == std::vector<std::string>{"1", "2", "3"});
         CHECK(indices == std::vector<std::size_t>{0, 1, 0, 2, 1});
     }
+
+    SECTION("get the range in positive") {
+        data_table table;
+        table.emplace("key1", std::vector{1, 2, 0, -1, 3});
+
+        const auto [min, max] = table.at("key1")->get_positive_range();
+
+        CHECK(min == 1.0);  // NOLINT(*-magic-numbers)
+        CHECK(max == 3.0);  // NOLINT(*-magic-numbers)
+    }
+
+    SECTION("try to get the range in positive for strings") {
+        data_table table;
+        table.emplace("key1", std::vector{"a", "b", "c"});
+
+        CHECK_THROWS(table.at("key1")->get_positive_range());
+    }
 }

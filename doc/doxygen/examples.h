@@ -119,6 +119,11 @@
  */
 
 /*!
+ * \example violins/create_violins_using_figure_builder.cpp
+ * Example to create violin plots using figure builders.
+ */
+
+/*!
  * \example violins/show_box_and_mean.cpp
  * Example to show boxes and mean lines of violin plots.
  */
