@@ -74,6 +74,16 @@ scatter& scatter::mode(std::string value) {
     return *this;
 }
 
+scatter& scatter::log_x(bool value) {
+    log_x_ = value;
+    return *this;
+}
+
+scatter& scatter::log_y(bool value) {
+    log_y_ = value;
+    return *this;
+}
+
 scatter& scatter::use_web_gl(bool value) {
     use_web_gl_ = value;
     return *this;
@@ -86,6 +96,7 @@ scatter& scatter::title(std::string value) {
 
 void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
     std::size_t num_subplot_columns) const {
+    // Titles of axes.
     if (!x_.empty()) {
         for (std::size_t i = 0; i < num_subplot_columns; ++i) {
             const std::size_t index =
@@ -97,6 +108,8 @@ void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
         const std::size_t index = i * num_subplot_columns + 1;
         fig.layout().yaxis(index).title().text(y_);
     }
+
+    // Hide duplicate tick labels.
     for (std::size_t row = 0; row < num_subplot_rows - 1; ++row) {
         for (std::size_t column = 0; column < num_subplot_columns; ++column) {
             const std::size_t index = row * num_subplot_columns + column + 1;
@@ -109,6 +122,19 @@ void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
             fig.layout().yaxis(index).show_tick_labels(false);
         }
     }
+
+    // Set log scale.
+    for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns; ++i) {
+        const std::size_t index = i + 1;
+        if (log_x_) {
+            fig.layout().xaxis(index).type("log");
+        }
+        if (log_y_) {
+            fig.layout().yaxis(index).type("log");
+        }
+    }
+
+    // Configure to use same ranges.
     for (std::size_t i = 1; i < num_subplot_rows * num_subplot_columns; ++i) {
         const std::size_t index = i + 1;
         fig.layout().xaxis(index).matches("x");
