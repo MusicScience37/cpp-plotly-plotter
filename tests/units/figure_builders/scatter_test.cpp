@@ -20,6 +20,7 @@
 #include "plotly_plotter/figure_builders/scatter.h"
 
 #include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include <ApprovalTests.hpp>

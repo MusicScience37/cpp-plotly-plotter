@@ -1,4 +1,5 @@
 set(SOURCE_FILES
+    box_test.cpp
     color_sequence_test.cpp
     dash_sequence_test.cpp
     data_types_test.cpp

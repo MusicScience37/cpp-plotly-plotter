@@ -59,6 +59,11 @@
  */
 
 /*!
+ * \example boxes/create_boxes_using_figure_builder.cpp
+ * Example to create box plots using figure builders.
+ */
+
+/*!
  * \example boxes/create_simple_box.cpp
  * Example to create a simple box plot.
  */

@@ -5,6 +5,7 @@
 #include "details/escape_for_html_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "details/file_handle_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "details/has_iterator_test.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "figure_builders/box_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/figure_builder_base_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/line_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/scatter_test.cpp"  // NOLINT(bugprone-suspicious-include)
