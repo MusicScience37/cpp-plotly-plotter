@@ -116,6 +116,22 @@ public:
     scatter& mode(std::string value);
 
     /*!
+     * \brief Set whether to use log scale in x-axis.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& log_x(bool value);
+
+    /*!
+     * \brief Set whether to use log scale in y-axis.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& log_y(bool value);
+
+    /*!
      * \brief Set whether to use WebGL.
      *
      * \param[in] value Value.
@@ -174,6 +190,12 @@ private:
 
     //! Mode of scatters.
     std::string mode_{"markers"};
+
+    //! Whether to use log scale in x-axis.
+    bool log_x_{false};
+
+    //! Whether to use log scale in y-axis.
+    bool log_y_{false};
 
     //! Color sequence.
     std::vector<std::string> color_sequence_{color_sequence_plotly()};

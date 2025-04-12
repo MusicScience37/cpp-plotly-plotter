@@ -1,5 +1,5 @@
-Configurations
-==================
+Configurations of Figures
+==============================
 
 .. toctree::
     :maxdepth: 1

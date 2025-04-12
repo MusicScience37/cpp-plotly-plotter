@@ -90,4 +90,77 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("log scale in x") {
+        data_table data;
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("x", std::vector<int>{1, 10, 100, 10, 100, 1000});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_row("group")
+                                .log_x(true)
+                                .title("Log Scale in X")
+                                .create();
+        const std::string file_path = "scatter_log_scale_x.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("log scale in y") {
+        data_table data;
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("x", std::vector<int>{1, 2, 3, 2, 3, 4});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{1, 10, 100, 10, 100, 1000});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_column("group")
+                                .log_y(true)
+                                .title("Log Scale in Y")
+                                .create();
+        const std::string file_path = "scatter_log_scale_y.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("log scale in x and y") {
+        data_table data;
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("x", std::vector<int>{1, 10, 100, 10, 100, 1000});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{2, 20, 200, 20, 200, 2000});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_row("group")
+                                .log_x(true)
+                                .log_y(true)
+                                .title("Log Scale in X and Y")
+                                .create();
+        const std::string file_path = "scatter_log_scale_x_y.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

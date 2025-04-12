@@ -91,6 +91,55 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
+    SECTION("build with log scale in x") {
+        data_table data;
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("x", std::vector<int>{1, 10, 100, 1, 10, 100});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_column("group")
+                                .mode("lines+markers")
+                                .title("Test Title")
+                                .log_x(true)
+                                .create();
+
+        const std::string file_path = "scatter_build_with_log_scale_in_x.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("build with log scale in y") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{1, 10, 100, 20, 200, 2000});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .subplot_column("group")
+                                .mode("lines+markers")
+                                .title("Test Title")
+                                .log_y(true)
+                                .create();
+
+        const std::string file_path = "scatter_build_with_log_scale_in_y.html";
+        plotly_plotter::write_html(file_path, figure);
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("use WebGL") {
         data_table data;
         data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});

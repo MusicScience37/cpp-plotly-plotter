@@ -84,6 +84,11 @@
  */
 
 /*!
+ * \example figure_builders/set_axes_to_log_scale.cpp
+ * Example to set axes to log scale using figure builders.
+ */
+
+/*!
  * \example scatters/create_scatter_using_figure_builder.cpp
  * Example to create a scatter plot using figure builders.
  */
