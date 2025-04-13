@@ -22,10 +22,10 @@
 #include <filesystem>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include <fcntl.h>
 #include <fmt/format.h>
 
 #include "plotly_plotter/details/file_handle.h"

@@ -34,6 +34,7 @@
 
 #include <fcntl.h>
 #include <fmt/format.h>
+#include <signal.h>  // NOLINT: for some Linux APIs.
 #include <stdlib.h>  // NOLINT: for some Linux APIs.
 #include <sys/types.h>
 #include <sys/wait.h>

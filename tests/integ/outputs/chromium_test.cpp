@@ -26,7 +26,9 @@
 
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/write_html_impl.h"
+#include "plotly_plotter/figure.h"
 #include "plotly_plotter/figure_builders/line.h"
+#include "plotly_plotter/figure_builders/scatter.h"
 #include "plotly_plotter/io/chrome_converter.h"
 
 TEST_CASE("chromium") {
