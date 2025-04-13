@@ -111,6 +111,7 @@ test release:
     - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
     - apt-get update
     - apt-get install -y google-chrome-stable
+    - poetry run playwright install chromium
     - mkdir $BUILD_DIR
   script:
     - cd $BUILD_DIR

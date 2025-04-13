@@ -10,6 +10,9 @@ packages = [{ include = "cpp_plotly_plotter_docs_helper", from = "scripts" }]
 python = ">=3.12,<3.14"
 setuptools = "^78.1.0"
 
+[tool.poetry.group.test.dependencies]
+playwright = "^1.51.0"
+
 [tool.poetry.group.doc.dependencies]
 sphinx = "^8.2.3"
 breathe = "^4.36.0"
