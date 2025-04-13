@@ -15,9 +15,11 @@
  */
 /*!
  * \file
- * \brief Definition of execute_command function.
+ * \brief Implementation of functions to execute commands.
  */
-#pragma once
+#include "plotly_plotter/io/details/execute_command.h"
+
+#include <stdexcept>
 
 #ifdef linux
 
@@ -25,7 +27,6 @@
 #include <cerrno>
 #include <chrono>
 #include <cstdio>
-#include <stdexcept>
 #include <string>
 #include <thread>
 #include <utility>
@@ -33,25 +34,27 @@
 
 #include <fcntl.h>
 #include <fmt/format.h>
-#include <stdlib.h>  // NOLINT
+#include <signal.h>  // NOLINT: for some Linux APIs.
+#include <stdlib.h>  // NOLINT: for some Linux APIs.
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-namespace plotly_plotter::details {
+namespace plotly_plotter::io::details {
 
 /*!
  * \brief Execute a command.
  *
- * \param[in] command Command.
- * \param[in] capture_logs Whether to capture logs.
+ * \param[in] command
+ * \param[in] capture_logs
  * \return Exit status and output of the command.
  */
-[[nodiscard]] inline std::pair<int, std::string> execute_command(
-    std::vector<std::string>& command, bool capture_logs) {
+[[nodiscard]] inline std::pair<int, std::string> execute_command_impl(
+    const std::vector<std::string>& command, bool capture_logs) {
+    std::vector<std::string> command_copy = command;
     std::vector<char*> argv;
     argv.reserve(command.size() + 1);
-    for (auto& arg : command) {
+    for (auto& arg : command_copy) {
         argv.push_back(arg.data());
     }
     argv.push_back(nullptr);
@@ -115,6 +118,7 @@ namespace plotly_plotter::details {
             if (read_result == -1) {
                 if (errno == EAGAIN || errno == EWOULDBLOCK) {
                     if (std::chrono::steady_clock::now() > deadline) {
+                        kill(pid, SIGTERM);
                         throw std::runtime_error(fmt::format(
                             "Timeout in child process.{}", command_output));
                     }
@@ -146,6 +150,60 @@ namespace plotly_plotter::details {
     return {status, command_output};
 }
 
-}  // namespace plotly_plotter::details
+bool check_command_success(
+    const std::vector<std::string>& command, bool capture_logs) {
+    if (command.empty()) {
+        throw std::invalid_argument("Command is empty.");
+    }
+
+    const auto [status, command_output] =
+        execute_command_impl(command, capture_logs);
+
+    return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+}
+
+void execute_command(
+    const std::vector<std::string>& command, bool capture_logs) {
+    if (command.empty()) {
+        throw std::invalid_argument("Command is empty.");
+    }
+
+    const auto [status, command_output] =
+        execute_command_impl(command, capture_logs);
+
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        if (WIFSIGNALED(status)) {
+            throw std::runtime_error(
+                fmt::format("Failed to execute {} with signal {}.{}",
+                    command.front(), WTERMSIG(status), command_output));
+        }
+        throw std::runtime_error(
+            fmt::format("Failed to execute {} with status {}.{}",
+                command.front(), WEXITSTATUS(status), command_output));
+    }
+}
+
+}  // namespace plotly_plotter::io::details
+
+#else
+
+namespace plotly_plotter::io::details {
+
+bool check_command_success(
+    const std::vector<std::string>& command, bool capture_logs) {
+    (void)command;
+    (void)capture_logs;
+    return false;
+}
+
+void execute_command(
+    const std::vector<std::string>& command, bool capture_logs) {
+    (void)command;
+    (void)capture_logs;
+    throw std::runtime_error(
+        "Command execution is not supported for this platform.");
+}
+
+}  // namespace plotly_plotter::io::details
 
 #endif

@@ -15,21 +15,12 @@
  */
 /*!
  * \file
- * \brief Declaration of get_chrome_path function.
+ * \brief Implementation of html_to_png_converter_base class.
  */
-#pragma once
+#include "plotly_plotter/io/html_to_png_converter_base.h"
 
-#include <string_view>
+namespace plotly_plotter::io {
 
-#include "plotly_plotter/details/plotly_plotter_export.h"
+html_to_png_converter_base::~html_to_png_converter_base() = default;
 
-namespace plotly_plotter::details {
-
-/*!
- * \brief Get the path of the Chrome executable.
- *
- * \return The path of the Chrome executable.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::string_view get_chrome_path();
-
-}  // namespace plotly_plotter::details
+}  // namespace plotly_plotter::io

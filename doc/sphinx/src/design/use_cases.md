@@ -6,8 +6,9 @@
     - [x] WebGL format.
     - [x] Scatter of points.
     - [x] Line plots.
-    - [ ] Customization of markers.
-    - [ ] Customization of lines.
+    - [x] Customization of markers.
+    - [x] Customization of lines.
+    - [ ] Marker colors by numbers.
   - [x] Box plots.
   - [ ] Bar plots.
   - [x] Violin plots.
@@ -19,6 +20,7 @@
   - [x] Strings. (For grouping.)
   - [x] Dates and times.
   - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
+  - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s matrices.
 - Configurations.
   - [x] Plots with log scales.
   - [x] Plots with error bars.
@@ -31,13 +33,13 @@
     - [x] Use of characters which require escaping.
     - [x] Use of non-ASCII characters.
   - [x] Configuration of hover texts.
-  - [ ] Subplots.
+  - [x] Subplots.
   - [ ] Animations.
 - Simple API as `plotly.express` in Python.
-  - [ ] `plotly.express.scatter`.
-  - [ ] `plotly.express.line`.
+  - [x] `plotly.express.scatter`.
+  - [x] `plotly.express.line`.
 - Outputs.
   - [x] HTML.
-  - [ ] PNG.
-  - [ ] PDF.
+  - [ ] PNG. (Experimentally supported in Linux.)
+  - [ ] PDF. (Experimentally supported in Linux.)
   - [ ] SVG.

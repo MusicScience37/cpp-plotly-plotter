@@ -18,7 +18,7 @@
  * \brief Definition of plotly_plot_pdf variable.
  *
  * This file is generated from scripts/templates/plotly_plot_pdf.html.jinja.
- * Change this file only via scripts/generate_template_header.py script.
+ * Change this file only via scripts/generate_template_headers.py script.
  */
 #pragma once
 
@@ -27,7 +27,7 @@
 namespace plotly_plotter::details::templates {
 
 /*!
- * \brief HTML template for Plotly plot.
+ * \brief HTML template for plots in Plotly for PDF generation.
  */
 static constexpr std::string_view plotly_plot_pdf = R"(<!DOCTYPE html>
 <html>

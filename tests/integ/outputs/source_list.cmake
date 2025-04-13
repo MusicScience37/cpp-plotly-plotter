@@ -1,7 +1,9 @@
 set(SOURCE_FILES
-    html_to_pdf_test.cpp
-    html_to_png_test.cpp
+    chrome_converter_test.cpp
+    chromium_test.cpp
+    execute_command_test.cpp
     output_types_test.cpp
+    playwright_converter_test.cpp
     write_pdf_test.cpp
     write_png_test.cpp
 )
