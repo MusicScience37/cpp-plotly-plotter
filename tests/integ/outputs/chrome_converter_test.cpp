@@ -64,4 +64,26 @@ TEST_CASE("plotly_plotter::io::chrome_converter") {
             html_file_path.c_str(), pdf_file_path.c_str(), width, height));
 #endif
     }
+
+    SECTION("create a PNG file") {
+        const std::string html_file_path = "chrome_converter_png_test.html";
+        const std::string png_file_path = "chrome_converter_png_test.png";
+        constexpr std::size_t width = 1600;
+        constexpr std::size_t height = 900;
+
+        plotly_plotter::details::write_html_impl(html_file_path.c_str(),
+            figure.html_title().c_str(), figure.document(),
+            plotly_plotter::details::html_template_type::png, width, height);
+#ifdef linux
+        CHECK(converter.is_html_to_png_conversion_supported());
+        CHECK_NOTHROW(converter.convert_html_to_png(
+            html_file_path.c_str(), png_file_path.c_str(), width, height));
+
+        CHECK(std::filesystem::exists(png_file_path));
+#else
+        CHECK_FALSE(converter.is_html_to_png_conversion_supported());
+        CHECK_THROWS(converter.convert_html_to_png(
+            html_file_path.c_str(), png_file_path.c_str(), width, height));
+#endif
+    }
 }

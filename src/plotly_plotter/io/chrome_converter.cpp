@@ -88,6 +88,51 @@ void chrome_converter::convert_html_to_pdf(const char* html_file_path,
     }
 }
 
+bool chrome_converter::is_html_to_png_conversion_supported() {
+    std::vector<std::string> command{
+        static_cast<std::string>(get_chrome_path()), "--version"};
+
+    const auto [status, command_output] =
+        plotly_plotter::details::execute_command(command, true);
+
+    return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+}
+
+void chrome_converter::convert_html_to_png(const char* html_file_path,
+    const char* png_file_path, std::size_t width, std::size_t height) {
+    std::vector<std::string> command{
+        static_cast<std::string>(get_chrome_path()), "--headless",
+        fmt::format("--screenshot={}", png_file_path),
+        fmt::format("--window-size={},{}", width, height),
+        // --no-sandbox is required for running chrome as root user.
+        "--no-sandbox",
+        // GPU can not be used in ordinary Docker containers.
+        "--disable-gpu", "--enable-unsafe-swiftshader",
+        // Disable crash reporting.
+        "--disable-breakpad",
+        // Disable dialogs.
+        "--no-first-run", "--no-default-browser-check",
+        // Prevent crash because of shared memory.
+        "--disable-dev-shm-usage",
+        // Disable component updates.
+        "--disable-component-update", html_file_path};
+
+    constexpr bool capture_logs = true;
+    const auto [status, command_output] =
+        plotly_plotter::details::execute_command(command, capture_logs);
+
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        if (WIFSIGNALED(status)) {
+            throw std::runtime_error(
+                fmt::format("Failed to generate PNG with signal {}.{}",
+                    WTERMSIG(status), command_output));
+        }
+        throw std::runtime_error(
+            fmt::format("Failed to generate PNG with status {}.{}",
+                WEXITSTATUS(status), command_output));
+    }
+}
+
 chrome_converter::chrome_converter()
     : chrome_path_(plotly_plotter::details::get_chrome_path()) {}
 

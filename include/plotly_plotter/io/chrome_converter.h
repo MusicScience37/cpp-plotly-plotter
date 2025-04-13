@@ -24,6 +24,7 @@
 
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/io/html_to_pdf_converter_base.h"
+#include "plotly_plotter/io/html_to_png_converter_base.h"
 
 namespace plotly_plotter::io {
 
@@ -31,7 +32,8 @@ namespace plotly_plotter::io {
  * \brief Converter using Google Chrome.
  */
 class PLOTLY_PLOTTER_EXPORT chrome_converter
-    : public html_to_pdf_converter_base {
+    : public html_to_pdf_converter_base,
+      public html_to_png_converter_base {
 public:
     /*!
      * \brief Get the singleton instance.
@@ -46,6 +48,14 @@ public:
     //! \copydoc html_to_pdf_converter_base::convert_html_to_pdf
     void convert_html_to_pdf(const char* html_file_path,
         const char* pdf_file_path, std::size_t width,
+        std::size_t height) override;
+
+    //! \copydoc html_to_png_converter_base::is_html_to_png_conversion_supported
+    [[nodiscard]] bool is_html_to_png_conversion_supported() override;
+
+    //! \copydoc html_to_png_converter_base::convert_html_to_png
+    void convert_html_to_png(const char* html_file_path,
+        const char* png_file_path, std::size_t width,
         std::size_t height) override;
 
     /*!
