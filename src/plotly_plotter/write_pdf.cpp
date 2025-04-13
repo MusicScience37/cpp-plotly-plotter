@@ -24,6 +24,7 @@
 
 #include "plotly_plotter/details/write_html_impl.h"
 #include "plotly_plotter/io/chrome_converter.h"
+#include "plotly_plotter/io/playwright_converter.h"
 
 namespace plotly_plotter {
 
@@ -34,8 +35,20 @@ void write_pdf_impl(const char* file_path, const char* html_title,
     const std::string html_file_path = std::string(file_path) + ".html";
     write_html_impl(html_file_path.c_str(), html_title, data,
         html_template_type::pdf, width, height);
-    io::chrome_converter::get_instance().convert_html_to_pdf(
-        html_file_path.c_str(), file_path, width, height);
+
+    if (io::playwright_converter::get_instance()
+            .is_html_to_pdf_conversion_supported()) {
+        io::playwright_converter::get_instance().convert_html_to_pdf(
+            html_file_path.c_str(), file_path, width, height);
+    } else if (io::chrome_converter::get_instance()
+                   .is_html_to_pdf_conversion_supported()) {
+        io::chrome_converter::get_instance().convert_html_to_pdf(
+            html_file_path.c_str(), file_path, width, height);
+    } else {
+        std::filesystem::remove(html_file_path);
+        throw std::runtime_error("No supported HTML to PDF converter found.");
+    }
+
     if (!std::filesystem::exists(file_path)) {
         throw std::runtime_error("Failed to create PDF file.");
     }
@@ -45,8 +58,10 @@ void write_pdf_impl(const char* file_path, const char* html_title,
 }  // namespace details
 
 bool is_pdf_supported() {
-    return io::chrome_converter::get_instance()
-        .is_html_to_pdf_conversion_supported();
+    return io::playwright_converter::get_instance()
+               .is_html_to_pdf_conversion_supported() ||
+        io::chrome_converter::get_instance()
+            .is_html_to_pdf_conversion_supported();
 }
 
 }  // namespace plotly_plotter

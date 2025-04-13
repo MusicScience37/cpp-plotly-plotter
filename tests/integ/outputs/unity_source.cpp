@@ -1,4 +1,5 @@
 #include "chrome_converter_test.cpp"      // NOLINT(bugprone-suspicious-include)
+#include "chromium_test.cpp"              // NOLINT(bugprone-suspicious-include)
 #include "execute_command_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "output_types_test.cpp"          // NOLINT(bugprone-suspicious-include)
 #include "playwright_converter_test.cpp"  // NOLINT(bugprone-suspicious-include)

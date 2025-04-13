@@ -50,8 +50,8 @@ namespace {
  * \return Path of the Chrome executable.
  */
 [[nodiscard]] std::string find_chrome_path() {
-    const std::vector<std::string> possible_paths{
-        "google-chrome", "google-chrome-stable", "chrome"};
+    const std::vector<std::string> possible_paths{"chromium",
+        "chromium-browser", "google-chrome", "google-chrome-stable", "chrome"};
     for (const auto& path : possible_paths) {
         if (check_chrome_executable(path)) {
             return path;
