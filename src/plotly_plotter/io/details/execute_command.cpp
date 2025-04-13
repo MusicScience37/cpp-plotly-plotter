@@ -117,6 +117,7 @@ namespace plotly_plotter::io::details {
             if (read_result == -1) {
                 if (errno == EAGAIN || errno == EWOULDBLOCK) {
                     if (std::chrono::steady_clock::now() > deadline) {
+                        kill(pid, SIGTERM);
                         throw std::runtime_error(fmt::format(
                             "Timeout in child process.{}", command_output));
                     }
@@ -185,6 +186,8 @@ void execute_command(
 
 #else
 
+namespace plotly_plotter::io::details {
+
 bool check_command_success(
     const std::vector<std::string>& command, bool capture_logs) {
     (void)command;
@@ -199,5 +202,7 @@ void execute_command(
     throw std::runtime_error(
         "Command execution is not supported for this platform.");
 }
+
+}  // namespace plotly_plotter::io::details
 
 #endif

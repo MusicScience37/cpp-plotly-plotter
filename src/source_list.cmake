@@ -10,6 +10,7 @@ set(SOURCE_FILES
     plotly_plotter/io/details/execute_command.cpp
     plotly_plotter/io/html_to_pdf_converter_base.cpp
     plotly_plotter/io/html_to_png_converter_base.cpp
+    plotly_plotter/io/playwright_converter.cpp
     plotly_plotter/json_converter.cpp
     plotly_plotter/styles.cpp
     plotly_plotter/to_string.cpp

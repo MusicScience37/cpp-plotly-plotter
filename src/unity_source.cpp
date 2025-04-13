@@ -9,6 +9,7 @@
 #include "plotly_plotter/io/details/execute_command.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/io/html_to_pdf_converter_base.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/io/html_to_png_converter_base.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "plotly_plotter/io/playwright_converter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/json_converter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/styles.cpp"     // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/to_string.cpp"  // NOLINT(bugprone-suspicious-include)
