@@ -15,13 +15,13 @@
  */
 /*!
  * \file
- * \brief Implementation of html_to_pdf function.
+ * \brief Implementation of chrome_converter class.
  */
-#include "plotly_plotter/details/html_to_pdf.h"
+#include "plotly_plotter/io/chrome_converter.h"
 
+#include <mutex>
 #include <stdexcept>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include <fmt/format.h>
@@ -33,21 +33,27 @@
 #include <stdlib.h>  // NOLINT
 #endif
 
-namespace plotly_plotter::details {
+namespace plotly_plotter::io {
+
+chrome_converter& chrome_converter::get_instance() {
+    static chrome_converter instance;
+    return instance;
+}
 
 #ifdef linux
 
-bool is_pdf_supported() {
+bool chrome_converter::is_html_to_pdf_conversion_supported() {
     std::vector<std::string> command{
         static_cast<std::string>(get_chrome_path()), "--version"};
 
-    const auto [status, command_output] = execute_command(command, true);
+    const auto [status, command_output] =
+        plotly_plotter::details::execute_command(command, true);
 
     return WIFEXITED(status) && WEXITSTATUS(status) == 0;
 }
 
-void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
-    std::size_t width, std::size_t height, bool capture_logs) {
+void chrome_converter::convert_html_to_pdf(const char* html_file_path,
+    const char* pdf_file_path, std::size_t width, std::size_t height) {
     std::vector<std::string> command{
         static_cast<std::string>(get_chrome_path()), "--headless",
         fmt::format("--print-to-pdf={}", pdf_file_path),
@@ -66,8 +72,9 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
         // Disable component updates.
         "--disable-component-update", html_file_path};
 
+    constexpr bool capture_logs = true;
     const auto [status, command_output] =
-        execute_command(command, capture_logs);
+        plotly_plotter::details::execute_command(command, capture_logs);
 
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
         if (WIFSIGNALED(status)) {
@@ -81,20 +88,36 @@ void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
     }
 }
 
+chrome_converter::chrome_converter()
+    : chrome_path_(plotly_plotter::details::get_chrome_path()) {}
+
 #else
 
-bool is_pdf_supported() { return false; }
+bool chrome_converter::is_html_to_pdf_conversion_supported() { return false; }
 
-void html_to_pdf(const char* html_file_path, const char* pdf_file_path,
-    std::size_t width, std::size_t height, bool capture_logs) {
+void chrome_converter::convert_html_to_pdf(const char* html_file_path,
+    const char* pdf_file_path, std::size_t width, std::size_t height) {
     (void)html_file_path;
     (void)pdf_file_path;
     (void)width;
     (void)height;
-    (void)capture_logs;
     throw std::runtime_error("PDF is not supported for this platform.");
 }
 
+chrome_converter::chrome_converter() = default;
+
 #endif
 
-}  // namespace plotly_plotter::details
+std::string chrome_converter::get_chrome_path() {
+    std::unique_lock<std::mutex> lock(mutex_);
+    return chrome_path_;
+}
+
+void chrome_converter::set_chrome_path(std::string path) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    chrome_path_ = std::move(path);
+}
+
+chrome_converter::~chrome_converter() = default;
+
+}  // namespace plotly_plotter::io

@@ -73,4 +73,12 @@ namespace plotly_plotter {
 
     }  // namespace figure_builders
 
+    /*!
+     * \dir include/plotly_plotter/io
+     * \brief Header files of input/output.
+     */
+
+    //! Namespace of input/output.
+    namespace io {}
+
 }  // namespace plotly_plotter
