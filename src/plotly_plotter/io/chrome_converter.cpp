@@ -43,8 +43,7 @@ chrome_converter& chrome_converter::get_instance() {
 #ifdef linux
 
 bool chrome_converter::is_html_to_pdf_conversion_supported() {
-    std::vector<std::string> command{
-        static_cast<std::string>(get_chrome_path()), "--version"};
+    std::vector<std::string> command{get_chrome_path(), "--version"};
 
     const auto [status, command_output] =
         plotly_plotter::details::execute_command(command, true);
@@ -54,8 +53,7 @@ bool chrome_converter::is_html_to_pdf_conversion_supported() {
 
 void chrome_converter::convert_html_to_pdf(const char* html_file_path,
     const char* pdf_file_path, std::size_t width, std::size_t height) {
-    std::vector<std::string> command{
-        static_cast<std::string>(get_chrome_path()), "--headless",
+    std::vector<std::string> command{get_chrome_path(), "--headless",
         fmt::format("--print-to-pdf={}", pdf_file_path),
         fmt::format("--window-size={},{}", width, height),
         "--no-pdf-header-footer",
@@ -89,8 +87,7 @@ void chrome_converter::convert_html_to_pdf(const char* html_file_path,
 }
 
 bool chrome_converter::is_html_to_png_conversion_supported() {
-    std::vector<std::string> command{
-        static_cast<std::string>(get_chrome_path()), "--version"};
+    std::vector<std::string> command{get_chrome_path(), "--version"};
 
     const auto [status, command_output] =
         plotly_plotter::details::execute_command(command, true);
@@ -100,8 +97,7 @@ bool chrome_converter::is_html_to_png_conversion_supported() {
 
 void chrome_converter::convert_html_to_png(const char* html_file_path,
     const char* png_file_path, std::size_t width, std::size_t height) {
-    std::vector<std::string> command{
-        static_cast<std::string>(get_chrome_path()), "--headless",
+    std::vector<std::string> command{get_chrome_path(), "--headless",
         fmt::format("--screenshot={}", png_file_path),
         fmt::format("--window-size={},{}", width, height),
         // --no-sandbox is required for running chrome as root user.
