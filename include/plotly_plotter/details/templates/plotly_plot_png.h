@@ -18,7 +18,7 @@
  * \brief Definition of plotly_plot_png variable.
  *
  * This file is generated from scripts/templates/plotly_plot_png.html.jinja.
- * Change this file only via scripts/generate_template_header.py script.
+ * Change this file only via scripts/generate_template_headers.py script.
  */
 #pragma once
 
@@ -27,7 +27,7 @@
 namespace plotly_plotter::details::templates {
 
 /*!
- * \brief HTML template for Plotly plot.
+ * \brief HTML template for plots in Plotly for PNG generation.
  */
 static constexpr std::string_view plotly_plot_png = R"(<!DOCTYPE html>
 <html>

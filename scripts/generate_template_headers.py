@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Script to generate C++ header file fo the HTML template."""
+"""Script to generate C++ header files for templates."""
 
 import pathlib
 import subprocess
@@ -9,13 +9,17 @@ ROOT_DIR = THIS_DIR.parent
 TEMPLATE_HEADER_DIR = ROOT_DIR / "include" / "plotly_plotter" / "details" / "templates"
 
 
-def _generate_template_header(template_name: str) -> None:
-    """Generate a C++ header file for an HTML template.
+def _generate_template_header(
+    template_name: str, source_path: str, template_description: str
+) -> None:
+    """Generate a C++ header file for a template.
 
     Args:
         template_name (str): Name of the template.
+        source_path (str): Path to the source file.
+        template_description (str): Description of the template.
     """
-    html_path = THIS_DIR / "templates" / f"{template_name}.html.jinja"
+    html_path = THIS_DIR / source_path
     with open(str(html_path), "r", encoding="utf-8") as file:
         html_contents = file.read()
 
@@ -54,7 +58,7 @@ def _generate_template_header(template_name: str) -> None:
 namespace plotly_plotter::details::templates {{
 
 /*!
- * \brief HTML template for Plotly plot.
+ * \brief {template_description}
  */
 static constexpr std::string_view {variable_name} = R"({html_contents})";
 
@@ -67,9 +71,31 @@ static constexpr std::string_view {variable_name} = R"({html_contents})";
 
 def generate_template_header() -> None:
     """Generate C++ header files for all HTML templates."""
-    _generate_template_header("plotly_plot")
-    _generate_template_header("plotly_plot_pdf")
-    _generate_template_header("plotly_plot_png")
+    _generate_template_header(
+        template_name="plotly_plot",
+        source_path="templates/plotly_plot.html.jinja",
+        template_description="HTML template for plots in Plotly.",
+    )
+    _generate_template_header(
+        template_name="plotly_plot_pdf",
+        source_path="templates/plotly_plot_pdf.html.jinja",
+        template_description="HTML template for plots in Plotly for PDF generation.",
+    )
+    _generate_template_header(
+        template_name="plotly_plot_png",
+        source_path="templates/plotly_plot_png.html.jinja",
+        template_description="HTML template for plots in Plotly for PNG generation.",
+    )
+    _generate_template_header(
+        template_name="generate_pdf_with_playwright",
+        source_path="generate_pdf_with_playwright.py",
+        template_description="Python script to generate PDF with Playwright.",
+    )
+    _generate_template_header(
+        template_name="generate_png_with_playwright",
+        source_path="generate_png_with_playwright.py",
+        template_description="Python script to generate PNG with Playwright.",
+    )
 
 
 if __name__ == "__main__":
