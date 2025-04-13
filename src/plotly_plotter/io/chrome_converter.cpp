@@ -20,35 +20,54 @@
 #include "plotly_plotter/io/chrome_converter.h"
 
 #include <mutex>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include <fmt/format.h>
 
-#include "plotly_plotter/details/execute_command.h"
-#include "plotly_plotter/details/get_chrome_path.h"
-
-#ifdef linux
-#include <stdlib.h>  // NOLINT
-#endif
+#include "plotly_plotter/io/details/execute_command.h"
 
 namespace plotly_plotter::io {
+
+namespace {
+
+/*!
+ * \brief Check if the given path is a valid Chrome executable.
+ *
+ * \param[in] executable_path Path of the Chrome executable.
+ * \retval true The path is a valid Chrome executable.
+ * \retval false The path is not a valid Chrome executable.
+ */
+[[nodiscard]] bool check_chrome_executable(const std::string& executable_path) {
+    const std::vector<std::string> command{executable_path, "--version"};
+    return details::check_command_success(command);
+}
+
+/*!
+ * \brief Find the path of the Chrome executable.
+ *
+ * \return Path of the Chrome executable.
+ */
+[[nodiscard]] std::string find_chrome_path() {
+    const std::vector<std::string> possible_paths{
+        "google-chrome", "google-chrome-stable", "chrome"};
+    for (const auto& path : possible_paths) {
+        if (check_chrome_executable(path)) {
+            return path;
+        }
+    }
+    return possible_paths.front();
+}
+
+}  // namespace
 
 chrome_converter& chrome_converter::get_instance() {
     static chrome_converter instance;
     return instance;
 }
 
-#ifdef linux
-
 bool chrome_converter::is_html_to_pdf_conversion_supported() {
-    std::vector<std::string> command{get_chrome_path(), "--version"};
-
-    const auto [status, command_output] =
-        plotly_plotter::details::execute_command(command, true);
-
-    return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+    return check_chrome_executable(get_chrome_path());
 }
 
 void chrome_converter::convert_html_to_pdf(const char* html_file_path,
@@ -69,30 +88,11 @@ void chrome_converter::convert_html_to_pdf(const char* html_file_path,
         "--disable-dev-shm-usage",
         // Disable component updates.
         "--disable-component-update", html_file_path};
-
-    constexpr bool capture_logs = true;
-    const auto [status, command_output] =
-        plotly_plotter::details::execute_command(command, capture_logs);
-
-    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-        if (WIFSIGNALED(status)) {
-            throw std::runtime_error(
-                fmt::format("Failed to generate PDF with signal {}.{}",
-                    WTERMSIG(status), command_output));
-        }
-        throw std::runtime_error(
-            fmt::format("Failed to generate PDF with status {}.{}",
-                WEXITSTATUS(status), command_output));
-    }
+    details::execute_command(command);
 }
 
 bool chrome_converter::is_html_to_png_conversion_supported() {
-    std::vector<std::string> command{get_chrome_path(), "--version"};
-
-    const auto [status, command_output] =
-        plotly_plotter::details::execute_command(command, true);
-
-    return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+    return check_chrome_executable(get_chrome_path());
 }
 
 void chrome_converter::convert_html_to_png(const char* html_file_path,
@@ -112,42 +112,8 @@ void chrome_converter::convert_html_to_png(const char* html_file_path,
         "--disable-dev-shm-usage",
         // Disable component updates.
         "--disable-component-update", html_file_path};
-
-    constexpr bool capture_logs = true;
-    const auto [status, command_output] =
-        plotly_plotter::details::execute_command(command, capture_logs);
-
-    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-        if (WIFSIGNALED(status)) {
-            throw std::runtime_error(
-                fmt::format("Failed to generate PNG with signal {}.{}",
-                    WTERMSIG(status), command_output));
-        }
-        throw std::runtime_error(
-            fmt::format("Failed to generate PNG with status {}.{}",
-                WEXITSTATUS(status), command_output));
-    }
+    details::execute_command(command);
 }
-
-chrome_converter::chrome_converter()
-    : chrome_path_(plotly_plotter::details::get_chrome_path()) {}
-
-#else
-
-bool chrome_converter::is_html_to_pdf_conversion_supported() { return false; }
-
-void chrome_converter::convert_html_to_pdf(const char* html_file_path,
-    const char* pdf_file_path, std::size_t width, std::size_t height) {
-    (void)html_file_path;
-    (void)pdf_file_path;
-    (void)width;
-    (void)height;
-    throw std::runtime_error("PDF is not supported for this platform.");
-}
-
-chrome_converter::chrome_converter() = default;
-
-#endif
 
 std::string chrome_converter::get_chrome_path() {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -160,5 +126,7 @@ void chrome_converter::set_chrome_path(std::string path) {
 }
 
 chrome_converter::~chrome_converter() = default;
+
+chrome_converter::chrome_converter() : chrome_path_(find_chrome_path()) {}
 
 }  // namespace plotly_plotter::io
