@@ -62,12 +62,30 @@ public:
     }
 
     /*!
+     * \brief Add a template of scatter traces to this figure.
+     *
+     * \return Added scatter trace.
+     */
+    [[nodiscard]] traces::scatter add_scatter_template() {
+        return traces::scatter(data_template_.emplace_back());
+    }
+
+    /*!
      * \brief Add a scatter trace using WebGL to this figure.
      *
      * \return Added scatter trace.
      */
     [[nodiscard]] traces::scatter_gl add_scatter_gl() {
         return traces::scatter_gl(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a template of scatter traces using WebGL to this figure.
+     *
+     * \return Added scatter trace.
+     */
+    [[nodiscard]] traces::scatter_gl add_scatter_gl_template() {
+        return traces::scatter_gl(data_template_.emplace_back());
     }
 
     /*!
@@ -80,12 +98,30 @@ public:
     }
 
     /*!
+     * \brief Add a template of box traces to this figure.
+     *
+     * \return Added box trace.
+     */
+    [[nodiscard]] traces::box add_box_template() {
+        return traces::box(data_template_.emplace_back());
+    }
+
+    /*!
      * \brief Add a violin trace to this figure.
      *
      * \return Added violin trace.
      */
     [[nodiscard]] traces::violin add_violin() {
         return traces::violin(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a template of violin traces to this figure.
+     *
+     * \return Added violin trace.
+     */
+    [[nodiscard]] traces::violin add_violin_template() {
+        return traces::violin(data_template_.emplace_back());
     }
 
     /*!

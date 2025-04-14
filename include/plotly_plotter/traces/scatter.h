@@ -203,8 +203,7 @@ public:
      * \param[in] value Value.
      */
     template <typename Container,
-        typename = std::enable_if_t<
-            !std::is_convertible_v<Container, std::string_view>>>
+        typename = std::enable_if_t<!std::is_convertible_v<Container, double>>>
     void size(const Container& value) {
         data_["size"] = as_array(value);
     }

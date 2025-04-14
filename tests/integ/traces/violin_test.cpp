@@ -229,4 +229,21 @@ TEST_CASE("violin") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("use a template") {
+        auto violin = figure.add_violin();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        violin.y(std::vector{1, 2, 3, 5, 8, 13});
+
+        figure.add_violin_template().points("all");
+
+        figure.title("Violin with Template");
+
+        const std::string file_path = "violin_with_template.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

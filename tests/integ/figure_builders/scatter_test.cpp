@@ -184,6 +184,8 @@ TEST_CASE("scatter") {
         // NOLINTNEXTLINE(*-magic-numbers)
         figure.layout().color_axis().c_max(9.0);
 
+        figure.add_scatter_template().marker().size(20);
+
         const std::string file_path = "scatter_colorize_markers.html";
         write_html(file_path, figure);
 
