@@ -20,6 +20,7 @@
 #pragma once
 
 #include <string_view>
+#include <type_traits>
 
 #include "plotly_plotter/array_view.h"
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
@@ -143,6 +144,77 @@ private:
 };
 
 /*!
+ * \brief Class to configure the marker of scatter traces.
+ *
+ * \note Objects of this class should be created from \ref scatter objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class scatter_marker {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     *
+     * \warning This function should not be used in ordinary user code,
+     * create objects of this class from \ref scatter objects.
+     */
+    explicit scatter_marker(json_value data) : data_(data) {}
+
+    /*!
+     * \brief Set the color of the marker.
+     *
+     * \param[in] value Value.
+     */
+    void color(std::string_view value) { data_["color"] = value; }
+
+    /*!
+     * \brief Set the color of the marker by an array of values.
+     *
+     * \tparam Container Type of the container of values.
+     * \param[in] value Value.
+     */
+    template <typename Container,
+        typename = std::enable_if_t<
+            !std::is_convertible_v<Container, std::string_view>>>
+    void color(const Container& value) {
+        data_["color"] = as_array(value);
+    }
+
+    /*!
+     * \brief Set the color axis.
+     *
+     * \param[in] value Value.
+     */
+    void color_axis(std::string_view value) { data_["coloraxis"] = value; }
+
+    /*!
+     * \brief Set the size of the marker.
+     *
+     * \param[in] value Value.
+     */
+    void size(double value) { data_["size"] = value; }
+
+    /*!
+     * \brief Set the size of the marker by an array of values.
+     *
+     * \tparam Container Type of the container of values.
+     * \param[in] value Value.
+     */
+    template <typename Container,
+        typename = std::enable_if_t<
+            !std::is_convertible_v<Container, std::string_view>>>
+    void size(const Container& value) {
+        data_["size"] = as_array(value);
+    }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Base class of scatter traces.
  */
 class scatter_base : public xy_trace_base {
@@ -196,13 +268,23 @@ public:
     }
 
     /*!
+     * \brief Access the configuration of the marker.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] scatter_marker marker() {  // NOLINT(*-member-function-const)
+        // This function modifies the internal state.
+        return scatter_marker(this->data()["marker"]);
+    }
+
+    /*!
      * \brief Set the color.
      *
      * \param[in] value Value.
      */
     void color(std::string_view value) {  // NOLINT(*-member-function-const)
         // This function modifies the internal state.
-        this->data()["marker"]["color"] = value;
+        marker().color(value);
         this->data()["line"]["color"] = value;
     }
 

@@ -208,4 +208,8 @@ void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
     }
 }
 
+std::vector<std::string> box::additional_hover_data_in_trace() const {
+    return {};
+}
+
 }  // namespace plotly_plotter::figure_builders

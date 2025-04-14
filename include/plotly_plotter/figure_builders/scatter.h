@@ -71,10 +71,22 @@ public:
     scatter& y(std::string value);
 
     /*!
+     * \brief Set the column name of colors of markers.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * \note This option does not work with group().
+     */
+    scatter& marker_color(std::string value);
+
+    /*!
      * \brief Set the column name of groups.
      *
      * \param[in] value Value.
      * \return This object.
+     *
+     * \note This option does not work with marker_color().
      */
     scatter& group(std::string value);
 
@@ -271,11 +283,18 @@ private:
         std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
+    //! \copydoc figure_builder_base::additional_hover_data_in_trace
+    [[nodiscard]] std::vector<std::string> additional_hover_data_in_trace()
+        const override;
+
     //! Column name of x coordinates.
     std::string x_;
 
     //! Column name of y coordinates.
     std::string y_;
+
+    //! Column name of colors of markers.
+    std::string marker_color_;
 
     //! Mode of scatters.
     std::string mode_{"markers"};

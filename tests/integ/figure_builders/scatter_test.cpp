@@ -163,4 +163,32 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("colorize markers") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("color", std::vector<int>{7, 8, 9});
+
+        auto figure = scatter(data)
+                          .x("x")
+                          .y("y")
+                          .marker_color("color")
+                          .title("Colorize Markers")
+                          .create();
+
+        // NOLINTNEXTLINE(*-magic-numbers)
+        figure.layout().color_axis().c_min(6.0);
+        // NOLINTNEXTLINE(*-magic-numbers)
+        figure.layout().color_axis().c_max(9.0);
+
+        const std::string file_path = "scatter_colorize_markers.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

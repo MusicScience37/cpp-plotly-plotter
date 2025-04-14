@@ -151,6 +151,15 @@ protected:
         std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const = 0;
 
+    /*!
+     * \brief Get the column names of additional data in hovers required by
+     * traces.
+     *
+     * \return Column names.
+     */
+    [[nodiscard]] virtual std::vector<std::string>
+    additional_hover_data_in_trace() const = 0;
+
 private:
     /*!
      * \brief Handle rows in subplots.

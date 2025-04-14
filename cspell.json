@@ -31,6 +31,8 @@
     "cmakelang",
     "cobertura",
     "Codecov",
+    "coloraxis",
+    "colorbar",
     "COMPILERCHECK",
     "Cookiecutter",
     "copydoc",
