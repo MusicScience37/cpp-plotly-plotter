@@ -94,6 +94,11 @@
  */
 
 /*!
+ * \example scatters/colorize_markers_in_figure_builder.cpp
+ * Example to colorize markers in a figure builder.
+ */
+
+/*!
  * \example scatters/create_scatter_using_figure_builder.cpp
  * Example to create a scatter plot using figure builders.
  */
