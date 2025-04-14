@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Untitled Plot</title>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{&quot;data&quot;:[{&quot;type&quot;:&quot;scatter&quot;,&quot;mode&quot;:&quot;markers&quot;,&quot;x&quot;:[1,2,3],&quot;y&quot;:[4,5,6],&quot;text&quot;:[&quot;&lt;br&gt;color=7&quot;,&quot;&lt;br&gt;color=8&quot;,&quot;&lt;br&gt;color=9&quot;],&quot;marker&quot;:{&quot;color&quot;:[7,8,9],&quot;coloraxis&quot;:&quot;coloraxis&quot;},&quot;line&quot;:{&quot;dash&quot;:&quot;solid&quot;},&quot;name&quot;:&quot;&quot;,&quot;legendgroup&quot;:&quot;&quot;,&quot;hovertemplate&quot;:&quot;x=%{x}&lt;br&gt;y=%{y}%{text}&quot;}],&quot;layout&quot;:{&quot;showlegend&quot;:false,&quot;xaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;x&quot;}},&quot;yaxis&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;y&quot;}},&quot;coloraxis&quot;:{&quot;showscale&quot;:true,&quot;colorbar&quot;:{&quot;title&quot;:{&quot;text&quot;:&quot;color&quot;}},&quot;cmin&quot;:6.0,&quot;cmax&quot;:9.0},&quot;title&quot;:{&quot;text&quot;:&quot;Colorize Markers&quot;},&quot;legend&quot;:{&quot;tracegroupgap&quot;:0.0}},&quot;config&quot;:{&quot;scrollZoom&quot;:true,&quot;responsive&quot;:true},&quot;template&quot;:{&quot;data&quot;:[{&quot;type&quot;:&quot;scatter&quot;,&quot;marker&quot;:{&quot;size&quot;:20.0}}],&quot;layout&quot;:{&quot;title&quot;:{&quot;x&quot;:0.05},&quot;xaxis&quot;:{&quot;showline&quot;:true,&quot;linecolor&quot;:&quot;#242424&quot;,&quot;gridcolor&quot;:&quot;#C8C8C8&quot;,&quot;zerolinecolor&quot;:&quot;#C8C8C8&quot;,&quot;ticks&quot;:&quot;outside&quot;},&quot;yaxis&quot;:{&quot;showline&quot;:true,&quot;linecolor&quot;:&quot;#242424&quot;,&quot;gridcolor&quot;:&quot;#C8C8C8&quot;,&quot;zerolinecolor&quot;:&quot;#C8C8C8&quot;,&quot;ticks&quot;:&quot;outside&quot;}}}}</div>
+    </body>
+    <style>
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var dataset_str = document.querySelector('#dataset').textContent;
+        var dataset = JSON.parse(dataset_str);
+        dataset.layout.template = Plotly.makeTemplate(dataset.template);
+        Plotly.newPlot("plot", dataset);
+    </script>
+</html>
+

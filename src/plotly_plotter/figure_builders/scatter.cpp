@@ -50,6 +50,11 @@ scatter& scatter::y(std::string value) {
     return *this;
 }
 
+scatter& scatter::marker_color(std::string value) {
+    marker_color_ = std::move(value);
+    return *this;
+}
+
 scatter& scatter::group(std::string value) {
     set_group(std::move(value));
     return *this;
@@ -163,6 +168,11 @@ void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
             fig.layout().yaxis(index).type("log");
         }
     }
+
+    if (!marker_color_.empty()) {
+        fig.layout().color_axis().show_scale(true);
+        fig.layout().color_axis().color_bar().title().text(marker_color_);
+    }
 }
 
 std::string scatter::default_title() const { return y_; }
@@ -219,22 +229,29 @@ void scatter::configure_trace(Trace& scatter,
         details::add_hover_text(scatter, parent_mask, additional_hover_text);
     }
 
-    switch (color_mode_) {
-    case color_mode::fixed:
-        scatter.color(fixed_color_);
-        break;
-    case color_mode::sequence:
-        scatter.color(color_sequence_[group_index % color_sequence_.size()]);
-        break;
-    case color_mode::map: {
-        const auto iter = color_map_.find(std::string(group_name));
-        if (iter == color_map_.end()) {
-            throw std::runtime_error(fmt::format(
-                "Color map does not contain group name: {}", group_name));
+    if (marker_color_.empty()) {
+        switch (color_mode_) {
+        case color_mode::fixed:
+            scatter.color(fixed_color_);
+            break;
+        case color_mode::sequence:
+            scatter.color(
+                color_sequence_[group_index % color_sequence_.size()]);
+            break;
+        case color_mode::map: {
+            const auto iter = color_map_.find(std::string(group_name));
+            if (iter == color_map_.end()) {
+                throw std::runtime_error(fmt::format(
+                    "Color map does not contain group name: {}", group_name));
+            }
+            scatter.color(iter->second);
+            break;
         }
-        scatter.color(iter->second);
-        break;
-    }
+        }
+    } else {
+        scatter.marker().color(
+            filter_data_column(*data().at(marker_color_), parent_mask));
+        scatter.marker().color_axis("coloraxis");
     }
 
     switch (dash_mode_) {
@@ -276,6 +293,14 @@ void scatter::configure_trace(Trace& scatter,
         scatter.yaxis(fmt::format("y{}", subplot_index));
         scatter.show_legend(false);
     }
+}
+
+std::vector<std::string> scatter::additional_hover_data_in_trace() const {
+    std::vector<std::string> result;
+    if (!marker_color_.empty()) {
+        result.push_back(marker_color_);
+    }
+    return result;
 }
 
 }  // namespace plotly_plotter::figure_builders

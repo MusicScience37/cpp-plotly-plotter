@@ -222,6 +222,10 @@ private:
         std::size_t group_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const override;
 
+    //! \copydoc figure_builder_base::additional_hover_data_in_trace
+    [[nodiscard]] std::vector<std::string> additional_hover_data_in_trace()
+        const override;
+
     //! Color sequence.
     std::vector<std::string> color_sequence_{color_sequence_plotly()};
 

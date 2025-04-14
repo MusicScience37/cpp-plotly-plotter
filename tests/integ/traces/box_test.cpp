@@ -203,4 +203,21 @@ TEST_CASE("box") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("use a template") {
+        auto box = figure.add_box();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        box.y(std::vector{1, 2, 3, 5, 8, 13});
+
+        figure.add_box_template().box_mean("sd");
+
+        figure.title("Box with a Template");
+
+        const std::string file_path = "box_with_a_template.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

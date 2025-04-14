@@ -347,4 +347,70 @@ TEST_CASE("scatter") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("colorize markers by data") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        scatter.y(std::vector{4, 5, 6});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        scatter.marker().color(std::vector{7, 8, 9});
+        scatter.marker().color_axis("coloraxis");
+        // scatter.marker().show_scale(true);
+        scatter.marker().size(30.0);  // NOLINT(*-magic-numbers)
+        scatter.mode("markers");
+
+        figure.layout().color_axis().show_scale(true);
+        figure.layout().color_axis().c_min(6.0);   // NOLINT(*-magic-numbers)
+        figure.layout().color_axis().c_max(10.0);  // NOLINT(*-magic-numbers)
+        figure.layout().color_axis().color_bar().title().text("color axis");
+
+        figure.title("Scatter with Colorize Markers by Data");
+
+        const std::string file_path = "scatter_colorize_markers_by_data.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("change sizes of markers by data") {
+        auto scatter = figure.add_scatter();
+        scatter.x(std::vector{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        scatter.y(std::vector{4, 5, 6});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        scatter.marker().size(std::vector{10, 30, 50});
+        scatter.mode("markers");
+
+        figure.title("Scatter with Change Sizes of Markers by Data");
+
+        const std::string file_path =
+            "scatter_change_sizes_of_markers_by_data.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("use a template") {
+        auto scatter = figure.add_scatter();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
+
+        figure.add_scatter_template().mode("lines");
+
+        figure.title("Scatter with a Template");
+
+        const std::string file_path = "scatter_with_a_template.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

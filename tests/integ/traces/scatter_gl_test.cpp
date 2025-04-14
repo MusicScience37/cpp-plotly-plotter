@@ -211,4 +211,23 @@ TEST_CASE("scatter_gl") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("use a template") {
+        auto scatter = figure.add_scatter_gl();
+        scatter.name("lines");
+        scatter.x(std::vector{1, 2, 3});
+        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
+        scatter.text(std::vector{"A", "B", "C"});
+
+        figure.add_scatter_gl_template().mode("lines");
+
+        figure.title("Scatter with a Template");
+
+        const std::string file_path = "scatter_with_a_template.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }

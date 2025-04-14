@@ -14,6 +14,8 @@ APIs of Traces
 
 .. doxygenclass:: plotly_plotter::traces::scatter_line
 
+.. doxygenclass:: plotly_plotter::traces::scatter_marker
+
 .. doxygenclass:: plotly_plotter::traces::box
     :allow-dot-graphs:
 

@@ -274,9 +274,13 @@ void figure_builder_base::configure_figure(figure& fig,
 
 std::vector<std::string> figure_builder_base::generate_additional_hover_text()
     const {
+    std::vector<std::string> hover_columns = additional_hover_data_in_trace();
+    hover_columns.insert(
+        hover_columns.end(), hover_data_.begin(), hover_data_.end());
+
     const std::size_t rows = data_.rows();
     std::vector<std::string> additional_hover_text(rows);
-    for (const std::string& column_name : hover_data_) {
+    for (const std::string& column_name : hover_columns) {
         const auto column = data_.at(column_name);
         const auto [group_values, group_indices] = column->generate_group();
         for (std::size_t row_index = 0; row_index < rows; ++row_index) {

@@ -59,6 +59,26 @@
       "constrain": "domain",
       "matches": "y"
     },
+    "coloraxis": {
+      "cmax": 1.0,
+      "cmin": 0.0,
+      "colorbar": {
+        "title": {
+          "text": "Color bar"
+        }
+      },
+      "showscale": true
+    },
+    "coloraxis2": {
+      "cmax": 2.0,
+      "cmin": 1.0,
+      "colorbar": {
+        "title": {
+          "text": "Color bar2"
+        }
+      },
+      "showscale": false
+    },
     "title": {
       "text": "Test Title",
       "x": 0.25,

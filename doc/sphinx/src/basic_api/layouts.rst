@@ -15,6 +15,12 @@ APIs of Layouts
 
 .. doxygenclass:: plotly_plotter::axis_title
 
+.. doxygenclass:: plotly_plotter::color_axis
+
+.. doxygenclass:: plotly_plotter::color_bar
+
+.. doxygenclass:: plotly_plotter::color_bar_title
+
 .. doxygenclass:: plotly_plotter::grid
 
 .. doxygenclass:: plotly_plotter::legend

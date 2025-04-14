@@ -61,6 +61,14 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().yaxis(2).range("A", "C");
         figure.layout().yaxis(2).constrain("domain");
         figure.layout().yaxis(2).matches("y");
+        figure.layout().color_axis().c_max(1.0);
+        figure.layout().color_axis().c_min(0.0);
+        figure.layout().color_axis(1).color_bar().title().text("Color bar");
+        figure.layout().color_axis(1).show_scale(true);
+        figure.layout().color_axis(2).c_max(2.0);  // NOLINT
+        figure.layout().color_axis(2).c_min(1.0);
+        figure.layout().color_axis(2).color_bar().title().text("Color bar2");
+        figure.layout().color_axis(2).show_scale(false);
         figure.layout().title().text("Test Title");
         figure.layout().title().x(0.25);  // NOLINT
         figure.layout().title().y(0.75);  // NOLINT
