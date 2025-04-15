@@ -8,19 +8,19 @@
     - [x] Line plots.
     - [x] Customization of markers.
     - [x] Customization of lines.
-    - [ ] Marker colors by numbers.
+    - [x] Marker colors by numbers.
   - [x] Box plots.
   - [ ] Bar plots.
   - [x] Violin plots.
   - [ ] Histograms.
-  - [ ] Heatmaps.
+  - [x] Heatmaps.
 - Plot with various data types.
   - [x] Floating-point numbers.
   - [x] Integers.
   - [x] Strings. (For grouping.)
   - [x] Dates and times.
   - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s vectors.
-  - [ ] [Eigen](https://gitlab.com/libeigen/eigen)'s matrices.
+  - [x] [Eigen](https://gitlab.com/libeigen/eigen)'s matrices.
 - Configurations.
   - [x] Plots with log scales.
   - [x] Plots with error bars.

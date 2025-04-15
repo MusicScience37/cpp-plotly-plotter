@@ -26,5 +26,8 @@ APIs of Traces
 
 .. doxygenclass:: plotly_plotter::traces::violin_mean_line
 
+.. doxygenclass:: plotly_plotter::traces::heatmap
+    :allow-dot-graphs:
+
 .. doxygenclass:: plotly_plotter::traces::xy_trace_base
     :allow-dot-graphs:

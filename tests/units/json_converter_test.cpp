@@ -192,6 +192,78 @@ TEST_CASE("plotly_plotter::json_converter<strings>") {
     }
 }
 
+TEST_CASE("plotly_plotter::json_converter<std::vector<T>>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert std::vector<int>") {
+        document.root() = std::vector<int>{1, 2, 3};
+
+        REQUIRE(yyjson_mut_is_arr(document.root().internal_value()));
+        REQUIRE(yyjson_mut_arr_size(document.root().internal_value()) == 3);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 0)) == 1);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 1)) == 2);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 2)) == 3);
+    }
+
+    SECTION("convert std::vector<std::vector<int>>") {
+        // NOLINTNEXTLINE(*-magic-numbers)
+        document.root() = std::vector<std::vector<int>>{{1, 2, 3}, {4, 5, 6}};
+
+        REQUIRE(yyjson_mut_is_arr(document.root().internal_value()));
+        REQUIRE(yyjson_mut_arr_size(document.root().internal_value()) == 2);
+        REQUIRE(yyjson_mut_is_arr(
+            yyjson_mut_arr_get(document.root().internal_value(), 0)));
+        REQUIRE(yyjson_mut_arr_size(yyjson_mut_arr_get(
+                    document.root().internal_value(), 0)) == 3);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 0),
+                  0)) == 1);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 0),
+                  1)) == 2);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 0),
+                  2)) == 3);
+        REQUIRE(yyjson_mut_is_arr(
+            yyjson_mut_arr_get(document.root().internal_value(), 1)));
+        REQUIRE(yyjson_mut_arr_size(yyjson_mut_arr_get(
+                    document.root().internal_value(), 1)) == 3);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 1),
+                  0)) == 4);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 1),
+                  1)) == 5);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  yyjson_mut_arr_get(document.root().internal_value(), 1),
+                  2)) == 6);
+    }
+}
+
+TEST_CASE("plotly_plotter::json_converter<std::array<T, Size>>") {
+    using plotly_plotter::json_document;
+
+    json_document document;
+
+    SECTION("convert std::array<int, 3>") {
+        document.root() = std::array<int, 3>{1, 2, 3};
+
+        REQUIRE(yyjson_mut_is_arr(document.root().internal_value()));
+        REQUIRE(yyjson_mut_arr_size(document.root().internal_value()) == 3);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 0)) == 1);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 1)) == 2);
+        CHECK(yyjson_mut_get_sint(yyjson_mut_arr_get(
+                  document.root().internal_value(), 2)) == 3);
+    }
+}
+
 TEST_CASE("plotly_plotter::json_converter<std::timespec>") {
     using plotly_plotter::json_document;
 
