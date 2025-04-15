@@ -1,0 +1,74 @@
+{
+  "data": [
+    {
+      "type": "heatmap",
+      "name": "heatmap1",
+      "x": [
+        1,
+        2,
+        3
+      ],
+      "y": [
+        4,
+        5,
+        6
+      ],
+      "text": [
+        "a",
+        "b",
+        "c"
+      ],
+      "xaxis": "x",
+      "yaxis": "y",
+      "hovertemplate": "x: %{x}<br>y: %{y}<br>z: %{z}<br>text: %{text}",
+      "legendgroup": "heatmap1",
+      "showlegend": true,
+      "z": [
+        [
+          1.0,
+          2.0,
+          3.0
+        ],
+        [
+          4.0,
+          5.0,
+          6.0
+        ],
+        [
+          7.0,
+          8.0,
+          9.0
+        ]
+      ],
+      "coloraxis": "coloraxis",
+      "zsmooth": "best"
+    }
+  ],
+  "layout": {},
+  "config": {
+    "scrollZoom": true,
+    "responsive": true
+  },
+  "template": {
+    "data": [],
+    "layout": {
+      "title": {
+        "x": 0.05
+      },
+      "xaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "ticks": "outside"
+      },
+      "yaxis": {
+        "showline": true,
+        "linecolor": "#242424",
+        "gridcolor": "#C8C8C8",
+        "zerolinecolor": "#C8C8C8",
+        "ticks": "outside"
+      }
+    }
+  }
+}

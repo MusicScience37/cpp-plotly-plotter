@@ -2,6 +2,7 @@
 #include "box_test.cpp"          // NOLINT(bugprone-suspicious-include)
 #include "config_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "data_types_test.cpp"   // NOLINT(bugprone-suspicious-include)
+#include "heatmap_test.cpp"      // NOLINT(bugprone-suspicious-include)
 #include "layout_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "scatter_gl_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "scatter_test.cpp"      // NOLINT(bugprone-suspicious-include)
