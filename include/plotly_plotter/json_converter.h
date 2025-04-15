@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <array>
 #include <chrono>
 #include <cmath>
 #include <cstddef>
@@ -28,6 +29,7 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <vector>
 
 #include <yyjson.h>
 
@@ -218,6 +220,26 @@ public:
 };
 
 }  // namespace details
+
+/*!
+ * \brief Specialization of json_converter class for std::vector.
+ *
+ * \tparam T Type of values in std::vector.
+ * \tparam Allocator Type of allocator for std::vector.
+ */
+template <typename T, typename Allocator>
+class json_converter<std::vector<T, Allocator>>
+    : public details::array_json_converter<std::vector<T, Allocator>> {};
+
+/*!
+ * \brief Specialization of json_converter class for std::array.
+ *
+ * \tparam T Type of values in std::array.
+ * \tparam Size Size of std::array.
+ */
+template <typename T, std::size_t Size>
+class json_converter<std::array<T, Size>>
+    : public details::array_json_converter<std::array<T, Size>> {};
 
 /*!
  * \brief Specialization of json_converter class for std::timespec.
