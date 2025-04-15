@@ -94,6 +94,11 @@
  */
 
 /*!
+ * \example heatmaps/create_heatmap.cpp
+ * Example to create a heatmap.
+ */
+
+/*!
  * \example scatters/colorize_markers_in_figure_builder.cpp
  * Example to colorize markers in a figure builder.
  */

@@ -92,6 +92,9 @@ add_example(figure_builders_set_axes_to_log_scale
 add_example_output(figure_builders_set_axes_to_log_scale
                    figure_builders_set_axes_to_log_scale.html)
 
+add_example(heatmaps_create_heatmap heatmaps/create_heatmap.cpp)
+add_example_output(heatmaps_create_heatmap heatmaps_create_heatmap.html)
+
 add_example(scatter_colorize_markers_in_figure_builder
             scatters/colorize_markers_in_figure_builder.cpp)
 add_example_output(scatter_colorize_markers_in_figure_builder

@@ -10,3 +10,4 @@ Examples
     scatters/index
     boxes/index
     violins/index
+    heatmaps/index
