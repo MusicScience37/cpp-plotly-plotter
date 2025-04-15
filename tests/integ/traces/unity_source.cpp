@@ -1,5 +1,6 @@
 #include "annotations_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "box_test.cpp"          // NOLINT(bugprone-suspicious-include)
+#include "color_scales.cpp"      // NOLINT(bugprone-suspicious-include)
 #include "config_test.cpp"       // NOLINT(bugprone-suspicious-include)
 #include "data_types_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "heatmap_test.cpp"      // NOLINT(bugprone-suspicious-include)
