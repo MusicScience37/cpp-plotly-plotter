@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Utility script of color scales."""
 
+import logging
 import pathlib
 
 import click
@@ -95,6 +96,12 @@ def generate_color_scale(color_scale_definition: dict) -> list[tuple[float, str]
         )
 
     interpolated_rgb = colour.convert(interpolated_colors, interpolation_space, "sRGB")
+    if (interpolated_rgb < 0).any() or (interpolated_rgb > 1).any():
+        logging.warning(
+            "Saturation exists. Max: %f, Min: %f.",
+            interpolated_rgb.max(),
+            interpolated_rgb.min(),
+        )
     interpolated_rgb[interpolated_rgb < 0] = 0
     interpolated_rgb[interpolated_rgb > 1] = 1
 

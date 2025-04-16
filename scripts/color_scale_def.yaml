@@ -99,8 +99,31 @@ color_scales:
       space: oklch
       values:
         0.0: [1.0, 0.0, 0.11]
-        0.425: [0.66, 0.18, 0.11]
-        1.0: [0.2, 0.15, 0.11]
+        0.453: [0.66, 0.18, 0.11]
+        1.0: [0.25, 0.064, 0.11]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: purple_green_yellow
+    specification:
+      space: oklch
+      values:
+        0.0: [0.36, 0.16, 0.86]
+        0.4: [0.568, 0.1, 0.628]
+        0.6: [0.672, 0.1, 0.512]
+        1.0: [0.88, 0.16, 0.28]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: blue_purple_red
+    description: A color scale of blue, purple and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.6, 0.2, 0.72]
+        1.0: [0.6, 0.2, 1.05]
     interpolation:
       space: oklch
       num_points: 21
@@ -110,8 +133,8 @@ color_scales:
     specification:
       space: oklch
       values:
-        0.0: [0.7, 0.13, 0.0]
-        1.0: [0.7, 0.13, 1.0]
+        0.0: [0.7, 0.118, 0.0]
+        1.0: [0.7, 0.118, 1.0]
     interpolation:
       space: oklch
       num_points: 101
