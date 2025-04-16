@@ -45,6 +45,10 @@ pytest = "^8.3.5"
 djlint = "^1.36.4"
 tqdm = "^4.67.1"
 types-tqdm = "^4.67.0.20250404"
+colour-science = "^0.4.6"
+numpy = "^2.2.4"
+matplotlib = "^3.10.1"
+networkx = "^3.4.2"
 
 [build-system]
 requires = ["poetry-core"]
