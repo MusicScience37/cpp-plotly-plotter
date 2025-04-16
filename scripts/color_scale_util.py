@@ -124,7 +124,7 @@ def show(name: str) -> None:
     )
 
 
-def add_test_heatmap(figure: plotly.graph_objects.Figure) -> None:
+def add_test_heatmap1(figure: plotly.graph_objects.Figure) -> None:
     """Add a heatmap for testing.
 
     Args:
@@ -146,6 +146,48 @@ def add_test_heatmap(figure: plotly.graph_objects.Figure) -> None:
         z=z,
         coloraxis="coloraxis",
         zsmooth="best",
+        xaxis="x",
+        yaxis="y",
+    )
+
+
+def add_test_heatmap2(figure: plotly.graph_objects.Figure) -> None:
+    """Add a heatmap for testing.
+
+    Args:
+        figure (plotly.graph_objects.Figure): Figure to add heatmap to.
+    """
+    x = numpy.linspace(-1, 1, 101)
+    y = numpy.linspace(-1, 1, 101)
+    x_grid, y_grid = numpy.meshgrid(x, y)
+    z = numpy.atan2(y_grid, x_grid) / numpy.pi
+    figure.add_heatmap(
+        x=x,
+        y=y,
+        z=z,
+        coloraxis="coloraxis",
+        xaxis="x2",
+        yaxis="y2",
+    )
+
+
+def add_test_heatmap3(figure: plotly.graph_objects.Figure) -> None:
+    """Add a heatmap for testing.
+
+    Args:
+        figure (plotly.graph_objects.Figure): Figure to add heatmap to.
+    """
+    x = numpy.linspace(0, 1, 101)
+    y = numpy.linspace(0, 1, 101)
+    x_grid, y_grid = numpy.meshgrid(x, y)
+    z = x_grid + y_grid - 1
+    figure.add_heatmap(
+        x=x,
+        y=y,
+        z=z,
+        coloraxis="coloraxis",
+        xaxis="x3",
+        yaxis="y3",
     )
 
 
@@ -172,7 +214,9 @@ def serve() -> None:
         )
 
         figure = plotly.graph_objects.Figure()
-        add_test_heatmap(figure)
+        add_test_heatmap1(figure)
+        add_test_heatmap2(figure)
+        add_test_heatmap3(figure)
         figure.update_layout(
             coloraxis={
                 "colorscale": color_scale,
@@ -182,7 +226,12 @@ def serve() -> None:
                 "showscale": True,
                 "cmin": -1,
                 "cmax": 1,
-            }
+            },
+            grid={
+                "rows": 2,
+                "columns": 2,
+                "pattern": "independent",
+            },
         )
 
         return figure.to_html(include_plotlyjs="cdn")

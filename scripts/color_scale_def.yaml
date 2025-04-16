@@ -1,4 +1,26 @@
 color_scales:
+  - name: gray
+    description: A color scale of gray scale from black to white.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.0, 0.0, 0.0]
+        1.0: [1.0, 0.0, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 11
+
+  - name: inverted_gray
+    description: A color scale of gray scale from white to black.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.0]
+        1.0: [0.0, 0.0, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 11
+
   - name: cool_warm_simple
     description: A simple color scale of blue, white and red.
     specification:
@@ -42,3 +64,14 @@ color_scales:
     interpolation:
       space: oklab
       num_points: 21
+
+  - name: whole_hue
+    description: A color scale of the whole hue.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.7, 0.13, 0.0]
+        1.0: [0.7, 0.13, 1.0]
+    interpolation:
+      space: oklch
+      num_points: 101
