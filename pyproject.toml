@@ -49,6 +49,9 @@ colour-science = "^0.4.6"
 numpy = "^2.2.4"
 matplotlib = "^3.10.1"
 networkx = "^3.4.2"
+pyyaml = "^6.0.2"
+types-pyyaml = "^6.0.12.20250402"
+flask = "^3.1.0"
 
 [build-system]
 requires = ["poetry-core"]

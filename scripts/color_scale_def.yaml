@@ -1,5 +1,6 @@
 color_scales:
-  - name: blue_white_red
+  - name: cool_warm_simple
+    description: A simple color scale of blue, white and red.
     specification:
       space: oklch
       values:

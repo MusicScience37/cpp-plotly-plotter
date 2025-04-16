@@ -5,7 +5,9 @@ import pathlib
 
 import click
 import colour
+import flask
 import numpy
+import plotly.graph_objects
 import yaml
 
 THIS_DIR = pathlib.Path(__file__).parent
@@ -106,12 +108,87 @@ def generate_color_scale(color_scale_definition: dict) -> list[tuple[float, str]
     return list(zip(interpolated_normalized_values, interpolated_color_code))
 
 
-if __name__ == "__main__":
-    # TODO WIP
+@click.group()
+def cli():
+    """Color scale utility."""
+
+
+@cli.command()
+@click.argument("name")
+def show(name: str) -> None:
+    """Show a color scale on console."""
     print(
         generate_color_scale(
-            find_color_scale_definition(
-                load_color_scales_definition(), "blue_white_red"
-            )
+            find_color_scale_definition(load_color_scales_definition(), name)
         )
     )
+
+
+def add_test_heatmap(figure: plotly.graph_objects.Figure) -> None:
+    """Add a heatmap for testing.
+
+    Args:
+        figure (plotly.graph_objects.Figure): Figure to add heatmap to.
+    """
+    x = numpy.linspace(0, 1, 101)
+    y = numpy.linspace(0, 1, 101)
+    x_grid, y_grid = numpy.meshgrid(x, y)
+    coeff = 10.0
+    z = (
+        -numpy.exp(-coeff * ((x_grid - 0.2) ** 2 + (y_grid - 0.2) ** 2))
+        + numpy.exp(-coeff * ((x_grid - 0.2) ** 2 + (y_grid - 0.8) ** 2))
+        - 0.1 * numpy.exp(-coeff * ((x_grid - 0.8) ** 2 + (y_grid - 0.8) ** 2))
+        + 0.1 * numpy.exp(-coeff * ((x_grid - 0.8) ** 2 + (y_grid - 0.2) ** 2))
+    )
+    figure.add_heatmap(
+        x=x,
+        y=y,
+        z=z,
+        coloraxis="coloraxis",
+        zsmooth="best",
+    )
+
+
+@cli.command()
+def serve() -> None:
+    """Start a server to view color scales."""
+    app = flask.Flask(__name__)
+
+    @app.route("/<name>")
+    def show_color_scale(name: str) -> str:
+        """Show a color scale.
+
+        Args:
+            name (str): Name of the color scale.
+
+        Returns:
+            str: HTML to view the color scale.
+        """
+        if name == "favicon.ico":
+            flask.abort(404)
+
+        color_scale = generate_color_scale(
+            find_color_scale_definition(load_color_scales_definition(), name)
+        )
+
+        figure = plotly.graph_objects.Figure()
+        add_test_heatmap(figure)
+        figure.update_layout(
+            coloraxis={
+                "colorscale": color_scale,
+                "colorbar": {
+                    "title": "Color Scale",
+                },
+                "showscale": True,
+                "cmin": -1,
+                "cmax": 1,
+            }
+        )
+
+        return figure.to_html(include_plotlyjs="cdn")
+
+    app.run(debug=True, port=7621)
+
+
+if __name__ == "__main__":
+    cli()
