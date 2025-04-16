@@ -191,6 +191,26 @@ def add_test_heatmap3(figure: plotly.graph_objects.Figure) -> None:
     )
 
 
+def add_test_heatmap4(figure: plotly.graph_objects.Figure) -> None:
+    """Add a heatmap for testing.
+
+    Args:
+        figure (plotly.graph_objects.Figure): Figure to add heatmap to.
+    """
+    x = numpy.linspace(-1, 1, 101)
+    y = numpy.linspace(-1, 1, 101)
+    x_grid, y_grid = numpy.meshgrid(x, y)
+    z = 1 - x_grid**2 - y_grid**2
+    figure.add_heatmap(
+        x=x,
+        y=y,
+        z=z,
+        coloraxis="coloraxis",
+        xaxis="x4",
+        yaxis="y4",
+    )
+
+
 @cli.command()
 def serve() -> None:
     """Start a server to view color scales."""
@@ -217,6 +237,7 @@ def serve() -> None:
         add_test_heatmap1(figure)
         add_test_heatmap2(figure)
         add_test_heatmap3(figure)
+        add_test_heatmap4(figure)
         figure.update_layout(
             coloraxis={
                 "colorscale": color_scale,

@@ -63,6 +63,46 @@ color_scales:
         1.0: [0.36, 0.14, 0.03]
     interpolation:
       space: oklab
+      num_points: 41
+
+  - name: cool_extended
+    description: A color scale of blue and white including dark and light colors.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.36, 0.14, 0.76]
+        0.266: [0.53, 0.18, 0.76]
+        0.532: [0.7, 0.11, 0.63]
+        0.688: [0.8, 0.09, 0.58]
+        1.0: [1.0, 0.0, 0.3]
+    interpolation:
+      space: oklab
+      num_points: 21
+
+  - name: warm_extended
+    description: A color scale of white and red including dark and light colors.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.3]
+        0.312: [0.8, 0.09, 0.21]
+        0.468: [0.7, 0.11, 0.16]
+        0.734: [0.53, 0.18, 0.03]
+        1.0: [0.36, 0.14, 0.03]
+    interpolation:
+      space: oklab
+      num_points: 21
+
+  - name: blown
+    description: A color scale of white, orange and blown.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.11]
+        0.425: [0.66, 0.18, 0.11]
+        1.0: [0.2, 0.15, 0.11]
+    interpolation:
+      space: oklch
       num_points: 21
 
   - name: whole_hue
