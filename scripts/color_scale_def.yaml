@@ -106,6 +106,7 @@ color_scales:
       num_points: 21
 
   - name: purple_green_yellow
+    description: A color scale of purple, green and yellow.
     specification:
       space: oklch
       values:
@@ -127,6 +128,26 @@ color_scales:
     interpolation:
       space: oklch
       num_points: 21
+
+  - name: blue_green_red
+    description: A color scale of blue, green and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.5, 0.2, 0.76]
+        0.1: [0.66, 0.16, 0.689]
+        0.2: [0.78, 0.14, 0.618]
+        0.3: [0.84, 0.13, 0.547]
+        0.4: [0.84, 0.14, 0.476]
+        0.5: [0.84, 0.2, 0.405]
+        0.6: [0.82, 0.17, 0.334]
+        0.7: [0.8, 0.15, 0.263]
+        0.8: [0.75, 0.15, 0.192]
+        0.9: [0.66, 0.16, 0.121]
+        1.0: [0.5, 0.17, 0.05]
+    interpolation:
+      space: oklch
+      num_points: 41
 
   - name: whole_hue
     description: A color scale of the whole hue.
