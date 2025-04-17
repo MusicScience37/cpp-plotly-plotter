@@ -123,14 +123,89 @@ color_scales:
       space: oklch
       num_points: 21
 
-  - name: forest
-    description: A color scale of white and green.
+  - name: autumn
+    description: A color scale of yellow, orange, red and brown.
     specification:
       space: oklch
       values:
-        0.0: [1.0, 0.0, 0.38]
-        0.4286: [0.7, 0.18, 0.38]
-        1.0: [0.3, 0.08, 0.38]
+        0.0: [0.9, 0.15, 0.28]
+        0.286: [0.7, 0.15, 0.15]
+        0.571: [0.5, 0.14, 0.09]
+        0.857: [0.3, 0.09, 0.07]
+        1.0: [0.2, 0.07, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: autumn_full
+    description: A color scale of white, yellow, orange, red, brown and black.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.3]
+        0.111: [0.9, 0.15, 0.28]
+        0.333: [0.7, 0.15, 0.15]
+        0.544: [0.5, 0.14, 0.09]
+        0.777: [0.3, 0.09, 0.07]
+        0.888: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: green
+    description: A color scale of green.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.9, 0.1, 0.32]
+        0.286: [0.7, 0.15, 0.35]
+        0.571: [0.5, 0.13, 0.4]
+        0.857: [0.3, 0.05, 0.46]
+        1.0: [0.2, 0.03, 0.5]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: green_full
+    description: A color scale of white, green and black.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.3]
+        0.111: [0.9, 0.1, 0.32]
+        0.333: [0.7, 0.15, 0.35]
+        0.555: [0.5, 0.13, 0.4]
+        0.777: [0.3, 0.05, 0.46]
+        0.888: [0.2, 0.03, 0.5]
+        1.0: [0.1, 0.01, 0.55]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: blue
+    description: A color scale of blue.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.9, 0.1, 0.48]
+        0.429: [0.6, 0.1, 0.6]
+        0.714: [0.4, 0.1, 0.7]
+        1.0: [0.2, 0.1, 0.78]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: blue_full
+    description: A color scale of white, blue and black.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0.0, 0.45]
+        0.111: [0.9, 0.1, 0.48]
+        0.444: [0.6, 0.1, 0.6]
+        0.666: [0.4, 0.1, 0.7]
+        1.0: [0.1, 0.04, 0.82]
     interpolation:
       space: oklch
       num_points: 21
