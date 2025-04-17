@@ -184,6 +184,26 @@ blue();
 blue_full();
 
 /*!
+ * \brief Get the color scale green_to_autumn.
+ *
+ * \return Color scale.
+ *
+ * A color scale of green, yellow, orange, red and brown.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+green_to_autumn();
+
+/*!
+ * \brief Get the color scale blue_to_autumn.
+ *
+ * \return Color scale.
+ *
+ * A color scale of blue, yellow, orange, red and brown.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_to_autumn();
+
+/*!
  * \brief Get the color scale purple_green_yellow.
  *
  * \return Color scale.

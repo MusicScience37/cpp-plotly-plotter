@@ -99,7 +99,8 @@ TEST_CASE("color scales") {
             {"warm_extended", warm_extended()}, {"blown", blown()},
             {"autumn", autumn()}, {"autumn_full", autumn_full()},
             {"green", green()}, {"green_full", green_full()}, {"blue", blue()},
-            {"blue_full", blue_full()},
+            {"blue_full", blue_full()}, {"green_to_autumn", green_to_autumn()},
+            {"blue_to_autumn", blue_to_autumn()},
             {"purple_green_yellow", purple_green_yellow()},
             {"blue_purple_red", blue_purple_red()},
             {"blue_green_red", blue_green_red()}, {"whole_hue", whole_hue()}};

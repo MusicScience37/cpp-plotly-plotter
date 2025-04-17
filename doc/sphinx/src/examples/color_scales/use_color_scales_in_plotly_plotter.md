@@ -37,5 +37,5 @@ show_html_figure("../outputs/color_scales_positive_color_scales.html", height=90
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_positive_and_negative_color_scales.html", height=700, version=1)
+show_html_figure("../outputs/color_scales_positive_and_negative_color_scales.html", height=900, version=5)
 ```

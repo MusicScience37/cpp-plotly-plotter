@@ -72,7 +72,9 @@ int main() {
         {"cool_warm_simple", cool_warm_simple()},
         {"cool_warm_darker", cool_warm_darker()},
         {"cool_warm_extended", cool_warm_extended()},
-        {"cool_warm_extended_relaxed", cool_warm_extended_relaxed()}};
+        {"cool_warm_extended_relaxed", cool_warm_extended_relaxed()},
+        {"green_to_autumn", green_to_autumn()},
+        {"blue_to_autumn", blue_to_autumn()}};
 
     // Create the figure.
     plotly_plotter::figure figure;
@@ -111,7 +113,7 @@ int main() {
         annotation.show_arrow(false);
     }
 
-    figure.layout().grid().rows(2);
+    figure.layout().grid().rows(3);
     figure.layout().grid().columns(2);
     figure.layout().grid().pattern("independent");
 
