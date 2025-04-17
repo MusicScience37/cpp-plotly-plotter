@@ -193,6 +193,7 @@ def add_test_heatmap3(figure: plotly.graph_objects.Figure) -> None:
         y=y,
         z=z,
         coloraxis="coloraxis",
+        zsmooth="best",
         xaxis="x3",
         yaxis="y3",
     )
@@ -213,6 +214,7 @@ def add_test_heatmap4(figure: plotly.graph_objects.Figure) -> None:
         y=y,
         z=z,
         coloraxis="coloraxis",
+        zsmooth="best",
         xaxis="x4",
         yaxis="y4",
     )
