@@ -11,3 +11,4 @@ Examples
     boxes/index
     violins/index
     heatmaps/index
+    color_scales/index
