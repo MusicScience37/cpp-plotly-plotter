@@ -3,10 +3,12 @@
 
 import logging
 import pathlib
+import subprocess
 
 import click
 import colour
 import flask
+import jinja2
 import numpy
 import plotly.graph_objects
 import yaml
@@ -267,6 +269,40 @@ def serve() -> None:
         return figure.to_html(include_plotlyjs="cdn")
 
     app.run(debug=True, port=7621)
+
+
+@cli.command()
+def gen() -> None:
+    """Generate C++ code for color scales."""
+    data = load_color_scales_definition()
+    for color_scale_data in data["color_scales"]:
+        color_scale_data["color_scale"] = generate_color_scale(color_scale_data)
+
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(str(THIS_DIR / "templates")),
+    )
+
+    template = env.get_template("color_scales.h.jinja")
+    output = THIS_DIR.parent / "include" / "plotly_plotter" / "color_scales.h"
+    with open(
+        str(output),
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(template.render(data=data))
+        file.write("\n")
+    subprocess.run(["clang-format", "-i", str(output)], check=True)
+
+    template = env.get_template("color_scales.cpp.jinja")
+    output = THIS_DIR.parent / "src" / "plotly_plotter" / "color_scales.cpp"
+    with open(
+        str(output),
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(template.render(data=data))
+        file.write("\n")
+    subprocess.run(["clang-format", "-i", str(output)], check=True)
 
 
 if __name__ == "__main__":

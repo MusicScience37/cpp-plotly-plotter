@@ -17,6 +17,8 @@
  * \file
  * \brief Test of color scales.
  */
+#include "plotly_plotter/color_scales.h"
+
 #include <Eigen/Core>
 #include <cstddef>
 #include <string>
@@ -75,6 +77,62 @@ TEST_CASE("color scales") {
         figure.layout().grid().pattern("coupled");
 
         const std::string file_path = "color_scales_builtin.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("plotly_plotter color scales") {
+        // NOLINTNEXTLINE(*-using-namespace)
+        using namespace plotly_plotter::color_scales;
+
+        const auto color_scales = std::vector<std::pair<std::string,
+            std::vector<std::pair<double, std::string>>>>{{"gray", gray()},
+            {"inverted_gray", inverted_gray()},
+            {"cool_warm_simple", cool_warm_simple()},
+            {"cool_warm_darker", cool_warm_darker()},
+            {"cool_warm_extended", cool_warm_extended()},
+            {"cool_warm_extended_relaxed", cool_warm_extended_relaxed()},
+            {"cool_extended", cool_extended()},
+            {"warm_extended", warm_extended()}, {"blown", blown()},
+            {"autumn", autumn()}, {"autumn_full", autumn_full()},
+            {"green", green()}, {"green_full", green_full()}, {"blue", blue()},
+            {"blue_full", blue_full()},
+            {"purple_green_yellow", purple_green_yellow()},
+            {"blue_purple_red", blue_purple_red()},
+            {"blue_green_red", blue_green_red()}, {"whole_hue", whole_hue()}};
+
+        for (std::size_t i = 0; i < color_scales.size(); ++i) {
+            auto heatmap = figure.add_heatmap();
+            heatmap.z(values);
+            heatmap.x(values);
+            heatmap.y(y);
+            if (i > 0) {
+                heatmap.yaxis(fmt::format("y{}", i + 1));
+                heatmap.color_axis(fmt::format("coloraxis{}", i + 1));
+            } else {
+                heatmap.yaxis("y");
+                heatmap.color_axis("coloraxis");
+            }
+            heatmap.xaxis("x");
+            heatmap.z_smooth("best");
+            heatmap.name(color_scales[i].first);
+
+            figure.layout().color_axis(i + 1).show_scale(false);
+            figure.layout().color_axis(i + 1).color_scale(
+                color_scales[i].second);
+
+            figure.layout().yaxis(i + 1).show_tick_labels(false);
+            figure.layout().yaxis(i + 1).ticks("");
+        }
+
+        figure.layout().grid().rows(color_scales.size());
+        figure.layout().grid().columns(1);
+        figure.layout().grid().pattern("coupled");
+
+        const std::string file_path = "color_scales_plotly_plotter.html";
         plotly_plotter::write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
