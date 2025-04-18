@@ -47,9 +47,10 @@ int main() {
         z[row].resize(n_points_per_axis);
         for (std::size_t col = 0; col < n_points_per_axis; ++col) {
             constexpr double coeff = 5.0;
-            z[row][col] =
-                -std::exp(-coeff *
-                    (std::pow(x[col] - 0.8, 2) + std::pow(y[row] - 0.2, 2))) +
+            z[row][col] = -0.8 *
+                    std::exp(-coeff *
+                        (std::pow(x[col] - 0.8, 2) +
+                            std::pow(y[row] - 0.2, 2))) +
                 std::exp(-coeff *
                     (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.8, 2)));
         }

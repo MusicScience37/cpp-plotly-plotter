@@ -88,6 +88,20 @@ add_example(color_scales_positive_color_scales
 add_example_output(color_scales_positive_color_scales
                    color_scales_positive_color_scales.html)
 
+add_example(color_scales_use_color_scale color_scales/use_color_scale.cpp)
+add_example_output(color_scales_use_color_scale
+                   color_scales_use_color_scale.html)
+
+add_example(color_scales_use_positive_color_scale
+            color_scales/use_positive_color_scale.cpp)
+add_example_output(color_scales_use_positive_color_scale
+                   color_scales_use_positive_color_scale.html)
+
+add_example(color_scales_use_positive_negative_color_scale
+            color_scales/use_positive_negative_color_scale.cpp)
+add_example_output(color_scales_use_positive_negative_color_scale
+                   color_scales_use_positive_negative_color_scale.html)
+
 add_example(configurations_customize_hover_texts
             configurations/customize_hover_texts.cpp)
 add_example_output(configurations_customize_hover_texts
