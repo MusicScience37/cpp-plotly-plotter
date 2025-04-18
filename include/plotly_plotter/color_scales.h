@@ -144,6 +144,26 @@ autumn();
 autumn_full();
 
 /*!
+ * \brief Get the color scale red.
+ *
+ * \return Color scale.
+ *
+ * A color scale of red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+red();
+
+/*!
+ * \brief Get the color scale red_full.
+ *
+ * \return Color scale.
+ *
+ * A color scale of white, red and black.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+red_full();
+
+/*!
  * \brief Get the color scale green.
  *
  * \return Color scale.
@@ -188,20 +208,80 @@ blue_full();
  *
  * \return Color scale.
  *
- * A color scale of green, yellow, orange, red and brown.
+ * A color scale of green, white, yellow, orange, red and brown.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 green_to_autumn();
+
+/*!
+ * \brief Get the color scale green_to_autumn_on_yellow.
+ *
+ * \return Color scale.
+ *
+ * A color scale of green, yellow, orange, red and brown.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+green_to_autumn_on_yellow();
 
 /*!
  * \brief Get the color scale blue_to_autumn.
  *
  * \return Color scale.
  *
- * A color scale of blue, yellow, orange, red and brown.
+ * A color scale of blue, white, yellow, orange, red and brown.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 blue_to_autumn();
+
+/*!
+ * \brief Get the color scale blue_to_autumn_on_green.
+ *
+ * \return Color scale.
+ *
+ * A color scale of blue, green, yellow, orange, red and brown.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_to_autumn_on_green();
+
+/*!
+ * \brief Get the color scale green_to_red.
+ *
+ * \return Color scale.
+ *
+ * A color scale of green, white and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+green_to_red();
+
+/*!
+ * \brief Get the color scale green_to_red_on_yellow.
+ *
+ * \return Color scale.
+ *
+ * A color scale of green, yellow and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+green_to_red_on_yellow();
+
+/*!
+ * \brief Get the color scale blue_to_red.
+ *
+ * \return Color scale.
+ *
+ * A color scale of blue, white and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_to_red();
+
+/*!
+ * \brief Get the color scale blue_to_red_on_green.
+ *
+ * \return Color scale.
+ *
+ * A color scale of blue, green and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_to_red_on_green();
 
 /*!
  * \brief Get the color scale purple_green_yellow.

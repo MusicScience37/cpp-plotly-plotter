@@ -153,6 +153,36 @@ color_scales:
       space: oklch
       num_points: 21
 
+  - name: red
+    description: A color scale of red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.9, 0.1, 0.23]
+        0.0714: [0.85, 0.11, 0.2]
+        0.429: [0.6, 0.17, 0.07]
+        0.714: [0.4, 0.15, 0.04]
+        1.0: [0.2, 0.07, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 21
+
+  - name: red_full
+    description: A color scale of white, red and black.
+    specification:
+      space: oklch
+      values:
+        0.0: [1.0, 0., 0.3]
+        0.111: [0.9, 0.1, 0.23]
+        0.167: [0.85, 0.11, 0.2]
+        0.444: [0.6, 0.17, 0.07]
+        0.666: [0.4, 0.15, 0.04]
+        0.888: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 21
+
   - name: green
     description: A color scale of green.
     specification:
@@ -211,7 +241,7 @@ color_scales:
       num_points: 21
 
   - name: green_to_autumn
-    description: A color scale of green, yellow, orange, red and brown.
+    description: A color scale of green, white, yellow, orange, red and brown.
     specification:
       space: oklch
       values:
@@ -232,8 +262,32 @@ color_scales:
       space: oklch
       num_points: 41
 
+  - name: green_to_autumn_on_yellow
+    description: A color scale of green, yellow, orange, red and brown.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.01, 0.55]
+        0.0556: [0.2, 0.03, 0.5]
+        0.111: [0.3, 0.05, 0.46]
+        0.222: [0.5, 0.13, 0.4]
+        0.333: [0.7, 0.15, 0.35]
+        0.444: [0.9, 0.1, 0.32]
+        0.4722: [0.93, 0.09, 0.31]
+        0.5: [0.95, 0.08, 0.3]
+        0.5278: [0.93, 0.1, 0.29]
+        0.5556: [0.9, 0.13, 0.28]
+        0.6667: [0.7, 0.15, 0.15]
+        0.7778: [0.5, 0.14, 0.09]
+        0.8889: [0.3, 0.09, 0.07]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
   - name: blue_to_autumn
-    description: A color scale of blue, yellow, orange, red and brown.
+    description: A color scale of blue, white, yellow, orange, red and brown.
     specification:
       space: oklch
       values:
@@ -247,6 +301,117 @@ color_scales:
         0.6667: [0.7, 0.15, 0.15]
         0.7778: [0.5, 0.14, 0.09]
         0.8889: [0.3, 0.09, 0.07]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
+  - name: blue_to_autumn_on_green
+    description: A color scale of blue, green, yellow, orange, red and brown.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.04, 0.82]
+        0.1667: [0.4, 0.1, 0.7]
+        0.2778: [0.6, 0.1, 0.6]
+        0.444: [0.9, 0.1, 0.48]
+        0.4722: [0.93, 0.09, 0.45]
+        0.5: [0.95, 0.08, 0.4]
+        0.5278: [0.93, 0.09, 0.34]
+        0.5556: [0.9, 0.13, 0.28]
+        0.6667: [0.7, 0.15, 0.15]
+        0.7778: [0.5, 0.14, 0.09]
+        0.8889: [0.3, 0.09, 0.07]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
+  - name: green_to_red
+    description: A color scale of green, white and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.01, 0.55]
+        0.0556: [0.2, 0.03, 0.5]
+        0.111: [0.3, 0.05, 0.46]
+        0.222: [0.5, 0.13, 0.4]
+        0.333: [0.7, 0.15, 0.35]
+        0.444: [0.9, 0.1, 0.32]
+        0.5: [1.0, 0.0, 0.3]
+        0.5556: [0.9, 0.1, 0.23]
+        0.5833: [0.85, 0.11, 0.2]
+        0.7222: [0.6, 0.17, 0.07]
+        0.8333: [0.4, 0.15, 0.04]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
+  - name: green_to_red_on_yellow
+    description: A color scale of green, yellow and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.01, 0.55]
+        0.0556: [0.2, 0.03, 0.5]
+        0.111: [0.3, 0.05, 0.46]
+        0.222: [0.5, 0.13, 0.4]
+        0.333: [0.7, 0.15, 0.35]
+        0.444: [0.9, 0.1, 0.32]
+        0.4722: [0.93, 0.09, 0.31]
+        0.5: [0.95, 0.08, 0.3]
+        0.5278: [0.93, 0.09, 0.26]
+        0.5556: [0.9, 0.1, 0.23]
+        0.5833: [0.85, 0.11, 0.2]
+        0.7222: [0.6, 0.17, 0.07]
+        0.8333: [0.4, 0.15, 0.04]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
+  - name: blue_to_red
+    description: A color scale of blue, white and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.04, 0.82]
+        0.1667: [0.4, 0.1, 0.7]
+        0.2778: [0.6, 0.1, 0.6]
+        0.444: [0.9, 0.1, 0.48]
+        0.4999: [1.0, 0.0, 0.45]
+        0.5: [1.0, 0., 0.3]
+        0.5556: [0.9, 0.1, 0.23]
+        0.5833: [0.85, 0.11, 0.2]
+        0.7222: [0.6, 0.17, 0.07]
+        0.8333: [0.4, 0.15, 0.04]
+        0.9444: [0.2, 0.07, 0.0]
+        1.0: [0.1, 0.02, 0.0]
+    interpolation:
+      space: oklch
+      num_points: 41
+
+  - name: blue_to_red_on_green
+    description: A color scale of blue, green and red.
+    specification:
+      space: oklch
+      values:
+        0.0: [0.1, 0.04, 0.82]
+        0.1667: [0.4, 0.1, 0.7]
+        0.2778: [0.6, 0.1, 0.6]
+        0.444: [0.9, 0.1, 0.48]
+        0.4722: [0.93, 0.09, 0.45]
+        0.5: [0.95, 0.08, 0.37]
+        0.5278: [0.93, 0.09, 0.3]
+        0.5556: [0.9, 0.1, 0.23]
+        0.5833: [0.85, 0.11, 0.2]
+        0.7222: [0.6, 0.17, 0.07]
+        0.8333: [0.4, 0.15, 0.04]
         0.9444: [0.2, 0.07, 0.0]
         1.0: [0.1, 0.02, 0.0]
     interpolation:
