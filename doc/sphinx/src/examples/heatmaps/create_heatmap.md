@@ -32,6 +32,7 @@ show_html_figure("../outputs/heatmaps_create_heatmap.html", version=1)
 
 ## Further Reading
 
+- [Use Color Scales in cpp-plotly-plotter](../color_scales/use_color_scales_in_plotly_plotter.md)
 - API Reference:
   - {cpp:class}`plotly_plotter::figure`
   - {cpp:class}`plotly_plotter::traces::heatmap`

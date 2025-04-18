@@ -23,6 +23,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include "plotly_plotter/json_converter.h"  // IWYU pragma: export
 #include "plotly_plotter/json_value.h"
@@ -399,6 +400,26 @@ public:
      * \param[in] value Value.
      */
     void show_scale(bool value) { data_["showscale"] = value; }
+
+    /*!
+     * \brief Set the color scale.
+     *
+     * \tparam T Type of the value.
+     * \param[in] value Value.
+     *
+     * Input can be one of the following:
+     * - A string of the name of the color scale.
+     *   Selection:
+     *   Blackbody,Bluered,Blues,Cividis,Earth,Electric,Greens,Greys,
+     *   Hot,Jet,Picnic,Portland,Rainbow,RdBu,Reds,Viridis,YlGnBu,YlOrRd
+     * - A list of mapping of normalized value (from 0 to 1) to color.
+     *   For example,
+     *   `{{0.0, "#FF0000"}, {1.0, "#0000FF"}}`.
+     */
+    template <typename T>
+    void color_scale(T&& value) {
+        data_["colorscale"] = std::forward<T>(value);
+    }
 
 private:
     //! JSON data.

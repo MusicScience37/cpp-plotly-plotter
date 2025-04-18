@@ -13,5 +13,6 @@ For full API reference, see `here <../api/index.html>`_.
     data_tables
     traces
     layouts
+    color_scales
     configs
     json

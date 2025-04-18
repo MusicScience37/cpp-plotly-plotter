@@ -32,6 +32,7 @@ show_html_figure("../outputs/scatter_colorize_markers_in_figure_builder.html", v
 
 ## Further Reading
 
+- [Use Color Scales in cpp-plotly-plotter](../color_scales/use_color_scales_in_plotly_plotter.md)
 - API Reference:
   - {cpp:class}`plotly_plotter::data_table`
   - {cpp:class}`plotly_plotter::figure_builders::scatter`

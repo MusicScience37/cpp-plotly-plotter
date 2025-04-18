@@ -29,6 +29,7 @@
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include <yyjson.h>
@@ -288,6 +289,30 @@ public:
     static void to_json(std::nullptr_t, json_value& to) {
         details::check_assignment(to);
         yyjson_mut_set_null(to.internal_value());
+    }
+};
+
+/*!
+ * \brief Specialization of json_converter class for std::pair.
+ *
+ * \tparam T1 Type of first element in std::pair.
+ * \tparam T2 Type of second element in std::pair.
+ */
+template <typename T1, typename T2>
+class json_converter<std::pair<T1, T2>> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(const std::pair<T1, T2>& from, json_value& to) {
+        details::check_assignment(to);
+        yyjson_mut_set_arr(to.internal_value());
+        yyjson_mut_arr_clear(to.internal_value());
+        to.push_back(from.first);
+        to.push_back(from.second);
     }
 };
 

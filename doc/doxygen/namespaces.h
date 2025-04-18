@@ -91,4 +91,7 @@ namespace plotly_plotter {
 
     }  // namespace io
 
+    //! Namespace of color scales.
+    namespace color_scales {}
+
 }  // namespace plotly_plotter

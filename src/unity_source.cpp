@@ -1,3 +1,4 @@
+#include "plotly_plotter/color_scales.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/details/format_time.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/details/write_html_impl.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/figure_builders/box.cpp"  // NOLINT(bugprone-suspicious-include)
