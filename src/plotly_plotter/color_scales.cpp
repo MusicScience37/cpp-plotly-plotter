@@ -881,6 +881,32 @@ std::vector<std::pair<double, std::string>> purple_green_yellow() {
     };
 }
 
+std::vector<std::pair<double, std::string>> tea() {
+    return {
+        {0.0, "#ADF773"},   // NOLINT(*-magic-numbers)
+        {0.05, "#B7EC62"},  // NOLINT(*-magic-numbers)
+        {0.1, "#BFE252"},   // NOLINT(*-magic-numbers)
+        {0.15, "#C6D742"},  // NOLINT(*-magic-numbers)
+        {0.2, "#CBCD34"},   // NOLINT(*-magic-numbers)
+        {0.25, "#CFC227"},  // NOLINT(*-magic-numbers)
+        {0.3, "#D0B619"},   // NOLINT(*-magic-numbers)
+        {0.35, "#D0AB0C"},  // NOLINT(*-magic-numbers)
+        {0.4, "#CFA005"},   // NOLINT(*-magic-numbers)
+        {0.45, "#CD9507"},  // NOLINT(*-magic-numbers)
+        {0.5, "#C98A0F"},   // NOLINT(*-magic-numbers)
+        {0.55, "#C67E08"},  // NOLINT(*-magic-numbers)
+        {0.6, "#C27308"},   // NOLINT(*-magic-numbers)
+        {0.65, "#BD680C"},  // NOLINT(*-magic-numbers)
+        {0.7, "#B75D13"},   // NOLINT(*-magic-numbers)
+        {0.75, "#B15219"},  // NOLINT(*-magic-numbers)
+        {0.8, "#AA461B"},   // NOLINT(*-magic-numbers)
+        {0.85, "#A1391E"},  // NOLINT(*-magic-numbers)
+        {0.9, "#992C21"},   // NOLINT(*-magic-numbers)
+        {0.95, "#901F24"},  // NOLINT(*-magic-numbers)
+        {1.0, "#860F27"},   // NOLINT(*-magic-numbers)
+    };
+}
+
 std::vector<std::pair<double, std::string>> blue_purple_red() {
     return {
         {0.0, "#297AF5"},   // NOLINT(*-magic-numbers)

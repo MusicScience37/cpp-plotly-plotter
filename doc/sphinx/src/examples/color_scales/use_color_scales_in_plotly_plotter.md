@@ -17,7 +17,7 @@ TODO Example source code
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=4)
+show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=7)
 ```
 
 ### Color Scales for Positive Numbers

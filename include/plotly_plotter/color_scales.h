@@ -294,6 +294,16 @@ blue_to_red_on_green();
 purple_green_yellow();
 
 /*!
+ * \brief Get the color scale tea.
+ *
+ * \return Color scale.
+ *
+ * A color scale of green and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+tea();
+
+/*!
  * \brief Get the color scale blue_purple_red.
  *
  * \return Color scale.

@@ -108,7 +108,7 @@ TEST_CASE("color scales") {
             {"green_to_red_on_yellow", green_to_red_on_yellow()},
             {"blue_to_red", blue_to_red()},
             {"blue_to_red_on_green", blue_to_red_on_green()},
-            {"purple_green_yellow", purple_green_yellow()},
+            {"purple_green_yellow", purple_green_yellow()}, {"tea", tea()},
             {"blue_purple_red", blue_purple_red()},
             {"blue_green_red", blue_green_red()}, {"whole_hue", whole_hue()}};
 

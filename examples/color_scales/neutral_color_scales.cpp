@@ -46,20 +46,12 @@ int main() {
     for (std::size_t row = 0; row < n_points_per_axis; ++row) {
         z[row].resize(n_points_per_axis);
         for (std::size_t col = 0; col < n_points_per_axis; ++col) {
-            constexpr double coeff = 10.0;
+            constexpr double coeff = 5.0;
             z[row][col] =
                 -std::exp(-coeff *
-                    (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.2, 2))) +
+                    (std::pow(x[col] - 0.8, 2) + std::pow(y[row] - 0.2, 2))) +
                 std::exp(-coeff *
-                    (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.8, 2))) -
-                0.1 *
-                    std::exp(-coeff *
-                        (std::pow(x[col] - 0.8, 2) +
-                            std::pow(y[row] - 0.8, 2))) +
-                0.1 *
-                    std::exp(-coeff *
-                        (std::pow(x[col] - 0.8, 2) +
-                            std::pow(y[row] - 0.2, 2)));
+                    (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.8, 2)));
         }
     }
 
@@ -70,7 +62,7 @@ int main() {
         std::pair<std::string, std::vector<std::pair<double, std::string>>>>{
         {"autumn", autumn()}, {"red", red()}, {"green", green()},
         {"blue", blue()}, {"purple_green_yellow", purple_green_yellow()},
-        {"blue_green_red", blue_green_red()},
+        {"tea", tea()}, {"blue_green_red", blue_green_red()},
         {"blue_purple_red", blue_purple_red()}};
 
     // Create the figure.
