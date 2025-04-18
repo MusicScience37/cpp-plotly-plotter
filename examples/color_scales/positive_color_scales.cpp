@@ -60,8 +60,7 @@ int main() {
         std::pair<std::string, std::vector<std::pair<double, std::string>>>>{
         {"red_full", red_full()}, {"autumn_full", autumn_full()},
         {"green_full", green_full()}, {"blue_full", blue_full()},
-        {"blown", blown()}, {"gray", gray()},
-        {"inverted_gray", inverted_gray()}};
+        {"gray", gray()}, {"inverted_gray", inverted_gray()}};
 
     // Create the figure.
     plotly_plotter::figure figure;
@@ -102,7 +101,7 @@ int main() {
         annotation.show_arrow(false);
     }
 
-    figure.layout().grid().rows(4);
+    figure.layout().grid().rows(3);
     figure.layout().grid().columns(2);
     figure.layout().grid().pattern("independent");
 

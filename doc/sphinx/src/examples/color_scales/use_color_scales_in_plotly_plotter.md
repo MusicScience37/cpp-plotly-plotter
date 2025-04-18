@@ -35,7 +35,7 @@ show_html_figure("../outputs/color_scales_use_color_scale.html", version=4)
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=8)
+show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=10)
 ```
 
 ## Use a Color Scale for Positive Numbers
@@ -63,7 +63,7 @@ show_html_figure("../outputs/color_scales_use_positive_color_scale.html", versio
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_positive_color_scales.html", height=1200, version=6)
+show_html_figure("../outputs/color_scales_positive_color_scales.html", height=900, version=6)
 ```
 
 ## Use a Color Scales for Positive and Negative Numbers

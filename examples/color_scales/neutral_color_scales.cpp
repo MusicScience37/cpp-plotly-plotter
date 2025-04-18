@@ -62,8 +62,8 @@ int main() {
     const auto color_scales = std::vector<
         std::pair<std::string, std::vector<std::pair<double, std::string>>>>{
         {"autumn", autumn()}, {"red", red()}, {"green", green()},
-        {"blue", blue()}, {"purple_green_yellow", purple_green_yellow()},
-        {"tea", tea()}, {"blue_green_red", blue_green_red()},
+        {"blue", blue()}, {"blown", blown()},
+        {"purple_green_yellow", purple_green_yellow()}, {"tea", tea()},
         {"blue_purple_red", blue_purple_red()}};
 
     // Create the figure.
