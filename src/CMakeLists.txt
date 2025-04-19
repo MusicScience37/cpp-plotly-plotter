@@ -9,6 +9,9 @@ target_link_libraries(
     ${PROJECT_NAME} PUBLIC yyjson::yyjson fmt::fmt
                            $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /wd4251)
+endif()
 
 # Configurations to use as libraries.
 set_target_properties(
