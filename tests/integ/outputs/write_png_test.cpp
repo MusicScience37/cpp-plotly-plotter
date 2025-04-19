@@ -40,7 +40,7 @@ TEST_CASE("plotly_plotter::write_png") {
         constexpr std::size_t width = 1600;
         constexpr std::size_t height = 900;
 
-#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS || PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
         CHECK(plotly_plotter::is_png_supported());
         CHECK_NOTHROW(
             plotly_plotter::write_png(png_file_path, figure, width, height));

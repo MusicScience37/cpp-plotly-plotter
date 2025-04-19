@@ -67,6 +67,14 @@ TEST_CASE("chromium") {
                 html_file_path.c_str(), pdf_file_path.c_str(), width, height));
 
             CHECK(std::filesystem::exists(pdf_file_path));
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+            if (converter.is_html_to_pdf_conversion_supported()) {
+                CHECK_NOTHROW(
+                    converter.convert_html_to_pdf(html_file_path.c_str(),
+                        pdf_file_path.c_str(), width, height));
+
+                CHECK(std::filesystem::exists(pdf_file_path));
+            }
 #else
             CHECK_FALSE(converter.is_html_to_pdf_conversion_supported());
             CHECK_THROWS(converter.convert_html_to_pdf(
@@ -91,6 +99,14 @@ TEST_CASE("chromium") {
                 html_file_path.c_str(), png_file_path.c_str(), width, height));
 
             CHECK(std::filesystem::exists(png_file_path));
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+            if (converter.is_html_to_png_conversion_supported()) {
+                CHECK_NOTHROW(
+                    converter.convert_html_to_png(html_file_path.c_str(),
+                        png_file_path.c_str(), width, height));
+
+                CHECK(std::filesystem::exists(png_file_path));
+            }
 #else
             CHECK_FALSE(converter.is_html_to_png_conversion_supported());
             CHECK_THROWS(converter.convert_html_to_png(

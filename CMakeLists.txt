@@ -44,6 +44,12 @@ if(UNIX)
 else()
     option(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS "use unix subprocess" OFF)
 endif()
+if(MSVC)
+    option(${UPPER_PROJECT_NAME}_USE_WIN_SUBPROCESS "use Windows subprocess" ON)
+else()
+    option(${UPPER_PROJECT_NAME}_USE_WIN_SUBPROCESS "use Windows subprocess"
+           OFF)
+endif()
 
 # ##############################################################################
 # Libraries.
@@ -82,6 +88,11 @@ include(CppWarningFlags)
 include(ConfigureSanitizer)
 include(ConfigureCcache)
 include(poetry)
+if(${UPPER_PROJECT_NAME}_BUILD_DOC OR ${UPPER_PROJECT_NAME}_TESTING)
+    if(NOT POETRY_EXECUTABLE)
+        message(FATAL_ERROR "Documentation and tests requires poetry.")
+    endif()
+endif()
 
 set(${UPPER_PROJECT_NAME}_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR

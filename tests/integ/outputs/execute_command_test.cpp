@@ -46,6 +46,27 @@ TEST_CASE("plotly_plotter::io::details::execute_command") {
             CHECK_FALSE(plotly_plotter::io::details::check_command_success(
                 command, capture_logs));
         }
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+        SECTION("success") {
+            std::vector<std::string> command{"python", "--version"};
+            const bool capture_logs = true;
+            CHECK(plotly_plotter::io::details::check_command_success(
+                command, capture_logs));
+        }
+
+        SECTION("failure in command") {
+            std::vector<std::string> command{"python", "non_existent_file"};
+            const bool capture_logs = true;
+            CHECK_FALSE(plotly_plotter::io::details::check_command_success(
+                command, capture_logs));
+        }
+
+        SECTION("failure in starting the command") {
+            std::vector<std::string> command{"non_existent_command"};
+            const bool capture_logs = true;
+            CHECK_FALSE(plotly_plotter::io::details::check_command_success(
+                command, capture_logs));
+        }
 #else
         std::vector<std::string> command{"ls", "-l"};
         const bool capture_logs = true;
@@ -65,6 +86,27 @@ TEST_CASE("plotly_plotter::io::details::execute_command") {
 
         SECTION("failure in command") {
             std::vector<std::string> command{"ls", "non_existent_file"};
+            const bool capture_logs = true;
+            CHECK_THROWS(plotly_plotter::io::details::execute_command(
+                command, capture_logs));
+        }
+
+        SECTION("failure in starting the command") {
+            std::vector<std::string> command{"non_existent_command"};
+            const bool capture_logs = true;
+            CHECK_THROWS(plotly_plotter::io::details::execute_command(
+                command, capture_logs));
+        }
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+        SECTION("success") {
+            std::vector<std::string> command{"python", "--version"};
+            const bool capture_logs = true;
+            CHECK_NOTHROW(plotly_plotter::io::details::execute_command(
+                command, capture_logs));
+        }
+
+        SECTION("failure in command") {
+            std::vector<std::string> command{"python", "non_existent_file"};
             const bool capture_logs = true;
             CHECK_THROWS(plotly_plotter::io::details::execute_command(
                 command, capture_logs));

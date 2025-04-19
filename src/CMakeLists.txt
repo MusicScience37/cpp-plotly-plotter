@@ -10,7 +10,7 @@ target_link_libraries(
                            $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /wd4251)
+    target_compile_options(${PROJECT_NAME} PUBLIC /wd4251)
 endif()
 
 # Configurations to use as libraries.
@@ -32,6 +32,11 @@ if(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS)
     set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 1)
 else()
     set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 0)
+endif()
+if(${UPPER_PROJECT_NAME}_USE_WIN_SUBPROCESS)
+    set(PLOTLY_PLOTTER_USE_WIN_SUBPROCESS_BIN 1)
+else()
+    set(PLOTLY_PLOTTER_USE_WIN_SUBPROCESS_BIN 0)
 endif()
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
