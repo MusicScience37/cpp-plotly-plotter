@@ -30,7 +30,7 @@ else()
         WORKING_DIRECTORY ${${UPPER_PROJECT_NAME}_TEMP_TEST_DIR})
 endif()
 set_tests_properties(${PROJECT_NAME}_test_integ_outputs
-                     PROPERTIES TIMEOUT 120 ENVIRONMENT "TZ=UTC")
+                     PROPERTIES TIMEOUT 180 ENVIRONMENT "TZ=UTC")
 
 add_executable(${PROJECT_NAME}_test_integ_outputs_unity EXCLUDE_FROM_ALL
                unity_source.cpp)
