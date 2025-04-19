@@ -310,11 +310,13 @@ void close_handle_if_not_null(HANDLE handle) noexcept {
                     const BOOL read_result = ReadFile(stdout_pipe_read, buffer,
                         sizeof(buffer), &bytes_read, nullptr);
                     if (bytes_read == 0) {
+                        close_handle_if_not_null(stdout_pipe_read);
                         break;
                     }
                     command_output.append(
                         buffer, static_cast<std::size_t>(bytes_read));
                     if (!read_result) {
+                        close_handle_if_not_null(stdout_pipe_read);
                         break;
                     }
                 }
