@@ -298,8 +298,13 @@ msvc-release:
     - New-Item -ItemType Directory -Force -Path $VCPKG_DEFAULT_BINARY_CACHE
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     - choco install cmake -y --installargs 'ADD_CMAKE_TO_PATH=System'
+    - choco install python313 -y
     - choco install ccache -y
     - RefreshEnv
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+    - poetry sync --only test
+    - poetry run playwright install chromium
     - .\vcpkg\bootstrap-vcpkg.bat
     - mkdir $BUILD_DIR
   script:
