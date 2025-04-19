@@ -28,6 +28,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -313,6 +314,45 @@ public:
         yyjson_mut_arr_clear(to.internal_value());
         to.push_back(from.first);
         to.push_back(from.second);
+    }
+};
+
+/*!
+ * \brief Specialization of json_converter class for std::tuple.
+ *
+ * \tparam Types Type of elements in std::tuple.
+ */
+template <typename... Types>
+class json_converter<std::tuple<Types...>> {
+public:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    static void to_json(const std::tuple<Types...>& from, json_value& to) {
+        details::check_assignment(to);
+        yyjson_mut_set_arr(to.internal_value());
+        yyjson_mut_arr_clear(to.internal_value());
+        to_json_helper<0>(from, to);
+    }
+
+private:
+    /*!
+     * \brief Convert an object to a JSON value.
+     *
+     * \tparam Index Index of the element in std::tuple.
+     * \param[in] from Object to convert from.
+     * \param[out] to JSON value to convert to.
+     */
+    template <std::size_t Index>
+    static void to_json_helper(
+        const std::tuple<Types...>& from, json_value& to) {
+        if constexpr (Index < sizeof...(Types)) {
+            to.push_back(std::get<Index>(from));
+            to_json_helper<Index + 1>(from, to);
+        }
     }
 };
 

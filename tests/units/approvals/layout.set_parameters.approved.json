@@ -124,7 +124,58 @@
     },
     "boxmode": "group",
     "violinmode": "group",
-    "showlegend": true
+    "showlegend": true,
+    "updatemenus": [
+      {
+        "buttons": [
+          {
+            "label": "Test button",
+            "method": "animate",
+            "args": [
+              [
+                "frame"
+              ]
+            ]
+          },
+          {
+            "label": "Test button2",
+            "method": "animate",
+            "args": [
+              null,
+              {
+                "mode": "immediate",
+                "transition": {
+                  "duration": 100
+                },
+                "frame": {
+                  "duration": 100,
+                  "redraw": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sliders": [
+      {
+        "currentvalue": {
+          "visible": true,
+          "prefix": "Prefix"
+        },
+        "steps": [
+          {
+            "label": "Test step",
+            "method": "animate",
+            "args": [
+              [
+                "frame"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   },
   "config": {
     "scrollZoom": true,
