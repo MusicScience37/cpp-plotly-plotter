@@ -24,6 +24,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/details/config.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/traces/scatter.h"
 
@@ -39,7 +40,7 @@ TEST_CASE("plotly_plotter::write_pdf") {
         constexpr std::size_t width = 1600;
         constexpr std::size_t height = 900;
 
-#ifdef linux
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS || PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
         CHECK(plotly_plotter::is_pdf_supported());
         CHECK_NOTHROW(
             plotly_plotter::write_pdf(pdf_file_path, figure, width, height));

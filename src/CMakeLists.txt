@@ -9,6 +9,9 @@ target_link_libraries(
     ${PROJECT_NAME} PUBLIC yyjson::yyjson fmt::fmt
                            $<BUILD_INTERFACE:${PROJECT_NAME}_cpp_warnings>)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PUBLIC /wd4251)
+endif()
 
 # Configurations to use as libraries.
 set_target_properties(
@@ -23,6 +26,21 @@ generate_export_header(
     ${PROJECT_NAME}
     EXPORT_FILE_NAME
         "${${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR}/${PROJECT_NAME}/details/${PROJECT_NAME}_export.h"
+)
+
+if(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS)
+    set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 1)
+else()
+    set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 0)
+endif()
+if(${UPPER_PROJECT_NAME}_USE_WIN_SUBPROCESS)
+    set(PLOTLY_PLOTTER_USE_WIN_SUBPROCESS_BIN 1)
+else()
+    set(PLOTLY_PLOTTER_USE_WIN_SUBPROCESS_BIN 0)
+endif()
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR}/${PROJECT_NAME}/details/config.h
 )
 
 # For clang-tidy.

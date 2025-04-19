@@ -26,6 +26,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/data_table.h"
+#include "plotly_plotter/details/config.h"
 #include "plotly_plotter/details/write_html_impl.h"
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/figure_builders/line.h"
@@ -54,12 +55,19 @@ TEST_CASE("plotly_plotter::io::chrome_converter") {
             figure.html_title().c_str(), figure.document(),
             plotly_plotter::details::html_template_type::pdf, width, height);
 
-#ifdef linux
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
         CHECK(converter.is_html_to_pdf_conversion_supported());
         CHECK_NOTHROW(converter.convert_html_to_pdf(
             html_file_path.c_str(), pdf_file_path.c_str(), width, height));
 
         CHECK(std::filesystem::exists(pdf_file_path));
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+        if (converter.is_html_to_pdf_conversion_supported()) {
+            CHECK_NOTHROW(converter.convert_html_to_pdf(
+                html_file_path.c_str(), pdf_file_path.c_str(), width, height));
+
+            CHECK(std::filesystem::exists(pdf_file_path));
+        }
 #else
         CHECK_FALSE(converter.is_html_to_pdf_conversion_supported());
         CHECK_THROWS(converter.convert_html_to_pdf(
@@ -76,12 +84,19 @@ TEST_CASE("plotly_plotter::io::chrome_converter") {
         plotly_plotter::details::write_html_impl(html_file_path.c_str(),
             figure.html_title().c_str(), figure.document(),
             plotly_plotter::details::html_template_type::png, width, height);
-#ifdef linux
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
         CHECK(converter.is_html_to_png_conversion_supported());
         CHECK_NOTHROW(converter.convert_html_to_png(
             html_file_path.c_str(), png_file_path.c_str(), width, height));
 
         CHECK(std::filesystem::exists(png_file_path));
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+        if (converter.is_html_to_png_conversion_supported()) {
+            CHECK_NOTHROW(converter.convert_html_to_png(
+                html_file_path.c_str(), png_file_path.c_str(), width, height));
+
+            CHECK(std::filesystem::exists(png_file_path));
+        }
 #else
         CHECK_FALSE(converter.is_html_to_png_conversion_supported());
         CHECK_THROWS(converter.convert_html_to_png(

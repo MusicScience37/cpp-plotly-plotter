@@ -71,7 +71,23 @@ For details, see
    git submodule update --init --recursive
    ```
 
-2. Open the directory of this project with Visual Studio.
+2. Install Python dependencies.
+
+   Execute the following command in the directory of this project.
+
+   ```shell
+   poetry sync
+   ```
+
+3. Install chromium in Playwright.
+
+   Execute the following command in the directory of this project.
+
+   ```shell
+   poetry run playwright install chromium
+   ```
+
+4. Open the directory of this project with Visual Studio.
 
    Visual Studio will automatically detect configurations written in CMakePresets.json file
    and run cmake to configure this project.
@@ -79,7 +95,7 @@ For details, see
    When you open this project with Visual Studio for the first time,
    dependencies are automatically downloaded and built.
 
-3. Build this project.
+5. Build this project.
 
    You can build this project with Visual Studio, for example, by pressing Ctrl+Shift+B.
 

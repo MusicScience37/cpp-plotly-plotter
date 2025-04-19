@@ -57,5 +57,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "isort.args": ["--profile", "black"],
-  "restructuredtext.pythonRecommendation.disabled": true
+  "restructuredtext.pythonRecommendation.disabled": true,
+  "markdown.extension.toc.updateOnSave": false
 }

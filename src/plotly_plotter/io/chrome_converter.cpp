@@ -19,6 +19,7 @@
  */
 #include "plotly_plotter/io/chrome_converter.h"
 
+#include <filesystem>  // IWYU pragma: keep
 #include <mutex>
 #include <string>
 #include <utility>
@@ -26,6 +27,7 @@
 
 #include <fmt/format.h>
 
+#include "plotly_plotter/details/config.h"
 #include "plotly_plotter/io/details/execute_command.h"
 
 namespace plotly_plotter::io {
@@ -40,8 +42,14 @@ namespace {
  * \retval false The path is not a valid Chrome executable.
  */
 [[nodiscard]] bool check_chrome_executable(const std::string& executable_path) {
+#if PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+    // Currently not supported.
+    (void)executable_path;
+    return false;
+#else
     const std::vector<std::string> command{executable_path, "--version"};
     return details::check_command_success(command);
+#endif
 }
 
 /*!

@@ -21,7 +21,9 @@
 
 #include <stdexcept>
 
-#ifdef linux
+#include "plotly_plotter/details/config.h"
+
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
 
 #include <array>
 #include <cerrno>
@@ -45,8 +47,8 @@ namespace plotly_plotter::io::details {
 /*!
  * \brief Execute a command.
  *
- * \param[in] command
- * \param[in] capture_logs
+ * \param[in] command Command.
+ * \param[in] capture_logs Whether to capture logs.
  * \return Exit status and output of the command.
  */
 [[nodiscard]] inline std::pair<int, std::string> execute_command_impl(
@@ -100,7 +102,7 @@ namespace plotly_plotter::io::details {
     if (capture_logs) {
         command_output =
             "\n"
-            "Output from chrome:\n";
+            "Output from a process:\n";
 
         close(pipe_descriptors[1]);
 
@@ -180,6 +182,218 @@ void execute_command(
         throw std::runtime_error(
             fmt::format("Failed to execute {} with status {}.{}",
                 command.front(), WEXITSTATUS(status), command_output));
+    }
+}
+
+}  // namespace plotly_plotter::io::details
+
+#elif PLOTLY_PLOTTER_USE_WIN_SUBPROCESS
+
+// clang-format off
+// This must be included before any other Windows headers
+// to avoid compile errors.
+#include <windows.h>
+#include <namedpipeapi.h>
+#include <processthreadsapi.h>
+// clang-format on
+
+#include <thread>
+#include <tuple>
+
+#include <fmt/format.h>
+
+namespace plotly_plotter::io::details {
+
+/*!
+ * \brief Close a handle if it is not null.
+ *
+ * @param[in] handle Handle to close.
+ */
+void close_handle_if_not_null(HANDLE handle) noexcept {
+    if (handle != nullptr) {
+        CloseHandle(handle);
+    }
+}
+
+/*!
+ * \brief Execute a command.
+ *
+ * \param[in] command Command.
+ * \param[in] capture_logs Whether to capture logs.
+ * \return Whether command execution started successfully,
+ * exit code and output of the command.
+ */
+[[nodiscard]] inline std::tuple<bool, DWORD, std::string> execute_command_impl(
+    const std::vector<std::string>& command, bool capture_logs) {
+    std::string command_line;
+    for (const auto& arg : command) {
+        command_line += "\"" + arg + "\" ";
+    }
+
+    HANDLE stdin_pipe_read = nullptr;
+    HANDLE stdin_pipe_write = nullptr;
+    HANDLE stdout_pipe_read = nullptr;
+    HANDLE stdout_pipe_write = nullptr;
+    SECURITY_ATTRIBUTES security_attributes_for_pipe;
+    security_attributes_for_pipe.nLength = sizeof(SECURITY_ATTRIBUTES);
+    security_attributes_for_pipe.bInheritHandle = TRUE;
+    security_attributes_for_pipe.lpSecurityDescriptor = nullptr;
+    if (capture_logs) {
+        if (!CreatePipe(&stdin_pipe_read, &stdin_pipe_write,
+                &security_attributes_for_pipe, 0)) {
+            throw std::runtime_error("Failed to create a pipe for subprocess.");
+        }
+        if (!SetHandleInformation(stdin_pipe_write, HANDLE_FLAG_INHERIT, 0)) {
+            close_handle_if_not_null(stdin_pipe_read);
+            close_handle_if_not_null(stdin_pipe_write);
+            throw std::runtime_error(
+                "Failed to set handle information for subprocess.");
+        }
+        if (!CreatePipe(&stdout_pipe_read, &stdout_pipe_write,
+                &security_attributes_for_pipe, 0)) {
+            close_handle_if_not_null(stdin_pipe_read);
+            close_handle_if_not_null(stdin_pipe_write);
+            throw std::runtime_error("Failed to create a pipe for subprocess.");
+        }
+        if (!SetHandleInformation(stdout_pipe_read, HANDLE_FLAG_INHERIT, 0)) {
+            close_handle_if_not_null(stdin_pipe_read);
+            close_handle_if_not_null(stdin_pipe_write);
+            close_handle_if_not_null(stdout_pipe_read);
+            close_handle_if_not_null(stdout_pipe_write);
+            throw std::runtime_error(
+                "Failed to set handle information for subprocess.");
+        }
+    }
+
+    STARTUPINFO startup_info;
+    ZeroMemory(&startup_info, sizeof(startup_info));
+    startup_info.cb = sizeof(startup_info);
+    if (capture_logs) {
+        startup_info.hStdInput = stdin_pipe_read;
+        startup_info.hStdOutput = stdout_pipe_write;
+        startup_info.hStdError = stdout_pipe_write;
+        startup_info.dwFlags |= STARTF_USESTDHANDLES;
+    }
+
+    PROCESS_INFORMATION process_info;
+    ZeroMemory(&process_info, sizeof(process_info));
+
+    if (!CreateProcess(nullptr, command_line.data(), nullptr, nullptr, TRUE, 0,
+            nullptr, nullptr, &startup_info, &process_info)) {
+        close_handle_if_not_null(stdin_pipe_read);
+        close_handle_if_not_null(stdin_pipe_write);
+        close_handle_if_not_null(stdout_pipe_read);
+        close_handle_if_not_null(stdout_pipe_write);
+        const DWORD error_code = GetLastError();
+        return {false, error_code, ""};
+    }
+
+    // Close unused handles.
+    close_handle_if_not_null(stdin_pipe_read);
+    close_handle_if_not_null(stdin_pipe_write);
+    close_handle_if_not_null(stdout_pipe_write);
+
+    std::string command_output;
+    std::thread command_output_reader_thread;
+    if (capture_logs) {
+        command_output_reader_thread =
+            std::thread([stdout_pipe_read, &command_output] {
+                command_output =
+                    "\n"
+                    "Output from a process:\n";
+
+                constexpr std::size_t buffer_size = 1024;
+                char buffer[buffer_size]{};
+                DWORD bytes_read;
+                while (true) {
+                    bytes_read = 0;
+                    const BOOL read_result = ReadFile(stdout_pipe_read, buffer,
+                        sizeof(buffer), &bytes_read, nullptr);
+                    if (bytes_read == 0) {
+                        close_handle_if_not_null(stdout_pipe_read);
+                        break;
+                    }
+                    command_output.append(
+                        buffer, static_cast<std::size_t>(bytes_read));
+                    if (!read_result) {
+                        close_handle_if_not_null(stdout_pipe_read);
+                        break;
+                    }
+                }
+            });
+    }
+
+    constexpr DWORD wait_timeout_msec = 30000;  // 30 seconds
+    const DWORD wait_result =
+        WaitForSingleObject(process_info.hProcess, wait_timeout_msec);
+    if (wait_result == WAIT_TIMEOUT) {
+        TerminateProcess(process_info.hProcess, 1);
+        if (command_output_reader_thread.joinable()) {
+            command_output_reader_thread.join();
+        }
+        close_handle_if_not_null(process_info.hProcess);
+        close_handle_if_not_null(process_info.hThread);
+        throw std::runtime_error(
+            fmt::format("Timeout in child process.{}", command_output));
+    }
+    if (wait_result != WAIT_OBJECT_0) {
+        TerminateProcess(process_info.hProcess, 1);
+        if (command_output_reader_thread.joinable()) {
+            command_output_reader_thread.join();
+        }
+        close_handle_if_not_null(process_info.hProcess);
+        close_handle_if_not_null(process_info.hThread);
+        throw std::runtime_error(fmt::format(
+            "Failed to wait for the child process.{}", command_output));
+    }
+
+    if (command_output_reader_thread.joinable()) {
+        command_output_reader_thread.join();
+    }
+
+    DWORD exit_code;
+    if (!GetExitCodeProcess(process_info.hProcess, &exit_code)) {
+        close_handle_if_not_null(process_info.hProcess);
+        close_handle_if_not_null(process_info.hThread);
+        throw std::runtime_error(
+            fmt::format("Failed to get exit code.{}", command_output));
+    }
+
+    close_handle_if_not_null(process_info.hProcess);
+    close_handle_if_not_null(process_info.hThread);
+
+    return {true, exit_code, command_output};
+}
+
+bool check_command_success(
+    const std::vector<std::string>& command, bool capture_logs) {
+    if (command.empty()) {
+        throw std::invalid_argument("Command is empty.");
+    }
+    const auto [started, exit_code, command_output] =
+        execute_command_impl(command, capture_logs);
+    return started && exit_code == 0;
+}
+
+void execute_command(
+    const std::vector<std::string>& command, bool capture_logs) {
+    if (command.empty()) {
+        throw std::invalid_argument("Command is empty.");
+    }
+
+    const auto [started, exit_code, command_output] =
+        execute_command_impl(command, capture_logs);
+
+    if (!started) {
+        throw std::runtime_error(
+            fmt::format("Failed to start the command {} with an error {}.",
+                command[0], exit_code));
+    }
+
+    if (exit_code != 0) {
+        throw std::runtime_error(
+            fmt::format("Failed to execute {} with exit code {}.{}", command[0],
+                exit_code, command_output));
     }
 }
 
