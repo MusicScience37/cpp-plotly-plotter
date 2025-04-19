@@ -40,6 +40,6 @@
   - [x] `plotly.express.line`.
 - Outputs.
   - [x] HTML.
-  - [ ] PNG. (Experimentally supported in Linux.)
-  - [ ] PDF. (Experimentally supported in Linux.)
+  - [x] PNG. (Experimentally supported.)
+  - [x] PDF. (Experimentally supported.)
   - [ ] SVG.
