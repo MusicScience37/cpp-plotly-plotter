@@ -321,7 +321,7 @@ void close_handle_if_not_null(HANDLE handle) noexcept {
             });
     }
 
-    constexpr DWORD wait_timeout_msec = 10000;  // 10 seconds
+    constexpr DWORD wait_timeout_msec = 30000;  // 30 seconds
     const DWORD wait_result =
         WaitForSingleObject(process_info.hProcess, wait_timeout_msec);
     if (wait_result == WAIT_TIMEOUT) {
