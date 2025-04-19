@@ -25,6 +25,16 @@ generate_export_header(
         "${${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR}/${PROJECT_NAME}/details/${PROJECT_NAME}_export.h"
 )
 
+if(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS)
+    set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 1)
+else()
+    set(PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS_BIN 0)
+endif()
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${${UPPER_PROJECT_NAME}_GENERATED_HEADER_DIR}/${PROJECT_NAME}/details/config.h
+)
+
 # For clang-tidy.
 add_library(${PROJECT_NAME}_unity EXCLUDE_FROM_ALL unity_source.cpp)
 target_include_directories(

@@ -21,9 +21,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "plotly_plotter/details/config.h"
+
 TEST_CASE("plotly_plotter::io::details::execute_command") {
     SECTION("check command execution") {
-#ifdef linux
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
         SECTION("success") {
             std::vector<std::string> command{"ls", "-l"};
             const bool capture_logs = true;
@@ -53,7 +55,7 @@ TEST_CASE("plotly_plotter::io::details::execute_command") {
     }
 
     SECTION("execute a command") {
-#ifdef linux
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
         SECTION("success") {
             std::vector<std::string> command{"ls", "-l"};
             const bool capture_logs = true;

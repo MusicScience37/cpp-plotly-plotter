@@ -21,7 +21,9 @@
 
 #include <stdexcept>
 
-#ifdef linux
+#include "plotly_plotter/details/config.h"
+
+#if PLOTLY_PLOTTER_USE_UNIX_SUBPROCESS
 
 #include <array>
 #include <cerrno>

@@ -39,6 +39,12 @@ set(BUILD_SHARED_LIBS
     OFF
     CACHE BOOL "build shared libraries")
 
+if(UNIX)
+    option(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS "use unix subprocess" ON)
+else()
+    option(${UPPER_PROJECT_NAME}_USE_UNIX_SUBPROCESS "use unix subprocess" OFF)
+endif()
+
 # ##############################################################################
 # Libraries.
 # ##############################################################################
