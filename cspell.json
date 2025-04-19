@@ -159,6 +159,7 @@
     "tqdm",
     "tracegroupgap",
     "ubsan",
+    "updatemenus",
     "vcpkg",
     "vcvarsall",
     "venv",

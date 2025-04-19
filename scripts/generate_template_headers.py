@@ -77,6 +77,11 @@ def generate_template_header() -> None:
         template_description="HTML template for plots in Plotly.",
     )
     _generate_template_header(
+        template_name="plotly_plot_with_frames",
+        source_path="templates/plotly_plot_with_frames.html.jinja",
+        template_description="HTML template for plots in Plotly with frames.",
+    )
+    _generate_template_header(
         template_name="plotly_plot_pdf",
         source_path="templates/plotly_plot_pdf.html.jinja",
         template_description="HTML template for plots in Plotly for PDF generation.",

@@ -31,6 +31,7 @@
 #include "plotly_plotter/details/templates/plotly_plot.h"
 #include "plotly_plotter/details/templates/plotly_plot_pdf.h"
 #include "plotly_plotter/details/templates/plotly_plot_png.h"
+#include "plotly_plotter/details/templates/plotly_plot_with_frames.h"
 #include "plotly_plotter/json_document.h"
 
 namespace plotly_plotter::details {
@@ -49,9 +50,13 @@ inline bool starts_with(std::string_view string, std::string_view prefix) {
     return string.substr(0, prefix.size()) == prefix;
 }
 
-[[nodiscard]] std::string_view get_template(html_template_type template_type) {
+[[nodiscard]] std::string_view get_template(
+    html_template_type template_type, const json_document& data) {
     switch (template_type) {
     case html_template_type::html:
+        if (data.root().has("frames")) {
+            return details::templates::plotly_plot_with_frames;
+        }
         return details::templates::plotly_plot;
     case html_template_type::pdf:
         return details::templates::plotly_plot_pdf;
@@ -67,7 +72,7 @@ void write_html_impl(const char* file_path, const char* html_title,
     std::size_t width, std::size_t height) {
     details::file_handle file(file_path, "w");
 
-    std::string_view remaining_template = get_template(template_type);
+    std::string_view remaining_template = get_template(template_type, data);
 
     while (!remaining_template.empty()) {
         const std::size_t next_placeholder = remaining_template.find("{{");

@@ -671,6 +671,90 @@ private:
 };
 
 /*!
+ * \brief Class of buttons in layout in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout_menu objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class layout_menu_button {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit layout_menu_button(json_value data) : data_(data) {
+        data_.set_to_object();
+    }
+
+    /*!
+     * \brief Set the label of the button.
+     *
+     * \tparam T Type of the value.
+     * \param[in] value Value.
+     */
+    template <typename T>
+    void label(T&& value) {
+        data_["label"] = std::forward<T>(value);
+    }
+
+    /*!
+     * \brief Set the method of the button.
+     *
+     * \param[in] value Value.
+     */
+    void method(std::string_view value) { data_["method"] = value; }
+
+    /*!
+     * \brief Set the arguments of the method.
+     *
+     * \tparam T Type of the value.
+     * \param[in] value Value.
+     */
+    template <typename T>
+    void args(T&& value) {
+        data_["args"] = std::forward<T>(value);
+    }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
+ * \brief Class of menus in layout in Plotly.
+ *
+ * \note Objects of this class should be created from \ref layout objects.
+ * \note Objects of this class doesn't manage the memory of the data,
+ * so the objects can be simply copied or moved.
+ */
+class layout_menu {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit layout_menu(json_value data) : data_(data) {
+        data_.set_to_object();
+    }
+
+    /*!
+     * \brief Add a button.
+     *
+     * \return Button.
+     */
+    [[nodiscard]] layout_menu_button add_button() {
+        return layout_menu_button(data_["buttons"].emplace_back());
+    }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of layout in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -829,6 +913,15 @@ public:
      * \param[in] value Value.
      */
     void show_legend(bool value) { data_["showlegend"] = value; }
+
+    /*!
+     * \brief Add a menu.
+     *
+     * \return Menu.
+     */
+    [[nodiscard]] layout_menu add_menu() {
+        return layout_menu(data_["updatemenus"].emplace_back());
+    }
 
 private:
     //! JSON data.
