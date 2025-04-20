@@ -20,6 +20,8 @@
 #include "plotly_plotter/layout.h"
 
 #include <string>
+#include <tuple>
+#include <vector>
 
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -103,6 +105,36 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().box_mode("group");
         figure.layout().violin_mode("group");
         figure.layout().show_legend(true);
+        auto menu = figure.layout().add_menu();
+        menu.pad().b(1.0);  // NOLINT
+        menu.pad().t(2.0);  // NOLINT
+        menu.pad().l(3.0);  // NOLINT
+        menu.pad().r(4.0);  // NOLINT
+        auto button = menu.add_button();
+        button.label("Test button");
+        button.method("animate");
+        button.args(std::make_tuple(std::vector{"frame"}));
+        button = menu.add_button();
+        button.label("Test button2");
+        button.method("animate");
+        plotly_plotter::json_document animation_config_document;
+        animation_config_document.root()["mode"] = "immediate";
+        animation_config_document.root()["transition"]["duration"] =
+            100;                                                      // NOLINT
+        animation_config_document.root()["frame"]["duration"] = 100;  // NOLINT
+        animation_config_document.root()["frame"]["redraw"] = false;
+        button.args(std::make_tuple(nullptr, animation_config_document.root()));
+        auto slider = figure.layout().add_slider();
+        slider.current_value().visible(true);
+        slider.current_value().prefix("Prefix");
+        slider.pad().b(1.0);
+        slider.pad().t(2.0);  // NOLINT
+        slider.pad().l(3.0);  // NOLINT
+        slider.pad().r(4.0);  // NOLINT
+        auto slider_step = slider.add_step();
+        slider_step.label("Test step");
+        slider_step.method("animate");
+        slider_step.args(std::make_tuple(std::vector{"frame"}));
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

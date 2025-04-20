@@ -35,6 +35,94 @@
 namespace plotly_plotter {
 
 /*!
+ * \brief Class of frames in animation in Plotly.
+ */
+class animation_frame {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit animation_frame(json_value data)
+        : json_data_(data), data_(data["data"]), layout_(data["layout"]) {
+        data_.set_to_array();
+        layout_.set_to_object();
+    }
+
+    /*!
+     * \brief Set the name of this frame.
+     *
+     * \param[in] value Value.
+     */
+    void name(std::string_view value) { json_data_["name"] = value; }
+
+    /*!
+     * \brief Add a scatter trace to this figure.
+     *
+     * \return Added scatter trace.
+     */
+    [[nodiscard]] traces::scatter add_scatter() {
+        return traces::scatter(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a scatter trace using WebGL to this figure.
+     *
+     * \return Added scatter trace.
+     */
+    [[nodiscard]] traces::scatter_gl add_scatter_gl() {
+        return traces::scatter_gl(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a box trace to this figure.
+     *
+     * \return Added box trace.
+     */
+    [[nodiscard]] traces::box add_box() {
+        return traces::box(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a violin trace to this figure.
+     *
+     * \return Added violin trace.
+     */
+    [[nodiscard]] traces::violin add_violin() {
+        return traces::violin(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a heatmap trace to this figure.
+     *
+     * \return Added heatmap trace.
+     */
+    [[nodiscard]] traces::heatmap add_heatmap() {
+        return traces::heatmap(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Access the layout of this figure.
+     *
+     * \return Layout of this figure.
+     */
+    [[nodiscard]] plotly_plotter::layout layout() {
+        return plotly_plotter::layout(layout_);
+    }
+
+private:
+    //! JSON data.
+    json_value json_data_;
+
+    //! JSON data of traces.
+    json_value data_;
+
+    //! JSON data of layout.
+    json_value layout_;
+};
+
+/*!
  * \brief Class of figures in Plotly.
  */
 class figure {
@@ -168,6 +256,15 @@ public:
      */
     [[nodiscard]] plotly_plotter::layout layout_template() {
         return plotly_plotter::layout(layout_template_);
+    }
+
+    /*!
+     * \brief Add a frame for animation.
+     *
+     * \return Frame.
+     */
+    [[nodiscard]] animation_frame add_frame() {
+        return animation_frame(document_.root()["frames"].emplace_back());
     }
 
     /*!

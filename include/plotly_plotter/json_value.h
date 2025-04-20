@@ -238,6 +238,17 @@ public:
     }
 
     /*!
+     * \brief Check whether the object has a key.
+     *
+     * \param[in] key Key.
+     * \retval true The object has the key.
+     * \retval false The object does not have the key.
+     */
+    [[nodiscard]] bool has(std::string_view key) const {
+        return yyjson_mut_obj_getn(value_, key.data(), key.size()) != nullptr;
+    }
+
+    /*!
      * \brief Set this value to an array.
      */
     void set_to_array() {
