@@ -34,6 +34,8 @@
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/json_document.h"
+#include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
 
 namespace plotly_plotter::figure_builders {
