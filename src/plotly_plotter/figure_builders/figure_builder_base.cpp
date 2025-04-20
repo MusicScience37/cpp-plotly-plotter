@@ -154,6 +154,34 @@ std::pair<std::size_t, std::size_t> figure_builder_base::handle_animation_frame(
         step.args(std::make_tuple(std::vector{group_value}));
     }
 
+    slider.pad().l(120.0);  // NOLINT(*-magic-numbers)
+    slider.pad().t(70.0);   // NOLINT(*-magic-numbers)
+
+    auto menu = fig.layout().add_menu();
+    menu.type("buttons");
+    menu.x_anchor("left");
+    menu.y_anchor("top");
+    menu.x(0.0);
+    menu.y(0.0);
+    menu.direction("left");
+    menu.pad().t(80.0);  // NOLINT(*-magic-numbers)
+    auto button = menu.add_button();
+    button.label("\u25B6");
+    button.method("animate");
+    plotly_plotter::json_document animation_options;
+    animation_options.root()["mode"] = "immediate";
+    animation_options.root()["fromcurrent"] = true;
+    animation_options.root()["frame"]["redraw"] = false;
+    button.args(std::make_tuple(nullptr, animation_options.root()));
+    button = menu.add_button();
+    button.label("\u25FC");
+    button.method("animate");
+    animation_options = plotly_plotter::json_document();
+    animation_options.root()["mode"] = "immediate";
+    animation_options.root()["frame"]["redraw"] = false;
+    button.args(
+        std::make_tuple(std::vector{nullptr}, animation_options.root()));
+
     return subplot_size;
 }
 

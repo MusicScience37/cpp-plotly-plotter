@@ -97,6 +97,8 @@ public:
      *
      * \param[in] value Value.
      * \return This object.
+     *
+     * \warning This function is not stable for this type of plots currently.
      */
     violin& animation_frame(std::string value);
 

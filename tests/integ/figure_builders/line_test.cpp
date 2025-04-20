@@ -209,6 +209,46 @@ TEST_CASE("line") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in groups and animation frames") {
+            auto figure = line(data)
+                              .x("x")
+                              .y("y")
+                              .group("group1")
+                              .animation_frame("group2")
+                              .hover_data({"hover"})
+                              .title("Line with Two Groups")
+                              .create();
+
+            const std::string file_path =
+                "line_with_two_groups_in_groups_and_animation_frames.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in columns and animation frames") {
+            auto figure = line(data)
+                              .x("x")
+                              .y("y")
+                              .subplot_column("group1")
+                              .animation_frame("group2")
+                              .hover_data({"hover"})
+                              .title("Line with Two Groups")
+                              .create();
+
+            const std::string file_path =
+                "line_with_two_groups_in_columns_and_animation_frames.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("line with hover data") {

@@ -161,9 +161,9 @@ TEST_CASE("box") {
         data_table data;
         data.emplace("y",
             // NOLINTNEXTLINE(*-magic-numbers)
-            std::vector<int>{1, 2, 3, 5, 10, 2, 3, 4, 5, 11,
+            std::vector<int>{0, 2, 3, 5, 7, 2, 3, 4, 5, 8,
                 // NOLINTNEXTLINE(*-magic-numbers)
-                3, 4, 5, 6, 12, 4, 5, 6, 7, 13});
+                3, 4, 5, 6, 9, 4, 5, 6, 7, 10});
         data.emplace("group1",
             std::vector<std::string>{"A", "A", "A", "A", "A", "A", "A", "A",
                 "A", "A", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"});
@@ -292,6 +292,48 @@ TEST_CASE("box") {
 
             const std::string file_path =
                 "box_with_two_groups_in_columns_and_rows_of_subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in x-axis and animation frame") {
+            const auto figure = box(data)
+                                    .x("group1")
+                                    .y("y")
+                                    .animation_frame("group2")
+                                    .box_mean("sd")
+                                    .box_points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "box_with_two_groups_in_x_and_animation_frame.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in group and animation frame") {
+            const auto figure = box(data)
+                                    .y("y")
+                                    .group("group1")
+                                    .animation_frame("group2")
+                                    .box_mean("sd")
+                                    .box_points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "box_with_two_groups_in_group_and_animation_frame.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(
