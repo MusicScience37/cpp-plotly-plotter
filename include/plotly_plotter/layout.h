@@ -827,7 +827,6 @@ public:
         return layout_menu_button(data_["buttons"].emplace_back());
     }
 
-    // x_anchor function here
     /*!
      * \brief Set the anchor of the x-coordinate.
      *
