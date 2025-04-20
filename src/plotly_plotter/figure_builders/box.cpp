@@ -28,6 +28,7 @@
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/figure_builders/details/calculate_axis_range.h"
 #include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/box.h"
@@ -125,7 +126,7 @@ box& box::title(std::string value) {
 }
 
 void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
-    std::size_t num_subplot_columns) const {
+    std::size_t num_subplot_columns, bool require_manual_axis_ranges) const {
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, y_);
 
@@ -141,6 +142,19 @@ void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
             ++i) {
             const std::size_t index = i + 1;
             fig.layout().yaxis(index).type("log");
+        }
+    }
+
+    // Set axis ranges.
+    if (require_manual_axis_ranges) {
+        constexpr double extended_factor = 0.1;
+        const auto [min_value, max_value] =
+            details::calculate_axis_range(data(), y_, extended_factor, log_y_);
+
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            const std::size_t index = i + 1;
+            fig.layout().yaxis(index).range(min_value, max_value);
         }
     }
 }

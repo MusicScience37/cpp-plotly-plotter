@@ -131,9 +131,12 @@ protected:
      * \param[out] fig Figure to configure.
      * \param[in] num_subplot_rows Number of rows of subplots.
      * \param[in] num_subplot_columns Number of columns of subplots.
+     * \param[in] require_manual_axis_ranges Whether to require manual axis
+     * ranges.
      */
     virtual void configure_axes(figure& fig, std::size_t num_subplot_rows,
-        std::size_t num_subplot_columns) const = 0;
+        std::size_t num_subplot_columns,
+        bool require_manual_axis_ranges) const = 0;
 
     /*!
      * \brief Get the default value of the title used when the title is not set.

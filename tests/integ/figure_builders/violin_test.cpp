@@ -50,7 +50,7 @@ TEST_CASE("violin") {
     SECTION("violin with a group") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)
-        data.emplace("y", std::vector<int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        data.emplace("y", std::vector<int>{0, 2, 3, 4, 5, 6, 7, 8, 9, 10});
         data.emplace("group",
             std::vector<std::string>{
                 "A", "A", "A", "A", "A", "A", "B", "B", "B", "B"});
@@ -150,9 +150,6 @@ TEST_CASE("violin") {
                               .hover_data({"hover"})
                               .title("Test Title")
                               .create();
-
-            // NOLINTNEXTLINE(*-magic-numbers)
-            figure.layout().yaxis().range(0, 11);
 
             const std::string file_path =
                 "violin_with_group_in_animation_frames.html";

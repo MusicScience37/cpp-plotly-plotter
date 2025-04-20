@@ -329,7 +329,8 @@ void figure_builder_base::handle_groups(figure_frame_base& fig,
 
 void figure_builder_base::configure_figure(figure& fig,
     std::size_t num_subplot_rows, std::size_t num_subplot_columns) const {
-    configure_axes(fig, num_subplot_rows, num_subplot_columns);
+    configure_axes(
+        fig, num_subplot_rows, num_subplot_columns, !animation_frame_.empty());
     if (title_.empty()) {
         fig.layout().title().text(default_title());
     } else {

@@ -124,10 +124,6 @@ TEST_CASE("line") {
                               .title("Line with Group")
                               .create();
 
-            figure.layout().xaxis().range(0, 4);
-            // NOLINTNEXTLINE(*-magic-numbers)
-            figure.layout().yaxis().range(3, 10);
-
             const std::string file_path =
                 "line_with_group_in_animation_frames.html";
             write_html(file_path, figure);
