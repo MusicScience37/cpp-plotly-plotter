@@ -71,6 +71,42 @@ public:
     scatter& y(std::string value);
 
     /*!
+     * \brief Set the column name of errors in x coordinates.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& error_x(std::string value);
+
+    /*!
+     * \brief Set the column name of errors in y coordinates.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    scatter& error_y(std::string value);
+
+    /*!
+     * \brief Set the column name of negative errors in x coordinates.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * \note This function has no effect if error_x() is not set.
+     */
+    scatter& error_x_minus(std::string value);
+
+    /*!
+     * \brief Set the column name of negative errors in y coordinates.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * \note This function has no effect if error_y() is not set.
+     */
+    scatter& error_y_minus(std::string value);
+
+    /*!
      * \brief Set the column name of colors of markers.
      *
      * \param[in] value Value.
@@ -292,6 +328,18 @@ private:
 
     //! Column name of y coordinates.
     std::string y_;
+
+    //! Column name of errors in x coordinates.
+    std::string error_x_;
+
+    //! Column name of errors in y coordinates.
+    std::string error_y_;
+
+    //! Column name of negative errors in x coordinates.
+    std::string error_x_minus_;
+
+    //! Column name of negative errors in y coordinates.
+    std::string error_y_minus_;
 
     //! Column name of colors of markers.
     std::string marker_color_;

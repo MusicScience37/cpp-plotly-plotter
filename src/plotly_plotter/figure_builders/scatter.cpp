@@ -50,6 +50,26 @@ scatter& scatter::y(std::string value) {
     return *this;
 }
 
+scatter& scatter::error_x(std::string value) {
+    error_x_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::error_y(std::string value) {
+    error_y_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::error_x_minus(std::string value) {
+    error_x_minus_ = std::move(value);
+    return *this;
+}
+
+scatter& scatter::error_y_minus(std::string value) {
+    error_y_minus_ = std::move(value);
+    return *this;
+}
+
 scatter& scatter::marker_color(std::string value) {
     marker_color_ = std::move(value);
     return *this;
@@ -222,6 +242,34 @@ void scatter::configure_trace(Trace& scatter,
         throw std::runtime_error("y coordinates must be set.");
     }
     scatter.y(filter_data_column(*data().at(y_), parent_mask));
+
+    if (!error_x_.empty()) {
+        scatter.error_x().array(
+            filter_data_column(*data().at(error_x_), parent_mask));
+        if (!error_x_minus_.empty()) {
+            scatter.error_x().array_minus(
+                filter_data_column(*data().at(error_x_minus_), parent_mask));
+            scatter.error_x().symmetric(false);
+        } else {
+            scatter.error_x().symmetric(true);
+        }
+        scatter.error_x().type("data");
+        scatter.error_x().visible(true);
+    }
+
+    if (!error_y_.empty()) {
+        scatter.error_y().array(
+            filter_data_column(*data().at(error_y_), parent_mask));
+        if (!error_y_minus_.empty()) {
+            scatter.error_y().array_minus(
+                filter_data_column(*data().at(error_y_minus_), parent_mask));
+            scatter.error_y().symmetric(false);
+        } else {
+            scatter.error_y().symmetric(true);
+        }
+        scatter.error_y().type("data");
+        scatter.error_y().visible(true);
+    }
 
     const bool has_additional_hover_text = !additional_hover_text.empty() &&
         !additional_hover_text.front().empty();
