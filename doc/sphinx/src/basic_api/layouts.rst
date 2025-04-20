@@ -28,3 +28,17 @@ APIs of Layouts
 .. doxygenclass:: plotly_plotter::legend_title
 
 .. doxygenclass:: plotly_plotter::annotation
+
+.. doxygenclass:: plotly_plotter::layout_menu
+
+.. doxygenclass:: plotly_plotter::layout_menu_button
+
+.. doxygenclass:: plotly_plotter::animation_base
+
+.. doxygenclass:: plotly_plotter::layout_pad
+
+.. doxygenclass:: plotly_plotter::layout_slider
+
+.. doxygenclass:: plotly_plotter::layout_slider_current_value
+
+.. doxygenclass:: plotly_plotter::layout_slider_step

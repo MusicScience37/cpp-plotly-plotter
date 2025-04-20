@@ -91,6 +91,43 @@ TEST_CASE("scatter") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
+    SECTION("scatter with error bars combined with grouping") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3, 1, 2, 3});
+        data.emplace(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            "error_x", std::vector<double>{0.1, 0.2, 0.3, 0.15, 0.25, 0.35});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6, 7, 8, 9});
+        data.emplace(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            "error_y", std::vector<double>{0.2, 0.3, 0.4, 0.25, 0.35, 0.45});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_y_minus",
+            // NOLINTNEXTLINE(*-magic-numbers)
+            std::vector<double>{0.3, 0.4, 0.5, 0.35, 0.45, 0.55});
+        data.emplace(
+            "group", std::vector<std::string>{"A", "A", "A", "B", "B", "B"});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .error_x("error_x")
+                                .error_y("error_y")
+                                .error_y_minus("error_y_minus")
+                                .group("group")
+                                .title("Scatter with Error Bars and Grouping")
+                                .create();
+
+        const std::string file_path =
+            "scatter_with_error_bars_combined_with_grouping.html";
+        write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("log scale in x") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)

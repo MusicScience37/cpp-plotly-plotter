@@ -94,6 +94,68 @@ TEST_CASE("plotly_plotter::figure_builders::scatter") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
+    SECTION("build with symmetric error bars") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_x", std::vector<double>{0.1, 0.2, 0.3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_y", std::vector<double>{0.2, 0.3, 0.4});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .error_x("error_x")
+                                .error_y("error_y")
+                                .mode("lines+markers")
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path =
+            "scatter_build_with_symmetric_error_bars.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("build with non-symmetric error bars") {
+        data_table data;
+        data.emplace("x", std::vector<int>{1, 2, 3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_x", std::vector<double>{0.1, 0.2, 0.3});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_x_minus", std::vector<double>{0.05, 0.1, 0.15});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("y", std::vector<int>{4, 5, 6});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_y", std::vector<double>{0.2, 0.3, 0.4});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        data.emplace("error_y_minus", std::vector<double>{0.1, 0.2, 0.3});
+
+        const auto figure = scatter(data)
+                                .x("x")
+                                .y("y")
+                                .error_x("error_x")
+                                .error_x_minus("error_x_minus")
+                                .error_y("error_y")
+                                .error_y_minus("error_y_minus")
+                                .mode("lines+markers")
+                                .title("Test Title")
+                                .create();
+
+        const std::string file_path =
+            "scatter_build_with_non_symmetric_error_bars.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("build with log scale in x") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)
