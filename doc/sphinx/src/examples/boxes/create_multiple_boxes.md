@@ -33,5 +33,5 @@ show_html_figure("../outputs/boxes_create_multiple_boxes.html", version=1)
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::figure::add_box`
+  - {cpp:func}`plotly_plotter::figure_frame_base::add_box`
   - {cpp:class}`plotly_plotter::traces::box`

@@ -35,28 +35,10 @@
 namespace plotly_plotter {
 
 /*!
- * \brief Class of frames in animation in Plotly.
+ * \brief Base class of figures and frames in Plotly.
  */
-class animation_frame {
+class figure_frame_base {
 public:
-    /*!
-     * \brief Constructor.
-     *
-     * \param[in] data JSON data.
-     */
-    explicit animation_frame(json_value data)
-        : json_data_(data), data_(data["data"]), layout_(data["layout"]) {
-        data_.set_to_array();
-        layout_.set_to_object();
-    }
-
-    /*!
-     * \brief Set the name of this frame.
-     *
-     * \param[in] value Value.
-     */
-    void name(std::string_view value) { json_data_["name"] = value; }
-
     /*!
      * \brief Add a scatter trace to this figure.
      *
@@ -111,10 +93,48 @@ public:
         return plotly_plotter::layout(layout_);
     }
 
-private:
-    //! JSON data.
-    json_value json_data_;
+protected:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit figure_frame_base(json_value data)
+        : data_(data["data"]), layout_(data["layout"]) {
+        data_.set_to_array();
+        layout_.set_to_object();
+    }
 
+    /*!
+     * \brief Copy constructor.
+     */
+    figure_frame_base(const figure_frame_base& /*other*/) = default;
+
+    /*!
+     * \brief Move constructor.
+     */
+    figure_frame_base(figure_frame_base&& /*other*/) = default;
+
+    /*!
+     * \brief Copy assignment operator.
+     *
+     * \return This object.
+     */
+    figure_frame_base& operator=(const figure_frame_base& /*other*/) = default;
+
+    /*!
+     * \brief Move assignment operator.
+     *
+     * \return This object.
+     */
+    figure_frame_base& operator=(figure_frame_base&& /*other*/) = default;
+
+    /*!
+     * \brief Destructor.
+     */
+    ~figure_frame_base() = default;
+
+private:
     //! JSON data of traces.
     json_value data_;
 
@@ -123,32 +143,39 @@ private:
 };
 
 /*!
+ * \brief Class of frames in animation in Plotly.
+ */
+class animation_frame : public figure_frame_base {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit animation_frame(json_value data)
+        : figure_frame_base(data), json_data_(data) {}
+
+    /*!
+     * \brief Set the name of this frame.
+     *
+     * \param[in] value Value.
+     */
+    void name(std::string_view value) { json_data_["name"] = value; }
+
+private:
+    //! JSON data.
+    json_value json_data_;
+};
+
+/*!
  * \brief Class of figures in Plotly.
  */
-class figure {
+class figure : public figure_frame_base {
 public:
     /*!
      * \brief Constructor.
      */
-    figure() {
-        data_.set_to_array();
-        layout_.set_to_object();
-        config_.set_to_object();
-        data_template_.set_to_array();
-        layout_template_.set_to_object();
-        config().scroll_zoom(true);
-        config().responsive(true);
-        styles::simple_style(plotly_plotter::layout(layout_template_));
-    }
-
-    /*!
-     * \brief Add a scatter trace to this figure.
-     *
-     * \return Added scatter trace.
-     */
-    [[nodiscard]] traces::scatter add_scatter() {
-        return traces::scatter(data_.emplace_back());
-    }
+    figure() : figure(json_document()) {}
 
     /*!
      * \brief Add a template of scatter traces to this figure.
@@ -157,15 +184,6 @@ public:
      */
     [[nodiscard]] traces::scatter add_scatter_template() {
         return traces::scatter(data_template_.emplace_back());
-    }
-
-    /*!
-     * \brief Add a scatter trace using WebGL to this figure.
-     *
-     * \return Added scatter trace.
-     */
-    [[nodiscard]] traces::scatter_gl add_scatter_gl() {
-        return traces::scatter_gl(data_.emplace_back());
     }
 
     /*!
@@ -178,30 +196,12 @@ public:
     }
 
     /*!
-     * \brief Add a box trace to this figure.
-     *
-     * \return Added box trace.
-     */
-    [[nodiscard]] traces::box add_box() {
-        return traces::box(data_.emplace_back());
-    }
-
-    /*!
      * \brief Add a template of box traces to this figure.
      *
      * \return Added box trace.
      */
     [[nodiscard]] traces::box add_box_template() {
         return traces::box(data_template_.emplace_back());
-    }
-
-    /*!
-     * \brief Add a violin trace to this figure.
-     *
-     * \return Added violin trace.
-     */
-    [[nodiscard]] traces::violin add_violin() {
-        return traces::violin(data_.emplace_back());
     }
 
     /*!
@@ -214,30 +214,12 @@ public:
     }
 
     /*!
-     * \brief Add a heatmap trace to this figure.
-     *
-     * \return Added heatmap trace.
-     */
-    [[nodiscard]] traces::heatmap add_heatmap() {
-        return traces::heatmap(data_.emplace_back());
-    }
-
-    /*!
      * \brief Add a template of heatmap traces to this figure.
      *
      * \return Added heatmap trace.
      */
     [[nodiscard]] traces::heatmap add_heatmap_template() {
         return traces::heatmap(data_template_.emplace_back());
-    }
-
-    /*!
-     * \brief Access the layout of this figure.
-     *
-     * \return Layout of this figure.
-     */
-    [[nodiscard]] plotly_plotter::layout layout() {
-        return plotly_plotter::layout(layout_);
     }
 
     /*!
@@ -321,6 +303,23 @@ public:
     }
 
 private:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] document JSON document.
+     */
+    explicit figure(json_document document)
+        : figure_frame_base(document.root()), document_(std::move(document)) {
+        data_.set_to_array();
+        layout_.set_to_object();
+        config_.set_to_object();
+        data_template_.set_to_array();
+        layout_template_.set_to_object();
+        config().scroll_zoom(true);
+        config().responsive(true);
+        styles::simple_style(plotly_plotter::layout(layout_template_));
+    }
+
     //! JSON document of this figure.
     json_document document_;
 

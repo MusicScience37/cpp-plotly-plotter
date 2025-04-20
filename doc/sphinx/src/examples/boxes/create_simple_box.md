@@ -35,5 +35,5 @@ show_html_figure("../outputs/boxes_create_simple_box.html", version=2)
 - [Create Multiple Box Plots](create_multiple_boxes.md)
 - [Show Mean and Standard Deviation in Box Plots](show_mean_and_stddev.md)
 - API Reference:
-  - {cpp:func}`plotly_plotter::figure::add_box`
+  - {cpp:func}`plotly_plotter::figure_frame_base::add_box`
   - {cpp:class}`plotly_plotter::traces::box`

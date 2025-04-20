@@ -44,4 +44,4 @@ show_html_figure("../outputs/scatters_plot_many_points_using_web_gl.html", versi
 
 - API Reference:
   - {cpp:class}`plotly_plotter::traces::scatter_gl`
-  - {cpp:func}`plotly_plotter::figure::add_scatter_gl`
+  - {cpp:func}`plotly_plotter::figure_frame_base::add_scatter_gl`

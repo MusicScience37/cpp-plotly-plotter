@@ -33,5 +33,5 @@ show_html_figure("../outputs/violins_create_multiple_violins.html", version=1)
 ## Further Reading
 
 - API Reference:
-  - {cpp:func}`plotly_plotter::figure::add_violin`
+  - {cpp:func}`plotly_plotter::figure_frame_base::add_violin`
   - {cpp:class}`plotly_plotter::traces::violin`
