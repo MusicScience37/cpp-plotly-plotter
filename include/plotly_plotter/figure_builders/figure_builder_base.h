@@ -98,6 +98,13 @@ protected:
     void set_subplot_column(std::string value);
 
     /*!
+     * \brief Set the column name of frames in animation.
+     *
+     * \param[in] value Value.
+     */
+    void set_animation_frame(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -146,9 +153,10 @@ protected:
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
      */
-    virtual void add_trace(figure& figure, const std::vector<bool>& parent_mask,
-        std::size_t subplot_index, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
+    virtual void add_trace(figure_frame_base& figure,
+        const std::vector<bool>& parent_mask, std::size_t subplot_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const = 0;
 
     /*!
@@ -162,7 +170,7 @@ protected:
 
 private:
     /*!
-     * \brief Handle rows in subplots.
+     * \brief Handle animation frames.
      *
      * \param[out] fig Figure.
      * \param[in] parent_mask Mask of the values in the parent layer.
@@ -170,37 +178,55 @@ private:
      * \param[in] additional_hover_text Additional hover text.
      * \return Number of rows and columns of subplots.
      */
-    [[nodiscard]] std::pair<std::size_t, std::size_t> handle_subplot_row(
+    [[nodiscard]] std::pair<std::size_t, std::size_t> handle_animation_frame(
         figure& fig, const std::vector<bool>& parent_mask,
         std::string_view hover_prefix,
+        const std::vector<std::string>& additional_hover_text) const;
+
+    /*!
+     * \brief Handle rows in subplots.
+     *
+     * \param[out] fig Figure.
+     * \param[in] is_first_frame Whether this is the first frame.
+     * \param[in] parent_mask Mask of the values in the parent layer.
+     * \param[in] hover_prefix Prefix of the hover text.
+     * \param[in] additional_hover_text Additional hover text.
+     * \return Number of rows and columns of subplots.
+     */
+    [[nodiscard]] std::pair<std::size_t, std::size_t> handle_subplot_row(
+        figure_frame_base& fig, bool is_first_frame,
+        const std::vector<bool>& parent_mask, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
     /*!
      * \brief Handle columns in subplots.
      *
      * \param[out] fig Figure.
+     * \param[in] is_first_frame Whether this is the first frame.
      * \param[in] parent_mask Mask of the values in the parent layer.
      * \param[in] first_subplot_index Index of the first subplot.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
      * \return Number of subplots added.
      */
-    [[nodiscard]] std::size_t handle_subplot_column(figure& fig,
-        const std::vector<bool>& parent_mask, std::size_t first_subplot_index,
-        std::string_view hover_prefix,
+    [[nodiscard]] std::size_t handle_subplot_column(figure_frame_base& fig,
+        bool is_first_frame, const std::vector<bool>& parent_mask,
+        std::size_t first_subplot_index, std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
     /*!
      * \brief Handle groups.
      *
      * \param[out] fig Figure.
+     * \param[in] is_first_frame Whether this is the first frame.
      * \param[in] parent_mask Mask of the values in the parent layer.
      * \param[in] subplot_index Index of the subplot.
      * \param[in] hover_prefix Prefix of the hover text.
      * \param[in] additional_hover_text Additional hover text.
      */
-    void handle_groups(figure& fig, const std::vector<bool>& parent_mask,
-        std::size_t subplot_index, std::string_view hover_prefix,
+    void handle_groups(figure_frame_base& fig, bool is_first_frame,
+        const std::vector<bool>& parent_mask, std::size_t subplot_index,
+        std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const;
 
     /*!
@@ -232,6 +258,9 @@ private:
 
     //! Column name of columns in subplots.
     std::string subplot_column_;
+
+    //! Column name of frames in animation.
+    std::string animation_frame_;
 
     //! Column names of additional data in hovers.
     std::vector<std::string> hover_data_;

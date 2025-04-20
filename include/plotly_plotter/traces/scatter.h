@@ -19,6 +19,8 @@
  */
 #pragma once
 
+// IWYU pragma: no_include "plotly_plotter/data_column.h"
+
 #include <string_view>
 #include <type_traits>
 

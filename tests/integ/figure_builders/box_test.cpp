@@ -135,6 +135,29 @@ TEST_CASE("box") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in animation frames") {
+            auto figure = box(data)
+                              .y("y")
+                              .animation_frame("group")
+                              .box_mean("sd")
+                              .box_points("all")
+                              .hover_data({"hover"})
+                              .title("Test Title")
+                              .create();
+
+            // NOLINTNEXTLINE(*-magic-numbers)
+            figure.layout().yaxis().range(0, 11);
+
+            const std::string file_path =
+                "box_with_group_in_animation_frames.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("box with two groups") {

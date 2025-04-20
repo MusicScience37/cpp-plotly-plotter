@@ -90,6 +90,11 @@ scatter& scatter::subplot_column(std::string value) {
     return *this;
 }
 
+scatter& scatter::animation_frame(std::string value) {
+    set_animation_frame(std::move(value));
+    return *this;
+}
+
 scatter& scatter::hover_data(std::vector<std::string> value) {
     set_hover_data(std::move(value));
     return *this;
@@ -208,9 +213,10 @@ std::string scatter::default_title() const { return y_; }
 constexpr std::size_t max_rows_for_non_gl_trace = 1000;
 // clang-format on
 
-void scatter::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t subplot_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+void scatter::add_trace(figure_frame_base& figure,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     const std::size_t rows = data().rows();
     const bool use_web_gl =

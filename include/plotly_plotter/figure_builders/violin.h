@@ -93,6 +93,14 @@ public:
     violin& subplot_column(std::string value);
 
     /*!
+     * \brief Set the column name of frames in animation.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    violin& animation_frame(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -199,9 +207,10 @@ private:
     [[nodiscard]] std::string default_title() const override;
 
     //! \copydoc figure_builder_base::add_trace
-    void add_trace(figure& figure, const std::vector<bool>& parent_mask,
-        std::size_t subplot_index, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
+    void add_trace(figure_frame_base& figure,
+        const std::vector<bool>& parent_mask, std::size_t subplot_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const override;
 
     //! \copydoc figure_builder_base::additional_hover_data_in_trace

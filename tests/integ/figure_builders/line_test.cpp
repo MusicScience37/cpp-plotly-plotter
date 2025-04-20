@@ -114,6 +114,29 @@ TEST_CASE("line") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in animation frames") {
+            auto figure = line(data)
+                              .x("x")
+                              .y("y")
+                              .animation_frame("group")
+                              .hover_data({"hover"})
+                              .title("Line with Group")
+                              .create();
+
+            figure.layout().xaxis().range(0, 4);
+            // NOLINTNEXTLINE(*-magic-numbers)
+            figure.layout().yaxis().range(3, 10);
+
+            const std::string file_path =
+                "line_with_group_in_animation_frames.html";
+            write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("line with two groups") {

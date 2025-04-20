@@ -62,6 +62,11 @@ violin& violin::subplot_column(std::string value) {
     return *this;
 }
 
+violin& violin::animation_frame(std::string value) {
+    set_animation_frame(std::move(value));
+    return *this;
+}
+
 violin& violin::hover_data(std::vector<std::string> value) {
     set_hover_data(std::move(value));
     return *this;
@@ -149,9 +154,10 @@ void violin::configure_axes(figure& fig, std::size_t num_subplot_rows,
 
 std::string violin::default_title() const { return y_; }
 
-void violin::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t subplot_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+void violin::add_trace(figure_frame_base& figure,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     auto violin = figure.add_violin();
 
