@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of write_png function.
+ * \brief Definition of write_svg function.
  */
 #pragma once
 
@@ -28,55 +28,55 @@
 
 namespace plotly_plotter {
 
-//! Default width of PNG files.
-constexpr std::size_t default_png_width = 800;
+//! Default width of SVG files.
+constexpr std::size_t default_svg_width = 800;
 
-//! Default height of PNG files.
-constexpr std::size_t default_png_height = 600;
+//! Default height of SVG files.
+constexpr std::size_t default_svg_height = 600;
 
 namespace details {
 
 /*!
- * \brief Write a figure to a PNG file.
+ * \brief Write a figure to a SVG file.
  *
  * \param[in] file_path File path.
  * \param[in] html_title Title of the HTML file.
  * \param[in] data Data.
- * \param[in] width Width of the PNG file.
- * \param[in] height Height of the PNG file.
+ * \param[in] width Width of the SVG file.
+ * \param[in] height Height of the SVG file.
  */
-PLOTLY_PLOTTER_EXPORT void write_png_impl(const char* file_path,
+PLOTLY_PLOTTER_EXPORT void write_svg_impl(const char* file_path,
     const char* html_title, const json_document& data, std::size_t width,
     std::size_t height);
 
 }  // namespace details
 
 /*!
- * \brief Check if PNG is supported in the current environment.
+ * \brief Check if SVG is supported in the current environment.
  *
- * \return True if PNG is supported.
+ * \return True if SVG is supported.
  *
- * \note When this functions returns false, \ref plotly_plotter::write_png
+ * \note When this functions returns false, \ref plotly_plotter::write_svg
  * function always fails with an exception.
  */
-PLOTLY_PLOTTER_EXPORT bool is_png_supported();
+PLOTLY_PLOTTER_EXPORT bool is_svg_supported();
 
 /*!
- * \brief Write a figure to a PNG file.
+ * \brief Write a figure to a SVG file.
  *
  * \param[in] file_path File path.
  * \param[in] fig Figure.
- * \param[in] width Width of the PNG file.
- * \param[in] height Height of the PNG file.
+ * \param[in] width Width of the SVG file.
+ * \param[in] height Height of the SVG file.
  *
  * \warning WebGL can cause errors sometimes.
- * \note Support of PNG output can be checked using \ref
- * plotly_plotter::is_png_supported function.
+ * \note Support of SVG output can be checked using \ref
+ * plotly_plotter::is_svg_supported function.
  */
-inline void write_png(const std::string& file_path, const figure& fig,
-    std::size_t width = default_png_width,
-    std::size_t height = default_png_height) {
-    details::write_png_impl(file_path.c_str(), fig.html_title().c_str(),
+inline void write_svg(const std::string& file_path, const figure& fig,
+    std::size_t width = default_svg_width,
+    std::size_t height = default_svg_height) {
+    details::write_svg_impl(file_path.c_str(), fig.html_title().c_str(),
         fig.document(), width, height);
 }
 

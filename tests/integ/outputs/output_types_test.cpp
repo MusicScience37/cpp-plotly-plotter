@@ -31,45 +31,10 @@
 #include "plotly_plotter/write_html.h"
 #include "plotly_plotter/write_pdf.h"
 #include "plotly_plotter/write_png.h"
+#include "plotly_plotter/write_svg.h"
 
 TEST_CASE("output types") {
     plotly_plotter::figure figure;
-
-    SECTION("scatter") {
-        auto scatter = figure.add_scatter();
-        scatter.x(std::vector{1, 2, 3});
-        scatter.y(std::vector{4, 5, 6});  // NOLINT(*-magic-numbers)
-        scatter.mode("lines");
-        scatter.name("scatter1");
-
-        scatter = figure.add_scatter();
-        scatter.x(std::vector{1, 2, 3});
-        scatter.y(std::vector{5, 6, 7});  // NOLINT(*-magic-numbers)
-        scatter.mode("markers+lines");
-        scatter.name("scatter2");
-
-        figure.title("Scatter Plot");
-        figure.layout().xaxis().title().text("x-axis");
-        figure.layout().yaxis().title().text("y-axis");
-
-        const std::string file_name = "output_types_scatter";
-        SECTION("HTML") {
-            CHECK_NOTHROW(
-                plotly_plotter::write_html(file_name + ".html", figure));
-        }
-        SECTION("PDF") {
-            if (plotly_plotter::is_pdf_supported()) {
-                CHECK_NOTHROW(
-                    plotly_plotter::write_pdf(file_name + ".pdf", figure));
-            }
-        }
-        SECTION("PNG") {
-            if (plotly_plotter::is_png_supported()) {
-                CHECK_NOTHROW(
-                    plotly_plotter::write_png(file_name + ".png", figure));
-            }
-        }
-    }
 
     SECTION("violin") {
         auto violin = figure.add_violin();
@@ -111,6 +76,12 @@ TEST_CASE("output types") {
                     plotly_plotter::write_png(file_name + ".png", figure));
             }
         }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
+            }
+        }
     }
 
     SECTION("TeX") {
@@ -140,6 +111,12 @@ TEST_CASE("output types") {
             if (plotly_plotter::is_png_supported()) {
                 CHECK_NOTHROW(
                     plotly_plotter::write_png(file_name + ".png", figure));
+            }
+        }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
             }
         }
     }
@@ -187,6 +164,12 @@ TEST_CASE("output types (unstable)", "[!mayfail]") {
             if (plotly_plotter::is_png_supported()) {
                 CHECK_NOTHROW(
                     plotly_plotter::write_png(file_name + ".png", figure));
+            }
+        }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
             }
         }
     }

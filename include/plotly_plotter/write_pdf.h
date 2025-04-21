@@ -58,8 +58,6 @@ PLOTLY_PLOTTER_EXPORT void write_pdf_impl(const char* file_path,
  *
  * \note When this functions returns false, \ref plotly_plotter::write_pdf
  * function always fails with an exception.
- * \warning PDF output is experimental and implemented only for Linux.
- * In other environments, this function always returns false.
  */
 PLOTLY_PLOTTER_EXPORT bool is_pdf_supported();
 
@@ -71,8 +69,7 @@ PLOTLY_PLOTTER_EXPORT bool is_pdf_supported();
  * \param[in] width Width of the PDF file.
  * \param[in] height Height of the PDF file.
  *
- * \warning This function is experimental and implemented only for Linux.
- * \warning WebGL can cause program freeze.
+ * \warning WebGL can cause errors sometimes.
  * \note Support of PDF output can be checked using \ref
  * plotly_plotter::is_pdf_supported function.
  */

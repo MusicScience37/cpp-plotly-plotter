@@ -11,10 +11,13 @@ set(SOURCE_FILES
     plotly_plotter/io/details/execute_command.cpp
     plotly_plotter/io/html_to_pdf_converter_base.cpp
     plotly_plotter/io/html_to_png_converter_base.cpp
+    plotly_plotter/io/pdf_to_svg_converter_base.cpp
+    plotly_plotter/io/pdftocairo_converter.cpp
     plotly_plotter/io/playwright_converter.cpp
     plotly_plotter/json_converter.cpp
     plotly_plotter/styles.cpp
     plotly_plotter/to_string.cpp
     plotly_plotter/write_pdf.cpp
     plotly_plotter/write_png.cpp
+    plotly_plotter/write_svg.cpp
 )
