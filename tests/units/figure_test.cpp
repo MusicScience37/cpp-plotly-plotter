@@ -33,6 +33,17 @@ TEST_CASE("plotly_plotter::figure") {
 
     SECTION("set title") {
         figure.title("Test Title");
+        figure.x_title("x-axis");
+        figure.y_title("y-axis");
+
+        const std::string json_string =
+            figure.document().serialize_to_string(true);
+        ApprovalTests::Approvals::verify(json_string,
+            ApprovalTests::Options().fileOptions().withFileExtension(".json"));
+    }
+
+    SECTION("set axes to square") {
+        figure.square_axis();
 
         const std::string json_string =
             figure.document().serialize_to_string(true);

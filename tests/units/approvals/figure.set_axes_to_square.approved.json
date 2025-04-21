@@ -1,18 +1,9 @@
 {
   "data": [],
   "layout": {
-    "title": {
-      "text": "Test Title"
-    },
-    "xaxis": {
-      "title": {
-        "text": "x-axis"
-      }
-    },
     "yaxis": {
-      "title": {
-        "text": "y-axis"
-      }
+      "scaleanchor": "x",
+      "scaleratio": 1.0
     }
   },
   "config": {

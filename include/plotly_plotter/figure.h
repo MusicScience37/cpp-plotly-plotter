@@ -40,6 +40,11 @@ namespace plotly_plotter {
 class figure_frame_base {
 public:
     /*!
+     * \name Create traces.
+     */
+    ///@{
+
+    /*!
      * \brief Add a scatter trace to this figure.
      *
      * \return Added scatter trace.
@@ -83,6 +88,8 @@ public:
     [[nodiscard]] traces::heatmap add_heatmap() {
         return traces::heatmap(data_.emplace_back());
     }
+
+    ///@}
 
     /*!
      * \brief Access the layout of this figure.
@@ -178,6 +185,11 @@ public:
     figure() : figure(json_document()) {}
 
     /*!
+     * \name Configure templates of traces.
+     */
+    ///@{
+
+    /*!
      * \brief Add a template of scatter traces to this figure.
      *
      * \return Added scatter trace.
@@ -222,6 +234,8 @@ public:
         return traces::heatmap(data_template_.emplace_back());
     }
 
+    ///@}
+
     /*!
      * \brief Access the configuration of this figure.
      *
@@ -250,6 +264,11 @@ public:
     }
 
     /*!
+     * \name Helper functions of layout.
+     */
+    ///@{
+
+    /*!
      * \brief Set the title of this figure.
      *
      * \param[in] value Value.
@@ -269,6 +288,26 @@ public:
         layout().yaxis().scale_anchor("x");
         layout().yaxis().scale_ratio(1.0);
     }
+
+    /*!
+     * \brief Set the title of the x-axis.
+     *
+     * \param[in] value Value.
+     */
+    void x_title(std::string_view value) {
+        layout().xaxis().title().text(value);
+    }
+
+    /*!
+     * \brief Set the title of the y-axis.
+     *
+     * \param[in] value Value.
+     */
+    void y_title(std::string_view value) {
+        layout().yaxis().title().text(value);
+    }
+
+    ///@}
 
     /*!
      * \brief Set the title of the HTML page.
