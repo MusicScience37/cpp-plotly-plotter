@@ -50,7 +50,7 @@ TEST_CASE("violin") {
     SECTION("violin with a group") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)
-        data.emplace("y", std::vector<int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+        data.emplace("y", std::vector<int>{0, 2, 3, 4, 5, 6, 7, 8, 9, 10});
         data.emplace("group",
             std::vector<std::string>{
                 "A", "A", "A", "A", "A", "A", "B", "B", "B", "B"});
@@ -139,15 +139,36 @@ TEST_CASE("violin") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in animation frames") {
+            auto figure = violin(data)
+                              .y("y")
+                              .animation_frame("group")
+                              .show_box(true)
+                              .show_mean_line(true)
+                              .points("all")
+                              .hover_data({"hover"})
+                              .title("Test Title")
+                              .create();
+
+            const std::string file_path =
+                "violin_with_group_in_animation_frames.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("violin with two groups") {
         data_table data;
         data.emplace("y",
             // NOLINTNEXTLINE(*-magic-numbers)
-            std::vector<int>{1, 2, 3, 5, 10, 2, 3, 4, 5, 11,
+            std::vector<int>{0, 2, 3, 5, 7, 2, 3, 4, 5, 8,
                 // NOLINTNEXTLINE(*-magic-numbers)
-                3, 4, 5, 6, 12, 4, 5, 6, 7, 13});
+                3, 4, 5, 6, 9, 4, 5, 6, 7, 10});
         data.emplace("group1",
             std::vector<std::string>{"A", "A", "A", "A", "A", "A", "A", "A",
                 "A", "A", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"});
@@ -282,6 +303,50 @@ TEST_CASE("violin") {
 
             const std::string file_path =
                 "violin_with_two_groups_in_columns_and_rows_of_subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in x-axis and animation frame") {
+            auto figure = violin(data)
+                              .y("y")
+                              .x("group1")
+                              .animation_frame("group2")
+                              .show_box(true)
+                              .show_mean_line(true)
+                              .points("all")
+                              .hover_data({"hover"})
+                              .title("Test Title")
+                              .create();
+
+            const std::string file_path =
+                "violin_with_two_groups_in_x_and_animation_frame.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in group and animation frame") {
+            const auto figure = violin(data)
+                                    .y("y")
+                                    .group("group1")
+                                    .animation_frame("group2")
+                                    .show_box(true)
+                                    .show_mean_line(true)
+                                    .points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "violin_with_two_groups_in_group_and_animation_frame.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(

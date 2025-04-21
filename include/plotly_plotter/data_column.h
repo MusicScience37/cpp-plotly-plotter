@@ -94,6 +94,21 @@ public:
     [[nodiscard]] virtual std::size_t size() const noexcept = 0;
 
     /*!
+     * \brief Get whether the values in the column are numeric.
+     *
+     * \retval true The values are numeric.
+     * \retval false The values are not numeric.
+     */
+    [[nodiscard]] virtual bool is_numeric() const noexcept = 0;
+
+    /*!
+     * \brief Get the range of values in the column.
+     *
+     * \return Minimum and maximum values in the column.
+     */
+    [[nodiscard]] virtual std::pair<double, double> get_range() const = 0;
+
+    /*!
      * \brief Get the range of values in the column in positive numbers.
      *
      * \return Minimum and maximum values in the column.
@@ -190,6 +205,31 @@ public:
     //! \copydoc data_column_base::size
     [[nodiscard]] std::size_t size() const noexcept override {
         return data_.size();
+    }
+
+    //! \copydoc data_column_base::is_numeric
+    [[nodiscard]] bool is_numeric() const noexcept override {
+        return std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+    }
+
+    //! \copydoc data_column_base::get_range
+    [[nodiscard]] std::pair<double, double> get_range() const override {
+        constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+        if constexpr (!is_supported) {
+            throw std::runtime_error(
+                "get_range is not supported for this type.");
+        } else {
+            double min = std::numeric_limits<double>::max();
+            double max = std::numeric_limits<double>::min();
+            for (const auto& value : data_) {
+                const auto value_in_double = static_cast<double>(value);
+                min = std::min(min, value_in_double);
+                max = std::max(max, value_in_double);
+            }
+            return {min, max};
+        }
     }
 
     //! \copydoc data_column_base::get_positive_range

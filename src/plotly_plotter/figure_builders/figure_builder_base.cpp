@@ -24,6 +24,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -33,6 +34,8 @@
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/json_document.h"
+#include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
 
 namespace plotly_plotter::figure_builders {
@@ -56,7 +59,7 @@ figure figure_builder_base::create() const {
     const std::vector<bool> parent_mask(data_.rows(), true);
     constexpr std::string_view hover_prefix;
     const auto additional_hover_text = generate_additional_hover_text();
-    const auto [num_subplot_rows, num_subplot_columns] = handle_subplot_row(
+    const auto [num_subplot_rows, num_subplot_columns] = handle_animation_frame(
         fig, parent_mask, hover_prefix, additional_hover_text);
 
     configure_figure(fig, num_subplot_rows, num_subplot_columns);
@@ -78,6 +81,10 @@ void figure_builder_base::set_subplot_row(std::string value) {
 
 void figure_builder_base::set_subplot_column(std::string value) {
     subplot_column_ = std::move(value);
+}
+
+void figure_builder_base::set_animation_frame(std::string value) {
+    animation_frame_ = std::move(value);
 }
 
 void figure_builder_base::set_hover_data(std::vector<std::string> value) {
@@ -103,14 +110,92 @@ constexpr double annotation_shift = 30;
 
 }  // namespace
 
-std::pair<std::size_t, std::size_t> figure_builder_base::handle_subplot_row(
+std::pair<std::size_t, std::size_t> figure_builder_base::handle_animation_frame(
     figure& fig, const std::vector<bool>& parent_mask,
     std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
+    if (animation_frame_.empty()) {
+        constexpr bool is_first_frame = true;
+        return handle_subplot_row(fig, is_first_frame, parent_mask,
+            hover_prefix, additional_hover_text);
+    }
+
+    const auto grouping = data_.at(animation_frame_)->generate_group();
+    const auto& group_values = grouping.first;
+    const auto& group_indices = grouping.second;
+
+    auto slider = fig.layout().add_slider();
+    slider.current_value().visible(true);
+    slider.current_value().prefix(fmt::format("{}=", animation_frame_));
+
+    std::vector<bool> group_mask(group_indices.size(), false);
+    std::pair<std::size_t, std::size_t> subplot_size;
+    for (std::size_t group_index = 0; group_index < group_values.size();
+        ++group_index) {
+        for (std::size_t row_index = 0; row_index < group_indices.size();
+            ++row_index) {
+            group_mask[row_index] = parent_mask[row_index] &&
+                (group_indices[row_index] == group_index);
+        }
+
+        auto frame = fig.add_frame();
+        const auto& group_value = group_values[group_index];
+        frame.name(group_value);
+        if (group_index == 0) {
+            constexpr bool is_first_frame = true;
+            subplot_size = handle_subplot_row(fig, is_first_frame, group_mask,
+                hover_prefix, additional_hover_text);
+        }
+        constexpr bool is_first_frame = false;
+        subplot_size = handle_subplot_row(frame, is_first_frame, group_mask,
+            hover_prefix, additional_hover_text);
+
+        auto step = slider.add_step();
+        step.label(group_value);
+        step.method("animate");
+        step.args(std::make_tuple(std::vector{group_value}));
+    }
+
+    slider.pad().l(120.0);  // NOLINT(*-magic-numbers)
+    slider.pad().t(70.0);   // NOLINT(*-magic-numbers)
+
+    auto menu = fig.layout().add_menu();
+    menu.type("buttons");
+    menu.x_anchor("left");
+    menu.y_anchor("top");
+    menu.x(0.0);
+    menu.y(0.0);
+    menu.direction("left");
+    menu.pad().t(80.0);  // NOLINT(*-magic-numbers)
+    auto button = menu.add_button();
+    button.label("\u25B6");
+    button.method("animate");
+    plotly_plotter::json_document animation_options;
+    animation_options.root()["mode"] = "immediate";
+    animation_options.root()["fromcurrent"] = true;
+    animation_options.root()["frame"]["redraw"] = false;
+    button.args(std::make_tuple(nullptr, animation_options.root()));
+    button = menu.add_button();
+    button.label("\u25FC");
+    button.method("animate");
+    animation_options = plotly_plotter::json_document();
+    animation_options.root()["mode"] = "immediate";
+    animation_options.root()["frame"]["redraw"] = false;
+    button.args(
+        std::make_tuple(std::vector{nullptr}, animation_options.root()));
+
+    return subplot_size;
+}
+
+std::pair<std::size_t, std::size_t> figure_builder_base::handle_subplot_row(
+    figure_frame_base& fig, bool is_first_frame,
+    const std::vector<bool>& parent_mask, std::string_view hover_prefix,
+    const std::vector<std::string>& additional_hover_text) const {
     if (subplot_row_.empty()) {
         const std::size_t first_subplot_index = 1;
-        const std::size_t num_columns = handle_subplot_column(fig, parent_mask,
-            first_subplot_index, hover_prefix, additional_hover_text);
+        const std::size_t num_columns =
+            handle_subplot_column(fig, is_first_frame, parent_mask,
+                first_subplot_index, hover_prefix, additional_hover_text);
         return {1, num_columns};
     }
 
@@ -133,47 +218,51 @@ std::pair<std::size_t, std::size_t> figure_builder_base::handle_subplot_row(
         const auto group_name = fmt::format("{}={}", subplot_row_, group_value);
         const auto group_hover_prefix =
             fmt::format("{}{}<br>", hover_prefix, group_name);
-        num_subplot_columns =
-            handle_subplot_column(fig, group_mask, first_subplot_index_in_row,
-                group_hover_prefix, additional_hover_text);
+        num_subplot_columns = handle_subplot_column(fig, is_first_frame,
+            group_mask, first_subplot_index_in_row, group_hover_prefix,
+            additional_hover_text);
 
         first_subplot_index_in_row += num_subplot_columns;
 
-        const std::size_t annotation_subplot_index =
-            first_subplot_index_in_row - 1;
-        std::string x_ref;
-        std::string y_ref;
-        if (annotation_subplot_index == 1) {
-            x_ref = "x domain";
-            y_ref = "y domain";
-        } else {
-            x_ref = fmt::format("x{} domain", annotation_subplot_index);
-            y_ref = fmt::format("y{} domain", annotation_subplot_index);
+        if (is_first_frame) {
+            const std::size_t annotation_subplot_index =
+                first_subplot_index_in_row - 1;
+            std::string x_ref;
+            std::string y_ref;
+            if (annotation_subplot_index == 1) {
+                x_ref = "x domain";
+                y_ref = "y domain";
+            } else {
+                x_ref = fmt::format("x{} domain", annotation_subplot_index);
+                y_ref = fmt::format("y{} domain", annotation_subplot_index);
+            }
+            auto annotation = fig.layout().add_annotation();
+            annotation.x_ref(x_ref);
+            annotation.y_ref(y_ref);
+            annotation.x(annotation_end);
+            annotation.y(annotation_center);
+            annotation.x_shift(annotation_shift);
+            annotation.text_angle(90.0);  // NOLINT(*-magic-numbers)
+            annotation.show_arrow(false);
+            annotation.align("center");
+            annotation.text(group_name);
         }
-        auto annotation = fig.layout().add_annotation();
-        annotation.x_ref(x_ref);
-        annotation.y_ref(y_ref);
-        annotation.x(annotation_end);
-        annotation.y(annotation_center);
-        annotation.x_shift(annotation_shift);
-        annotation.text_angle(90.0);  // NOLINT(*-magic-numbers)
-        annotation.show_arrow(false);
-        annotation.align("center");
-        annotation.text(group_name);
     }
 
-    fig.layout().grid().rows(group_values.size());
+    if (is_first_frame) {
+        fig.layout().grid().rows(group_values.size());
+    }
 
     return {group_values.size(), num_subplot_columns};
 }
 
-std::size_t figure_builder_base::handle_subplot_column(figure& fig,
-    const std::vector<bool>& parent_mask, std::size_t first_subplot_index,
-    std::string_view hover_prefix,
+std::size_t figure_builder_base::handle_subplot_column(figure_frame_base& fig,
+    bool is_first_frame, const std::vector<bool>& parent_mask,
+    std::size_t first_subplot_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     if (subplot_column_.empty()) {
-        handle_groups(fig, parent_mask, first_subplot_index, hover_prefix,
-            additional_hover_text);
+        handle_groups(fig, is_first_frame, parent_mask, first_subplot_index,
+            hover_prefix, additional_hover_text);
         return 1;
     }
 
@@ -196,10 +285,10 @@ std::size_t figure_builder_base::handle_subplot_column(figure& fig,
         const auto group_hover_prefix =
             fmt::format("{}{}<br>", hover_prefix, group_name);
         const std::size_t subplot_index = first_subplot_index + group_index;
-        handle_groups(fig, group_mask, subplot_index, group_hover_prefix,
-            additional_hover_text);
+        handle_groups(fig, is_first_frame, group_mask, subplot_index,
+            group_hover_prefix, additional_hover_text);
 
-        if (first_subplot_index == 1) {
+        if (is_first_frame && first_subplot_index == 1) {
             std::string x_ref;
             std::string y_ref;
             if (subplot_index == 1) {
@@ -221,21 +310,25 @@ std::size_t figure_builder_base::handle_subplot_column(figure& fig,
         }
     }
 
-    fig.layout().grid().columns(group_values.size());
+    if (is_first_frame) {
+        fig.layout().grid().columns(group_values.size());
+    }
 
     return group_values.size();
 }
 
-void figure_builder_base::handle_groups(figure& fig,
-    const std::vector<bool>& parent_mask, std::size_t subplot_index,
-    std::string_view hover_prefix,
+void figure_builder_base::handle_groups(figure_frame_base& fig,
+    bool is_first_frame, const std::vector<bool>& parent_mask,
+    std::size_t subplot_index, std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     if (group_.empty()) {
         const std::string group_name;
         constexpr std::size_t group_index = 0;
         add_trace(fig, parent_mask, subplot_index, group_name, group_index,
             hover_prefix, additional_hover_text);
-        fig.layout().show_legend(false);
+        if (is_first_frame) {
+            fig.layout().show_legend(false);
+        }
         return;
     }
 
@@ -259,12 +352,15 @@ void figure_builder_base::handle_groups(figure& fig,
             group_hover_prefix, additional_hover_text);
     }
 
-    fig.layout().legend().title().text(group_);
+    if (is_first_frame) {
+        fig.layout().legend().title().text(group_);
+    }
 }
 
 void figure_builder_base::configure_figure(figure& fig,
     std::size_t num_subplot_rows, std::size_t num_subplot_columns) const {
-    configure_axes(fig, num_subplot_rows, num_subplot_columns);
+    configure_axes(
+        fig, num_subplot_rows, num_subplot_columns, !animation_frame_.empty());
     if (title_.empty()) {
         fig.layout().title().text(default_title());
     } else {

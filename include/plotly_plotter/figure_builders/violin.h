@@ -93,6 +93,16 @@ public:
     violin& subplot_column(std::string value);
 
     /*!
+     * \brief Set the column name of frames in animation.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     *
+     * \warning This function is not stable for this type of plots currently.
+     */
+    violin& animation_frame(std::string value);
+
+    /*!
      * \brief Set the column names of additional data in hovers.
      *
      * \param[in] value Value.
@@ -193,15 +203,17 @@ private:
 
     //! \copydoc figure_builder_base::configure_axes
     void configure_axes(figure& fig, std::size_t num_subplot_rows,
-        std::size_t num_subplot_columns) const override;
+        std::size_t num_subplot_columns,
+        bool require_manual_axis_ranges) const override;
 
     //! \copydoc figure_builder_base::default_title
     [[nodiscard]] std::string default_title() const override;
 
     //! \copydoc figure_builder_base::add_trace
-    void add_trace(figure& figure, const std::vector<bool>& parent_mask,
-        std::size_t subplot_index, std::string_view group_name,
-        std::size_t group_index, std::string_view hover_prefix,
+    void add_trace(figure_frame_base& figure,
+        const std::vector<bool>& parent_mask, std::size_t subplot_index,
+        std::string_view group_name, std::size_t group_index,
+        std::string_view hover_prefix,
         const std::vector<std::string>& additional_hover_text) const override;
 
     //! \copydoc figure_builder_base::additional_hover_data_in_trace

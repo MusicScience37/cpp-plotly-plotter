@@ -28,6 +28,7 @@
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/figure_builders/details/calculate_axis_range.h"
 #include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/box.h"
@@ -58,6 +59,11 @@ box& box::subplot_row(std::string value) {
 
 box& box::subplot_column(std::string value) {
     set_subplot_column(std::move(value));
+    return *this;
+}
+
+box& box::animation_frame(std::string value) {
+    set_animation_frame(std::move(value));
     return *this;
 }
 
@@ -120,7 +126,7 @@ box& box::title(std::string value) {
 }
 
 void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
-    std::size_t num_subplot_columns) const {
+    std::size_t num_subplot_columns, bool require_manual_axis_ranges) const {
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, y_);
 
@@ -138,13 +144,27 @@ void box::configure_axes(figure& fig, std::size_t num_subplot_rows,
             fig.layout().yaxis(index).type("log");
         }
     }
+
+    // Set axis ranges.
+    if (require_manual_axis_ranges) {
+        constexpr double extended_factor = 0.1;
+        const auto [min_value, max_value] =
+            details::calculate_axis_range(data(), y_, extended_factor, log_y_);
+
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            const std::size_t index = i + 1;
+            fig.layout().yaxis(index).range(min_value, max_value);
+        }
+    }
 }
 
 std::string box::default_title() const { return y_; }
 
-void box::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t subplot_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+void box::add_trace(figure_frame_base& figure,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     auto box = figure.add_box();
 

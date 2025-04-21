@@ -19,7 +19,6 @@
  */
 #include "plotly_plotter/figure_builders/violin.h"
 
-#include <cmath>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -29,6 +28,7 @@
 
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/figure_builders/details/calculate_axis_range.h"
 #include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/traces/violin.h"
@@ -59,6 +59,11 @@ violin& violin::subplot_row(std::string value) {
 
 violin& violin::subplot_column(std::string value) {
     set_subplot_column(std::move(value));
+    return *this;
+}
+
+violin& violin::animation_frame(std::string value) {
+    set_animation_frame(std::move(value));
     return *this;
 }
 
@@ -118,7 +123,7 @@ violin& violin::title(std::string value) {
 }
 
 void violin::configure_axes(figure& fig, std::size_t num_subplot_rows,
-    std::size_t num_subplot_columns) const {
+    std::size_t num_subplot_columns, bool require_manual_axis_ranges) const {
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, y_);
 
@@ -130,28 +135,34 @@ void violin::configure_axes(figure& fig, std::size_t num_subplot_rows,
 
     // Set log scale.
     if (log_y_) {
-        const auto [min, max] = data().at(y_)->get_positive_range();
-        const double min_log = std::log10(min);
-        const double max_log = std::log10(max);
-        const double range_log = max_log - min_log;
-        constexpr double extended_factor = 0.1;
-        const double min_log_extended = min_log - extended_factor * range_log;
-        const double max_log_extended = max_log + extended_factor * range_log;
-
         for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
             ++i) {
             const std::size_t index = i + 1;
             fig.layout().yaxis(index).type("log");
-            fig.layout().yaxis(index).range(min_log_extended, max_log_extended);
+        }
+    }
+
+    // Set axis ranges.
+    if (log_y_ || require_manual_axis_ranges) {
+        // When log scale is used, the range must be set manually always.
+        constexpr double extended_factor = 0.1;
+        const auto [min_value, max_value] =
+            details::calculate_axis_range(data(), y_, extended_factor, log_y_);
+
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            const std::size_t index = i + 1;
+            fig.layout().yaxis(index).range(min_value, max_value);
         }
     }
 }
 
 std::string violin::default_title() const { return y_; }
 
-void violin::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t subplot_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+void violin::add_trace(figure_frame_base& figure,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     auto violin = figure.add_violin();
 

@@ -31,6 +31,7 @@
 #include "plotly_plotter/data_column.h"
 #include "plotly_plotter/data_table.h"
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/figure_builders/details/calculate_axis_range.h"
 #include "plotly_plotter/figure_builders/details/figure_builder_helper.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
 #include "plotly_plotter/layout.h"
@@ -87,6 +88,11 @@ scatter& scatter::subplot_row(std::string value) {
 
 scatter& scatter::subplot_column(std::string value) {
     set_subplot_column(std::move(value));
+    return *this;
+}
+
+scatter& scatter::animation_frame(std::string value) {
+    set_animation_frame(std::move(value));
     return *this;
 }
 
@@ -174,7 +180,7 @@ scatter& scatter::title(std::string value) {
 }
 
 void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
-    std::size_t num_subplot_columns) const {
+    std::size_t num_subplot_columns, bool require_manual_axis_ranges) const {
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, y_);
 
@@ -193,6 +199,27 @@ void scatter::configure_axes(figure& fig, std::size_t num_subplot_rows,
         fig.layout().color_axis().show_scale(true);
         fig.layout().color_axis().color_bar().title().text(marker_color_);
     }
+
+    // Set axis ranges.
+    if (require_manual_axis_ranges) {
+        constexpr double extended_factor = 0.1;
+        if (!x_.empty() && data().at(x_)->is_numeric()) {
+            const auto [min_x, max_x] = details::calculate_axis_range(
+                data(), x_, extended_factor, log_x_);
+            for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+                ++i) {
+                const std::size_t index = i + 1;
+                fig.layout().xaxis(index).range(min_x, max_x);
+            }
+        }
+        const auto [min_y, max_y] =
+            details::calculate_axis_range(data(), y_, extended_factor, log_y_);
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            const std::size_t index = i + 1;
+            fig.layout().yaxis(index).range(min_y, max_y);
+        }
+    }
 }
 
 std::string scatter::default_title() const { return y_; }
@@ -208,9 +235,10 @@ std::string scatter::default_title() const { return y_; }
 constexpr std::size_t max_rows_for_non_gl_trace = 1000;
 // clang-format on
 
-void scatter::add_trace(figure& figure, const std::vector<bool>& parent_mask,
-    std::size_t subplot_index, std::string_view group_name,
-    std::size_t group_index, std::string_view hover_prefix,
+void scatter::add_trace(figure_frame_base& figure,
+    const std::vector<bool>& parent_mask, std::size_t subplot_index,
+    std::string_view group_name, std::size_t group_index,
+    std::string_view hover_prefix,
     const std::vector<std::string>& additional_hover_text) const {
     const std::size_t rows = data().rows();
     const bool use_web_gl =
