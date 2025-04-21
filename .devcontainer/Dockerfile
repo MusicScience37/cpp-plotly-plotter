@@ -8,6 +8,8 @@ RUN apt-get update && \
     nano \
     git-lfs \
     sudo \
+    # Install pdftocairo.
+    poppler-utils \
     && \
     apt-get autoremove -y && \
     apt-get autoclean && \

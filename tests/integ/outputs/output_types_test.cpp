@@ -31,6 +31,7 @@
 #include "plotly_plotter/write_html.h"
 #include "plotly_plotter/write_pdf.h"
 #include "plotly_plotter/write_png.h"
+#include "plotly_plotter/write_svg.h"
 
 TEST_CASE("output types") {
     plotly_plotter::figure figure;
@@ -67,6 +68,12 @@ TEST_CASE("output types") {
             if (plotly_plotter::is_png_supported()) {
                 CHECK_NOTHROW(
                     plotly_plotter::write_png(file_name + ".png", figure));
+            }
+        }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
             }
         }
     }
@@ -111,6 +118,12 @@ TEST_CASE("output types") {
                     plotly_plotter::write_png(file_name + ".png", figure));
             }
         }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
+            }
+        }
     }
 
     SECTION("TeX") {
@@ -140,6 +153,12 @@ TEST_CASE("output types") {
             if (plotly_plotter::is_png_supported()) {
                 CHECK_NOTHROW(
                     plotly_plotter::write_png(file_name + ".png", figure));
+            }
+        }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
             }
         }
     }
@@ -187,6 +206,12 @@ TEST_CASE("output types (unstable)", "[!mayfail]") {
             if (plotly_plotter::is_png_supported()) {
                 CHECK_NOTHROW(
                     plotly_plotter::write_png(file_name + ".png", figure));
+            }
+        }
+        SECTION("SVG") {
+            if (plotly_plotter::is_svg_supported()) {
+                CHECK_NOTHROW(
+                    plotly_plotter::write_svg(file_name + ".svg", figure));
             }
         }
     }
