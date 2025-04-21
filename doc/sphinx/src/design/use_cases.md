@@ -34,7 +34,7 @@
     - [x] Use of non-ASCII characters.
   - [x] Configuration of hover texts.
   - [x] Subplots.
-  - [ ] Animations.
+  - [x] Animations.
 - Simple API as `plotly.express` in Python.
   - [x] `plotly.express.scatter`.
   - [x] `plotly.express.line`.
@@ -42,4 +42,4 @@
   - [x] HTML.
   - [x] PNG. (Experimentally supported.)
   - [x] PDF. (Experimentally supported.)
-  - [ ] SVG.
+  - [x] SVG. (Experimentally supported.)
