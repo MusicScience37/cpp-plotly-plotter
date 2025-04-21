@@ -160,4 +160,30 @@ TEST_CASE("heatmap") {
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
+
+    SECTION("heatmap in square axes") {
+        auto heatmap = figure.add_heatmap();
+        heatmap.z(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            Eigen::MatrixXd{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
+        heatmap.x(std::vector{1, 2, 3});
+        heatmap.y(std::vector{2, 3, 4});
+        heatmap.color_axis("coloraxis");
+
+        figure.layout().color_axis().show_scale(true);
+        figure.layout().color_axis().color_bar().title().text("color axis");
+
+        figure.layout().xaxis().title().text("x");
+        figure.layout().yaxis().title().text("y");
+        figure.square_axis();
+
+        figure.title("Heatmap in Square Axes");
+
+        const std::string file_path = "heatmap_in_square_axes.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
 }
