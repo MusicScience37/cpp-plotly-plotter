@@ -69,7 +69,7 @@ PLOTLY_PLOTTER_EXPORT bool is_pdf_supported();
  * \param[in] width Width of the PDF file.
  * \param[in] height Height of the PDF file.
  *
- * \warning WebGL can cause program freeze.
+ * \warning WebGL can cause errors sometimes.
  * \note Support of PDF output can be checked using \ref
  * plotly_plotter::is_pdf_supported function.
  */

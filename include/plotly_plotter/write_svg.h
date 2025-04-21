@@ -69,7 +69,7 @@ PLOTLY_PLOTTER_EXPORT bool is_svg_supported();
  * \param[in] width Width of the SVG file.
  * \param[in] height Height of the SVG file.
  *
- * \warning WebGL can cause program freeze.
+ * \warning WebGL can cause errors sometimes.
  * \note Support of SVG output can be checked using \ref
  * plotly_plotter::is_svg_supported function.
  */

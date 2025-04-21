@@ -69,7 +69,7 @@ PLOTLY_PLOTTER_EXPORT bool is_png_supported();
  * \param[in] width Width of the PNG file.
  * \param[in] height Height of the PNG file.
  *
- * \warning WebGL can cause program freeze.
+ * \warning WebGL can cause errors sometimes.
  * \note Support of PNG output can be checked using \ref
  * plotly_plotter::is_png_supported function.
  */
