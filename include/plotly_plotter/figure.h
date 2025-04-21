@@ -263,6 +263,14 @@ public:
     }
 
     /*!
+     * \brief Set the aspect ratio of the axes to be 1:1.
+     */
+    void square_axis() {
+        layout().yaxis().scale_anchor("x");
+        layout().yaxis().scale_ratio(1.0);
+    }
+
+    /*!
      * \brief Set the title of the HTML page.
      *
      * \param[in] value Value.

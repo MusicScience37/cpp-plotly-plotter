@@ -250,6 +250,20 @@ public:
      */
     void show_tick_labels(bool value) { data_["showticklabels"] = value; }
 
+    /*!
+     * \brief Set the axis according to which this axis is scaled.
+     *
+     * \param[in] value Value.
+     */
+    void scale_anchor(std::string_view value) { data_["scaleanchor"] = value; }
+
+    /*!
+     * \brief Set the ratio of the axis to the axis given in scale_anchor().
+     *
+     * \param[in] value Value.
+     */
+    void scale_ratio(double value) { data_["scaleratio"] = value; }
+
 protected:
     /*!
      * \brief Constructor.

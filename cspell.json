@@ -136,6 +136,8 @@
     "realpath",
     "roworder",
     "SAST",
+    "scaleanchor",
+    "scaleratio",
     "scattergl",
     "setuptools",
     "showarrow",
