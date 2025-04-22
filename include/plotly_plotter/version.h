@@ -23,7 +23,7 @@
 #define PLOTLY_PLOTTER_VERSION_MAJOR 0
 
 //! Minor version of this project.
-#define PLOTLY_PLOTTER_VERSION_MINOR 1
+#define PLOTLY_PLOTTER_VERSION_MINOR 2
 
 //! Patch version of this project.
-#define PLOTLY_PLOTTER_VERSION_PATCH 2
+#define PLOTLY_PLOTTER_VERSION_PATCH 0
