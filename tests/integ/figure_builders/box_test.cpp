@@ -396,6 +396,28 @@ TEST_CASE("box") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+
+        SECTION("in x-axis, group and rows of subplots") {
+            const auto figure = box(data)
+                                    .x("group1")
+                                    .y("y")
+                                    .group("group2")
+                                    .subplot_row("group3")
+                                    .box_mean("sd")
+                                    .box_points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "box_with_three_groups_in_x_group_and_rows_of_subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
     }
 
     SECTION("log scale") {
