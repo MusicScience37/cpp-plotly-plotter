@@ -356,6 +356,86 @@ TEST_CASE("violin") {
         }
     }
 
+    SECTION("violin with three groups") {
+        data_table data;
+        data.emplace("y",
+            // NOLINTNEXTLINE(*-magic-numbers)
+            std::vector<int>{0, 2, 3, 5, 7, 2, 3, 4, 5, 8,
+                // NOLINTNEXTLINE(*-magic-numbers)
+                3, 4, 5, 6, 9, 4, 5, 6, 7, 10,
+                // NOLINTNEXTLINE(*-magic-numbers)
+                5, 6, 7, 8, 11, 6, 7, 8, 9, 12,
+                // NOLINTNEXTLINE(*-magic-numbers)
+                6, 7, 8, 9, 10, 7, 8, 9, 10, 13});
+        data.emplace("group1",
+            std::vector<std::string>{"A", "A", "A", "A", "A", "A", "A", "A",
+                "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "B",
+                "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B",
+                "B", "B", "B", "B", "B", "B"});
+        data.emplace("group2",
+            std::vector<std::string>{"C", "C", "C", "C", "C", "C", "C", "C",
+                "C", "C", "D", "D", "D", "D", "D", "D", "D", "D", "D", "D", "C",
+                "C", "C", "C", "C", "C", "C", "C", "C", "C", "D", "D", "D", "D",
+                "D", "D", "D", "D", "D", "D"});
+        data.emplace("group3",
+            std::vector<std::string>{"E", "E", "E", "E", "E", "F", "F", "F",
+                "F", "F", "E", "E", "E", "E", "E", "F", "F", "F", "F", "F", "E",
+                "E", "E", "E", "E", "F", "F", "F", "F", "F", "E", "E", "E", "E",
+                "E", "F", "F", "F", "F", "F"});
+        data.emplace("hover",
+            std::vector<std::string>{"a", "b", "c", "d", "e", "f", "g", "h",
+                "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
+                "v", "w", "x", "y", "z", "aa", "bb", "cc", "dd", "ee", "ff",
+                "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn"});
+
+        SECTION("in x-axis, group and columns of subplots") {
+            const auto figure = violin(data)
+                                    .x("group1")
+                                    .y("y")
+                                    .group("group2")
+                                    .subplot_column("group3")
+                                    .show_box(true)
+                                    .show_mean_line(true)
+                                    .points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "violin_with_three_groups_in_x_group_and_columns_of_subplots."
+                "html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in x-axis, group and rows of subplots") {
+            const auto figure = violin(data)
+                                    .x("group1")
+                                    .y("y")
+                                    .group("group2")
+                                    .subplot_row("group3")
+                                    .show_box(true)
+                                    .show_mean_line(true)
+                                    .points("all")
+                                    .hover_data({"hover"})
+                                    .title("Test Title")
+                                    .create();
+
+            const std::string file_path =
+                "violin_with_three_groups_in_x_group_and_rows_of_subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+    }
+
     SECTION("log scale") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)
