@@ -121,6 +121,15 @@ public:
         this->data()["outliercolor"] = value;
         this->data()["line"]["color"] = value;
     }
+
+    /*!
+     * \brief Set the group for offset.
+     *
+     * \param[in] value Value.
+     */
+    void offset_group(std::string_view value) {
+        this->data()["offsetgroup"] = value;
+    }
 };
 
 }  // namespace plotly_plotter::traces
