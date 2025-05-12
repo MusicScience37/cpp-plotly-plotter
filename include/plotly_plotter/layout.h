@@ -264,6 +264,13 @@ public:
      */
     void scale_ratio(double value) { data_["scaleratio"] = value; }
 
+    /*!
+     * \brief Set the width of the line.
+     *
+     * \param[in] value Value.
+     */
+    void line_width(double value) { data_["linewidth"] = value; }
+
 protected:
     /*!
      * \brief Constructor.
@@ -1170,6 +1177,24 @@ public:
      * \param[in] value Value.
      */
     void show_legend(bool value) { data_["showlegend"] = value; }
+
+    /*!
+     * \brief Set the background color of the figure.
+     *
+     * \param[in] value Value.
+     */
+    void paper_bg_color(std::string_view value) {
+        data_["paper_bgcolor"] = value;
+    }
+
+    /*!
+     * \brief Set the background color of the plot area.
+     *
+     * \param[in] value Value.
+     */
+    void plot_bg_color(std::string_view value) {
+        data_["plot_bgcolor"] = value;
+    }
 
     /*!
      * \brief Add a menu.

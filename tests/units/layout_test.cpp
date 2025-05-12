@@ -43,6 +43,7 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().xaxis(1).zero_line_color("#abcdef");
         figure.layout().xaxis(1).ticks("outside");
         figure.layout().xaxis(1).mirror("true");
+        figure.layout().xaxis(1).line_width(1.0);
         figure.layout().xaxis(2).title().text("x-axis2");
         figure.layout().xaxis(2).type("log");
         figure.layout().xaxis(2).range(0, 2);
@@ -58,6 +59,7 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().yaxis(1).zero_line_color("#654321");
         figure.layout().yaxis(1).ticks("inside");
         figure.layout().yaxis(1).mirror("false");
+        figure.layout().yaxis(1).line_width(2.0);  // NOLINT
         figure.layout().yaxis(2).title().text("y-axis2");
         figure.layout().yaxis(2).type("category");
         figure.layout().yaxis(2).range("A", "C");
@@ -105,6 +107,8 @@ TEST_CASE("plotly_plotter::layout") {
         figure.layout().box_mode("group");
         figure.layout().violin_mode("group");
         figure.layout().show_legend(true);
+        figure.layout().paper_bg_color("#FFFFFF");
+        figure.layout().plot_bg_color("#EEEEEE");
         auto menu = figure.layout().add_menu();
         menu.pad().b(1.0);  // NOLINT
         menu.pad().t(2.0);  // NOLINT

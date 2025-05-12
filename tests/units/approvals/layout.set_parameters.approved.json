@@ -16,7 +16,8 @@
       "gridcolor": "#654321",
       "zerolinecolor": "#abcdef",
       "ticks": "outside",
-      "mirror": true
+      "mirror": true,
+      "linewidth": 1.0
     },
     "xaxis2": {
       "title": {
@@ -45,7 +46,8 @@
       "gridcolor": "#123456",
       "zerolinecolor": "#654321",
       "ticks": "inside",
-      "mirror": false
+      "mirror": false,
+      "linewidth": 2.0
     },
     "yaxis2": {
       "title": {
@@ -125,6 +127,8 @@
     "boxmode": "group",
     "violinmode": "group",
     "showlegend": true,
+    "paper_bgcolor": "#FFFFFF",
+    "plot_bgcolor": "#EEEEEE",
     "updatemenus": [
       {
         "pad": {
