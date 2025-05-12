@@ -17,6 +17,7 @@
     "autobuild",
     "autoclean",
     "autoremove",
+    "bgcolor",
     "BINDIR",
     "boxmean",
     "boxmode",
