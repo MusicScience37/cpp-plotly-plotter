@@ -362,9 +362,9 @@ void figure_builder_base::configure_figure(figure& fig,
     configure_axes(
         fig, num_subplot_rows, num_subplot_columns, !animation_frame_.empty());
     if (title_.empty()) {
-        fig.layout().title().text(default_title());
+        fig.title(default_title());
     } else {
-        fig.layout().title().text(title_);
+        fig.title(title_);
     }
 }
 
