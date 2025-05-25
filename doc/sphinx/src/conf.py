@@ -12,7 +12,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 project = "cpp-plotly-plotter"
 release = "unknown"  # inserted in command line
 
-copyright = "2025, Kenta Kabashima. "
+copyright = "2025, Kenta Kabashima"
 author = "Kenta Kabashima"
 
 # -- General configuration ---------------------------------------------------
