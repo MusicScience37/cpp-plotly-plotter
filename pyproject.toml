@@ -8,11 +8,11 @@ packages = [{ include = "cpp_plotly_plotter_docs_helper", from = "scripts" }]
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.14"
-setuptools = "^78.1.0"
+setuptools = "^80.9.0"
 
 [tool.poetry.group.test.dependencies]
-click = "^8.1.8"
-playwright = "^1.51.0"
+click = "^8.2.1"
+playwright = "^1.52.0"
 
 [tool.poetry.group.doc.dependencies]
 sphinx = "^8.2.3"
@@ -21,11 +21,11 @@ sphinx-orange-book-theme = "^0.15.0"
 sphinxcontrib-plantuml = "^0.30"
 myst-parser = "^4.0.1"
 myst-nb = "^1.2.0"
-jupyterlab = "^4.4.0"
-ipywidgets = "^8.1.6"
-ipython = "^9.1.0"
+jupyterlab = "^4.4.3"
+ipywidgets = "^8.1.7"
+ipython = "^9.3.0"
 ipykernel = "^6.29.5"
-plotly = "^6.0.1"
+plotly = "^6.1.2"
 sphinx-togglebutton = "^0.3.2"
 
 [tool.poetry.group.dev.dependencies]
@@ -36,22 +36,22 @@ doc8 = "^1.1.2"
 sphinx-autobuild = "^2024.10.3"
 clang-tidy-checker = "^0.6.0"
 lcov_cobertura = "^2.1.1"
-pylint = "^3.3.6"
-mypy = "^1.15.0"
+pylint = "^3.3.7"
+mypy = "^1.16.0"
 flake8 = "^7.2.0"
 isort = "^6.0.1"
 pydocstyle = "^6.3.0"
-pytest = "^8.3.5"
+pytest = "^8.4.0"
 djlint = "^1.36.4"
 tqdm = "^4.67.1"
-types-tqdm = "^4.67.0.20250404"
+types-tqdm = "^4.67.0.20250516"
 colour-science = "^0.4.6"
-numpy = "^2.2.4"
-matplotlib = "^3.10.1"
-networkx = "^3.4.2"
+numpy = "^2.3.0"
+matplotlib = "^3.10.3"
+networkx = "^3.5"
 pyyaml = "^6.0.2"
-types-pyyaml = "^6.0.12.20250402"
-flask = "^3.1.0"
+types-pyyaml = "^6.0.12.20250516"
+flask = "^3.1.1"
 
 [build-system]
 requires = ["poetry-core"]
