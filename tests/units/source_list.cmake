@@ -13,6 +13,7 @@ set(SOURCE_FILES
     figure_builders/scatter_test.cpp
     figure_builders/violin_test.cpp
     figure_test.cpp
+    invert_color_scale_test.cpp
     json_converter_test.cpp
     json_document_test.cpp
     json_value_test.cpp

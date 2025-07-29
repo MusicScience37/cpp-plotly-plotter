@@ -7,6 +7,7 @@ set(SOURCE_FILES
     plotly_plotter/figure_builders/figure_builder_base.cpp
     plotly_plotter/figure_builders/scatter.cpp
     plotly_plotter/figure_builders/violin.cpp
+    plotly_plotter/invert_color_scale.cpp
     plotly_plotter/io/chrome_converter.cpp
     plotly_plotter/io/details/execute_command.cpp
     plotly_plotter/io/html_to_pdf_converter_base.cpp
