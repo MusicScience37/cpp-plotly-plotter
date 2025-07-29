@@ -16,7 +16,9 @@ This section shows how to use color scales in cpp-plotly-plotter library.
   - [Create a Heatmap](../heatmaps/create_heatmap.md)
   - [Colorize Markers in Figure Builder](../scatters/colorize_markers_in_figure_builder.md)
 
-## Use a Color Scale
+## Examples
+
+### Use a Color Scale
 
 ```{literalinclude} /../../../examples/color_scales/use_color_scale.cpp
 :caption: Example to use a color scale.
@@ -32,7 +34,7 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_use_color_scale.html", version=4)
 ```
 
-## Invert a Color Scale
+### Invert a Color Scale
 
 ```{literalinclude} /../../../examples/color_scales/invert_color_scale.cpp
 :caption: Example to invert a color scale.
@@ -48,7 +50,7 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_invert_color_scale.html", version=5)
 ```
 
-## Use a Color Scale for Positive Numbers
+### Use a Color Scale for Positive Numbers
 
 Some color scales looks better when the minimum value is set to zero.
 
@@ -66,7 +68,7 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_use_positive_color_scale.html", version=5)
 ```
 
-## Use a Color Scales for Positive and Negative Numbers
+### Use a Color Scales for Positive and Negative Numbers
 
 Some color scales are designed for symmetric ranges of positive and negative numbers.
 
@@ -84,7 +86,9 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_use_positive_negative_color_scale.html", version=6)
 ```
 
-## Neutral Color Scales Usable for General Ranges
+## Color Scales in cpp-plotly-plotter
+
+### Color Scales Usable for General Ranges
 
 ```{code-cell}
 :tags: ["remove-input"]
@@ -94,7 +98,7 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=10)
 ```
 
-## Color Scales for Positive Numbers
+### Color Scales for Positive Numbers
 
 ```{code-cell}
 :tags: ["remove-input"]
@@ -104,7 +108,7 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_positive_color_scales.html", height=900, version=6)
 ```
 
-## Color Scales for Positive and Negative Numbers
+### Color Scales for Positive and Negative Numbers
 
 ```{code-cell}
 :tags: ["remove-input"]

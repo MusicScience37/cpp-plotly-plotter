@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of invert_color_scale function.
+ * \brief Declaration of invert_color_scale function.
  */
 #pragma once
 
