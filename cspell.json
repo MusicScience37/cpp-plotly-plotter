@@ -135,6 +135,7 @@
     "pyenv",
     "pygment",
     "pylint",
+    "pyproject",
     "pytest",
     "pyyaml",
     "realpath",
