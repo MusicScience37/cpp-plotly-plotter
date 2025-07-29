@@ -6,6 +6,7 @@
 #include "plotly_plotter/figure_builders/figure_builder_base.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/figure_builders/scatter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/figure_builders/violin.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "plotly_plotter/invert_color_scale.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/io/chrome_converter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/io/details/execute_command.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/io/html_to_pdf_converter_base.cpp"  // NOLINT(bugprone-suspicious-include)

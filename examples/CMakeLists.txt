@@ -92,6 +92,10 @@ add_example(color_scales_use_color_scale color_scales/use_color_scale.cpp)
 add_example_output(color_scales_use_color_scale
                    color_scales_use_color_scale.html)
 
+add_example(color_scales_invert_color_scale color_scales/invert_color_scale.cpp)
+add_example_output(color_scales_invert_color_scale
+                   color_scales_invert_color_scale.html)
+
 add_example(color_scales_use_positive_color_scale
             color_scales/use_positive_color_scale.cpp)
 add_example_output(color_scales_use_positive_color_scale
