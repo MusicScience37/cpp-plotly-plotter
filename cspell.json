@@ -17,6 +17,7 @@
     "autobuild",
     "autoclean",
     "autoremove",
+    "backlinks",
     "bgcolor",
     "BINDIR",
     "boxmean",
