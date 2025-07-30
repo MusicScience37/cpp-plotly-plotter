@@ -23,7 +23,7 @@
 
 namespace plotly_plotter::styles {
 
-void simple_style(plotly_plotter::layout layout, std::size_t num_xaxes,
+void simple_style(plotly_plotter::layouts::layout layout, std::size_t num_xaxes,
     std::size_t num_yaxes) {
     layout.title().x(0.05);  // NOLINT
     for (std::size_t i = 0; i < num_xaxes; ++i) {

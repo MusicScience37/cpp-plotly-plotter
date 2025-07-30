@@ -20,6 +20,7 @@
 #include "plotly_plotter/layout.h"
 
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <vector>
 
@@ -28,6 +29,7 @@
 
 #include "plotly_plotter/figure.h"
 #include "plotly_plotter/json_document.h"
+#include "plotly_plotter/json_value.h"
 
 TEST_CASE("plotly_plotter::layout") {
     plotly_plotter::figure figure;

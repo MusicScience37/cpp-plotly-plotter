@@ -47,6 +47,9 @@ namespace plotly_plotter {
     //! Namespace of styles of figures.
     namespace styles {}
 
+    //! Namespace of layouts of figures.
+    namespace layouts {}
+
     /*!
      * \dir include/plotly_plotter/traces
      * \brief Header files of traces.
