@@ -96,8 +96,8 @@ public:
      *
      * \return Layout of this figure.
      */
-    [[nodiscard]] plotly_plotter::layout layout() {
-        return plotly_plotter::layout(layout_);
+    [[nodiscard]] plotly_plotter::layouts::layout layout() {
+        return plotly_plotter::layouts::layout(layout_);
     }
 
 protected:
@@ -250,8 +250,8 @@ public:
      *
      * \return Template of the layout.
      */
-    [[nodiscard]] plotly_plotter::layout layout_template() {
-        return plotly_plotter::layout(layout_template_);
+    [[nodiscard]] plotly_plotter::layouts::layout layout_template() {
+        return plotly_plotter::layouts::layout(layout_template_);
     }
 
     /*!
@@ -364,7 +364,7 @@ private:
         layout_template_.set_to_object();
         config().scroll_zoom(true);
         config().responsive(true);
-        styles::simple_style(plotly_plotter::layout(layout_template_));
+        styles::simple_style(plotly_plotter::layouts::layout(layout_template_));
     }
 
     //! JSON document of this figure.

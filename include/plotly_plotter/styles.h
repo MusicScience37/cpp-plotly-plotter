@@ -33,7 +33,7 @@ namespace plotly_plotter::styles {
  * \param[in] num_xaxes Number of x-axes.
  * \param[in] num_yaxes Number of y-axes.
  */
-PLOTLY_PLOTTER_EXPORT void simple_style(plotly_plotter::layout layout,
+PLOTLY_PLOTTER_EXPORT void simple_style(plotly_plotter::layouts::layout layout,
     std::size_t num_xaxes = 1, std::size_t num_yaxes = 1);
 
 }  // namespace plotly_plotter::styles
