@@ -24,12 +24,20 @@
 #include <fmt/base.h>
 #include <fmt/chrono.h>
 #include <fmt/format.h>
+#include <time.h>  // NOLINT: required for C functions.
 
 namespace plotly_plotter::details {
 
 void format_time(const std::timespec& value, fmt::memory_buffer& buffer) {
+    std::tm tm{};
+#ifdef _WIN32
+    localtime_s(&tm, &value.tv_sec);
+#else
+    (void)localtime_r(&value.tv_sec, &tm);
+#endif
+
     fmt::format_to(std::back_inserter(buffer), "{:%Y-%m-%d %H:%M:%S}.{:09d}",
-        fmt::localtime(value.tv_sec), value.tv_nsec);
+        tm, value.tv_nsec);
 }
 
 void format_time(const std::chrono::system_clock::time_point& value,
