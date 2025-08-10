@@ -344,6 +344,35 @@ msvc-release:
     expire_in: "1 mos"
   interruptible: true
 
+generate vcpkg sbom:
+  extends: test release
+  parallel:
+    matrix:
+      - COMPILER_TYPE: "clang20"
+        IMAGE_PATH: "musicscience37/clang-ci"
+  variables:
+    BUILD_DIR: build_${COMPILER_TYPE}_sbom
+  script:
+    - cd $BUILD_DIR
+    - cmake ..
+      -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+      -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      -D${UPPER_PROJECT_NAME}_TESTING:BOOL=ON
+      -D${UPPER_PROJECT_NAME}_ENABLE_UNIT_TESTS=ON
+      -D${UPPER_PROJECT_NAME}_ENABLE_INTEG_TESTS=ON
+      -D${UPPER_PROJECT_NAME}_ENABLE_BENCH=OFF
+      -D${UPPER_PROJECT_NAME}_WRITE_JUNIT:BOOL=ON
+      -D${UPPER_PROJECT_NAME}_ENABLE_CCACHE:BOOL=ON
+    - wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.29.0/cyclonedx-linux-x64 -O /usr/local/bin/cyclonedx
+    - chmod +x /usr/local/bin/cyclonedx
+    - ./scripts/convert_sbom.sh $BUILD_DIR
+  artifacts:
+    reports:
+      cyclonedx:
+        - $BUILD_DIR/vcpkg_installed/*.cyclonedx.json
+    expire_in: "1 mos"
+  interruptible: true
+
 doc:
   extends: test release
   parallel:

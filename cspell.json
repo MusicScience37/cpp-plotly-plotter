@@ -49,6 +49,7 @@
     "cpptools",
     "ctest",
     "currentvalue",
+    "cyclonedx",
     "DCMAKE",
     "dealloc",
     "dearmor",
