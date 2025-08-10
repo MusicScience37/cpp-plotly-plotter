@@ -81,6 +81,20 @@ public:
      */
     void size(double value) { data_["size"] = value; }
 
+    /*!
+     * \brief Set the start of bins.
+     *
+     * \param[in] value Value.
+     */
+    void start(double value) { data_["start"] = value; }
+
+    /*!
+     * \brief Set the end of bins.
+     *
+     * \param[in] value Value.
+     */
+    void end(double value) { data_["end"] = value; }
+
 private:
     //! JSON data.
     json_value data_;
