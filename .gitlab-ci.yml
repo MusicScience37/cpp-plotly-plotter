@@ -368,6 +368,8 @@ generate vcpkg sbom:
     - cd ..
     - ./scripts/convert_sbom.sh $BUILD_DIR
   artifacts:
+    paths:
+      - $BUILD_DIR/vcpkg_installed/**/*.cyclonedx.json
     reports:
       cyclonedx:
         - $BUILD_DIR/vcpkg_installed/**/*.cyclonedx.json
