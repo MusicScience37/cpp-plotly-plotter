@@ -17,6 +17,7 @@
  * \file
  * \brief Test of histograms.
  */
+#include <random>
 #include <string>
 #include <vector>
 
@@ -129,6 +130,42 @@ TEST_CASE("histogram") {
         ApprovalTests::Approvals::verify(
             ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("calculate bin width") {
+        constexpr std::size_t num_values = 1000;
+        std::mt19937 engine;  // NOLINT: for reproducibility.
+        std::normal_distribution<> dist1(2.0, 1.0);  // NOLINT
+        std::normal_distribution<> dist2(8.0, 0.5);  // NOLINT
+        std::vector<double> values;
+        values.reserve(num_values);
+        for (std::size_t i = 0; i < num_values / 2; ++i) {
+            values.push_back(dist1(engine));
+        }
+        for (std::size_t i = 0; i < num_values / 2; ++i) {
+            values.push_back(dist2(engine));
+        }
+        constexpr double min_value = -2.0;
+        constexpr double max_value = 12.0;
+        for (double& value : values) {
+            value = std::min(std::max(value, min_value), max_value);
+        }
+
+        auto histogram = figure.add_histogram();
+        histogram.x(values);
+
+        SECTION("Freedman-Diaconis rule") {
+            histogram.x_bins().size(
+                plotly_plotter::utils::calculate_histogram_bin_width(values,
+                    plotly_plotter::utils::histogram_bin_width_method::
+                        freedman_diaconis));
+
+            const std::string file_path =
+                "histogram_bin_width_freedman_diaconis.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            // Omit verification due to differences among platforms.
+        }
     }
 
     SECTION("use a template") {
