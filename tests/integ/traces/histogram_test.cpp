@@ -104,8 +104,7 @@ TEST_CASE("histogram") {
         // NOLINTNEXTLINE(*-magic-numbers)
         histogram.x(input);
 
-        histogram.x_bins().size(
-            plotly_plotter::utils::calculate_histogram_bin_width(input));
+        histogram.x_bins().size(1);
 
         const std::string file_path = "histogram_set_bin_width.html";
         plotly_plotter::write_html(file_path, figure);
@@ -122,8 +121,7 @@ TEST_CASE("histogram") {
         // NOLINTNEXTLINE(*-magic-numbers)
         histogram.y(input);
 
-        histogram.y_bins().size(
-            plotly_plotter::utils::calculate_histogram_bin_width(input));
+        histogram.y_bins().size(1);
 
         const std::string file_path = "histogram_create_vertical.html";
         plotly_plotter::write_html(file_path, figure);
