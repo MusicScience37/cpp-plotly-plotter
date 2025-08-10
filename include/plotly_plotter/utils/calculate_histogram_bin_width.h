@@ -61,6 +61,7 @@ template <typename Container>
         histogram_bin_width_method::freedman_diaconis) ->
     typename Container::value_type {
     std::vector<double> values_for_calculation;
+    values_for_calculation.reserve(values.size());
     for (const auto& value : values) {
         values_for_calculation.push_back(static_cast<double>(value));
     }
