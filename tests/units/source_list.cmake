@@ -8,6 +8,7 @@ set(SOURCE_FILES
     details/has_iterator_test.cpp
     eigen_test.cpp
     figure_builders/box_test.cpp
+    figure_builders/details/percentile_calculator_test.cpp
     figure_builders/figure_builder_base_test.cpp
     figure_builders/line_test.cpp
     figure_builders/scatter_test.cpp
