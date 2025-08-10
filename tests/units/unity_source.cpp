@@ -7,6 +7,7 @@
 #include "details/has_iterator_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "eigen_test.cpp"                 // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/box_test.cpp"   // NOLINT(bugprone-suspicious-include)
+#include "figure_builders/details/percentile_calculator_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/figure_builder_base_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/line_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "figure_builders/scatter_test.cpp"  // NOLINT(bugprone-suspicious-include)
