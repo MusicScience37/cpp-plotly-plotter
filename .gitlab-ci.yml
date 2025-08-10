@@ -365,6 +365,7 @@ generate vcpkg sbom:
       -D${UPPER_PROJECT_NAME}_ENABLE_CCACHE:BOOL=ON
     - wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.29.0/cyclonedx-linux-x64 -O /usr/local/bin/cyclonedx
     - chmod +x /usr/local/bin/cyclonedx
+    - cd ..
     - ./scripts/convert_sbom.sh $BUILD_DIR
   artifacts:
     reports:
