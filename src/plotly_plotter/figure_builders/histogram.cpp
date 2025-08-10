@@ -97,6 +97,12 @@ histogram& histogram::color_map(
     return *this;
 }
 
+histogram& histogram::bin_width_method(
+    utils::histogram_bin_width_method value) {
+    bin_width_method_ = value;
+    return *this;
+}
+
 histogram& histogram::title(std::string value) {
     set_title(std::move(value));
     return *this;
@@ -190,6 +196,19 @@ void histogram::add_trace(figure_frame_base& figure,
         histogram.xaxis(fmt::format("x{}", subplot_index));
         histogram.yaxis(fmt::format("y{}", subplot_index));
         histogram.show_legend(false);
+    }
+
+    if (subplot_index == 0 && bin_width_method_) {
+        if (!x_.empty()) {
+            histogram.x_bins().size(
+                data_table().at(x_)->calculate_histogram_bin_width(
+                    *bin_width_method_));
+        }
+        if (!y_.empty()) {
+            histogram.y_bins().size(
+                data_table().at(y_)->calculate_histogram_bin_width(
+                    *bin_width_method_));
+        }
     }
 }
 

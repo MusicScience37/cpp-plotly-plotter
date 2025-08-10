@@ -21,6 +21,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -29,6 +30,7 @@
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure_builders/color_sequences.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
+#include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 
 namespace plotly_plotter::figure_builders {
 
@@ -133,6 +135,14 @@ public:
     histogram& color_map(std::unordered_map<std::string, std::string> value);
 
     /*!
+     * \brief Set the method to calculate bin width.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    histogram& bin_width_method(utils::histogram_bin_width_method value);
+
+    /*!
      * \brief Set the title of the figure.
      *
      * \param[in] value Value.
@@ -183,6 +193,9 @@ private:
 
     //! Mode of coloring.
     color_mode color_mode_{color_mode::sequence};
+
+    //! Method to calculate bin width.
+    std::optional<utils::histogram_bin_width_method> bin_width_method_;
 
     //! Column name of x coordinates.
     std::string x_;

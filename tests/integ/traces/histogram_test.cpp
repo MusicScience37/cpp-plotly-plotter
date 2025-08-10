@@ -17,6 +17,7 @@
  * \file
  * \brief Test of histograms.
  */
+#include <algorithm>
 #include <random>
 #include <string>
 #include <vector>

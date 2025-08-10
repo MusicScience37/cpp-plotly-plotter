@@ -19,12 +19,16 @@
  */
 #include "plotly_plotter/figure_builders/histogram.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <random>
 #include <vector>
 
 #include <ApprovalTests.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/data_table.h"
+#include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 #include "plotly_plotter/write_html.h"
 
 TEST_CASE("histogram") {
@@ -121,6 +125,45 @@ TEST_CASE("histogram") {
                 ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
+        }
+    }
+
+    SECTION("calculate bin width in this library") {
+        constexpr std::size_t num_values = 1000;
+        std::mt19937 engine;  // NOLINT: for reproducibility.
+        std::normal_distribution<> dist1(2.0, 1.0);  // NOLINT
+        std::normal_distribution<> dist2(8.0, 0.5);  // NOLINT
+        std::vector<double> values;
+        values.reserve(num_values);
+        for (std::size_t i = 0; i < num_values / 2; ++i) {
+            values.push_back(dist1(engine));
+        }
+        for (std::size_t i = 0; i < num_values / 2; ++i) {
+            values.push_back(dist2(engine));
+        }
+        constexpr double min_value = -2.0;
+        constexpr double max_value = 12.0;
+        for (double& value : values) {
+            value = std::min(std::max(value, min_value), max_value);
+        }
+
+        data_table data;
+        data.emplace("values", std::move(values));
+
+        SECTION("Freedman-Diaconis rule") {
+            const auto figure =
+                histogram(data)
+                    .x("values")
+                    .title("Histogram with auto bin width")
+                    .bin_width_method(plotly_plotter::utils::
+                            histogram_bin_width_method::freedman_diaconis)
+                    .create();
+
+            const std::string file_path =
+                "histogram_auto_bin_width_freedman_diaconis.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            // Omit verification due to differences among platforms.
         }
     }
 }
