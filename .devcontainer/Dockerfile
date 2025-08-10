@@ -32,6 +32,9 @@ RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
     apt-get autoclean && \
     rm -r /var/lib/apt/lists/*
 
+RUN wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.29.0/cyclonedx-linux-x64 -O /usr/local/bin/cyclonedx && \
+    chmod +x /usr/local/bin/cyclonedx
+
 # Prepare poetry for ubuntu user.
 USER ubuntu
 WORKDIR /home/ubuntu
