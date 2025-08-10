@@ -17,6 +17,7 @@
 #include "plotly_plotter/json_converter.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/styles.cpp"     // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/to_string.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "plotly_plotter/utils/calculate_histogram_bin_width.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/write_pdf.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/write_png.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "plotly_plotter/write_svg.cpp"  // NOLINT(bugprone-suspicious-include)

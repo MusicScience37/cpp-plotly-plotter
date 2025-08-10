@@ -29,7 +29,7 @@
 
 #include "plotly_plotter/details/has_iterator.h"
 
-namespace plotly_plotter::figure_builders::details {
+namespace plotly_plotter::utils {
 
 /*!
  * \brief Class to calculate percentiles.
@@ -94,4 +94,4 @@ private:
     std::vector<Value> sorted_values_;
 };
 
-}  // namespace plotly_plotter::figure_builders::details
+}  // namespace plotly_plotter::utils

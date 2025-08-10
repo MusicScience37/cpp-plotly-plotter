@@ -24,6 +24,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "plotly_plotter/figure.h"
+#include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 #include "plotly_plotter/write_html.h"
 
 TEST_CASE("histogram") {
@@ -94,6 +95,42 @@ TEST_CASE("histogram") {
                 ApprovalTests::Options().fileOptions().withFileExtension(
                     ".html"));
         }
+    }
+
+    SECTION("set bin width") {
+        const auto input = std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10};
+
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(input);
+
+        histogram.x_bins().size(
+            plotly_plotter::utils::calculate_histogram_bin_width(input));
+
+        const std::string file_path = "histogram_set_bin_width.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("create vertical histogram") {
+        const auto input = std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10};
+
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.y(input);
+
+        histogram.y_bins().size(
+            plotly_plotter::utils::calculate_histogram_bin_width(input));
+
+        const std::string file_path = "histogram_create_vertical.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
     SECTION("use a template") {

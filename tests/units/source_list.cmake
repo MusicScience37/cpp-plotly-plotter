@@ -8,7 +8,6 @@ set(SOURCE_FILES
     details/has_iterator_test.cpp
     eigen_test.cpp
     figure_builders/box_test.cpp
-    figure_builders/details/percentile_calculator_test.cpp
     figure_builders/figure_builder_base_test.cpp
     figure_builders/line_test.cpp
     figure_builders/scatter_test.cpp
@@ -25,5 +24,7 @@ set(SOURCE_FILES
     traces/heatmap_test.cpp
     traces/scatter_test.cpp
     traces/violin_test.cpp
+    utils/calculate_histogram_bin_width_test.cpp
+    utils/percentile_calculator_test.cpp
     write_html_test.cpp
 )

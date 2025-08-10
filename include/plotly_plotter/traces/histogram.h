@@ -63,6 +63,30 @@ private:
 };
 
 /*!
+ * \brief Class to configure bins of histogram traces.
+ */
+class histogram_bins {
+public:
+    /*!
+     * \brief Constructor.
+     *
+     * \param[in] data JSON data.
+     */
+    explicit histogram_bins(json_value data) : data_(data) {}
+
+    /*!
+     * \brief Set the number of bins.
+     *
+     * \param[in] value Value.
+     */
+    void size(double value) { data_["size"] = value; }
+
+private:
+    //! JSON data.
+    json_value data_;
+};
+
+/*!
  * \brief Class of histogram traces in Plotly.
  *
  * \note Objects of this class should be created from \ref figure objects.
@@ -90,6 +114,24 @@ public:
      */
     [[nodiscard]] histogram_marker marker() {
         return histogram_marker(this->data()["marker"]);
+    }
+
+    /*!
+     * \brief Access the configuration of bins of x-axis.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] histogram_bins x_bins() {
+        return histogram_bins(this->data()["xbins"]);
+    }
+
+    /*!
+     * \brief Access the configuration of bins of y-axis.
+     *
+     * \return Configuration.
+     */
+    [[nodiscard]] histogram_bins y_bins() {
+        return histogram_bins(this->data()["ybins"]);
     }
 
     /*!

@@ -18,6 +18,7 @@ set(SOURCE_FILES
     plotly_plotter/json_converter.cpp
     plotly_plotter/styles.cpp
     plotly_plotter/to_string.cpp
+    plotly_plotter/utils/calculate_histogram_bin_width.cpp
     plotly_plotter/write_pdf.cpp
     plotly_plotter/write_png.cpp
     plotly_plotter/write_svg.cpp
