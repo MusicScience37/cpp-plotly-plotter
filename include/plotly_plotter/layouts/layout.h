@@ -191,6 +191,19 @@ public:
     void violin_mode(std::string_view value) { data_["violinmode"] = value; }
 
     /*!
+     * \brief Set the mode of showing bar traces.
+     *
+     * \param[in] value Value.
+     *
+     * Selection:
+     * - `"stack"`: stack traces
+     * - `"group"`: group traces without overlaying
+     * - `"overlay"`: overlay traces
+     * - `"relative"`: stack traces considering negative values
+     */
+    void bar_mode(std::string_view value) { data_["barmode"] = value; }
+
+    /*!
      * \brief Set whether to show the legend.
      *
      * \param[in] value Value.

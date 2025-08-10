@@ -1,0 +1,122 @@
+/*
+ * Copyright 2025 MusicScience37 (Kenta Kabashima)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*!
+ * \file
+ * \brief Test of histograms.
+ */
+#include <string>
+#include <vector>
+
+#include <ApprovalTests.hpp>
+#include <catch2/catch_test_macros.hpp>
+
+#include "plotly_plotter/figure.h"
+#include "plotly_plotter/write_html.h"
+
+TEST_CASE("histogram") {
+    plotly_plotter::figure figure;
+
+    SECTION("simple histogram") {
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10});
+
+        const std::string file_path = "histogram_simple.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("change color") {
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10});
+        histogram.marker().color("red");
+
+        const std::string file_path = "histogram_change_color.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
+    SECTION("multiple histograms") {
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.opacity(0.5);
+        histogram.name("Histogram 1");
+
+        histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{3, 4, 5, 6, 6, 6, 7, 8});
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.opacity(0.5);
+        histogram.name("Histogram 2");
+
+        SECTION("overlay") {
+            figure.layout().bar_mode("overlay");
+
+            const std::string file_path = "histogram_multiple_overlay.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("stack") {
+            figure.layout().bar_mode("stack");
+
+            const std::string file_path = "histogram_multiple_stack.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+    }
+
+    SECTION("use a template") {
+        auto histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{1, 3, 4, 5, 5, 6, 7, 7, 8, 10});
+        histogram.name("Histogram 1");
+
+        histogram = figure.add_histogram();
+        // NOLINTNEXTLINE(*-magic-numbers)
+        histogram.x(std::vector<double>{3, 4, 5, 6, 6, 6, 7, 8});
+        histogram.name("Histogram 2");
+
+        // NOLINTNEXTLINE(*-magic-numbers)
+        figure.add_histogram_template().opacity(0.5);
+
+        figure.layout().bar_mode("overlay");
+
+        const std::string file_path = "histogram_use_template.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+}
