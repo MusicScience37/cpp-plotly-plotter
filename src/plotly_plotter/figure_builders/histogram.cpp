@@ -136,7 +136,12 @@ void histogram::configure_axes(figure& fig, std::size_t num_subplot_rows,
     }
 }
 
-std::string histogram::default_title() const { return x_; }
+std::string histogram::default_title() const {
+    if (x_.empty()) {
+        return y_;
+    }
+    return x_;
+}
 
 void histogram::add_trace(figure_frame_base& figure,
     const std::vector<bool>& parent_mask, std::size_t subplot_index,
