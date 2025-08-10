@@ -56,10 +56,9 @@ enum class histogram_bin_width_method : std::uint8_t {
  * \return Bin width.
  */
 template <typename Container>
-[[nodiscard]] auto calculate_histogram_bin_width(const Container& values,
+[[nodiscard]] double calculate_histogram_bin_width(const Container& values,
     histogram_bin_width_method method =
-        histogram_bin_width_method::freedman_diaconis) ->
-    typename Container::value_type {
+        histogram_bin_width_method::freedman_diaconis) {
     std::vector<double> values_for_calculation;
     values_for_calculation.reserve(values.size());
     for (const auto& value : values) {
@@ -68,9 +67,8 @@ template <typename Container>
 
     switch (method) {
     case histogram_bin_width_method::freedman_diaconis:
-        return static_cast<typename Container::value_type>(
-            calculate_histogram_bin_width_freedman_diaconis(
-                values_for_calculation));
+        return calculate_histogram_bin_width_freedman_diaconis(
+            values_for_calculation);
     }
     throw std::invalid_argument("Unknown histogram bin width method");
 }

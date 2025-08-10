@@ -198,15 +198,21 @@ void histogram::add_trace(figure_frame_base& figure,
         histogram.show_legend(false);
     }
 
-    if (subplot_index == 0 && bin_width_method_) {
+    if (subplot_index == 1 && bin_width_method_) {
         if (!x_.empty()) {
+            const auto [min, max] = data().at(x_)->get_range();
+            histogram.x_bins().start(min);
+            histogram.x_bins().end(max);
             histogram.x_bins().size(
-                data_table().at(x_)->calculate_histogram_bin_width(
+                data().at(x_)->calculate_histogram_bin_width(
                     *bin_width_method_));
         }
         if (!y_.empty()) {
+            const auto [min, max] = data().at(y_)->get_range();
+            histogram.y_bins().start(min);
+            histogram.y_bins().end(max);
             histogram.y_bins().size(
-                data_table().at(y_)->calculate_histogram_bin_width(
+                data().at(y_)->calculate_histogram_bin_width(
                     *bin_width_method_));
         }
     }
