@@ -370,7 +370,7 @@ generate vcpkg sbom:
   artifacts:
     reports:
       cyclonedx:
-        - $BUILD_DIR/vcpkg_installed/*.cyclonedx.json
+        - $BUILD_DIR/vcpkg_installed/**/*.cyclonedx.json
     expire_in: "1 mos"
   interruptible: true
 
