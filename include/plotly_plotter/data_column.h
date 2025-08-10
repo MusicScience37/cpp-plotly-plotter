@@ -32,6 +32,7 @@
 #include "plotly_plotter/json_converter_decl.h"
 #include "plotly_plotter/json_value.h"
 #include "plotly_plotter/to_string.h"
+#include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 
 namespace plotly_plotter {
 
@@ -105,6 +106,8 @@ public:
      * \brief Get the range of values in the column.
      *
      * \return Minimum and maximum values in the column.
+     *
+     * \note This function is only available for columns with numeric values.
      */
     [[nodiscard]] virtual std::pair<double, double> get_range() const = 0;
 
@@ -112,9 +115,20 @@ public:
      * \brief Get the range of values in the column in positive numbers.
      *
      * \return Minimum and maximum values in the column.
+     *
+     * \note This function is only available for columns with numeric values.
      */
     [[nodiscard]] virtual std::pair<double, double> get_positive_range()
         const = 0;
+
+    /*!
+     * \brief Calculate the width of bins in histograms.
+     *
+     * \param[in] method Method to use for calculation.
+     * \return Width of bins.
+     */
+    [[nodiscard]] virtual double calculate_histogram_bin_width(
+        utils::histogram_bin_width_method method) = 0;
 };
 
 /*!
@@ -252,6 +266,20 @@ public:
                 max = std::max(max, value_in_double);
             }
             return {min, max};
+        }
+    }
+
+    //! \copydoc data_column_base::calculate_histogram_bin_width
+    [[nodiscard]] double calculate_histogram_bin_width(
+        utils::histogram_bin_width_method method) override {
+        constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+        if constexpr (!is_supported) {
+            throw std::runtime_error(
+                "calculate_histogram_bin_width is not supported for this "
+                "type.");
+        } else {
+            return utils::calculate_histogram_bin_width(data_, method);
         }
     }
 

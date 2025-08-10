@@ -5,6 +5,7 @@ set(SOURCE_FILES
     plotly_plotter/figure_builders/box.cpp
     plotly_plotter/figure_builders/details/figure_builder_helper.cpp
     plotly_plotter/figure_builders/figure_builder_base.cpp
+    plotly_plotter/figure_builders/histogram.cpp
     plotly_plotter/figure_builders/scatter.cpp
     plotly_plotter/figure_builders/violin.cpp
     plotly_plotter/invert_color_scale.cpp
@@ -18,6 +19,7 @@ set(SOURCE_FILES
     plotly_plotter/json_converter.cpp
     plotly_plotter/styles.cpp
     plotly_plotter/to_string.cpp
+    plotly_plotter/utils/calculate_histogram_bin_width.cpp
     plotly_plotter/write_pdf.cpp
     plotly_plotter/write_png.cpp
     plotly_plotter/write_svg.cpp

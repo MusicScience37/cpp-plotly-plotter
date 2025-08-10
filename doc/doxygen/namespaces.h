@@ -97,4 +97,12 @@ namespace plotly_plotter {
     //! Namespace of color scales.
     namespace color_scales {}
 
+    /*!
+     * \dir include/plotly_plotter/utils
+     * \brief Header files of utilities.
+     */
+
+    //! Namespace of utilities.
+    namespace utils {}
+
 }  // namespace plotly_plotter

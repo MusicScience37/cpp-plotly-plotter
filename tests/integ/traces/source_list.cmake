@@ -6,6 +6,7 @@ set(SOURCE_FILES
     config_test.cpp
     data_types_test.cpp
     heatmap_test.cpp
+    histogram_test.cpp
     layout_test.cpp
     scatter_gl_test.cpp
     scatter_test.cpp

@@ -29,6 +29,7 @@
 #include "plotly_plotter/styles.h"
 #include "plotly_plotter/traces/box.h"
 #include "plotly_plotter/traces/heatmap.h"
+#include "plotly_plotter/traces/histogram.h"
 #include "plotly_plotter/traces/scatter.h"
 #include "plotly_plotter/traces/violin.h"
 
@@ -87,6 +88,15 @@ public:
      */
     [[nodiscard]] traces::heatmap add_heatmap() {
         return traces::heatmap(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a histogram trace to this figure.
+     *
+     * \return Added histogram trace.
+     */
+    [[nodiscard]] traces::histogram add_histogram() {
+        return traces::histogram(data_.emplace_back());
     }
 
     ///@}
@@ -232,6 +242,15 @@ public:
      */
     [[nodiscard]] traces::heatmap add_heatmap_template() {
         return traces::heatmap(data_template_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a template of histogram traces to this figure.
+     *
+     * \return Added histogram trace.
+     */
+    [[nodiscard]] traces::histogram add_histogram_template() {
+        return traces::histogram(data_template_.emplace_back());
     }
 
     ///@}
