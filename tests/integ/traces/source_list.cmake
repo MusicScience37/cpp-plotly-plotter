@@ -1,6 +1,7 @@
 set(SOURCE_FILES
     animations_test.cpp
     annotations_test.cpp
+    bar_test.cpp
     box_test.cpp
     color_scales.cpp
     config_test.cpp

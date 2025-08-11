@@ -1,5 +1,6 @@
 #include "animations_test.cpp"   // NOLINT(bugprone-suspicious-include)
 #include "annotations_test.cpp"  // NOLINT(bugprone-suspicious-include)
+#include "bar_test.cpp"          // NOLINT(bugprone-suspicious-include)
 #include "box_test.cpp"          // NOLINT(bugprone-suspicious-include)
 #include "color_scales.cpp"      // NOLINT(bugprone-suspicious-include)
 #include "config_test.cpp"       // NOLINT(bugprone-suspicious-include)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Untitled Plot</title>
+    </head>
+    <body>
+        <div id="plot" class="container"></div>
+        <div id="dataset" style="display:none">{&quot;data&quot;:[{&quot;type&quot;:&quot;bar&quot;,&quot;x&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;y&quot;:[1,2,3]},{&quot;type&quot;:&quot;bar&quot;,&quot;x&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;y&quot;:[2,3,4]}],&quot;layout&quot;:{&quot;barmode&quot;:&quot;overlay&quot;},&quot;config&quot;:{&quot;scrollZoom&quot;:true,&quot;responsive&quot;:true},&quot;template&quot;:{&quot;data&quot;:[{&quot;type&quot;:&quot;bar&quot;,&quot;opacity&quot;:0.5}],&quot;layout&quot;:{&quot;title&quot;:{&quot;x&quot;:0.05},&quot;xaxis&quot;:{&quot;showline&quot;:true,&quot;linecolor&quot;:&quot;#242424&quot;,&quot;gridcolor&quot;:&quot;#C8C8C8&quot;,&quot;zerolinecolor&quot;:&quot;#C8C8C8&quot;,&quot;ticks&quot;:&quot;outside&quot;},&quot;yaxis&quot;:{&quot;showline&quot;:true,&quot;linecolor&quot;:&quot;#242424&quot;,&quot;gridcolor&quot;:&quot;#C8C8C8&quot;,&quot;zerolinecolor&quot;:&quot;#C8C8C8&quot;,&quot;ticks&quot;:&quot;outside&quot;}}}}</div>
+    </body>
+    <style>
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var dataset_str = document.querySelector('#dataset').textContent;
+        var dataset = JSON.parse(dataset_str);
+        dataset.layout.template = Plotly.makeTemplate(dataset.template);
+        Plotly.newPlot("plot", dataset);
+    </script>
+</html>
+
