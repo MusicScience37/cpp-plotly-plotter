@@ -1,4 +1,5 @@
 set(SOURCE_FILES
+    bar_test.cpp
     box_test.cpp
     color_sequence_test.cpp
     dash_sequence_test.cpp

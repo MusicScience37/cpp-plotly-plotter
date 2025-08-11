@@ -54,6 +54,16 @@
  */
 
 /*!
+ * \example bars/create_bars_using_figure_builder.cpp
+ * Example to create bar plots using figure builders.
+ */
+
+/*!
+ * \example bars/create_simple_bar.cpp
+ * Example to create a simple bar plot.
+ */
+
+/*!
  * \example boxes/create_multiple_boxes.cpp
  * Example to create multiple box plots.
  */

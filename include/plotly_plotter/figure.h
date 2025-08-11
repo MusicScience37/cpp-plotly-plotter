@@ -27,6 +27,7 @@
 #include "plotly_plotter/json_value.h"
 #include "plotly_plotter/layout.h"
 #include "plotly_plotter/styles.h"
+#include "plotly_plotter/traces/bar.h"
 #include "plotly_plotter/traces/box.h"
 #include "plotly_plotter/traces/heatmap.h"
 #include "plotly_plotter/traces/histogram.h"
@@ -79,6 +80,15 @@ public:
      */
     [[nodiscard]] traces::violin add_violin() {
         return traces::violin(data_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a bar trace to this figure.
+     *
+     * \return Added bar trace.
+     */
+    [[nodiscard]] traces::bar add_bar() {
+        return traces::bar(data_.emplace_back());
     }
 
     /*!
@@ -233,6 +243,15 @@ public:
      */
     [[nodiscard]] traces::violin add_violin_template() {
         return traces::violin(data_template_.emplace_back());
+    }
+
+    /*!
+     * \brief Add a template of bar traces to this figure.
+     *
+     * \return Added bar trace.
+     */
+    [[nodiscard]] traces::bar add_bar_template() {
+        return traces::bar(data_template_.emplace_back());
     }
 
     /*!

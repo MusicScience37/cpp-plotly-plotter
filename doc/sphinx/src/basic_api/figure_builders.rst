@@ -9,7 +9,13 @@ APIs of Figure Builders
 .. doxygenclass:: plotly_plotter::figure_builders::box
     :allow-dot-graphs:
 
+.. doxygenclass:: plotly_plotter::figure_builders::bar
+    :allow-dot-graphs:
+
 .. doxygenclass:: plotly_plotter::figure_builders::violin
+    :allow-dot-graphs:
+
+.. doxygenclass:: plotly_plotter::figure_builders::histogram
     :allow-dot-graphs:
 
 .. doxygenclass:: plotly_plotter::figure_builders::figure_builder_base

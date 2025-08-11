@@ -19,12 +19,24 @@ APIs of Traces
 .. doxygenclass:: plotly_plotter::traces::box
     :allow-dot-graphs:
 
+.. doxygenclass:: plotly_plotter::traces::bar
+    :allow-dot-graphs:
+
+.. doxygenclass:: plotly_plotter::traces::bar_marker
+
 .. doxygenclass:: plotly_plotter::traces::violin
     :allow-dot-graphs:
 
 .. doxygenclass:: plotly_plotter::traces::violin_box
 
 .. doxygenclass:: plotly_plotter::traces::violin_mean_line
+
+.. doxygenclass:: plotly_plotter::traces::histogram
+    :allow-dot-graphs:
+
+.. doxygenclass:: plotly_plotter::traces::histogram_marker
+
+.. doxygenclass:: plotly_plotter::traces::histogram_bins
 
 .. doxygenclass:: plotly_plotter::traces::heatmap
     :allow-dot-graphs:

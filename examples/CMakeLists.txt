@@ -59,6 +59,14 @@ add_example_output(
     get_started_grouping_in_figure_builder_combine_groupings
     get_started_grouping_in_figure_builder_combine_groupings.html)
 
+add_example(bars_create_simple_bar bars/create_simple_bar.cpp)
+add_example_output(bars_create_simple_bar bars_create_simple_bar.html)
+
+add_example(bars_create_bars_using_figure_builder
+            bars/create_bars_using_figure_builder.cpp)
+add_example_output(bars_create_bars_using_figure_builder
+                   bars_create_bars_using_figure_builder.html)
+
 add_example(boxes_create_boxes_using_figure_builder
             boxes/create_boxes_using_figure_builder.cpp)
 add_example_output(boxes_create_boxes_using_figure_builder
