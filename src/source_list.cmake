@@ -2,6 +2,7 @@ set(SOURCE_FILES
     plotly_plotter/color_scales.cpp
     plotly_plotter/details/format_time.cpp
     plotly_plotter/details/write_html_impl.cpp
+    plotly_plotter/figure_builders/bar.cpp
     plotly_plotter/figure_builders/box.cpp
     plotly_plotter/figure_builders/details/figure_builder_helper.cpp
     plotly_plotter/figure_builders/figure_builder_base.cpp

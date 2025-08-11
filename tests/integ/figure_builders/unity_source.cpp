@@ -1,3 +1,4 @@
+#include "bar_test.cpp"             // NOLINT(bugprone-suspicious-include)
 #include "box_test.cpp"             // NOLINT(bugprone-suspicious-include)
 #include "color_sequence_test.cpp"  // NOLINT(bugprone-suspicious-include)
 #include "dash_sequence_test.cpp"   // NOLINT(bugprone-suspicious-include)
