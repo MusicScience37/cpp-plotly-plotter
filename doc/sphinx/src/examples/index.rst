@@ -9,6 +9,7 @@ Examples
     figure_builders/index
     scatters/index
     boxes/index
+    bars/index
     violins/index
     heatmaps/index
     color_scales/index
