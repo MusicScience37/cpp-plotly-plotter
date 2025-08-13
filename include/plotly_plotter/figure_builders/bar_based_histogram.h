@@ -37,6 +37,8 @@ namespace plotly_plotter::figure_builders {
 /*!
  * \brief Class to create figures of histogram plots using bar plots in Plotly.
  *
+ * \note This custom implementation is used instead of the built-in histogram in
+ * Plotly to prevent the limitation of log scale.
  * \note This class hold the reference of the data.
  * So, the data must be valid until this object is destructed.
  * \note Objects of this class can't be reused.
