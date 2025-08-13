@@ -98,6 +98,11 @@ bar_based_histogram& bar_based_histogram::color_map(
     return *this;
 }
 
+bar_based_histogram& bar_based_histogram::log_x(bool value) {
+    log_x_ = value;
+    return *this;
+}
+
 bar_based_histogram& bar_based_histogram::bin_width_method(
     utils::histogram_bin_width_method value) {
     bin_width_method_ = value;
@@ -123,10 +128,17 @@ void bar_based_histogram::configure_axes(figure& fig,
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, "Count");
 
+    if (log_x_) {
+        for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
+            ++i) {
+            fig.layout().xaxis(i + 1).type("log");
+        }
+    }
+
     constexpr double x_extended_factor = 0.0;
     constexpr double y_extended_factor = 0.1;
     const auto [min_x, max_x] =
-        details::calculate_axis_range(data(), x_, x_extended_factor, false);
+        details::calculate_axis_range(data(), x_, x_extended_factor, log_x_);
     const double min_y = 0;
     const double max_y =
         static_cast<double>(max_bin_count_) * (1.0 + y_extended_factor);
@@ -212,27 +224,67 @@ void bar_based_histogram::calculate_bin_edges() const {
         return;
     }
 
-    if (!fixed_bin_width_) {
-        const auto all_values = data().at(x_)->as_double_vector();
-        fixed_bin_width_ =
-            utils::calculate_histogram_bin_width(all_values, bin_width_method_);
-    }
-    const double& bin_width = *fixed_bin_width_;
+    if (log_x_) {
+        if (!fixed_bin_width_) {
+            auto all_values = data().at(x_)->as_double_vector();
+            for (auto iter = all_values.begin(); iter != all_values.end();) {
+                if (*iter <= 0.0) {
+                    iter = all_values.erase(iter);
+                } else {
+                    *iter = std::log10(*iter);
+                    ++iter;
+                }
+            }
+            fixed_bin_width_ = utils::calculate_histogram_bin_width(
+                all_values, bin_width_method_);
+        }
+        const double& log_bin_width = *fixed_bin_width_;
 
-    const auto [min_value, max_value] = data().at(x_)->get_range();
-    const auto num_bins = std::max(static_cast<std::size_t>(std::ceil(
-                                       (max_value - min_value) / bin_width)),
-        static_cast<std::size_t>(1));
-    bin_edges_.resize(num_bins + 1);
-    for (std::size_t i = 0; i <= num_bins; ++i) {
-        bin_edges_[i] = min_value + static_cast<double>(i) * bin_width;
-    }
-    bin_centers_.resize(num_bins);
-    bin_widths_.resize(num_bins);
-    for (std::size_t i = 0; i < num_bins; ++i) {
-        // NOLINTNEXTLINE(*-magic-numbers)
-        bin_centers_[i] = (bin_edges_[i] + bin_edges_[i + 1]) * 0.5;
-        bin_widths_[i] = bin_edges_[i + 1] - bin_edges_[i];
+        const auto [min_value, max_value] = data().at(x_)->get_positive_range();
+        const double log_min_value = std::log10(min_value);
+        const double log_max_value = std::log10(max_value);
+        const auto num_bins = std::max(
+            static_cast<std::size_t>(
+                std::ceil((log_max_value - log_min_value) / log_bin_width)),
+            static_cast<std::size_t>(1));
+        bin_edges_.resize(num_bins + 1);
+        for (std::size_t i = 0; i <= num_bins; ++i) {
+            const double log_bin_edge =
+                log_min_value + static_cast<double>(i) * log_bin_width;
+            // NOLINTNEXTLINE(*-magic-numbers)
+            bin_edges_[i] = std::pow(10.0, log_bin_edge);
+        }
+        bin_centers_.resize(num_bins);
+        bin_widths_.resize(num_bins);
+        for (std::size_t i = 0; i < num_bins; ++i) {
+            // NOLINTNEXTLINE(*-magic-numbers)
+            bin_centers_[i] = (bin_edges_[i] + bin_edges_[i + 1]) * 0.5;
+            bin_widths_[i] = bin_edges_[i + 1] - bin_edges_[i];
+        }
+    } else {
+        if (!fixed_bin_width_) {
+            const auto all_values = data().at(x_)->as_double_vector();
+            fixed_bin_width_ = utils::calculate_histogram_bin_width(
+                all_values, bin_width_method_);
+        }
+        const double& bin_width = *fixed_bin_width_;
+
+        const auto [min_value, max_value] = data().at(x_)->get_range();
+        const auto num_bins =
+            std::max(static_cast<std::size_t>(
+                         std::ceil((max_value - min_value) / bin_width)),
+                static_cast<std::size_t>(1));
+        bin_edges_.resize(num_bins + 1);
+        for (std::size_t i = 0; i <= num_bins; ++i) {
+            bin_edges_[i] = min_value + static_cast<double>(i) * bin_width;
+        }
+        bin_centers_.resize(num_bins);
+        bin_widths_.resize(num_bins);
+        for (std::size_t i = 0; i < num_bins; ++i) {
+            // NOLINTNEXTLINE(*-magic-numbers)
+            bin_centers_[i] = (bin_edges_[i] + bin_edges_[i + 1]) * 0.5;
+            bin_widths_[i] = bin_edges_[i + 1] - bin_edges_[i];
+        }
     }
 }
 

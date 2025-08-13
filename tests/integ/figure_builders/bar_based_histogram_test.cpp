@@ -135,6 +135,27 @@ TEST_CASE("bar_based_histogram") {
         }
     }
 
+    SECTION("log scale") {
+        data_table data;
+        data.emplace(
+            // NOLINTNEXTLINE(*-magic-numbers)
+            "values", std::vector<int>{1, 10, 10, 10, 10, 100, 1000, 1000});
+
+        const auto figure = bar_based_histogram(data)
+                                .x("values")
+                                .log_x(true)
+                                .fixed_bin_width(1)
+                                .title("Histogram with Log Scale")
+                                .create();
+
+        const std::string file_path = "bar_based_histogram_log_scale.html";
+        plotly_plotter::write_html(file_path, figure);
+
+        ApprovalTests::Approvals::verify(
+            ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+            ApprovalTests::Options().fileOptions().withFileExtension(".html"));
+    }
+
     SECTION("calculate bin width in this library") {
         constexpr std::size_t num_values = 1000;
         std::mt19937 engine;  // NOLINT: for reproducibility.
@@ -168,6 +189,20 @@ TEST_CASE("bar_based_histogram") {
 
             const std::string file_path =
                 "bar_based_histogram_auto_bin_width_freedman_diaconis.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            // Omit verification due to differences among platforms.
+        }
+
+        SECTION("in log scale") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .title("Histogram with auto bin width")
+                                    .log_x(true)
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_auto_bin_width_log_scale.html";
             plotly_plotter::write_html(file_path, figure);
 
             // Omit verification due to differences among platforms.

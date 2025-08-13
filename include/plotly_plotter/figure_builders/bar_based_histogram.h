@@ -127,6 +127,14 @@ public:
         std::unordered_map<std::string, std::string> value);
 
     /*!
+     * \brief Set whether to use log scale in x-axis.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    bar_based_histogram& log_x(bool value);
+
+    /*!
      * \brief Set the method to calculate bin width.
      *
      * \param[in] value Value.
@@ -209,6 +217,9 @@ private:
 
     //! Mode of coloring.
     color_mode color_mode_{color_mode::sequence};
+
+    //! Whether to use log scale in x-axis.
+    bool log_x_{false};
 
     //! Method to calculate bin width.
     utils::histogram_bin_width_method bin_width_method_{
