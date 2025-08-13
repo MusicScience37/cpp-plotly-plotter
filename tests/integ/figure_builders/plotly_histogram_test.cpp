@@ -17,7 +17,7 @@
  * \file
  * \brief Test of histograms.
  */
-#include "plotly_plotter/figure_builders/histogram.h"
+#include "plotly_plotter/figure_builders/plotly_histogram.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -31,20 +31,22 @@
 #include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 #include "plotly_plotter/write_html.h"
 
-TEST_CASE("histogram") {
+TEST_CASE("plotly_histogram") {
     using plotly_plotter::data_table;
     using plotly_plotter::write_html;
-    using plotly_plotter::figure_builders::histogram;
+    using plotly_plotter::figure_builders::plotly_histogram;
 
     SECTION("simple histogram") {
         data_table data;
         // NOLINTNEXTLINE(*-magic-numbers)
         data.emplace("values", std::vector<int>{1, 2, 3, 5, 10});
 
-        const auto figure =
-            histogram(data).x("values").title("Simple Histogram").create();
+        const auto figure = plotly_histogram(data)
+                                .x("values")
+                                .title("Simple Histogram")
+                                .create();
 
-        const std::string file_path = "histogram_simple_histogram.html";
+        const std::string file_path = "plotly_histogram_simple_histogram.html";
         write_html(file_path, figure);
 
         ApprovalTests::Approvals::verify(
@@ -61,13 +63,14 @@ TEST_CASE("histogram") {
                 "A", "A", "A", "A", "A", "A", "B", "B", "B", "B"});
 
         SECTION("in group") {
-            const auto figure = histogram(data)
+            const auto figure = plotly_histogram(data)
                                     .x("values")
                                     .group("group")
                                     .title("Test Title")
                                     .create();
 
-            const std::string file_path = "histogram_with_group_in_group.html";
+            const std::string file_path =
+                "plotly_histogram_with_group_in_group.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(
@@ -77,14 +80,14 @@ TEST_CASE("histogram") {
         }
 
         SECTION("in columns of subplots") {
-            const auto figure = histogram(data)
+            const auto figure = plotly_histogram(data)
                                     .x("values")
                                     .subplot_column("group")
                                     .title("Test Title")
                                     .create();
 
             const std::string file_path =
-                "histogram_with_group_in_columns_of_subplots.html";
+                "plotly_histogram_with_group_in_columns_of_subplots.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(
@@ -94,14 +97,14 @@ TEST_CASE("histogram") {
         }
 
         SECTION("in rows of subplots") {
-            const auto figure = histogram(data)
+            const auto figure = plotly_histogram(data)
                                     .x("values")
                                     .subplot_row("group")
                                     .title("Test Title")
                                     .create();
 
             const std::string file_path =
-                "histogram_with_group_in_rows_of_subplots.html";
+                "plotly_histogram_with_group_in_rows_of_subplots.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(
@@ -111,14 +114,14 @@ TEST_CASE("histogram") {
         }
 
         SECTION("in animation frames") {
-            const auto figure = histogram(data)
+            const auto figure = plotly_histogram(data)
                                     .x("values")
                                     .animation_frame("group")
                                     .title("Test Title")
                                     .create();
 
             const std::string file_path =
-                "histogram_with_group_in_animation_frames.html";
+                "plotly_histogram_with_group_in_animation_frames.html";
             plotly_plotter::write_html(file_path, figure);
 
             ApprovalTests::Approvals::verify(
@@ -152,7 +155,7 @@ TEST_CASE("histogram") {
 
         SECTION("Freedman-Diaconis rule") {
             const auto figure =
-                histogram(data)
+                plotly_histogram(data)
                     .x("values")
                     .title("Histogram with auto bin width")
                     .bin_width_method(plotly_plotter::utils::
@@ -160,7 +163,7 @@ TEST_CASE("histogram") {
                     .create();
 
             const std::string file_path =
-                "histogram_auto_bin_width_freedman_diaconis.html";
+                "plotly_histogram_auto_bin_width_freedman_diaconis.html";
             plotly_plotter::write_html(file_path, figure);
 
             // Omit verification due to differences among platforms.

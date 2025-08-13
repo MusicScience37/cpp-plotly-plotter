@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of histogram class.
+ * \brief Definition of plotly_histogram class.
  */
 #pragma once
 
@@ -35,13 +35,17 @@
 namespace plotly_plotter::figure_builders {
 
 /*!
- * \brief Class to create figures of histogram plots.
+ * \brief Class to create figures of histogram plots using histogram traces in
+ * Plotly.
  *
+ * \warning This implementation cannot handle log scale due to the limitation of
+ * Plotly.
  * \note This class hold the reference of the data.
  * So, the data must be valid until this object is destructed.
  * \note Objects of this class can't be reused.
  */
-class PLOTLY_PLOTTER_EXPORT histogram final : public figure_builder_base {
+class PLOTLY_PLOTTER_EXPORT plotly_histogram final
+    : public figure_builder_base {
 public:
     /*!
      * \brief Constructor.
@@ -51,7 +55,7 @@ public:
      * \note This class hold the reference of the data.
      * So, the data must be valid until this object is destructed.
      */
-    explicit histogram(const data_table& data);
+    explicit plotly_histogram(const data_table& data);
 
     /*!
      * \brief Set the column name of x coordinates.
@@ -59,7 +63,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& x(std::string value);
+    plotly_histogram& x(std::string value);
 
     /*!
      * \brief Set the column name of y coordinates.
@@ -67,7 +71,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& y(std::string value);
+    plotly_histogram& y(std::string value);
 
     /*!
      * \brief Set the column name of groups.
@@ -75,7 +79,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& group(std::string value);
+    plotly_histogram& group(std::string value);
 
     /*!
      * \brief Set the column name of rows in subplots.
@@ -83,7 +87,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& subplot_row(std::string value);
+    plotly_histogram& subplot_row(std::string value);
 
     /*!
      * \brief Set the column name of columns in subplots.
@@ -91,7 +95,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& subplot_column(std::string value);
+    plotly_histogram& subplot_column(std::string value);
 
     /*!
      * \brief Set the column name of frames in animation.
@@ -99,7 +103,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& animation_frame(std::string value);
+    plotly_histogram& animation_frame(std::string value);
 
     /*!
      * \brief Set the color sequence.
@@ -107,7 +111,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& color_sequence(std::vector<std::string> value);
+    plotly_histogram& color_sequence(std::vector<std::string> value);
 
     /*!
      * \brief Set the fixed color.
@@ -115,14 +119,14 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& fixed_color(std::string value);
+    plotly_histogram& fixed_color(std::string value);
 
     /*!
      * \brief Set to change the color by group using the color sequence.
      *
      * \return This object.
      */
-    histogram& change_color_by_group();
+    plotly_histogram& change_color_by_group();
 
     /*!
      * \brief Set the map of groups to colors.
@@ -130,7 +134,8 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& color_map(std::unordered_map<std::string, std::string> value);
+    plotly_histogram& color_map(
+        std::unordered_map<std::string, std::string> value);
 
     /*!
      * \brief Set the method to calculate bin width.
@@ -138,7 +143,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& bin_width_method(utils::histogram_bin_width_method value);
+    plotly_histogram& bin_width_method(utils::histogram_bin_width_method value);
 
     /*!
      * \brief Set the title of the figure.
@@ -146,7 +151,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& title(std::string value);
+    plotly_histogram& title(std::string value);
 
 private:
     //! Enumeration of modes of coloring.
