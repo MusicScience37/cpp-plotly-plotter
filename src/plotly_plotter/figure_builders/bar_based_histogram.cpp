@@ -118,20 +118,22 @@ bar_based_histogram& bar_based_histogram::title(std::string value) {
 void bar_based_histogram::configure_axes(figure& fig,
     std::size_t num_subplot_rows, std::size_t num_subplot_columns,
     bool require_manual_axis_ranges) const {
-    details::configure_axes_common(
-        fig, num_subplot_rows, num_subplot_columns, x_, "");
+    (void)require_manual_axis_ranges;
 
-    if (require_manual_axis_ranges) {
-        constexpr double extended_factor = 0.0;
-        if (!x_.empty() && data().at(x_)->is_numeric()) {
-            const auto [min_x, max_x] = details::calculate_axis_range(
-                data(), x_, extended_factor, false);
-            for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns;
-                ++i) {
-                const std::size_t index = i + 1;
-                fig.layout().xaxis(index).range(min_x, max_x);
-            }
-        }
+    details::configure_axes_common(
+        fig, num_subplot_rows, num_subplot_columns, x_, "Count");
+
+    constexpr double x_extended_factor = 0.0;
+    constexpr double y_extended_factor = 0.1;
+    const auto [min_x, max_x] =
+        details::calculate_axis_range(data(), x_, x_extended_factor, false);
+    const double min_y = 0;
+    const double max_y =
+        static_cast<double>(max_bin_count_) * (1.0 + y_extended_factor);
+    for (std::size_t i = 0; i < num_subplot_rows * num_subplot_columns; ++i) {
+        const std::size_t index = i + 1;
+        fig.layout().xaxis(index).range(min_x, max_x);
+        fig.layout().yaxis(index).range(min_y, max_y);
     }
 }
 

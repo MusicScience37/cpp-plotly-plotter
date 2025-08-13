@@ -1,4 +1,5 @@
 set(SOURCE_FILES
+    bar_based_histogram_test.cpp
     bar_test.cpp
     box_test.cpp
     color_sequence_test.cpp
