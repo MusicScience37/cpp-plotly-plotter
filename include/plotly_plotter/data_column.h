@@ -128,7 +128,25 @@ public:
      * \return Width of bins.
      */
     [[nodiscard]] virtual double calculate_histogram_bin_width(
-        utils::histogram_bin_width_method method) = 0;
+        utils::histogram_bin_width_method method) const = 0;
+
+    /*!
+     * \brief Get the values as a vector of doubles.
+     *
+     * \return Vector of double values.
+     */
+    [[nodiscard]] virtual std::vector<double> as_double_vector() const = 0;
+
+    /*!
+     * \brief Get the values as a vector of doubles.
+     *
+     * \param[in] mask Mask of the values.
+     * Values in this column are added to the resulting array
+     * only if the corresponding value in the mask is true.
+     * \return Vector of double values.
+     */
+    [[nodiscard]] virtual std::vector<double> as_masked_double_vector(
+        const std::vector<bool>& mask) const = 0;
 };
 
 /*!
@@ -271,7 +289,7 @@ public:
 
     //! \copydoc data_column_base::calculate_histogram_bin_width
     [[nodiscard]] double calculate_histogram_bin_width(
-        utils::histogram_bin_width_method method) override {
+        utils::histogram_bin_width_method method) const override {
         constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
             std::is_convertible_v<value_type, double>;
         if constexpr (!is_supported) {
@@ -280,6 +298,47 @@ public:
                 "type.");
         } else {
             return utils::calculate_histogram_bin_width(data_, method);
+        }
+    }
+
+    //! \copydoc data_column_base::as_double_vector
+    [[nodiscard]] std::vector<double> as_double_vector() const override {
+        constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+        if constexpr (!is_supported) {
+            throw std::runtime_error(
+                "as_double_vector is not supported for this type.");
+        } else {
+            std::vector<double> result;
+            result.reserve(data_.size());
+            for (const auto& value : data_) {
+                result.push_back(static_cast<double>(value));
+            }
+            return result;
+        }
+    }
+
+    //! \copydoc data_column_base::as_masked_double_vector
+    [[nodiscard]] std::vector<double> as_masked_double_vector(
+        const std::vector<bool>& mask) const override {
+        constexpr bool is_supported = std::is_arithmetic_v<value_type> &&
+            std::is_convertible_v<value_type, double>;
+        if constexpr (!is_supported) {
+            throw std::runtime_error(
+                "as_masked_double_vector is not supported for this type.");
+        } else {
+            if (mask.size() != data_.size()) {
+                throw std::invalid_argument(
+                    "Mask size does not match data size.");
+            }
+            std::vector<double> result;
+            result.reserve(mask.size());
+            for (std::size_t i = 0; i < mask.size(); ++i) {
+                if (mask[i]) {
+                    result.push_back(static_cast<double>(data_[i]));
+                }
+            }
+            return result;
         }
     }
 

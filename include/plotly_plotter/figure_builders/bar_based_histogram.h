@@ -15,7 +15,7 @@
  */
 /*!
  * \file
- * \brief Definition of histogram class.
+ * \brief Definition of bar_based_histogram class.
  */
 #pragma once
 
@@ -35,13 +35,14 @@
 namespace plotly_plotter::figure_builders {
 
 /*!
- * \brief Class to create figures of histogram plots.
+ * \brief Class to create figures of histogram plots using bar plots in Plotly.
  *
  * \note This class hold the reference of the data.
  * So, the data must be valid until this object is destructed.
  * \note Objects of this class can't be reused.
  */
-class PLOTLY_PLOTTER_EXPORT histogram final : public figure_builder_base {
+class PLOTLY_PLOTTER_EXPORT bar_based_histogram final
+    : public figure_builder_base {
 public:
     /*!
      * \brief Constructor.
@@ -51,23 +52,15 @@ public:
      * \note This class hold the reference of the data.
      * So, the data must be valid until this object is destructed.
      */
-    explicit histogram(const data_table& data);
+    explicit bar_based_histogram(const data_table& data);
 
     /*!
-     * \brief Set the column name of x coordinates.
+     * \brief Set the column name of x coordinates (values).
      *
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& x(std::string value);
-
-    /*!
-     * \brief Set the column name of y coordinates.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    histogram& y(std::string value);
+    bar_based_histogram& x(std::string value);
 
     /*!
      * \brief Set the column name of groups.
@@ -75,7 +68,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& group(std::string value);
+    bar_based_histogram& group(std::string value);
 
     /*!
      * \brief Set the column name of rows in subplots.
@@ -83,7 +76,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& subplot_row(std::string value);
+    bar_based_histogram& subplot_row(std::string value);
 
     /*!
      * \brief Set the column name of columns in subplots.
@@ -91,7 +84,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& subplot_column(std::string value);
+    bar_based_histogram& subplot_column(std::string value);
 
     /*!
      * \brief Set the column name of frames in animation.
@@ -99,7 +92,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& animation_frame(std::string value);
+    bar_based_histogram& animation_frame(std::string value);
 
     /*!
      * \brief Set the color sequence.
@@ -107,7 +100,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& color_sequence(std::vector<std::string> value);
+    bar_based_histogram& color_sequence(std::vector<std::string> value);
 
     /*!
      * \brief Set the fixed color.
@@ -115,14 +108,14 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& fixed_color(std::string value);
+    bar_based_histogram& fixed_color(std::string value);
 
     /*!
      * \brief Set to change the color by group using the color sequence.
      *
      * \return This object.
      */
-    histogram& change_color_by_group();
+    bar_based_histogram& change_color_by_group();
 
     /*!
      * \brief Set the map of groups to colors.
@@ -130,7 +123,8 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& color_map(std::unordered_map<std::string, std::string> value);
+    bar_based_histogram& color_map(
+        std::unordered_map<std::string, std::string> value);
 
     /*!
      * \brief Set the method to calculate bin width.
@@ -138,7 +132,16 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& bin_width_method(utils::histogram_bin_width_method value);
+    bar_based_histogram& bin_width_method(
+        utils::histogram_bin_width_method value);
+
+    /*!
+     * \brief Set the fixed bin width.
+     *
+     * \param[in] value Value.
+     * \return This object.
+     */
+    bar_based_histogram& fixed_bin_width(double value);
 
     /*!
      * \brief Set the title of the figure.
@@ -146,7 +149,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    histogram& title(std::string value);
+    bar_based_histogram& title(std::string value);
 
 private:
     //! Enumeration of modes of coloring.
@@ -160,6 +163,9 @@ private:
         //! Use the color map.
         map
     };
+
+    //! Type of bin counts.
+    using bin_count_type = std::uint32_t;
 
     //! \copydoc figure_builder_base::configure_axes
     void configure_axes(figure& fig, std::size_t num_subplot_rows,
@@ -180,6 +186,18 @@ private:
     [[nodiscard]] std::vector<std::string> additional_hover_data_in_trace()
         const override;
 
+    /*!
+     * \brief Calculate bin edges.
+     */
+    void calculate_bin_edges() const;
+
+    /*!
+     * \brief Calculate bin counts.
+     *
+     * \param[in] mask Mask of data to calculate.
+     */
+    void calculate_bin_counts(const std::vector<bool>& mask) const;
+
     //! Color sequence.
     std::vector<std::string> color_sequence_{color_sequence_plotly()};
 
@@ -193,13 +211,29 @@ private:
     color_mode color_mode_{color_mode::sequence};
 
     //! Method to calculate bin width.
-    std::optional<utils::histogram_bin_width_method> bin_width_method_;
+    utils::histogram_bin_width_method bin_width_method_{
+        utils::histogram_bin_width_method::freedman_diaconis};
 
-    //! Column name of x coordinates.
+    //! Fixed bin width. (Null for automatic selection.)
+    mutable std::optional<double> fixed_bin_width_;
+
+    //! Column name of x coordinates (values).
     std::string x_;
 
-    //! Column name of y coordinates.
-    std::string y_;
+    //! Buffer of bin edges.
+    mutable std::vector<double> bin_edges_;
+
+    //! Buffer of bin centers.
+    mutable std::vector<double> bin_centers_;
+
+    //! Buffer of bin widths.
+    mutable std::vector<double> bin_widths_;
+
+    //! Buffer of bin counts.
+    mutable std::vector<bin_count_type> bin_counts_;
+
+    //! Maximum values of bin counts.
+    mutable bin_count_type max_bin_count_{0};
 };
 
 }  // namespace plotly_plotter::figure_builders

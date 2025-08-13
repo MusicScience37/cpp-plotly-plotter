@@ -97,8 +97,6 @@ public:
      *
      * \param[in] value Value.
      * \return This object.
-     *
-     * \warning This function is not stable for this type of plots currently.
      */
     bar& animation_frame(std::string value);
 
