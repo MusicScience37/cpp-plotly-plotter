@@ -1,4 +1,4 @@
-VIolin Plots
+Violin Plots
 ================
 
 .. toctree::

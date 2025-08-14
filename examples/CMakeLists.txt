@@ -136,6 +136,11 @@ add_example_output(figure_builders_set_axes_to_log_scale
 add_example(heatmaps_create_heatmap heatmaps/create_heatmap.cpp)
 add_example_output(heatmaps_create_heatmap heatmaps_create_heatmap.html)
 
+add_example(histograms_create_histogram_using_figure_builder
+            histograms/create_histogram_using_figure_builder.cpp)
+add_example_output(histograms_create_histogram_using_figure_builder
+                   histograms_create_histogram_using_figure_builder.html)
+
 add_example(scatter_colorize_markers_in_figure_builder
             scatters/colorize_markers_in_figure_builder.cpp)
 add_example_output(scatter_colorize_markers_in_figure_builder

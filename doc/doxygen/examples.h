@@ -109,6 +109,11 @@
  */
 
 /*!
+ * \example histograms/create_histogram_using_figure_builder.cpp
+ * Example to create a histogram using a figure builder.
+ */
+
+/*!
  * \example scatters/colorize_markers_in_figure_builder.cpp
  * Example to colorize markers in a figure builder.
  */
