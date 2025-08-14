@@ -135,6 +135,142 @@ TEST_CASE("bar_based_histogram") {
         }
     }
 
+    SECTION("histogram with two groups") {
+        data_table data;
+        data.emplace("values",
+            // NOLINTNEXTLINE(*-magic-numbers)
+            std::vector<int>{0, 2, 3, 5, 7, 2, 3, 4, 5, 8,
+                // NOLINTNEXTLINE(*-magic-numbers)
+                3, 4, 5, 6, 9, 4, 5, 6, 7, 10});
+        data.emplace("group1",
+            std::vector<std::string>{"A", "A", "A", "A", "A", "A", "A", "A",
+                "A", "A", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"});
+        data.emplace("group2",
+            std::vector<std::string>{"C", "C", "C", "C", "C", "D", "D", "D",
+                "D", "D", "C", "C", "C", "C", "C", "D", "D", "D", "D", "D"});
+        constexpr double bin_width = 2.0;
+
+        SECTION("in group and columns of subplots") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .group("group1")
+                                    .subplot_column("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_group_and_columns_of_"
+                "subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in group and rows of subplots") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .group("group1")
+                                    .subplot_row("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_group_and_rows_of_"
+                "subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in group and animation frame") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .group("group1")
+                                    .animation_frame("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_group_and_animation_"
+                "frame.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in columns and rows of subplots") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .subplot_column("group1")
+                                    .subplot_row("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_columns_and_rows_of_"
+                "subplots.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in columns and animation frame") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .subplot_column("group1")
+                                    .animation_frame("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_columns_and_animation_"
+                "frame.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+
+        SECTION("in rows and animation frame") {
+            const auto figure = bar_based_histogram(data)
+                                    .x("values")
+                                    .subplot_row("group1")
+                                    .animation_frame("group2")
+                                    .fixed_bin_width(bin_width)
+                                    .title("Histogram with Two Groups")
+                                    .create();
+
+            const std::string file_path =
+                "bar_based_histogram_with_two_groups_in_rows_and_animation_"
+                "frame.html";
+            plotly_plotter::write_html(file_path, figure);
+
+            ApprovalTests::Approvals::verify(
+                ApprovalTests::FileUtils::readFileThrowIfMissing(file_path),
+                ApprovalTests::Options().fileOptions().withFileExtension(
+                    ".html"));
+        }
+    }
+
     SECTION("log scale") {
         data_table data;
         data.emplace(
