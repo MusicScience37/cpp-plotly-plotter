@@ -1,7 +1,7 @@
 cpp-plotly-plotter
 ==========================================
 
-A library to create plots using plotly.
+A C++ library for creating interactive plots using `Plotly <https://plotly.com/>`_.
 
 Developed at
 `https://gitlab.com/MusicScience37Projects/utility-libraries/cpp-plotly-plotter <https://gitlab.com/MusicScience37Projects/utility-libraries/cpp-plotly-plotter>`_.

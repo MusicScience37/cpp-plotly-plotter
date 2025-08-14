@@ -13,7 +13,7 @@ parse_version(
 project(
     ${SHORT_PROJECT_NAME}
     VERSION ${${UPPER_PROJECT_NAME}_VERSION}
-    DESCRIPTION "A library to create plots using plotly."
+    DESCRIPTION "A C++ library for creating interactive plots using Plotly."
     LANGUAGES CXX)
 message(STATUS "${FULL_PROJECT_NAME} version ${PROJECT_VERSION}")
 message(STATUS "build type: ${CMAKE_BUILD_TYPE}")

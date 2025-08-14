@@ -1,3 +1,3 @@
 # cpp-plotly-plotter
 
-A library to create plots using [plotly](https://plotly.com/).
+A C++ library for creating interactive plots using [Plotly](https://plotly.com/).
