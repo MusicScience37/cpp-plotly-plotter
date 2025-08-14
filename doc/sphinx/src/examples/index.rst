@@ -11,5 +11,6 @@ Examples
     boxes/index
     bars/index
     violins/index
+    histograms/index
     heatmaps/index
     color_scales/index

@@ -15,32 +15,37 @@
  */
 /*!
  * \file
- * \brief Definition of bar class.
+ * \brief Definition of plotly_histogram class.
  */
 #pragma once
 
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 #include <vector>
 
-#include "plotly_plotter/data_table.h"
 #include "plotly_plotter/details/plotly_plotter_export.h"
 #include "plotly_plotter/figure_builders/color_sequences.h"
 #include "plotly_plotter/figure_builders/figure_builder_base.h"
+#include "plotly_plotter/utils/calculate_histogram_bin_width.h"
 
 namespace plotly_plotter::figure_builders {
 
 /*!
- * \brief Class to create figures of bar plots.
+ * \brief Class to create figures of histogram plots using histogram traces in
+ * Plotly.
  *
+ * \warning This implementation cannot handle log scale due to the limitation of
+ * Plotly.
  * \note This class hold the reference of the data.
  * So, the data must be valid until this object is destructed.
  * \note Objects of this class can't be reused.
  */
-class PLOTLY_PLOTTER_EXPORT bar final : public figure_builder_base {
+class PLOTLY_PLOTTER_EXPORT plotly_histogram final
+    : public figure_builder_base {
 public:
     /*!
      * \brief Constructor.
@@ -50,7 +55,7 @@ public:
      * \note This class hold the reference of the data.
      * So, the data must be valid until this object is destructed.
      */
-    explicit bar(const data_table& data);
+    explicit plotly_histogram(const data_table& data);
 
     /*!
      * \brief Set the column name of x coordinates.
@@ -58,7 +63,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& x(std::string value);
+    plotly_histogram& x(std::string value);
 
     /*!
      * \brief Set the column name of y coordinates.
@@ -66,7 +71,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& y(std::string value);
+    plotly_histogram& y(std::string value);
 
     /*!
      * \brief Set the column name of groups.
@@ -74,7 +79,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& group(std::string value);
+    plotly_histogram& group(std::string value);
 
     /*!
      * \brief Set the column name of rows in subplots.
@@ -82,7 +87,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& subplot_row(std::string value);
+    plotly_histogram& subplot_row(std::string value);
 
     /*!
      * \brief Set the column name of columns in subplots.
@@ -90,7 +95,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& subplot_column(std::string value);
+    plotly_histogram& subplot_column(std::string value);
 
     /*!
      * \brief Set the column name of frames in animation.
@@ -98,15 +103,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& animation_frame(std::string value);
-
-    /*!
-     * \brief Set the column names of additional data in hovers.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    bar& hover_data(std::vector<std::string> value);
+    plotly_histogram& animation_frame(std::string value);
 
     /*!
      * \brief Set the color sequence.
@@ -114,7 +111,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& color_sequence(std::vector<std::string> value);
+    plotly_histogram& color_sequence(std::vector<std::string> value);
 
     /*!
      * \brief Set the fixed color.
@@ -122,14 +119,14 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& fixed_color(std::string value);
+    plotly_histogram& fixed_color(std::string value);
 
     /*!
      * \brief Set to change the color by group using the color sequence.
      *
      * \return This object.
      */
-    bar& change_color_by_group();
+    plotly_histogram& change_color_by_group();
 
     /*!
      * \brief Set the map of groups to colors.
@@ -137,23 +134,16 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& color_map(std::unordered_map<std::string, std::string> value);
+    plotly_histogram& color_map(
+        std::unordered_map<std::string, std::string> value);
 
     /*!
-     * \brief Set whether to use log scale in x-axis.
+     * \brief Set the method to calculate bin width.
      *
      * \param[in] value Value.
      * \return This object.
      */
-    bar& log_x(bool value);
-
-    /*!
-     * \brief Set whether to use log scale in y-axis.
-     *
-     * \param[in] value Value.
-     * \return This object.
-     */
-    bar& log_y(bool value);
+    plotly_histogram& bin_width_method(utils::histogram_bin_width_method value);
 
     /*!
      * \brief Set the title of the figure.
@@ -161,7 +151,7 @@ public:
      * \param[in] value Value.
      * \return This object.
      */
-    bar& title(std::string value);
+    plotly_histogram& title(std::string value);
 
 private:
     //! Enumeration of modes of coloring.
@@ -207,17 +197,14 @@ private:
     //! Mode of coloring.
     color_mode color_mode_{color_mode::sequence};
 
+    //! Method to calculate bin width.
+    std::optional<utils::histogram_bin_width_method> bin_width_method_;
+
     //! Column name of x coordinates.
     std::string x_;
 
     //! Column name of y coordinates.
     std::string y_;
-
-    //! Whether to use log scale in x-axis.
-    bool log_x_{false};
-
-    //! Whether to use log scale in y-axis.
-    bool log_y_{false};
 };
 
 }  // namespace plotly_plotter::figure_builders

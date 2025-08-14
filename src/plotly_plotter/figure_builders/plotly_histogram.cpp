@@ -15,9 +15,9 @@
  */
 /*!
  * \file
- * \brief Implementation of histogram class.
+ * \brief Implementation of plotly_histogram class.
  */
-#include "plotly_plotter/figure_builders/histogram.h"
+#include "plotly_plotter/figure_builders/plotly_histogram.h"
 
 #include <cstddef>
 #include <memory>
@@ -38,39 +38,41 @@
 
 namespace plotly_plotter::figure_builders {
 
-histogram::histogram(const data_table& data) : figure_builder_base(data) {}
+plotly_histogram::plotly_histogram(const data_table& data)
+    : figure_builder_base(data) {}
 
-histogram& histogram::x(std::string value) {
+plotly_histogram& plotly_histogram::x(std::string value) {
     x_ = std::move(value);
     return *this;
 }
 
-histogram& histogram::y(std::string value) {
+plotly_histogram& plotly_histogram::y(std::string value) {
     y_ = std::move(value);
     return *this;
 }
 
-histogram& histogram::group(std::string value) {
+plotly_histogram& plotly_histogram::group(std::string value) {
     set_group(std::move(value));
     return *this;
 }
 
-histogram& histogram::subplot_row(std::string value) {
+plotly_histogram& plotly_histogram::subplot_row(std::string value) {
     set_subplot_row(std::move(value));
     return *this;
 }
 
-histogram& histogram::subplot_column(std::string value) {
+plotly_histogram& plotly_histogram::subplot_column(std::string value) {
     set_subplot_column(std::move(value));
     return *this;
 }
 
-histogram& histogram::animation_frame(std::string value) {
+plotly_histogram& plotly_histogram::animation_frame(std::string value) {
     set_animation_frame(std::move(value));
     return *this;
 }
 
-histogram& histogram::color_sequence(std::vector<std::string> value) {
+plotly_histogram& plotly_histogram::color_sequence(
+    std::vector<std::string> value) {
     if (value.empty()) {
         throw std::runtime_error("Color sequence must not be empty.");
     }
@@ -79,36 +81,36 @@ histogram& histogram::color_sequence(std::vector<std::string> value) {
     return *this;
 }
 
-histogram& histogram::fixed_color(std::string value) {
+plotly_histogram& plotly_histogram::fixed_color(std::string value) {
     fixed_color_ = std::move(value);
     color_mode_ = color_mode::fixed;
     return *this;
 }
 
-histogram& histogram::change_color_by_group() {
+plotly_histogram& plotly_histogram::change_color_by_group() {
     color_mode_ = color_mode::sequence;
     return *this;
 }
 
-histogram& histogram::color_map(
+plotly_histogram& plotly_histogram::color_map(
     std::unordered_map<std::string, std::string> value) {
     color_map_ = std::move(value);
     color_mode_ = color_mode::map;
     return *this;
 }
 
-histogram& histogram::bin_width_method(
+plotly_histogram& plotly_histogram::bin_width_method(
     utils::histogram_bin_width_method value) {
     bin_width_method_ = value;
     return *this;
 }
 
-histogram& histogram::title(std::string value) {
+plotly_histogram& plotly_histogram::title(std::string value) {
     set_title(std::move(value));
     return *this;
 }
 
-void histogram::configure_axes(figure& fig, std::size_t num_subplot_rows,
+void plotly_histogram::configure_axes(figure& fig, std::size_t num_subplot_rows,
     std::size_t num_subplot_columns, bool require_manual_axis_ranges) const {
     details::configure_axes_common(
         fig, num_subplot_rows, num_subplot_columns, x_, y_);
@@ -136,14 +138,14 @@ void histogram::configure_axes(figure& fig, std::size_t num_subplot_rows,
     }
 }
 
-std::string histogram::default_title() const {
+std::string plotly_histogram::default_title() const {
     if (x_.empty()) {
         return y_;
     }
     return x_;
 }
 
-void histogram::add_trace(figure_frame_base& figure,
+void plotly_histogram::add_trace(figure_frame_base& figure,
     const std::vector<bool>& parent_mask, std::size_t subplot_index,
     std::string_view group_name, std::size_t group_index,
     std::string_view hover_prefix,
@@ -223,7 +225,8 @@ void histogram::add_trace(figure_frame_base& figure,
     }
 }
 
-std::vector<std::string> histogram::additional_hover_data_in_trace() const {
+std::vector<std::string> plotly_histogram::additional_hover_data_in_trace()
+    const {
     return {};
 }
 

@@ -63,6 +63,7 @@
     "doxygenclass",
     "doxygenfunction",
     "doxygennamespace",
+    "doxygentypedef",
     "DPLOTLY",
     "DVCPKG",
     "Eigen",

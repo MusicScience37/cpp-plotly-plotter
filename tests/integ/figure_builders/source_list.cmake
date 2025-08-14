@@ -1,11 +1,12 @@
 set(SOURCE_FILES
+    bar_based_histogram_test.cpp
     bar_test.cpp
     box_test.cpp
     color_sequence_test.cpp
     dash_sequence_test.cpp
     data_types_test.cpp
-    histogram_test.cpp
     line_test.cpp
+    plotly_histogram_test.cpp
     scatter_test.cpp
     test_main.cpp
     violin_test.cpp
