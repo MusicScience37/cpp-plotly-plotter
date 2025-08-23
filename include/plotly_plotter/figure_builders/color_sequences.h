@@ -30,8 +30,10 @@ namespace plotly_plotter::figure_builders {
  * \return Color sequence.
  */
 [[nodiscard]] inline std::vector<std::string> color_sequence_plotly() {
-    return {"#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A", "#19D3F3",
-        "#FF6692", "#B6E880", "#FF97FF", "#FECB52"};
+    return {"rgb(31, 119, 180)", "rgb(255, 127, 14)", "rgb(44, 160, 44)",
+        "rgb(214, 39, 40)", "rgb(148, 103, 189)", "rgb(140, 86, 75)",
+        "rgb(227, 119, 194)", "rgb(127, 127, 127)", "rgb(188, 189, 34)",
+        "rgb(23, 190, 207)"};
 }
 
 }  // namespace plotly_plotter::figure_builders
