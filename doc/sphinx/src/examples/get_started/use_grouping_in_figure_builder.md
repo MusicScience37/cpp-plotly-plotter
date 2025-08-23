@@ -25,7 +25,7 @@ This section shows how to use grouping in figure builders of cpp-plotly-plotter 
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_group.html", version=1)
+show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_group.html", version=2)
 ```
 
 ### Example to Use `subplot_column` Function
@@ -41,7 +41,7 @@ show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_group.ht
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_column.html", version=4)
+show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_column.html", version=5)
 ```
 
 ### Example to Use `subplot_row` Function
@@ -57,7 +57,7 @@ show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_row.html", version=1)
+show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_row.html", version=2)
 ```
 
 ### Example to Use Multiple Groupings
@@ -73,7 +73,7 @@ show_html_figure("../outputs/get_started_grouping_in_figure_builder_use_subplot_
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/get_started_grouping_in_figure_builder_combine_groupings.html", version=2)
+show_html_figure("../outputs/get_started_grouping_in_figure_builder_combine_groupings.html", version=3)
 ```
 
 ## Further Reading

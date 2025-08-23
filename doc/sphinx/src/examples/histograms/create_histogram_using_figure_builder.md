@@ -27,7 +27,7 @@ This above code will create an HTML file with a plot as shown below.
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/histograms_create_histogram_using_figure_builder.html", version=1)
+show_html_figure("../outputs/histograms_create_histogram_using_figure_builder.html", version=2)
 ```
 
 ## Further Reading
