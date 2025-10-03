@@ -147,6 +147,7 @@ TEST_CASE("bar") {
         const auto figure = bar(data)
                                 .x("x")
                                 .y("y")
+                                .group("group")
                                 .hover_data({"hover"})
                                 .log_x(true)
                                 .log_y(true)
