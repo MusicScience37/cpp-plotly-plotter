@@ -221,6 +221,8 @@ void bar::add_trace(figure_frame_base& figure,
 
     if (group_index > 0 && !x_.empty()) {
         figure.layout().bar_mode("group");
+    } else {
+        figure.layout().bar_mode("overlay");
     }
 }
 
