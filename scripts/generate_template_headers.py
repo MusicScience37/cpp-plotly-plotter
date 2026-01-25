@@ -28,8 +28,7 @@ def _generate_template_header(
     variable_name = template_name
 
     with open(str(header_path), "w", encoding="utf-8") as file:
-        file.write(
-            rf"""/*
+        file.write(rf"""/*
  * Copyright 2025 MusicScience37 (Kenta Kabashima)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,8 +62,7 @@ namespace plotly_plotter::details::templates {{
 static constexpr std::string_view {variable_name} = R"({html_contents})";
 
 }}  // namespace plotly_plotter::details::templates
-"""
-        )
+""")
 
     subprocess.run(["clang-format", "-i", str(header_path)], check=True)
 
