@@ -53,11 +53,11 @@ int main() {
                     (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.2, 2))) +
                 std::exp(-coeff *
                     (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.8, 2))) -
-                0.1 *
+                0.15 *
                     std::exp(-coeff *
                         (std::pow(x[col] - 0.8, 2) +
                             std::pow(y[row] - 0.8, 2))) +
-                0.1 *
+                0.15 *
                     std::exp(-coeff *
                         (std::pow(x[col] - 0.8, 2) +
                             std::pow(y[row] - 0.2, 2)));
@@ -69,18 +69,18 @@ int main() {
     using namespace plotly_plotter::color_scales;
     const auto color_scales = std::vector<
         std::pair<std::string, std::vector<std::pair<double, std::string>>>>{
-        {"blue_to_red", blue_to_red()},
-        {"blue_to_red_on_green", blue_to_red_on_green()},
-        {"green_to_red", green_to_red()},
-        {"green_to_red_on_yellow", green_to_red_on_yellow()},
-        {"green_to_autumn", green_to_autumn()},
-        {"green_to_autumn_on_yellow", green_to_autumn_on_yellow()},
-        {"blue_to_autumn", blue_to_autumn()},
-        {"blue_to_autumn_on_green", blue_to_autumn_on_green()},
-        {"cool_warm_simple", cool_warm_simple()},
-        {"cool_warm_darker", cool_warm_darker()},
-        {"cool_warm_extended", cool_warm_extended()},
-        {"cool_warm_extended_relaxed", cool_warm_extended_relaxed()}};
+        {"blue_brown_white", blue_brown_white()},
+        {"blue_brown_white_wide", blue_brown_white_wide()},
+        {"blue_brown_light", blue_brown_light()},
+        {"blue_brown_light_wide", blue_brown_light_wide()},
+        {"blue_red_white", blue_red_white()},
+        {"blue_red_white_wide", blue_red_white_wide()},
+        {"blue_red_light", blue_red_light()},
+        {"blue_red_light_wide", blue_red_light_wide()},
+        {"blue_orange_dark", blue_orange_dark()},
+        {"blue_orange_dark_wide", blue_orange_dark_wide()},
+        {"blue_red_dark", blue_red_dark()},
+        {"blue_red_dark_wide", blue_red_dark_wide()}, {"rainbow", rainbow()}};
 
     // Create the figure.
     plotly_plotter::figure figure;
@@ -119,7 +119,7 @@ int main() {
         annotation.show_arrow(false);
     }
 
-    figure.layout().grid().rows(6);
+    figure.layout().grid().rows(7);
     figure.layout().grid().columns(2);
     figure.layout().grid().pattern("independent");
 

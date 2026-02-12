@@ -2770,6 +2770,22 @@ files = [
 ]
 
 [[package]]
+name = "ok-palette-lab"
+version = "0.4.0"
+description = "Smooth color maps using Oklch color space for Plotly and matplotlib."
+optional = false
+python-versions = "!=3.14.1,<3.15,>=3.12"
+groups = ["dev"]
+files = [
+    {file = "ok_palette_lab-0.4.0-py3-none-any.whl", hash = "sha256:6a0621814ecd3fd7c480da00ff61edbce55cb534098d9135efc32c1cd5eb6ee9"},
+    {file = "ok_palette_lab-0.4.0.tar.gz", hash = "sha256:dbf9f057cc9412b2ec85f687bf1193f8c37b795a9a5f6f9a9411d3e7b55ac936"},
+]
+
+[package.extras]
+matplotlib = ["matplotlib (>=3)"]
+plotly = ["plotly (>=6)"]
+
+[[package]]
 name = "packaging"
 version = "26.0"
 description = "Core utilities for Python packages"
@@ -5036,4 +5052,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.14"
-content-hash = "7e188241831c7ed156f9bf945aa992cf0435eaddcd0b82776315b42d26f76dac"
+content-hash = "7d6b6d6ad66b80c0924b6342a89f77d2f384861a286cc2b48b582ab1a5fd1a39"

@@ -18,14 +18,14 @@
  * \brief Implementation of functions of color scales.
  *
  * This file is generated from a template
- * scripts/templates/color_scales.h.jinja
+ * scripts/templates/color_scales.cpp.jinja
  * using a script scripts/color_scale_util.py.
  */
 #include "plotly_plotter/color_scales.h"
 
 namespace plotly_plotter::color_scales {
 
-{% for color_scale in data["color_scales"] %}
+{% for color_scale in data %}
 
 std::vector<std::pair<double, std::string>> {{ color_scale["name"] }}()
 {

@@ -5,6 +5,8 @@ file_format: mystnb
 # Use Color Scales in cpp-plotly-plotter
 
 This section shows how to use color scales in cpp-plotly-plotter library.
+Color scales in this library are defined in
+[OKPaletteLab](https://gitlab.com/MusicScience37Projects/utility-libraries/OKPaletteLab) library.
 
 ```{contents}
 :backlinks: none
@@ -50,24 +52,6 @@ from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 show_html_figure("../outputs/color_scales_invert_color_scale.html", version=6)
 ```
 
-### Use a Color Scale for Positive Numbers
-
-Some color scales looks better when the minimum value is set to zero.
-
-```{literalinclude} /../../../examples/color_scales/use_positive_color_scale.cpp
-:caption: Example to use a color scale for positive numbers.
-:language: cpp
-:start-at: "#include"
-```
-
-```{code-cell}
-:tags: ["remove-input"]
-
-from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
-
-show_html_figure("../outputs/color_scales_use_positive_color_scale.html", version=6)
-```
-
 ### Use a Color Scales for Positive and Negative Numbers
 
 Some color scales are designed for symmetric ranges of positive and negative numbers.
@@ -95,17 +79,7 @@ show_html_figure("../outputs/color_scales_use_positive_negative_color_scale.html
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1200, version=11)
-```
-
-### Color Scales for Positive Numbers
-
-```{code-cell}
-:tags: ["remove-input"]
-
-from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
-
-show_html_figure("../outputs/color_scales_positive_color_scales.html", height=900, version=7)
+show_html_figure("../outputs/color_scales_neutral_color_scales.html", height=1500, version=11)
 ```
 
 ### Color Scales for Positive and Negative Numbers
@@ -115,7 +89,7 @@ show_html_figure("../outputs/color_scales_positive_color_scales.html", height=90
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_positive_and_negative_color_scales.html", height=1800, version=9)
+show_html_figure("../outputs/color_scales_positive_and_negative_color_scales.html", height=1900, version=9)
 ```
 
 ## Further Reading
