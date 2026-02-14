@@ -47,13 +47,9 @@ pytest = "^9.0.2"
 djlint = "^1.36.4"
 tqdm = "^4.67.3"
 types-tqdm = "^4.67.3.20260205"
-colour-science = "^0.4.7"
-numpy = "^2.4.2"
-matplotlib = "^3.10.8"
-networkx = "^3.6.1"
 pyyaml = "^6.0.3"
 types-pyyaml = "^6.0.12.20250915"
-flask = "^3.1.2"
+ok-palette-lab = "^0.4.0"
 
 [build-system]
 requires = ["poetry-core"]

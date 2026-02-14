@@ -84,33 +84,30 @@ TEST_CASE("color scales") {
             ApprovalTests::Options().fileOptions().withFileExtension(".html"));
     }
 
-    SECTION("plotly_plotter color scales") {
+    SECTION("OKPaletteLab color scales") {
         // NOLINTNEXTLINE(*-using-namespace)
         using namespace plotly_plotter::color_scales;
 
         const auto color_scales = std::vector<std::pair<std::string,
-            std::vector<std::pair<double, std::string>>>>{{"gray", gray()},
-            {"inverted_gray", inverted_gray()},
-            {"cool_warm_simple", cool_warm_simple()},
-            {"cool_warm_darker", cool_warm_darker()},
-            {"cool_warm_extended", cool_warm_extended()},
-            {"cool_warm_extended_relaxed", cool_warm_extended_relaxed()},
-            {"cool_extended", cool_extended()},
-            {"warm_extended", warm_extended()}, {"blown", blown()},
-            {"autumn", autumn()}, {"autumn_full", autumn_full()},
-            {"red", red()}, {"red_full", red_full()}, {"green", green()},
-            {"green_full", green_full()}, {"blue", blue()},
-            {"blue_full", blue_full()}, {"green_to_autumn", green_to_autumn()},
-            {"green_to_autumn_on_yellow", green_to_autumn_on_yellow()},
-            {"blue_to_autumn", blue_to_autumn()},
-            {"blue_to_autumn_on_green", blue_to_autumn_on_green()},
-            {"green_to_red", green_to_red()},
-            {"green_to_red_on_yellow", green_to_red_on_yellow()},
-            {"blue_to_red", blue_to_red()},
-            {"blue_to_red_on_green", blue_to_red_on_green()},
+            std::vector<std::pair<double, std::string>>>>{{"autumn", autumn()},
+            {"autumn_wide", autumn_wide()}, {"ocean", ocean()},
+            {"ocean_wide", ocean_wide()}, {"forest", forest()},
+            {"forest_wide", forest_wide()}, {"red", red()},
+            {"red_wide", red_wide()},
             {"purple_green_yellow", purple_green_yellow()}, {"tea", tea()},
-            {"blue_purple_red", blue_purple_red()},
-            {"blue_green_red", blue_green_red()}, {"whole_hue", whole_hue()}};
+            {"blue_brown_white", blue_brown_white()},
+            {"blue_brown_white_wide", blue_brown_white_wide()},
+            {"blue_brown_light", blue_brown_light()},
+            {"blue_brown_light_wide", blue_brown_light_wide()},
+            {"blue_red_white", blue_red_white()},
+            {"blue_red_white_wide", blue_red_white_wide()},
+            {"blue_red_light", blue_red_light()},
+            {"blue_red_light_wide", blue_red_light_wide()},
+            {"blue_orange_dark", blue_orange_dark()},
+            {"blue_orange_dark_wide", blue_orange_dark_wide()},
+            {"blue_red_dark", blue_red_dark()},
+            {"blue_red_dark_wide", blue_red_dark_wide()},
+            {"rainbow", rainbow()}, {"equal_hue", equal_hue()}};
 
         for (std::size_t i = 0; i < color_scales.size(); ++i) {
             auto heatmap = figure.add_heatmap();

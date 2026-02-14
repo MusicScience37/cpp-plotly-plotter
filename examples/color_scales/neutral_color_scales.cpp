@@ -61,10 +61,11 @@ int main() {
     using namespace plotly_plotter::color_scales;
     const auto color_scales = std::vector<
         std::pair<std::string, std::vector<std::pair<double, std::string>>>>{
-        {"autumn", autumn()}, {"red", red()}, {"green", green()},
-        {"blue", blue()}, {"blown", blown()},
-        {"purple_green_yellow", purple_green_yellow()}, {"tea", tea()},
-        {"blue_purple_red", blue_purple_red()}};
+        {"autumn", autumn()}, {"autumn_wide", autumn_wide()},
+        {"ocean", ocean()}, {"ocean_wide", ocean_wide()}, {"forest", forest()},
+        {"forest_wide", forest_wide()}, {"red", red()},
+        {"red_wide", red_wide()},
+        {"purple_green_yellow", purple_green_yellow()}, {"tea", tea()}};
 
     // Create the figure.
     plotly_plotter::figure figure;
@@ -103,7 +104,7 @@ int main() {
         annotation.show_arrow(false);
     }
 
-    figure.layout().grid().rows(4);
+    figure.layout().grid().rows(5);
     figure.layout().grid().columns(2);
     figure.layout().grid().pattern("independent");
 

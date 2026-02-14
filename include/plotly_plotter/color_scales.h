@@ -32,263 +32,91 @@
 namespace plotly_plotter::color_scales {
 
 /*!
- * \brief Get the color scale gray.
- *
- * \return Color scale.
- *
- * A color scale of gray scale from black to white.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-gray();
-
-/*!
- * \brief Get the color scale inverted_gray.
- *
- * \return Color scale.
- *
- * A color scale of gray scale from white to black.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-inverted_gray();
-
-/*!
- * \brief Get the color scale cool_warm_simple.
- *
- * \return Color scale.
- *
- * A simple color scale of blue, white and red.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-cool_warm_simple();
-
-/*!
- * \brief Get the color scale cool_warm_darker.
- *
- * \return Color scale.
- *
- * A color scale of blue, white and red including more dark colors.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-cool_warm_darker();
-
-/*!
- * \brief Get the color scale cool_warm_extended.
- *
- * \return Color scale.
- *
- * A color scale of blue, white and red including more dark colors and light
- * colors.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-cool_warm_extended();
-
-/*!
- * \brief Get the color scale cool_warm_extended_relaxed.
- *
- * \return Color scale.
- *
- * A color scale of blue, white and red including more dark colors and light
- * colors, with a more relaxed transition at zero.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-cool_warm_extended_relaxed();
-
-/*!
- * \brief Get the color scale cool_extended.
- *
- * \return Color scale.
- *
- * A color scale of blue and white including dark and light colors.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-cool_extended();
-
-/*!
- * \brief Get the color scale warm_extended.
- *
- * \return Color scale.
- *
- * A color scale of white and red including dark and light colors.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-warm_extended();
-
-/*!
- * \brief Get the color scale blown.
- *
- * \return Color scale.
- *
- * A color scale of white, orange and blown.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blown();
-
-/*!
  * \brief Get the color scale autumn.
  *
  * \return Color scale.
  *
- * A color scale of yellow, orange, red and brown.
+ * A color map of yellow, orange, red and brown.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 autumn();
 
 /*!
- * \brief Get the color scale autumn_full.
+ * \brief Get the color scale autumn_wide.
  *
  * \return Color scale.
  *
- * A color scale of white, yellow, orange, red, brown and black.
+ * A color map of white, yellow, orange, red and brown.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-autumn_full();
+autumn_wide();
+
+/*!
+ * \brief Get the color scale ocean.
+ *
+ * \return Color scale.
+ *
+ * A color maps of blues.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+ocean();
+
+/*!
+ * \brief Get the color scale ocean_wide.
+ *
+ * \return Color scale.
+ *
+ * A color maps of blues with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+ocean_wide();
+
+/*!
+ * \brief Get the color scale forest.
+ *
+ * \return Color scale.
+ *
+ * A color map of greens.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+forest();
+
+/*!
+ * \brief Get the color scale forest_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of greens with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+forest_wide();
 
 /*!
  * \brief Get the color scale red.
  *
  * \return Color scale.
  *
- * A color scale of red.
+ * A color map of reds.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 red();
 
 /*!
- * \brief Get the color scale red_full.
+ * \brief Get the color scale red_wide.
  *
  * \return Color scale.
  *
- * A color scale of white, red and black.
+ * A color map of reds with wider range of lightness.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-red_full();
-
-/*!
- * \brief Get the color scale green.
- *
- * \return Color scale.
- *
- * A color scale of green.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green();
-
-/*!
- * \brief Get the color scale green_full.
- *
- * \return Color scale.
- *
- * A color scale of white, green and black.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green_full();
-
-/*!
- * \brief Get the color scale blue.
- *
- * \return Color scale.
- *
- * A color scale of blue.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue();
-
-/*!
- * \brief Get the color scale blue_full.
- *
- * \return Color scale.
- *
- * A color scale of white, blue and black.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_full();
-
-/*!
- * \brief Get the color scale green_to_autumn.
- *
- * \return Color scale.
- *
- * A color scale of green, white, yellow, orange, red and brown.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green_to_autumn();
-
-/*!
- * \brief Get the color scale green_to_autumn_on_yellow.
- *
- * \return Color scale.
- *
- * A color scale of green, yellow, orange, red and brown.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green_to_autumn_on_yellow();
-
-/*!
- * \brief Get the color scale blue_to_autumn.
- *
- * \return Color scale.
- *
- * A color scale of blue, white, yellow, orange, red and brown.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_to_autumn();
-
-/*!
- * \brief Get the color scale blue_to_autumn_on_green.
- *
- * \return Color scale.
- *
- * A color scale of blue, green, yellow, orange, red and brown.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_to_autumn_on_green();
-
-/*!
- * \brief Get the color scale green_to_red.
- *
- * \return Color scale.
- *
- * A color scale of green, white and red.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green_to_red();
-
-/*!
- * \brief Get the color scale green_to_red_on_yellow.
- *
- * \return Color scale.
- *
- * A color scale of green, yellow and red.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-green_to_red_on_yellow();
-
-/*!
- * \brief Get the color scale blue_to_red.
- *
- * \return Color scale.
- *
- * A color scale of blue, white and red.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_to_red();
-
-/*!
- * \brief Get the color scale blue_to_red_on_green.
- *
- * \return Color scale.
- *
- * A color scale of blue, green and red.
- */
-[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_to_red_on_green();
+red_wide();
 
 /*!
  * \brief Get the color scale purple_green_yellow.
  *
  * \return Color scale.
  *
- * A color scale of purple, green and yellow.
+ * A color map of purple, green and yellow.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 purple_green_yellow();
@@ -298,39 +126,149 @@ purple_green_yellow();
  *
  * \return Color scale.
  *
- * A color scale of green and red.
+ * A color map of red and green.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
 tea();
 
 /*!
- * \brief Get the color scale blue_purple_red.
+ * \brief Get the color scale blue_brown_white.
  *
  * \return Color scale.
  *
- * A color scale of blue, purple and red.
+ * A color map of blue, white, and brown.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_purple_red();
+blue_brown_white();
 
 /*!
- * \brief Get the color scale blue_green_red.
+ * \brief Get the color scale blue_brown_white_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, white, and brown with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_brown_white_wide();
+
+/*!
+ * \brief Get the color scale blue_brown_light.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, green, and brown.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_brown_light();
+
+/*!
+ * \brief Get the color scale blue_brown_light_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, green, and brown with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_brown_light_wide();
+
+/*!
+ * \brief Get the color scale blue_red_white.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, white, and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_white();
+
+/*!
+ * \brief Get the color scale blue_red_white_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, white, and red with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_white_wide();
+
+/*!
+ * \brief Get the color scale blue_red_light.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, yellow, and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_light();
+
+/*!
+ * \brief Get the color scale blue_red_light_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, yellow, and red with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_light_wide();
+
+/*!
+ * \brief Get the color scale blue_orange_dark.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, dark purple, and orange.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_orange_dark();
+
+/*!
+ * \brief Get the color scale blue_orange_dark_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, dark purple, and orange with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_orange_dark_wide();
+
+/*!
+ * \brief Get the color scale blue_red_dark.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, dark purple, and red.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_dark();
+
+/*!
+ * \brief Get the color scale blue_red_dark_wide.
+ *
+ * \return Color scale.
+ *
+ * A color map of blue, dark purple, and red with wider range of lightness.
+ */
+[[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
+blue_red_dark_wide();
+
+/*!
+ * \brief Get the color scale rainbow.
  *
  * \return Color scale.
  *
  * A color scale of blue, green and red.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-blue_green_red();
+rainbow();
 
 /*!
- * \brief Get the color scale whole_hue.
+ * \brief Get the color scale equal_hue.
  *
  * \return Color scale.
  *
- * A color scale of the whole hue.
+ * A cyclic color map whose color changes only in hue.
  */
 [[nodiscard]] PLOTLY_PLOTTER_EXPORT std::vector<std::pair<double, std::string>>
-whole_hue();
+equal_hue();
 
 }  // namespace plotly_plotter::color_scales

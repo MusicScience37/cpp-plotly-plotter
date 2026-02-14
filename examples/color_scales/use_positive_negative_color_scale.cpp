@@ -52,11 +52,11 @@ int main() {
                     (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.2, 2))) +
                 std::exp(-coeff *
                     (std::pow(x[col] - 0.2, 2) + std::pow(y[row] - 0.8, 2))) -
-                0.1 *
+                0.15 *
                     std::exp(-coeff *
                         (std::pow(x[col] - 0.8, 2) +
                             std::pow(y[row] - 0.8, 2))) +
-                0.1 *
+                0.15 *
                     std::exp(-coeff *
                         (std::pow(x[col] - 0.8, 2) +
                             std::pow(y[row] - 0.2, 2)));
@@ -74,7 +74,7 @@ int main() {
     figure.layout().color_axis().show_scale(true);
     // Set the color scale here.
     figure.layout().color_axis().color_scale(
-        plotly_plotter::color_scales::blue_to_red());
+        plotly_plotter::color_scales::blue_red_light());
     // Set the range to be symmetric.
     figure.layout().color_axis().c_min(-1.0);
     figure.layout().color_axis().c_max(1.0);
