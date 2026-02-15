@@ -47,12 +47,13 @@ Following compilers are tested in CI:
 
 Documentations built in CI:
 
-| Version     | Documentation                                                       | Full API Reference (Doxygen)                                             |
-| :---------- | :------------------------------------------------------------------ | :----------------------------------------------------------------------- |
-| main branch | [Documentation](https://cppplotlyplotter.musicscience37.com/)       | [API Reference](https://cppplotlyplotter.musicscience37.com/api/)        |
-| v0.7.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.7.0) | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.7.0/api/) |
-| v0.6.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.6.0) | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.6.0/api/) |
-| v0.5.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.5.0) | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.5.0/api/) |
+| Version     | Documentation                                                        | Full API Reference (Doxygen)                                              |
+| :---------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------ |
+| main branch | [Documentation](https://cppplotlyplotter.musicscience37.com/)        | [API Reference](https://cppplotlyplotter.musicscience37.com/api/)         |
+| v0.10.0     | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.10.0) | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.10.0/api/) |
+| v0.9.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.9.0)  | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.9.0/api/)  |
+| v0.8.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.8.0)  | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.8.0/api/)  |
+| v0.7.0      | [Documentation](https://cppplotlyplotter.musicscience37.com/v0.7.0)  | [API Reference](https://cppplotlyplotter.musicscience37.com/v0.7.0/api/)  |
 
 ## For Developers
 
