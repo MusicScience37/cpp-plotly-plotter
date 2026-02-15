@@ -5,7 +5,12 @@
     "url": "https://cppplotlyplotter.musicscience37.com/"
   },
   {
-    "name": "v0.9.0 (latest)",
+    "name": "v0.10.0 (latest)",
+    "version": "v0.10.0",
+    "url": "https://cppplotlyplotter.musicscience37.com/v0.10.0/"
+  },
+  {
+    "name": "v0.9.0",
     "version": "v0.9.0",
     "url": "https://cppplotlyplotter.musicscience37.com/v0.9.0/"
   },
