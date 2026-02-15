@@ -385,11 +385,19 @@ doc:
   variables:
     BUILD_TYPE: Release
     BUILD_DIR: build_doc
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
+      variables:
+        PROJECT_VERSION: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH
+      variables:
+        PROJECT_VERSION: dev
   script:
     - cd $BUILD_DIR
     - cmake ..
       -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
       -D${UPPER_PROJECT_NAME}_BUILD_DOC:BOOL=ON
+      -D${UPPER_PROJECT_NAME}_RELEASE_VERSION:STRING=${PROJECT_VERSION}
     - cmake --build . --target ${LOWER_PROJECT_NAME}_doc
   cache:
     - key:
@@ -419,8 +427,9 @@ doc:
 
 pages main:
   stage: deploy
-  only:
-    - main
+  # TODO temporarily publish pages from this branch.
+  # only:
+  #   - main
   needs:
     - doc
     - clang coverage

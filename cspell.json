@@ -45,6 +45,7 @@
     "COMPILERCHECK",
     "Cookiecutter",
     "copydoc",
+    "COPYONLY",
     "cppcoreguidelines",
     "cpptools",
     "ctest",

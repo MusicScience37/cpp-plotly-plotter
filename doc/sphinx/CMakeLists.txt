@@ -9,7 +9,7 @@ set(PLANTUML_JAR_PATH
 
 set(${UPPER_PROJECT_NAME}_SPHINX_OPTIONS
     -D "plantuml=java -jar ${PLANTUML_JAR_PATH}" -D
-    "release=${PROJECT_VERSION}" -D
+    "release=${${UPPER_PROJECT_NAME}_RELEASE_VERSION}" -D
     "breathe_projects.plotly_plotter=${${UPPER_PROJECT_NAME}_XML_ROOT}")
 
 add_custom_target(
@@ -26,3 +26,7 @@ add_dependencies(${PROJECT_NAME}_doc_sphinx_html ${PROJECT_NAME}_doc_doxygen)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/start_auto_build.sh.in
                ${CMAKE_CURRENT_BINARY_DIR}/start_auto_build.sh)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/version_switcher_config.json
+    ${${UPPER_PROJECT_NAME}_HTML_ROOT}/version_switcher_config.json COPYONLY)
