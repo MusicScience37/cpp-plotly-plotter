@@ -49,7 +49,7 @@ show_html_figure("../outputs/color_scales_use_color_scale.html", version=5)
 
 from cpp_plotly_plotter_docs_helper.show_html_figure import show_html_figure
 
-show_html_figure("../outputs/color_scales_invert_color_scale.html", version=6)
+show_html_figure("../outputs/color_scales_invert_color_scale.html", version=7)
 ```
 
 ### Use a Color Scales for Positive and Negative Numbers

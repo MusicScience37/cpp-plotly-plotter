@@ -69,7 +69,7 @@ int main() {
     figure.layout().color_axis().show_scale(true);
     // Set the color scale here with inversion.
     figure.layout().color_axis().color_scale(plotly_plotter::invert_color_scale(
-        plotly_plotter::color_scales::tea()));
+        plotly_plotter::color_scales::autumn()));
 
     plotly_plotter::write_html("color_scales_invert_color_scale.html", figure);
 }
