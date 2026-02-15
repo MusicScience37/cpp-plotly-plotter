@@ -427,9 +427,8 @@ doc:
 
 pages main:
   stage: deploy
-  # TODO temporarily publish pages from this branch.
-  # only:
-  #   - main
+  only:
+    - main
   needs:
     - doc
     - clang coverage
