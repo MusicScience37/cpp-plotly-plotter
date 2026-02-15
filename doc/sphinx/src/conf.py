@@ -82,6 +82,11 @@ html_theme_options = {
     "pygments_dark_style": "native",
     "repository_url": "https://gitlab.com/MusicScience37Projects/utility-libraries/cpp-plotly-plotter",
     "use_repository_button": True,
+    "switcher": {
+        "json_url": "https://cppplotlyplotter.musicscience37.com/version_switcher_config.json",
+        "version_match": release,
+    },
+    "primary_sidebar_end": ["version-switcher"],
 }
 
 html_static_path = ["_static"]
