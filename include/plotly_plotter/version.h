@@ -26,4 +26,4 @@
 #define PLOTLY_PLOTTER_VERSION_MINOR 10
 
 //! Patch version of this project.
-#define PLOTLY_PLOTTER_VERSION_PATCH 0
+#define PLOTLY_PLOTTER_VERSION_PATCH 1
