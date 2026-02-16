@@ -10,7 +10,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 # -- Project information -----------------------------------------------------
 
 project = "cpp-plotly-plotter"
-release = "dev"  # inserted in command line
+release = os.environ.get("PROJECT_VERSION", "dev")
 
 copyright = "2025, Kenta Kabashima"
 author = "Kenta Kabashima"
