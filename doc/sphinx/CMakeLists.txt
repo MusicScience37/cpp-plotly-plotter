@@ -9,7 +9,6 @@ set(PLANTUML_JAR_PATH
 
 set(${UPPER_PROJECT_NAME}_SPHINX_OPTIONS
     -D "plantuml=java -jar ${PLANTUML_JAR_PATH}" -D
-    "release=${${UPPER_PROJECT_NAME}_RELEASE_VERSION}" -D
     "breathe_projects.plotly_plotter=${${UPPER_PROJECT_NAME}_XML_ROOT}")
 
 add_custom_target(
