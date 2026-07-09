@@ -39,7 +39,7 @@ line count:
 pre-commit:
   stage: test
   needs: []
-  image: musicscience37/clang-ci:clang21
+  image: musicscience37/clang-ci:clang22
   variables:
     POETRY_CACHE_DIR: ${CI_PROJECT_DIR}/.poetry-cache
   script:
@@ -87,7 +87,7 @@ test release:
     matrix:
       - COMPILER_TYPE: ["gcc12", "gcc13"]
         IMAGE_PATH: "musicscience37/gcc-ci"
-      - COMPILER_TYPE: ["clang19", "clang20", "clang21"]
+      - COMPILER_TYPE: ["clang20", "clang21", "clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
   image: ${IMAGE_PATH}:${COMPILER_TYPE}
   variables:
@@ -168,7 +168,7 @@ test debug:
     matrix:
       - COMPILER_TYPE: ["gcc12", "gcc13"]
         IMAGE_PATH: "musicscience37/gcc-ci"
-      - COMPILER_TYPE: ["clang19", "clang20", "clang21"]
+      - COMPILER_TYPE: ["clang20", "clang21", "clang22"]
         IMAGE_PATH: "musicscience37/clang-ci"
   variables:
     BUILD_TYPE: Debug
@@ -215,7 +215,7 @@ clang coverage:
   extends: test release
   parallel:
     matrix:
-      - COMPILER_TYPE: "clang21"
+      - COMPILER_TYPE: "clang22"
         IMAGE_PATH: "musicscience37/clang-ci"
   variables:
     BUILD_TYPE: Debug
@@ -260,7 +260,7 @@ test asan ubsan:
   extends: test release
   parallel:
     matrix:
-      - COMPILER_TYPE: "clang21"
+      - COMPILER_TYPE: "clang22"
         IMAGE_PATH: "musicscience37/clang-ci"
   variables:
     BUILD_TYPE: Debug
@@ -344,43 +344,11 @@ msvc-release:
     expire_in: "1 mos"
   interruptible: true
 
-generate vcpkg sbom:
-  extends: test release
-  parallel:
-    matrix:
-      - COMPILER_TYPE: "clang21"
-        IMAGE_PATH: "musicscience37/clang-ci"
-  variables:
-    BUILD_DIR: build_${COMPILER_TYPE}_sbom
-  script:
-    - cd $BUILD_DIR
-    - cmake ..
-      -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
-      -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-      -D${UPPER_PROJECT_NAME}_TESTING:BOOL=ON
-      -D${UPPER_PROJECT_NAME}_ENABLE_UNIT_TESTS=ON
-      -D${UPPER_PROJECT_NAME}_ENABLE_INTEG_TESTS=ON
-      -D${UPPER_PROJECT_NAME}_ENABLE_BENCH=OFF
-      -D${UPPER_PROJECT_NAME}_WRITE_JUNIT:BOOL=ON
-      -D${UPPER_PROJECT_NAME}_ENABLE_CCACHE:BOOL=ON
-    - wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.29.0/cyclonedx-linux-x64 -O /usr/local/bin/cyclonedx
-    - chmod +x /usr/local/bin/cyclonedx
-    - cd ..
-    - ./scripts/convert_sbom.sh $BUILD_DIR
-  artifacts:
-    paths:
-      - $BUILD_DIR/vcpkg_installed/**/*.cyclonedx.json
-    reports:
-      cyclonedx:
-        - $BUILD_DIR/vcpkg_installed/**/*.cyclonedx.json
-    expire_in: "1 mos"
-  interruptible: true
-
 doc:
   extends: test release
   parallel:
     matrix:
-      - COMPILER_TYPE: "clang21"
+      - COMPILER_TYPE: "clang22"
         IMAGE_PATH: "musicscience37/sphinx-doxygen"
   variables:
     BUILD_TYPE: Release
