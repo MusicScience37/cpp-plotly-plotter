@@ -86,6 +86,40 @@ buildType:
         PLOTLY_PLOTTER_ENABLE_CCACHE: ON
         PLOTLY_PLOTTER_ENABLE_CPP_WARNINGS: ON
         BUILD_SHARED_LIBS: ON
+    debug-unit-dox:
+      short: Debug-Unit-Dox
+      long: Debug build + Unit Tests + Doxygen
+      buildType: Debug
+      settings:
+        PLOTLY_PLOTTER_ENABLE_AUSAN: OFF
+        PLOTLY_PLOTTER_TESTING: ON
+        PLOTLY_PLOTTER_WRITE_JUNIT: OFF
+        PLOTLY_PLOTTER_ENABLE_BENCH: ON
+        PLOTLY_PLOTTER_TEST_BENCHMARKS: OFF
+        PLOTLY_PLOTTER_BUILD_EXAMPLES: ON
+        PLOTLY_PLOTTER_BUILD_DOC: ON
+        PLOTLY_PLOTTER_BUILD_DOC_SPHINX: OFF
+        PLOTLY_PLOTTER_ENABLE_PROFILING: OFF
+        PLOTLY_PLOTTER_ENABLE_CCACHE: ON
+        PLOTLY_PLOTTER_ENABLE_CPP_WARNINGS: ON
+        BUILD_SHARED_LIBS: ON
+    debug-unit-docs:
+      short: Debug-Unit-Documents
+      long: Debug build + Unit Tests + All documents
+      buildType: Debug
+      settings:
+        PLOTLY_PLOTTER_ENABLE_AUSAN: OFF
+        PLOTLY_PLOTTER_TESTING: ON
+        PLOTLY_PLOTTER_WRITE_JUNIT: OFF
+        PLOTLY_PLOTTER_ENABLE_BENCH: ON
+        PLOTLY_PLOTTER_TEST_BENCHMARKS: OFF
+        PLOTLY_PLOTTER_BUILD_EXAMPLES: ON
+        PLOTLY_PLOTTER_BUILD_DOC: ON
+        PLOTLY_PLOTTER_BUILD_DOC_SPHINX: ON
+        PLOTLY_PLOTTER_ENABLE_PROFILING: OFF
+        PLOTLY_PLOTTER_ENABLE_CCACHE: ON
+        PLOTLY_PLOTTER_ENABLE_CPP_WARNINGS: ON
+        BUILD_SHARED_LIBS: ON
     relwithdebinfo-unit:
       short: RelWithDebInfo-Unit
       long: Release build with debug info + Unit Tests

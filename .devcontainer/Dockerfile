@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/musicscience37projects/docker/my-cpp-env-docker:clang21
+FROM registry.gitlab.com/musicscience37projects/docker/my-cpp-env-docker:clang22
 
 USER root
 # Install Google Chrome and pdftocairo (poppler-utils package).
